@@ -1,0 +1,14 @@
+node_modules/
+site/dist/
+site/.astro/
+site/public/library.json
+site/public/data/
+site/public/assets/
+site/public/basemap/
+inbox/
+processed/
+snapshots/
+test-results/
+playwright-report/
+.DS_Store
+*.log

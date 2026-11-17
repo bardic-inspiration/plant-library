@@ -1,0 +1,87 @@
+{
+  "type": "plant",
+  "id": "rosa-radrazz",
+  "summary": "A long-blooming shrub rose of hybrid origin.",
+  "data": {
+    "genus": "Rosa",
+    "hybrid": true,
+    "cultivar": "Radrazz",
+    "tradeName": "Knock Out",
+    "commonNames": [
+      "Knock Out rose"
+    ],
+    "family": "Rosaceae",
+    "form": "shrub",
+    "foliage": "deciduous",
+    "height": {
+      "min": 3,
+      "max": 4
+    },
+    "spread": {
+      "min": 3,
+      "max": 4
+    },
+    "growthRate": "fast",
+    "sun": [
+      "full-sun"
+    ],
+    "moisture": [
+      "moist"
+    ],
+    "hardiness": {
+      "min": "5b",
+      "max": "10"
+    },
+    "bloom": {
+      "colors": [
+        "red"
+      ],
+      "months": {
+        "start": 5,
+        "end": 10
+      }
+    },
+    "nativeRange": {
+      "states": [],
+      "ecoregions": []
+    },
+    "sources": [
+      {
+        "source": "usda-plants",
+        "url": "https://plants.usda.gov/plant-profile/ROSA5",
+        "accessed": "2026-11-17",
+        "fields": [
+          "family",
+          "form",
+          "foliage",
+          "height",
+          "spread",
+          "growthRate",
+          "sun",
+          "moisture",
+          "hardiness",
+          "nativeRange",
+          "bloom.colors",
+          "bloom.months",
+          "commonNames"
+        ]
+      }
+    ],
+    "images": [
+      {
+        "file": "assets/images/plant/rosa-radrazz/1.jpg",
+        "alt": "Test image 1 standing in for a photograph of knock out rose",
+        "shows": "habit",
+        "credit": "Generated test image",
+        "license": "CC0-1.0",
+        "pinned": true
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-17",
+    "revisedAt": "2026-11-17",
+    "method": "manual",
+    "fixture": true
+  }
+}

@@ -1,0 +1,97 @@
+{
+  "type": "plant",
+  "id": "carex-obnupta",
+  "summary": "A tall evergreen sedge for wet ground and bioretention.",
+  "data": {
+    "genus": "Carex",
+    "species": "obnupta",
+    "commonNames": [
+      "Slough sedge"
+    ],
+    "family": "Cyperaceae",
+    "usdaSymbol": "CAOB3",
+    "form": "graminoid",
+    "foliage": "evergreen",
+    "height": {
+      "min": 2,
+      "max": 5
+    },
+    "spread": {
+      "min": 2,
+      "max": 3
+    },
+    "sun": [
+      "full-sun",
+      "part-shade"
+    ],
+    "moisture": [
+      "wet"
+    ],
+    "soil": {
+      "drainage": [
+        "poor"
+      ]
+    },
+    "hardiness": {
+      "min": "7",
+      "max": "9"
+    },
+    "tolerates": [
+      "inundation"
+    ],
+    "uses": [
+      "bioretention",
+      "restoration"
+    ],
+    "wetlandIndicator": {
+      "WMVC": "OBL"
+    },
+    "nativeRange": {
+      "states": [
+        "WA",
+        "OR",
+        "CA"
+      ],
+      "ecoregions": []
+    },
+    "sources": [
+      {
+        "source": "usda-plants",
+        "url": "https://plants.usda.gov/plant-profile/CAOB3",
+        "accessed": "2026-11-17",
+        "fields": [
+          "family",
+          "form",
+          "foliage",
+          "height",
+          "spread",
+          "sun",
+          "moisture",
+          "hardiness",
+          "tolerates",
+          "uses",
+          "wetlandIndicator",
+          "nativeRange",
+          "soil.drainage",
+          "commonNames"
+        ]
+      }
+    ],
+    "images": [
+      {
+        "file": "assets/images/plant/carex-obnupta/1.jpg",
+        "alt": "Test image 1 standing in for a photograph of slough sedge",
+        "shows": "habit",
+        "credit": "Generated test image",
+        "license": "CC0-1.0",
+        "pinned": true
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-17",
+    "revisedAt": "2026-11-17",
+    "method": "manual",
+    "fixture": true
+  }
+}

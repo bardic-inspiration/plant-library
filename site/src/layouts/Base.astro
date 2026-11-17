@@ -1,0 +1,145 @@
+---
+import '../styles/base.css';
+import '../components/ui/ui.css';
+import { url, SITE_TITLE } from '../../../lib/site';
+import site from '../../../config/site.json';
+import { buildData } from '../../../lib/build-data';
+
+interface Props {
+  title?: string;
+  description?: string;
+  current?: 'library' | 'map' | 'workspace' | 'contribute' | 'about';
+}
+const { title, description = site.description, current } = Astro.props;
+const fullTitle = title ? `${title} · ${SITE_TITLE}` : SITE_TITLE;
+const { fixtureData } = buildData().library;
+
+// Only built sections appear; the rest join as they are built (spec/v1/README.md milestones).
+const nav = [
+  { id: 'library', label: 'Library', href: url() },
+  { id: 'about', label: 'About', href: url('about/') },
+] as const;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="icon" href={url('favicon.svg')} type="image/svg+xml" />
+    <slot name="head" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    {fixtureData && (
+      <p class="fixture-banner" role="note">
+        This build shows the test fixture library. Its plants are illustrative: their values have not
+        been checked against the sources they cite.
+      </p>
+    )}
+    <header class="site-header">
+      <a class="site-title" href={url()}>{SITE_TITLE}</a>
+      <nav aria-label="Main">
+        <ul role="list">
+          {nav.map((n) => (
+            <li><a href={n.href} aria-current={current === n.id ? 'page' : undefined}>{n.label}</a></li>
+          ))}
+        </ul>
+      </nav>
+    </header>
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <p>
+        A prototype. Plant facts cite their sources; see <a href={url('about/')}>About</a> for
+        sources, licenses, and attribution.
+      </p>
+    </footer>
+  </body>
+</html>
+
+<style>
+  .skip-link {
+    position: absolute;
+    inset-block-start: var(--space-xs);
+    inset-inline-start: var(--space-xs);
+    padding: var(--space-xs) var(--space-sm);
+    background: var(--bg);
+    border: var(--border);
+    transform: translateY(-200%);
+  }
+
+  .skip-link:focus {
+    transform: none;
+  }
+
+  .fixture-banner {
+    max-inline-size: none;
+    padding: var(--space-xs) var(--space-lg);
+    background: var(--bg-selected);
+    border-block-end: var(--border);
+    font-size: var(--size-small);
+    font-weight: var(--weight-strong);
+  }
+
+  .site-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-xs) var(--space-lg);
+    min-block-size: var(--header-height);
+    padding: var(--space-xs) var(--space-lg);
+    border-block-end: var(--border);
+  }
+
+  .site-title {
+    font-weight: var(--weight-heading);
+    font-size: var(--size-h3);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    text-decoration: none;
+  }
+
+  nav ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-lg);
+  }
+
+  nav a {
+    display: inline-block;
+    padding-block: var(--space-xs);
+    font-size: var(--size-label);
+    font-weight: var(--weight-strong);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    text-decoration: none;
+    border-block-end: var(--line-heavy) solid transparent;
+  }
+
+  nav a[aria-current='page'],
+  nav a:hover {
+    border-block-end-color: var(--site-accent);
+  }
+
+  main {
+    max-inline-size: var(--page-max);
+    margin-inline: auto;
+    padding: var(--space-lg);
+  }
+
+  main:focus {
+    outline: none;
+  }
+
+  .site-footer {
+    max-inline-size: var(--page-max);
+    margin: var(--space-xxl) auto var(--none);
+    padding: var(--space-lg);
+    border-block-start: var(--border);
+    font-size: var(--size-small);
+  }
+</style>

@@ -1,0 +1,91 @@
+{
+  "type": "plant",
+  "id": "pinus-contorta-var-contorta",
+  "summary": "A coastal pine for wind, salt, and poor soils.",
+  "data": {
+    "genus": "Pinus",
+    "species": "contorta",
+    "infraRank": "var.",
+    "infraEpithet": "contorta",
+    "commonNames": [
+      "Shore pine"
+    ],
+    "family": "Pinaceae",
+    "usdaSymbol": "PICOC",
+    "form": "tree",
+    "foliage": "evergreen",
+    "height": {
+      "min": 20,
+      "max": 35
+    },
+    "spread": {
+      "min": 15,
+      "max": 25
+    },
+    "growthRate": "moderate",
+    "sun": [
+      "full-sun"
+    ],
+    "moisture": [
+      "dry",
+      "moist",
+      "wet"
+    ],
+    "hardiness": {
+      "min": "7",
+      "max": "9"
+    },
+    "tolerates": [
+      "salt",
+      "wind",
+      "drought"
+    ],
+    "uses": [
+      "screen",
+      "restoration"
+    ],
+    "wetlandIndicator": {
+      "WMVC": "FAC"
+    },
+    "nativeRange": {
+      "states": [
+        "WA",
+        "OR",
+        "CA"
+      ],
+      "ecoregions": []
+    },
+    "sources": [
+      {
+        "source": "usda-plants",
+        "url": "https://plants.usda.gov/plant-profile/PICOC",
+        "accessed": "2026-11-17",
+        "fields": [
+          "family",
+          "form",
+          "foliage",
+          "height",
+          "spread",
+          "growthRate",
+          "sun",
+          "moisture",
+          "hardiness",
+          "tolerates",
+          "uses",
+          "wetlandIndicator",
+          "nativeRange",
+          "commonNames"
+        ]
+      }
+    ]
+  },
+  "tags": {
+    "collection": "pnw-natives"
+  },
+  "meta": {
+    "createdAt": "2026-11-17",
+    "revisedAt": "2026-11-17",
+    "method": "manual",
+    "fixture": true
+  }
+}

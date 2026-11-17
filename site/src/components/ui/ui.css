@@ -1,0 +1,140 @@
+/* Shared components: cards, badges, name, icons, bloom strip, conditions. */
+@layer components {
+  .icon {
+    display: inline-flex;
+    flex: none;
+    inline-size: var(--icon-size);
+    block-size: var(--icon-size);
+  }
+
+  .icon svg {
+    inline-size: var(--full);
+    block-size: var(--full);
+    stroke-width: 1.5;
+  }
+
+  .trade-name {
+    font-variant: small-caps;
+    letter-spacing: var(--tracking-label);
+  }
+
+  .badge {
+    display: inline-block;
+    padding: var(--badge-pad);
+    border: var(--border);
+    border-inline-start: var(--line-focus) solid var(--accent);
+    font-size: var(--size-label);
+    font-weight: var(--weight-strong);
+    letter-spacing: var(--tracking-label);
+    line-height: var(--leading-tight);
+    text-transform: uppercase;
+  }
+
+  .badge-plain {
+    border-inline-start: var(--border);
+  }
+
+  .conditions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xxs) var(--space-sm);
+    font-size: var(--size-small);
+  }
+
+  .conditions li {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xxs);
+  }
+
+  .bloom-strip {
+    display: inline-grid;
+    align-self: flex-start;
+    grid-template-columns: repeat(12, var(--strip-cell));
+    border: var(--border);
+  }
+
+  .bloom-cell {
+    block-size: var(--strip-cell);
+    background: var(--mark-empty);
+  }
+
+  .bloom-cell + .bloom-cell {
+    border-inline-start: var(--border-faint);
+  }
+
+  .bloom-cell.on {
+    background: var(--swatch-fill);
+    box-shadow: inset var(--none) var(--none) var(--none) var(--line) var(--rule);
+  }
+
+  .swatch-label {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xxs);
+  }
+
+  .swatch {
+    display: inline-block;
+    inline-size: var(--swatch);
+    block-size: var(--swatch);
+    border: var(--border);
+    background: var(--swatch-fill);
+  }
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    border: var(--border);
+    background: var(--bg);
+  }
+
+  .card-image {
+    inline-size: var(--full);
+    aspect-ratio: var(--card-image-ratio);
+    object-fit: cover;
+    border-block-end: var(--border);
+  }
+
+  .card-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    padding: var(--space-md);
+  }
+
+  .card-title {
+    font-size: var(--size-body);
+    font-weight: var(--weight-strong);
+  }
+
+  .card-title a {
+    text-decoration: none;
+  }
+
+  .card-title a:hover {
+    text-decoration: underline;
+  }
+
+  .card-common {
+    color: var(--text-muted);
+    font-size: var(--size-small);
+  }
+
+  .card-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xxs);
+  }
+
+  .card-facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xxs) var(--space-sm);
+    font-size: var(--size-small);
+  }
+
+  .card-summary {
+    font-size: var(--size-small);
+  }
+}

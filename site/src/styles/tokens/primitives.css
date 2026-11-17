@@ -1,0 +1,90 @@
+/* Primitives: the raw palette, type, spacing, lines, and motion.
+   Components never use these directly; they go through semantic.css. */
+@layer tokens {
+  :root {
+    /* Neutrals */
+    --p-white: #ffffff;
+    --p-black: #000000;
+    --p-gray-700: #4d4d4d;
+    --p-gray-600: #5c5c5c;
+    --p-gray-200: #e6e6e6;
+    --p-gray-100: #f4f4f4;
+
+    /* Accent hues. Each holds at least 3:1 against white as a mark. */
+    --p-green: #1e8a3e;
+    --p-teal: #00808a;
+    --p-blue: #1f6fd1;
+    --p-purple: #8a3fb8;
+    --p-magenta: #c2287a;
+    --p-vermillion: #c85000;
+    --p-ochre: #a67100;
+    --p-olive: #6e8500;
+
+    /* Tints for fills behind black text (choropleth steps, selected rows). */
+    --p-vermillion-50: #fdf0e8;
+    --p-vermillion-100: #fad9c6;
+    --p-vermillion-200: #f3b08b;
+    --p-vermillion-300: #e98551;
+    --p-vermillion-400: #dc6421;
+
+    /* Bloom swatches: the color of the flower, always drawn inside a black frame. */
+    --p-bloom-white: #ffffff;
+    --p-bloom-cream: #f3e9c6;
+    --p-bloom-yellow: #f2c200;
+    --p-bloom-orange: #f08a00;
+    --p-bloom-red: #d2372c;
+    --p-bloom-pink: #f29bc0;
+    --p-bloom-magenta: #c2287a;
+    --p-bloom-purple: #7b4bb5;
+    --p-bloom-blue: #3f7fd9;
+    --p-bloom-green: #8db33a;
+    --p-bloom-brown: #8a5a2b;
+
+    /* Type */
+    --p-font-sans: 'Montserrat', 'Helvetica Neue', Arial, sans-serif;
+    --p-weight-regular: 400;
+    --p-weight-semibold: 600;
+    --p-weight-heavy: 800;
+    --p-size-xs: 0.75rem;
+    --p-size-sm: 0.875rem;
+    --p-size-md: 1rem;
+    --p-size-lg: 1.25rem;
+    --p-size-xl: 1.75rem;
+    --p-size-xxl: 2.5rem;
+    --p-leading-tight: 1.15;
+    --p-leading-body: 1.55;
+    --p-tracking-label: 0.08em;
+
+    /* Space, on a 4px step */
+    --p-space-1: 0.25rem;
+    --p-space-2: 0.5rem;
+    --p-space-3: 0.75rem;
+    --p-space-4: 1rem;
+    --p-space-5: 1.5rem;
+    --p-space-6: 2rem;
+    --p-space-7: 3rem;
+    --p-space-8: 4.5rem;
+
+    /* Lines */
+    --p-line-thin: 1px;
+    --p-line-thick: 2px;
+    --p-line-focus: 3px;
+
+    /* Sizes */
+    --p-measure: 68ch;
+    --p-page-max: 90rem;
+    --p-icon: 1.125rem;
+    --p-hit: 2.75rem;
+
+    /* Motion */
+    --p-duration-fast: 120ms;
+    --p-duration-base: 200ms;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :root {
+      --p-duration-fast: 0ms;
+      --p-duration-base: 0ms;
+    }
+  }
+}

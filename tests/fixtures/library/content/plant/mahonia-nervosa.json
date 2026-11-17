@@ -1,0 +1,100 @@
+{
+  "type": "plant",
+  "id": "mahonia-nervosa",
+  "summary": "A low evergreen shrub for dry shade.",
+  "data": {
+    "genus": "Mahonia",
+    "species": "nervosa",
+    "commonNames": [
+      "Cascade Oregon grape",
+      "Dwarf Oregon grape"
+    ],
+    "synonyms": [
+      "Berberis nervosa"
+    ],
+    "family": "Berberidaceae",
+    "usdaSymbol": "MANE2",
+    "form": "shrub",
+    "foliage": "evergreen",
+    "height": {
+      "min": 1,
+      "max": 2
+    },
+    "spread": {
+      "min": 2,
+      "max": 3
+    },
+    "growthRate": "slow",
+    "sun": [
+      "part-shade",
+      "shade"
+    ],
+    "moisture": [
+      "dry",
+      "moist"
+    ],
+    "hardiness": {
+      "min": "6",
+      "max": "9"
+    },
+    "bloom": {
+      "colors": [
+        "yellow"
+      ],
+      "months": {
+        "start": 4,
+        "end": 6
+      }
+    },
+    "uses": [
+      "groundcover"
+    ],
+    "nativeRange": {
+      "states": [
+        "WA",
+        "OR",
+        "CA"
+      ],
+      "ecoregions": []
+    },
+    "sources": [
+      {
+        "source": "usda-plants",
+        "url": "https://plants.usda.gov/plant-profile/MANE2",
+        "accessed": "2026-11-17",
+        "fields": [
+          "family",
+          "form",
+          "foliage",
+          "height",
+          "spread",
+          "growthRate",
+          "sun",
+          "moisture",
+          "hardiness",
+          "uses",
+          "nativeRange",
+          "bloom.colors",
+          "bloom.months",
+          "commonNames"
+        ]
+      }
+    ],
+    "images": [
+      {
+        "file": "assets/images/plant/mahonia-nervosa/1.jpg",
+        "alt": "Test image 1 standing in for a photograph of cascade oregon grape",
+        "shows": "habit",
+        "credit": "Generated test image",
+        "license": "CC0-1.0",
+        "pinned": true
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-17",
+    "revisedAt": "2026-11-17",
+    "method": "manual",
+    "fixture": true
+  }
+}

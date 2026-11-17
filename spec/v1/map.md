@@ -1,5 +1,5 @@
 ---
-depends: [data-model, library, styling]
+depends: [data-model, library]
 ---
 
 # Map
@@ -53,8 +53,14 @@ rather than committed. Its maximum zoom is a setting in `config/site.json`,
 because each zoom level roughly doubles the file. The prototype keeps a
 small extract, enough for regional and city-scale views. The company copy's
 internal server has no such limit and can take a street-level extract by
-changing the setting ([repo.md](repo.md#prototype-and-handover)). The map
+changing the setting ([docs/workflow.md](../../docs/workflow.md#the-prototype-and-the-company-copy)). The map
 never calls a third-party tile service.
+
+**The map shares the tokens.** A build step writes the MapLibre style
+document from the token files ([docs/styling.md](../../docs/styling.md)), so
+the basemap's line weights and the overlays' fills change with the tokens
+and can't drift from the site. The style guide page gains the map with each
+overlay.
 
 ### Boundary data
 
@@ -72,7 +78,7 @@ draws as overlays, one source for both (P3):
 Each layer is clipped to the three states, simplified, and committed as
 TopoJSON with a record of its source, date, and processing in
 `geo/README.md`; its source is in the registry
-([sources.md](sources.md#source-registry)). Derivation tests points against
+([docs/sources.md](../../docs/sources.md#registry)). Derivation tests points against
 the unsimplified-enough geometry that a project never lands in the wrong
 county; the pilot sets the simplification tolerance with tests on points
 near borders. Places are used for derivation only.
@@ -93,7 +99,7 @@ boundaries, city limits.
 
 `/map/` is the Library with the results drawn instead of listed. The filter
 tree, search, and URL state are the list view's own
-([library.md](library.md#list-view)).
+([docs/site.md](../../docs/site.md#list-view)).
 
 - **Projects** are points, clustered when zoomed out, colored by project
   type, with status shown by a filled or hollow mark. A point opens a popup
@@ -169,6 +175,8 @@ entered, not the region's planting as a whole.
 - Region picking and the box filter produce the same URL state the tree
   does, covered by unit tests on the filter logic.
 - The analysis functions have tests over the fixture projects.
+- The map style is rebuilt from tokens in the build, and a test fails if a
+  map color isn't a token.
 - A Playwright check loads the map view on the built site, confirms the
   project layer rendered, and runs axe on the controls and the results
   panel.

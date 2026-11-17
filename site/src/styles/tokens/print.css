@@ -1,0 +1,15 @@
+/* Print sizing. */
+@layer tokens {
+  @media print {
+    :root {
+      --size-body: 10pt;
+      --size-small: 8.5pt;
+      --size-label: 7.5pt;
+      --size-h1: 18pt;
+      --size-h2: 14pt;
+      --size-h3: 11pt;
+      --space-page: 0;
+      --gallery-height: 2.5in;
+    }
+  }
+}

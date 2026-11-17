@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "common.schema.json",
+  "title": "Shared definitions",
+  "description": "Definitions shared by the entry schemas. `x-vocab` names a list in config/vocab.json; the loader replaces it with an enum of that list's ids.",
+  "$defs": {
+    "slug": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$", "maxLength": 120 },
+    "key": { "type": "string", "pattern": "^[a-z]+/[a-z0-9]+(-[a-z0-9]+)*$" },
+    "date": { "type": "string", "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$" },
+    "partialDate": { "type": "string", "pattern": "^[0-9]{4}(-(0[1-9]|1[0-2])(-(0[1-9]|[12][0-9]|3[01]))?)?$" },
+    "shortText": { "type": "string", "minLength": 1, "maxLength": 200, "pattern": "^[^\\n]*$" },
+    "sentence": { "type": "string", "minLength": 1, "maxLength": 300, "pattern": "^[^\\n]*$" },
+    "markdown": {
+      "description": "Text in the markdown subset (see docs/content-model.md). May hold {ref:<type>/<id>} tokens.",
+      "type": "string", "minLength": 1, "maxLength": 20000
+    },
+    "url": { "type": "string", "pattern": "^https://[^\\s]+$", "maxLength": 2000 },
+    "range": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["min", "max"],
+      "properties": {
+        "min": { "type": "number", "minimum": 0 },
+        "max": { "type": "number", "minimum": 0 }
+      }
+    },
+    "zone": { "type": "string", "pattern": "^([1-9]|1[0-3])[ab]?$" },
+    "zoneRange": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["min", "max"],
+      "properties": {
+        "min": { "$ref": "#/$defs/zone" },
+        "max": { "$ref": "#/$defs/zone" }
+      }
+    },
+    "month": { "type": "integer", "minimum": 1, "maximum": 12 },
+    "point": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["lat", "lon"],
+      "properties": {
+        "lat": { "type": "number", "minimum": -90, "maximum": 90 },
+        "lon": { "type": "number", "minimum": -180, "maximum": 180 }
+      }
+    },
+    "ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ref"],
+      "properties": { "ref": { "$ref": "#/$defs/key" } }
+    },
+    "person": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "role"],
+      "properties": {
+        "name": { "$ref": "#/$defs/shortText" },
+        "role": { "$ref": "#/$defs/shortText" }
+      }
+    },
+    "fieldNote": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["topic", "note", "author", "date"],
+      "properties": {
+        "topic": { "x-vocab": "fieldNoteTopic" },
+        "note": { "$ref": "#/$defs/markdown" },
+        "author": { "$ref": "#/$defs/person" },
+        "date": { "$ref": "#/$defs/date" },
+        "region": { "x-vocab": "state" },
+        "project": { "$ref": "#/$defs/ref" },
+        "trait": {
+          "description": "The trait this note speaks to, as a data path such as height or soil.drainage.",
+          "type": "string", "pattern": "^[a-zA-Z]+(\\.[a-zA-Z]+)?$"
+        },
+        "submission": { "type": "string" }
+      }
+    }
+  }
+}

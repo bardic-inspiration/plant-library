@@ -1,0 +1,347 @@
+---
+import Base from '../../layouts/Base.astro';
+import { PlantName } from '../../components/ui/PlantName';
+import { BloomStrip, Swatch } from '../../components/ui/BloomStrip';
+import { Conditions } from '../../components/ui/Conditions';
+import { buildData, type BuiltEntry } from '../../../../lib/build-data';
+import { nameSegments, fullName } from '../../../../lib/names';
+import { formatMetric, formatMonths, formatRange } from '../../../../lib/format';
+import { formatZoneRange } from '../../../../lib/zones';
+import { renderMarkdown } from '../../../../lib/markdown';
+import { renderCitation } from '../../../../lib/citation';
+import { url } from '../../../../lib/site';
+import { label } from '../../lib/vocab';
+import { traitLabel } from '../../lib/traits';
+import type { PlantData, PlantDerived } from '../../../../lib/types';
+
+export function getStaticPaths() {
+  return buildData()
+    .entries.filter((e) => e.entry.type === 'plant')
+    .map((b) => ({ params: { id: b.entry.id }, props: { key: b.key } }));
+}
+
+const { key } = Astro.props as { key: string };
+const data = buildData();
+const b = data.byKey.get(key)!;
+const d = b.entry.data as unknown as PlantData;
+const dv = b.derived as unknown as PlantDerived;
+const { sources: registry } = data.library.config;
+const resolve = (k: string) => {
+  const t = data.byKey.get(k);
+  return t ? { name: t.name, url: url(`${k}/`) } : undefined;
+};
+const filterUrl = (facet: string, value: string) => `${url()}?${new URLSearchParams({ [`plant.${facet}`]: value })}`;
+
+const images = [...(d.images ?? [])].sort((x, y) => Number(Boolean(y.pinned)) - Number(Boolean(x.pinned)));
+const licenses = new Map((data.library.config.vocab.license as { id: string; label: string; url?: string }[]).map((l) => [l.id, l]));
+
+// Which traits rest only on a staff observation, and which field notes speak to a trait.
+const staffOnly = new Set<string>();
+for (const c of d.sources) if (registry[c.source]?.kind === 'professional') for (const f of c.fields) staffOnly.add(f);
+const notesFor = (trait: string) => (b.entry.fieldNotes ?? []).filter((n) => n.trait === trait || n.trait?.startsWith(`${trait}.`));
+
+// Related names: the species and its cultivars and varieties link to each other.
+const sameSpecies = (o: BuiltEntry) => {
+  const od = o.entry.data as unknown as PlantData;
+  return o.key !== key && o.entry.type === 'plant' && od.genus === d.genus && od.species === d.species && Boolean(d.species);
+};
+const relatives = data.entries.filter(sameSpecies);
+
+type Row = { trait: string; label: string; html?: string; text?: string; links?: { text: string; href: string }[]; extra?: string };
+const valueLinks = (facet: string, list: string, values?: string[]) => (values ?? []).map((v) => ({ text: label(list, v), href: filterUrl(facet, v) }));
+const groups: { title: string; rows: Row[] }[] = [
+  {
+    title: 'Size and habit',
+    rows: [
+      { trait: 'form', label: 'Form', links: valueLinks('form', 'form', [d.form]) },
+      { trait: 'foliage', label: 'Foliage', links: valueLinks('foliage', 'foliage', d.foliage ? [d.foliage] : []) },
+      { trait: 'height', label: 'Height', text: d.height && `${formatRange(d.height)} (${formatMetric(d.height)})` },
+      { trait: 'spread', label: 'Spread', text: d.spread && `${formatRange(d.spread)} (${formatMetric(d.spread)})` },
+      { trait: 'growthRate', label: 'Growth rate', text: d.growthRate && label('growthRate', d.growthRate) },
+      ...(dv.sizeClass ? [{ trait: 'sizeClass', label: 'Size class', links: [{ text: label('sizeClass', dv.sizeClass), href: filterUrl('sizeClass', dv.sizeClass) }] }] : []),
+    ],
+  },
+  {
+    title: 'Site',
+    rows: [
+      { trait: 'sun', label: 'Sun', links: valueLinks('sun', 'sun', d.sun) },
+      { trait: 'moisture', label: 'Moisture', links: valueLinks('moisture', 'moisture', d.moisture) },
+      { trait: 'soil.texture', label: 'Soil texture', links: valueLinks('texture', 'soilTexture', d.soil?.texture) },
+      { trait: 'soil.drainage', label: 'Soil drainage', links: valueLinks('drainage', 'soilDrainage', d.soil?.drainage) },
+      { trait: 'soil.ph', label: 'Soil pH', text: d.soil?.ph && formatRange(d.soil.ph, '') },
+      { trait: 'hardiness', label: 'Hardiness', text: d.hardiness && `USDA ${formatZoneRange(d.hardiness)}` },
+      { trait: 'waterUse', label: 'Water use', links: valueLinks('waterUse', 'waterUse', d.waterUse ? [d.waterUse] : []) },
+      { trait: 'tolerates', label: 'Tolerates', links: valueLinks('tolerates', 'tolerates', d.tolerates) },
+    ],
+  },
+  {
+    title: 'Seasonal interest',
+    rows: [
+      { trait: 'bloom.months', label: 'Bloom period', text: formatMonths(d.bloom?.months) },
+      { trait: 'bloom.colors', label: 'Bloom color', links: valueLinks('bloomColor', 'bloomColor', d.bloom?.colors) },
+      { trait: 'fallColor', label: 'Fall color', links: valueLinks('fallColor', 'fallColor', d.fallColor) },
+      { trait: 'fruit', label: 'Fruit', text: d.fruit },
+    ],
+  },
+  {
+    title: 'Ecology',
+    rows: [
+      {
+        trait: 'nativeRange',
+        label: 'Native status',
+        links: dv.nativeStatus ? [{ text: label('nativeStatus', dv.nativeStatus), href: filterUrl('nativeStatus', dv.nativeStatus) }] : [],
+      },
+      {
+        trait: 'nativeRange',
+        label: 'Native to',
+        links: valueLinks('nativeTo', 'state', d.nativeRange?.states),
+        extra: d.nativeRange && d.nativeRange.states.length === 0 ? 'None of Washington, Oregon, and California' : undefined,
+      },
+      {
+        trait: 'wetlandIndicator',
+        label: 'Wetland indicator',
+        links: Object.entries(d.wetlandIndicator ?? {}).map(([r, v]) => ({ text: `${label('wetlandRegion', r)}: ${label('wetlandRating', v)} (${v})`, href: filterUrl('wetland', `${r}:${v}`) })),
+      },
+      { trait: 'wildlife', label: 'Wildlife', links: valueLinks('wildlife', 'wildlife', d.wildlife) },
+    ],
+  },
+  { title: 'Uses', rows: [{ trait: 'uses', label: 'Uses', links: valueLinks('uses', 'uses', d.uses) }] },
+];
+const shown = groups.map((g) => ({ ...g, rows: g.rows.filter((r) => r.text || r.html || r.links?.length || r.extra) })).filter((g) => g.rows.length);
+const bloomLabel = dv.bloomMonthList ? `Bloom calendar: ${formatMonths(d.bloom?.months)}` : '';
+---
+<Base title={fullName(d)} description={b.entry.summary}>
+  <article class="plant" data-form={d.form}>
+    <header class="plant-head">
+      <p class="label kicker">
+        <a href={filterUrl('form', d.form)}>{label('form', d.form)}</a> ·
+        <a href={filterUrl('family', d.family)}>{d.family}</a>
+      </p>
+      <h1><PlantName parts={nameSegments(d)} /></h1>
+      <p class="common-names">{d.commonNames.join(', ')}</p>
+      {d.synonyms?.length ? <p class="synonyms">Also sold or published as {d.synonyms.map((s, i) => <>{i ? ', ' : ''}<i>{s}</i></>)}</p> : null}
+      <p class="summary">{b.entry.summary}</p>
+      <Conditions sun={d.sun} moisture={d.moisture} />
+    </header>
+
+    {images.length > 0 && (
+      <section class="gallery" aria-label="Images">
+        <ul role="list">
+          {images.map((img) => (
+            <li>
+              <figure>
+                <img src={url(img.file)} alt={img.alt} loading="lazy" decoding="async" />
+                <figcaption>
+                  {label('imageShows', img.shows)}. {img.credit},{' '}
+                  {licenses.get(img.license)?.url ? <a href={licenses.get(img.license)!.url}>{licenses.get(img.license)!.label}</a> : licenses.get(img.license)?.label ?? img.license}
+                  {img.sourceUrl && <>, <a href={img.sourceUrl}>source</a></>}
+                </figcaption>
+              </figure>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    {b.entry.description && <section class="prose" set:html={renderMarkdown(b.entry.description, resolve)} />}
+
+    <section aria-labelledby="traits-heading">
+      <h2 id="traits-heading">Traits</h2>
+      {shown.length === 0 && <p>No traits are sourced yet.</p>}
+      {shown.map((g) => (
+        <div class="trait-group">
+          <h3>{g.title}</h3>
+          {g.title === 'Seasonal interest' && bloomLabel && (
+            <p class="bloom-calendar"><BloomStrip months={dv.bloomMonthList} colors={d.bloom?.colors} label={bloomLabel} /></p>
+          )}
+          <div class="table-scroll">
+            <table class="traits">
+              <tbody>
+                {g.rows.map((r) => (
+                  <tr>
+                    <th scope="row">{r.label}</th>
+                    <td>
+                      {r.text}
+                      {r.links?.map((l, i) => (
+                        <>
+                          {i ? ', ' : ''}
+                          {r.trait === 'bloom.colors' ? <a href={l.href}><Swatch color={d.bloom!.colors![i]} label={l.text} /></a> : <a href={l.href}>{l.text}</a>}
+                        </>
+                      ))}
+                      {r.extra}
+                      {staffOnly.has(r.trait) && <span class="own"> (our staff's observation)</span>}
+                      {notesFor(r.trait).map((n) => (
+                        <p class="trait-note">
+                          <span class="label">Field note</span> <span set:html={renderMarkdown(n.note, resolve, true)} /> — {n.author.name}, {n.date}
+                        </p>
+                      ))}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      ))}
+    </section>
+
+    {relatives.length > 0 && (
+      <section aria-labelledby="related-heading">
+        <h2 id="related-heading">Related plants</h2>
+        <ul>
+          {relatives.map((r) => (
+            <li><a href={url(`${r.key}/`)}><PlantName parts={nameSegments(r.entry.data as unknown as PlantData)} /></a></li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    <section aria-labelledby="sources-heading">
+      <h2 id="sources-heading">Sources</h2>
+      <ul class="sources" role="list">
+        {d.sources.map((c) => {
+          const src = registry[c.source];
+          return (
+            <li>
+              <p class="source-name">
+                {c.url ? <a href={c.url}>{src.name}</a> : src.name}
+                {src.restriction === 'non-commercial' && <span class="badge badge-plain">Non-commercial</span>}
+              </p>
+              <p class="muted">Supports: {c.fields.map(traitLabel).join(', ')}. Accessed {c.accessed}.</p>
+              <p class="citation">{renderCitation(src, c)}</p>
+            </li>
+          );
+        })}
+      </ul>
+      {d.furtherReading?.length ? (
+        <>
+          <h3>Further reading</h3>
+          <ul>{d.furtherReading.map((f) => <li><a href={f.url}>{f.title}</a></li>)}</ul>
+        </>
+      ) : null}
+    </section>
+
+    {(b.entry.fieldNotes ?? []).length > 0 && (
+      <section aria-labelledby="notes-heading">
+        <h2 id="notes-heading">Field notes</h2>
+        <ul class="notes" role="list">
+          {b.entry.fieldNotes!.map((n) => (
+            <li>
+              <p class="label">{label('fieldNoteTopic', n.topic)}{n.trait ? ` · ${traitLabel(n.trait)}` : ''}</p>
+              <div class="prose" set:html={renderMarkdown(n.note, resolve)} />
+              <p class="muted">{n.author.name}, {n.author.role}, {n.date}{n.region ? ` · ${label('state', n.region)}` : ''}</p>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+  </article>
+</Base>
+
+<style>
+  .plant {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xl);
+  }
+
+  .plant-head {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    padding-block-end: var(--space-lg);
+    border-block-end: var(--line-focus) solid var(--accent);
+  }
+
+  .kicker a {
+    text-decoration: none;
+  }
+
+  .common-names {
+    font-size: var(--size-h3);
+    font-weight: var(--weight-strong);
+  }
+
+  .synonyms,
+  .citation {
+    font-size: var(--size-small);
+  }
+
+  .gallery ul {
+    display: flex;
+    gap: var(--space-md);
+    overflow-x: auto;
+  }
+
+  .gallery figure {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xxs);
+  }
+
+  .gallery img {
+    block-size: var(--gallery-height);
+    inline-size: auto;
+    max-inline-size: none;
+    border: var(--border);
+  }
+
+  .gallery figcaption {
+    font-size: var(--size-label);
+    max-inline-size: var(--measure);
+  }
+
+  h2 {
+    font-size: var(--size-h3);
+    padding-block-end: var(--space-xs);
+    border-block-end: var(--border);
+    margin-block-end: var(--space-md);
+  }
+
+  .trait-group + .trait-group {
+    margin-block-start: var(--space-lg);
+  }
+
+  .trait-group h3 {
+    font-size: var(--size-label);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    margin-block-end: var(--space-xs);
+  }
+
+  .traits {
+    inline-size: var(--full);
+    max-inline-size: var(--measure);
+  }
+
+  .traits th {
+    inline-size: 35%;
+  }
+
+  .bloom-calendar {
+    margin-block-end: var(--space-xs);
+  }
+
+  .own,
+  .trait-note {
+    font-size: var(--size-small);
+  }
+
+  .trait-note {
+    margin-block-start: var(--space-xxs);
+  }
+
+  .sources,
+  .notes {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+
+  .source-name {
+    display: flex;
+    gap: var(--space-xs);
+    align-items: center;
+    font-weight: var(--weight-strong);
+  }
+</style>

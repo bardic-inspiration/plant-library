@@ -1,0 +1,114 @@
+{
+  "type": "plant",
+  "id": "arctostaphylos-uva-ursi",
+  "summary": "A low evergreen groundcover for sun and dry slopes.",
+  "data": {
+    "genus": "Arctostaphylos",
+    "species": "uva-ursi",
+    "commonNames": [
+      "Kinnikinnick"
+    ],
+    "family": "Ericaceae",
+    "usdaSymbol": "ARUV",
+    "form": "subshrub",
+    "foliage": "evergreen",
+    "height": {
+      "min": 0.5,
+      "max": 1
+    },
+    "spread": {
+      "min": 3,
+      "max": 6
+    },
+    "growthRate": "slow",
+    "sun": [
+      "full-sun",
+      "part-shade"
+    ],
+    "moisture": [
+      "dry"
+    ],
+    "soil": {
+      "texture": [
+        "sand"
+      ],
+      "drainage": [
+        "well"
+      ]
+    },
+    "hardiness": {
+      "min": "2",
+      "max": "7"
+    },
+    "tolerates": [
+      "drought",
+      "salt"
+    ],
+    "bloom": {
+      "colors": [
+        "pink",
+        "white"
+      ],
+      "months": {
+        "start": 3,
+        "end": 5
+      }
+    },
+    "fruit": "Red berries",
+    "uses": [
+      "groundcover",
+      "slope"
+    ],
+    "nativeRange": {
+      "states": [
+        "WA",
+        "OR",
+        "CA"
+      ],
+      "ecoregions": []
+    },
+    "sources": [
+      {
+        "source": "usda-plants",
+        "url": "https://plants.usda.gov/plant-profile/ARUV",
+        "accessed": "2026-11-17",
+        "fields": [
+          "family",
+          "form",
+          "foliage",
+          "height",
+          "spread",
+          "growthRate",
+          "sun",
+          "moisture",
+          "hardiness",
+          "tolerates",
+          "fruit",
+          "uses",
+          "nativeRange",
+          "soil.texture",
+          "soil.drainage",
+          "bloom.colors",
+          "bloom.months",
+          "commonNames"
+        ]
+      }
+    ],
+    "images": [
+      {
+        "file": "assets/images/plant/arctostaphylos-uva-ursi/1.jpg",
+        "alt": "Test image 1 standing in for a photograph of kinnikinnick",
+        "shows": "habit",
+        "credit": "Generated test image",
+        "license": "CC0-1.0",
+        "pinned": true
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-17",
+    "revisedAt": "2026-11-17",
+    "method": "manual",
+    "fixture": true
+  }
+}

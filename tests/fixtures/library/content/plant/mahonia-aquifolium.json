@@ -1,0 +1,145 @@
+{
+  "type": "plant",
+  "id": "mahonia-aquifolium",
+  "summary": "An upright evergreen shrub with yellow spring flowers and blue fruit.",
+  "data": {
+    "genus": "Mahonia",
+    "species": "aquifolium",
+    "commonNames": [
+      "Tall Oregon grape",
+      "Hollyleaved barberry"
+    ],
+    "synonyms": [
+      "Berberis aquifolium"
+    ],
+    "family": "Berberidaceae",
+    "usdaSymbol": "MAAQ2",
+    "form": "shrub",
+    "foliage": "evergreen",
+    "height": {
+      "min": 3,
+      "max": 10
+    },
+    "spread": {
+      "min": 3,
+      "max": 6
+    },
+    "sun": [
+      "full-sun",
+      "part-shade"
+    ],
+    "moisture": [
+      "dry",
+      "moist"
+    ],
+    "hardiness": {
+      "min": "5",
+      "max": "9"
+    },
+    "tolerates": [
+      "drought",
+      "deer"
+    ],
+    "bloom": {
+      "colors": [
+        "yellow"
+      ],
+      "months": {
+        "start": 3,
+        "end": 5
+      }
+    },
+    "fruit": "Blue-black berries in summer",
+    "wildlife": [
+      "pollinators",
+      "birds"
+    ],
+    "uses": [
+      "screen"
+    ],
+    "nativeRange": {
+      "states": [
+        "WA",
+        "OR",
+        "CA"
+      ],
+      "ecoregions": []
+    },
+    "sources": [
+      {
+        "source": "usda-plants",
+        "url": "https://plants.usda.gov/plant-profile/MAAQ2",
+        "accessed": "2026-11-17",
+        "fields": [
+          "family",
+          "form",
+          "foliage",
+          "height",
+          "spread",
+          "sun",
+          "moisture",
+          "hardiness",
+          "tolerates",
+          "fruit",
+          "wildlife",
+          "uses",
+          "nativeRange",
+          "bloom.colors",
+          "bloom.months",
+          "commonNames"
+        ]
+      }
+    ],
+    "images": [
+      {
+        "file": "assets/images/plant/mahonia-aquifolium/1.jpg",
+        "alt": "Test image 1 standing in for a photograph of tall oregon grape",
+        "shows": "habit",
+        "credit": "Generated test image",
+        "license": "CC0-1.0",
+        "pinned": true
+      },
+      {
+        "file": "assets/images/plant/mahonia-aquifolium/2.jpg",
+        "alt": "Test image 2 standing in for a photograph of tall oregon grape",
+        "shows": "foliage",
+        "credit": "Generated test image",
+        "license": "CC0-1.0",
+        "pinned": false
+      },
+      {
+        "file": "assets/images/plant/mahonia-aquifolium/3.jpg",
+        "alt": "Test image 3 standing in for a photograph of tall oregon grape",
+        "shows": "flower",
+        "credit": "Generated test image",
+        "license": "CC0-1.0",
+        "pinned": false
+      },
+      {
+        "file": "assets/images/plant/mahonia-aquifolium/4.jpg",
+        "alt": "Test image 4 standing in for a photograph of tall oregon grape",
+        "shows": "fruit",
+        "credit": "Generated test image",
+        "license": "CC0-1.0",
+        "pinned": false
+      },
+      {
+        "file": "assets/images/plant/mahonia-aquifolium/5.jpg",
+        "alt": "Test image 5 standing in for a photograph of tall oregon grape",
+        "shows": "bark",
+        "credit": "Generated test image",
+        "license": "CC0-1.0",
+        "pinned": false
+      }
+    ]
+  },
+  "tags": {
+    "collection": "pnw-natives"
+  },
+  "meta": {
+    "createdAt": "2026-11-17",
+    "revisedAt": "2026-11-17",
+    "method": "manual",
+    "fixture": true
+  }
+}

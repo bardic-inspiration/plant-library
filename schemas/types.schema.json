@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "types.schema.json",
+  "title": "Type registry (config/types.json)",
+  "type": "object",
+  "propertyNames": { "pattern": "^(\\$schema|[a-z]+)$" },
+  "properties": { "$schema": { "type": "string" } },
+  "additionalProperties": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": ["label", "plural", "schema", "facets", "sorts", "search"],
+    "properties": {
+      "label": { "type": "string" },
+      "plural": { "type": "string" },
+      "schema": { "type": "string", "pattern": "^schemas/[a-z]+\\.schema\\.json$" },
+      "namedBy": {
+        "description": "\"derived\" when the build derives the envelope name (plants); otherwise the entry states it.",
+        "enum": ["derived", "entry"]
+      },
+      "fixtureRules": {
+        "description": "With fixturesOnly on in config/site.json, entries of this type must be fixtures and leave these data fields blank.",
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["proprietary"],
+        "properties": { "proprietary": { "type": "array", "items": { "type": "string" } } }
+      },
+      "facets": { "type": "array", "items": { "anyOf": [{ "$ref": "#/$defs/facet" }, { "$ref": "#/$defs/group" }] } },
+      "sorts": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["id", "label", "path"],
+          "properties": {
+            "id": { "type": "string" },
+            "label": { "type": "string" },
+            "path": { "type": "string" },
+            "descending": { "type": "boolean" }
+          }
+        }
+      },
+      "search": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["boosted", "fields"],
+        "properties": {
+          "boosted": { "type": "array", "items": { "type": "string" } },
+          "fields": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "facet": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "label", "kind", "path"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[A-Za-z0-9-]+$" },
+        "label": { "type": "string" },
+        "kind": { "enum": ["value", "range", "zones", "months", "pairs"] },
+        "path": { "type": "string" },
+        "vocab": { "type": "string" },
+        "keyVocab": { "type": "string" },
+        "unit": { "type": "string" },
+        "buckets": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "label"],
+            "properties": {
+              "id": { "type": "string" },
+              "label": { "type": "string" },
+              "min": { "type": "number" },
+              "max": { "type": "number" }
+            }
+          }
+        }
+      }
+    },
+    "group": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["group", "label", "facets"],
+      "properties": {
+        "group": { "type": "string" },
+        "label": { "type": "string" },
+        "facets": { "type": "array", "items": { "$ref": "#/$defs/facet" } }
+      }
+    }
+  }
+}

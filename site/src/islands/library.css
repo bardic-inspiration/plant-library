@@ -1,0 +1,216 @@
+/* The Library island. */
+@layer components {
+  .library {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+  }
+
+  .library-search {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xxs);
+    max-inline-size: var(--measure);
+  }
+
+  .search-box {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    padding-inline: var(--space-sm);
+    border: var(--border);
+  }
+
+  .search-box input {
+    flex: 1;
+    min-block-size: var(--hit-size);
+    border: var(--none);
+    background: transparent;
+  }
+
+  .search-box input:focus {
+    outline: none;
+  }
+
+  .search-box:focus-within {
+    outline: var(--line-focus) solid var(--focus);
+    outline-offset: var(--line-heavy);
+  }
+
+  .library-body {
+    display: grid;
+    gap: var(--space-lg);
+  }
+
+  .filters-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    min-block-size: var(--hit-size);
+    padding-inline: var(--space-md);
+    border: var(--border);
+    background: var(--bg);
+    font-weight: var(--weight-strong);
+    cursor: pointer;
+  }
+
+  .filter-panel {
+    display: none;
+    margin-block-start: var(--space-sm);
+  }
+
+  .library-filters.open .filter-panel {
+    display: block;
+  }
+
+  .filter-heading {
+    margin-block-end: var(--space-xs);
+  }
+
+  .filter-tree details {
+    border-block-start: var(--border-faint);
+  }
+
+  .filter-tree summary {
+    min-block-size: var(--hit-size);
+    display: flex;
+    align-items: center;
+    gap: var(--space-xxs);
+    cursor: pointer;
+    font-weight: var(--weight-strong);
+  }
+
+  .facet-type > summary {
+    font-size: var(--size-label);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    border-block-start: var(--border);
+  }
+
+  .facet-group,
+  .facet {
+    padding-inline-start: var(--space-sm);
+  }
+
+  .facet > summary {
+    font-weight: var(--weight-body);
+  }
+
+  .facet-active {
+    color: var(--text-muted);
+    font-size: var(--size-small);
+  }
+
+  .facet-values {
+    padding-block-end: var(--space-xs);
+  }
+
+  .facet-values li {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    min-block-size: var(--hit-size);
+    font-size: var(--size-small);
+  }
+
+  .facet-values input {
+    inline-size: var(--icon-size);
+    block-size: var(--icon-size);
+    accent-color: var(--text);
+  }
+
+  .facet-values li.empty {
+    color: var(--text-muted);
+  }
+
+  .count {
+    color: var(--text-muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .results-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-sm);
+    padding-block-end: var(--space-sm);
+    border-block-end: var(--border);
+    margin-block-end: var(--space-md);
+  }
+
+  .results-count {
+    font-size: var(--size-h3);
+  }
+
+  .sort {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+  }
+
+  .sort select {
+    min-block-size: var(--hit-size);
+    padding-inline: var(--space-xs);
+    border: var(--border);
+    background: var(--bg);
+  }
+
+  .active-filters {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-xs);
+    margin-block-end: var(--space-md);
+  }
+
+  .active-filters ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xxs);
+    min-block-size: var(--hit-size);
+    padding-inline: var(--space-sm);
+    border: var(--border);
+    background: var(--bg-selected);
+    cursor: pointer;
+  }
+
+  .link-button {
+    min-block-size: var(--hit-size);
+    border: var(--none);
+    background: transparent;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(var(--card-min), var(--full)), 1fr));
+    gap: var(--grid-gap);
+  }
+
+  .library-message {
+    padding-block: var(--space-lg);
+  }
+
+  @media (min-width: 64rem) {
+    .library-body {
+      grid-template-columns: var(--sidebar-width) 1fr;
+    }
+
+    .filters-toggle {
+      display: none;
+    }
+
+    .filter-panel {
+      display: block;
+      margin-block-start: var(--none);
+    }
+  }
+}

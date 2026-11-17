@@ -1,0 +1,115 @@
+---
+import Base from '../layouts/Base.astro';
+import { buildData } from '../../../lib/build-data';
+import { attribution } from '../../../lib/attribution';
+import { url } from '../../../lib/site';
+
+const data = buildData();
+const a = attribution(data);
+const registry = Object.entries(data.library.config.sources).sort(([x], [y]) => x.localeCompare(y));
+const plants = data.entries.filter((e) => e.entry.type === 'plant').length;
+---
+<Base current="about" title="About">
+  <div class="about">
+    <h1>About</h1>
+    <section class="prose">
+      <p>
+        Plant Library is a reference for landscape architects working in Washington, Oregon, and
+        California: trees, shrubs, and herbaceous perennials for parks, campuses, streets, stormwater,
+        and restoration. It holds {plants} {plants === 1 ? 'plant' : 'plants'}.
+      </p>
+      <p>
+        Every technical value on a plant cites a registered source: a government agency, a university,
+        or a botanical institution. The library records facts in its own schema and writes its own
+        descriptions; it doesn't copy a source's text. A colleague's own observation is kept beside the
+        published facts as a field note, and fills a trait only when no source covers it.
+      </p>
+      <p>
+        This site is a prototype. Its projects and palettes are made up for testing, and it holds no
+        real project data.
+      </p>
+    </section>
+
+    <section aria-labelledby="sources-heading">
+      <h2 id="sources-heading">Sources</h2>
+      <p>The sources an entry may cite. A source is registered only after its terms have been read and allow this use.</p>
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr><th scope="col">Source</th><th scope="col">Kind</th><th scope="col">May be cited for</th><th scope="col">Terms</th><th scope="col">Terms read</th></tr>
+          </thead>
+          <tbody>
+            {registry.map(([id, s]) => (
+              <tr>
+                <td>{s.url ? <a href={s.url}>{s.name}</a> : s.name}<br /><span class="muted">{s.publisher}</span></td>
+                <td>{s.kind}</td>
+                <td>{s.provides.join(', ')}</td>
+                <td>{s.termsSummary ?? s.license}{s.restriction ? ` Restricted: ${s.restriction}.` : ''}</td>
+                <td>{s.termsChecked}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      {a.sources.length > 0 && (
+        <>
+          <h3>Citations</h3>
+          <ul>{a.sources.map((s) => <li>{s.citation}</li>)}</ul>
+        </>
+      )}
+    </section>
+
+    <section aria-labelledby="licenses-heading">
+      <h2 id="licenses-heading">Licenses</h2>
+      <p>
+        The code is under the MIT license. The library's own compilation and prose are under
+        <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. Images keep their own
+        licenses, listed below. The basemap, when added, is drawn from OpenStreetMap data under the ODbL.
+      </p>
+    </section>
+
+    <section aria-labelledby="images-heading">
+      <h2 id="images-heading">Image credits</h2>
+      {a.images.length === 0 ? <p>No images yet.</p> : (
+        <ul>
+          {a.images.map((i) => (
+            <li>
+              <a href={url(`${i.entry}/`)}>{data.byKey.get(i.entry)?.name}</a>: {i.credit},
+              {' '}{i.licenseUrl ? <a href={i.licenseUrl}>{i.licenseLabel}</a> : i.licenseLabel}
+              {i.sourceUrl && <>, <a href={i.sourceUrl}>source</a></>}
+            </li>
+          ))}
+        </ul>
+      )}
+    </section>
+
+    <section aria-labelledby="contributors-heading">
+      <h2 id="contributors-heading">Contributors</h2>
+      <p>{a.contributors.length ? a.contributors.join(', ') : 'No contributions yet.'}</p>
+    </section>
+  </div>
+</Base>
+
+<style>
+  .about {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xl);
+  }
+
+  .about section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+
+  h2 {
+    font-size: var(--size-h3);
+    padding-block-end: var(--space-xs);
+    border-block-end: var(--border);
+  }
+
+  .prose {
+    gap: var(--space-sm);
+  }
+</style>

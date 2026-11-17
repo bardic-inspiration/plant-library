@@ -182,7 +182,7 @@ oldest first:
      submitter's declaration, under the license they granted. A
      `third-party` file is accepted only if the routine can open its source
      page and find an allowed license stated for that file
-     ([sources.md](sources.md#licensing-rules)); otherwise it is rejected.
+     ([docs/sources.md](../../docs/sources.md#licensing-rules)); otherwise it is rejected.
      "Found online", a search-result URL, a stock or nursery site, or a
      license the page doesn't show all fail.
    - *Sourced claims.* A `sourceUrl` must belong to a registered source.
@@ -247,7 +247,7 @@ other (P5).
 - The store is `browser`, and the owner is the only contributor: fill in a
   form, export the bundle, import it into a checkout, and run the skill in a
   session. There is no scheduled routine yet.
-- Projects are made up here ([repo.md](repo.md#prototype-and-handover)).
+- Projects are made up here ([docs/workflow.md](../../docs/workflow.md#the-prototype-and-the-company-copy)).
   With `fixturesOnly` on, the skill integrates a project submission only as
   a fixture with the proprietary fields blank, and returns anything that
   reads as a real project as `rejected`, unintegrated.
