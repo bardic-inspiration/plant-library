@@ -1,0 +1,22 @@
+/* Per-component knobs. Breakpoints are written in the media and container
+   queries themselves (custom properties can't be used there); they are
+   listed here so the values stay in one file. */
+@layer tokens {
+  :root {
+    --card-min: 15rem;
+    --card-image-ratio: 4 / 3;
+    --grid-gap: var(--space-md);
+    --sidebar-width: 17rem;
+    --table-pad-y: var(--space-xs);
+    --table-pad-x: var(--space-sm);
+    --badge-pad: var(--space-xxs) var(--space-xs);
+    --strip-cell: 0.875rem;
+    --swatch: 0.875rem;
+    --header-height: 3.5rem;
+    --gallery-height: 22rem;
+    --thumb-height: 6rem;
+    /* Breakpoints (for reference): narrow below 48rem, wide from 64rem. */
+    --bp-narrow: 48rem;
+    --bp-wide: 64rem;
+  }
+}

@@ -1,0 +1,59 @@
+name: validate
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: validate-${{ github.head_ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - run: npm ci
+
+      - name: Lane
+        id: lane
+        run: npx tsx scripts/lane.ts --branch "$GITHUB_HEAD_REF" --base "origin/$GITHUB_BASE_REF"
+
+      - name: Validate
+        if: contains(steps.lane.outputs.checks, 'validate')
+        run: |
+          npm run validate
+          npm run attribution -- --check
+
+      - name: Build
+        if: contains(steps.lane.outputs.checks, 'build')
+        run: npm run build
+
+      - name: Summary
+        if: contains(steps.lane.outputs.checks, 'validate')
+        run: npx tsx scripts/pr-summary.ts --base "origin/$GITHUB_BASE_REF"
+
+      - name: Check
+        if: contains(steps.lane.outputs.checks, 'check')
+        run: npm run check
+
+      - name: Test
+        if: contains(steps.lane.outputs.checks, 'test')
+        run: npm test
+
+      # The milestone-closing PR carries the `milestone` label and runs the accessibility check.
+      - name: Accessibility
+        if: contains(github.event.pull_request.labels.*.name, 'milestone')
+        run: |
+          npx playwright install --with-deps chromium
+          npm run a11y

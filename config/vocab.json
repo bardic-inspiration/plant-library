@@ -1,0 +1,859 @@
+{
+  "form": [
+    {
+      "id": "tree",
+      "label": "Tree"
+    },
+    {
+      "id": "shrub",
+      "label": "Shrub"
+    },
+    {
+      "id": "subshrub",
+      "label": "Subshrub"
+    },
+    {
+      "id": "perennial",
+      "label": "Perennial"
+    },
+    {
+      "id": "graminoid",
+      "label": "Grass or grasslike"
+    },
+    {
+      "id": "fern",
+      "label": "Fern"
+    },
+    {
+      "id": "vine",
+      "label": "Vine"
+    },
+    {
+      "id": "bulb",
+      "label": "Bulb"
+    }
+  ],
+  "foliage": [
+    {
+      "id": "deciduous",
+      "label": "Deciduous"
+    },
+    {
+      "id": "evergreen",
+      "label": "Evergreen"
+    },
+    {
+      "id": "semi-evergreen",
+      "label": "Semi-evergreen"
+    }
+  ],
+  "growthRate": [
+    {
+      "id": "slow",
+      "label": "Slow"
+    },
+    {
+      "id": "moderate",
+      "label": "Moderate"
+    },
+    {
+      "id": "fast",
+      "label": "Fast"
+    }
+  ],
+  "sun": [
+    {
+      "id": "full-sun",
+      "label": "Full sun"
+    },
+    {
+      "id": "part-shade",
+      "label": "Part shade"
+    },
+    {
+      "id": "shade",
+      "label": "Shade"
+    }
+  ],
+  "moisture": [
+    {
+      "id": "dry",
+      "label": "Dry"
+    },
+    {
+      "id": "moist",
+      "label": "Moist"
+    },
+    {
+      "id": "wet",
+      "label": "Wet"
+    }
+  ],
+  "soilTexture": [
+    {
+      "id": "sand",
+      "label": "Sand"
+    },
+    {
+      "id": "loam",
+      "label": "Loam"
+    },
+    {
+      "id": "clay",
+      "label": "Clay"
+    }
+  ],
+  "soilDrainage": [
+    {
+      "id": "well",
+      "label": "Well drained"
+    },
+    {
+      "id": "moderate",
+      "label": "Moderately drained"
+    },
+    {
+      "id": "poor",
+      "label": "Poorly drained"
+    }
+  ],
+  "waterUse": [
+    {
+      "id": "very-low",
+      "label": "Very low"
+    },
+    {
+      "id": "low",
+      "label": "Low"
+    },
+    {
+      "id": "moderate",
+      "label": "Moderate"
+    },
+    {
+      "id": "high",
+      "label": "High"
+    }
+  ],
+  "tolerates": [
+    {
+      "id": "drought",
+      "label": "Drought"
+    },
+    {
+      "id": "inundation",
+      "label": "Inundation"
+    },
+    {
+      "id": "salt",
+      "label": "Salt"
+    },
+    {
+      "id": "compaction",
+      "label": "Compaction"
+    },
+    {
+      "id": "wind",
+      "label": "Wind"
+    },
+    {
+      "id": "deer",
+      "label": "Deer"
+    },
+    {
+      "id": "urban-pollution",
+      "label": "Urban pollution"
+    }
+  ],
+  "bloomColor": [
+    {
+      "id": "white",
+      "label": "White"
+    },
+    {
+      "id": "cream",
+      "label": "Cream"
+    },
+    {
+      "id": "yellow",
+      "label": "Yellow"
+    },
+    {
+      "id": "orange",
+      "label": "Orange"
+    },
+    {
+      "id": "red",
+      "label": "Red"
+    },
+    {
+      "id": "pink",
+      "label": "Pink"
+    },
+    {
+      "id": "magenta",
+      "label": "Magenta"
+    },
+    {
+      "id": "purple",
+      "label": "Purple"
+    },
+    {
+      "id": "blue",
+      "label": "Blue"
+    },
+    {
+      "id": "green",
+      "label": "Green"
+    },
+    {
+      "id": "brown",
+      "label": "Brown"
+    }
+  ],
+  "fallColor": [
+    {
+      "id": "yellow",
+      "label": "Yellow"
+    },
+    {
+      "id": "orange",
+      "label": "Orange"
+    },
+    {
+      "id": "red",
+      "label": "Red"
+    },
+    {
+      "id": "purple",
+      "label": "Purple"
+    },
+    {
+      "id": "bronze",
+      "label": "Bronze"
+    },
+    {
+      "id": "brown",
+      "label": "Brown"
+    }
+  ],
+  "wildlife": [
+    {
+      "id": "pollinators",
+      "label": "Pollinators"
+    },
+    {
+      "id": "birds",
+      "label": "Birds"
+    },
+    {
+      "id": "larval-host",
+      "label": "Larval host"
+    },
+    {
+      "id": "cover",
+      "label": "Cover"
+    }
+  ],
+  "uses": [
+    {
+      "id": "street-tree",
+      "label": "Street tree"
+    },
+    {
+      "id": "screen",
+      "label": "Screen"
+    },
+    {
+      "id": "groundcover",
+      "label": "Groundcover"
+    },
+    {
+      "id": "bioretention",
+      "label": "Bioretention"
+    },
+    {
+      "id": "restoration",
+      "label": "Restoration"
+    },
+    {
+      "id": "slope",
+      "label": "Slope"
+    },
+    {
+      "id": "meadow",
+      "label": "Meadow"
+    },
+    {
+      "id": "specimen",
+      "label": "Specimen"
+    }
+  ],
+  "wetlandRating": [
+    {
+      "id": "OBL",
+      "label": "Obligate wetland"
+    },
+    {
+      "id": "FACW",
+      "label": "Facultative wetland"
+    },
+    {
+      "id": "FAC",
+      "label": "Facultative"
+    },
+    {
+      "id": "FACU",
+      "label": "Facultative upland"
+    },
+    {
+      "id": "UPL",
+      "label": "Obligate upland"
+    }
+  ],
+  "wetlandRegion": [
+    {
+      "id": "AW",
+      "label": "Arid West"
+    },
+    {
+      "id": "WMVC",
+      "label": "Western Mountains, Valleys, and Coast"
+    }
+  ],
+  "infraRank": [
+    {
+      "id": "subsp.",
+      "label": "Subspecies"
+    },
+    {
+      "id": "var.",
+      "label": "Variety"
+    },
+    {
+      "id": "f.",
+      "label": "Form"
+    }
+  ],
+  "imageShows": [
+    {
+      "id": "habit",
+      "label": "Habit"
+    },
+    {
+      "id": "foliage",
+      "label": "Foliage"
+    },
+    {
+      "id": "flower",
+      "label": "Flower"
+    },
+    {
+      "id": "fruit",
+      "label": "Fruit"
+    },
+    {
+      "id": "bark",
+      "label": "Bark"
+    },
+    {
+      "id": "in-landscape",
+      "label": "In the landscape"
+    }
+  ],
+  "nativeStatus": [
+    {
+      "id": "native",
+      "label": "Native"
+    },
+    {
+      "id": "adapted",
+      "label": "Climate-adapted"
+    }
+  ],
+  "state": [
+    {
+      "id": "WA",
+      "label": "Washington"
+    },
+    {
+      "id": "OR",
+      "label": "Oregon"
+    },
+    {
+      "id": "CA",
+      "label": "California"
+    }
+  ],
+  "season": [
+    {
+      "id": "spring",
+      "label": "Spring"
+    },
+    {
+      "id": "summer",
+      "label": "Summer"
+    },
+    {
+      "id": "fall",
+      "label": "Fall"
+    },
+    {
+      "id": "winter",
+      "label": "Winter"
+    }
+  ],
+  "month": [
+    {
+      "id": "1",
+      "label": "Jan"
+    },
+    {
+      "id": "2",
+      "label": "Feb"
+    },
+    {
+      "id": "3",
+      "label": "Mar"
+    },
+    {
+      "id": "4",
+      "label": "Apr"
+    },
+    {
+      "id": "5",
+      "label": "May"
+    },
+    {
+      "id": "6",
+      "label": "Jun"
+    },
+    {
+      "id": "7",
+      "label": "Jul"
+    },
+    {
+      "id": "8",
+      "label": "Aug"
+    },
+    {
+      "id": "9",
+      "label": "Sep"
+    },
+    {
+      "id": "10",
+      "label": "Oct"
+    },
+    {
+      "id": "11",
+      "label": "Nov"
+    },
+    {
+      "id": "12",
+      "label": "Dec"
+    }
+  ],
+  "zone": [
+    {
+      "id": "1a",
+      "label": "Zone 1a"
+    },
+    {
+      "id": "1b",
+      "label": "Zone 1b"
+    },
+    {
+      "id": "2a",
+      "label": "Zone 2a"
+    },
+    {
+      "id": "2b",
+      "label": "Zone 2b"
+    },
+    {
+      "id": "3a",
+      "label": "Zone 3a"
+    },
+    {
+      "id": "3b",
+      "label": "Zone 3b"
+    },
+    {
+      "id": "4a",
+      "label": "Zone 4a"
+    },
+    {
+      "id": "4b",
+      "label": "Zone 4b"
+    },
+    {
+      "id": "5a",
+      "label": "Zone 5a"
+    },
+    {
+      "id": "5b",
+      "label": "Zone 5b"
+    },
+    {
+      "id": "6a",
+      "label": "Zone 6a"
+    },
+    {
+      "id": "6b",
+      "label": "Zone 6b"
+    },
+    {
+      "id": "7a",
+      "label": "Zone 7a"
+    },
+    {
+      "id": "7b",
+      "label": "Zone 7b"
+    },
+    {
+      "id": "8a",
+      "label": "Zone 8a"
+    },
+    {
+      "id": "8b",
+      "label": "Zone 8b"
+    },
+    {
+      "id": "9a",
+      "label": "Zone 9a"
+    },
+    {
+      "id": "9b",
+      "label": "Zone 9b"
+    },
+    {
+      "id": "10a",
+      "label": "Zone 10a"
+    },
+    {
+      "id": "10b",
+      "label": "Zone 10b"
+    },
+    {
+      "id": "11a",
+      "label": "Zone 11a"
+    },
+    {
+      "id": "11b",
+      "label": "Zone 11b"
+    },
+    {
+      "id": "12a",
+      "label": "Zone 12a"
+    },
+    {
+      "id": "12b",
+      "label": "Zone 12b"
+    },
+    {
+      "id": "13a",
+      "label": "Zone 13a"
+    },
+    {
+      "id": "13b",
+      "label": "Zone 13b"
+    }
+  ],
+  "sizeClass": [
+    {
+      "id": "small-tree",
+      "label": "Small tree"
+    },
+    {
+      "id": "medium-tree",
+      "label": "Medium tree"
+    },
+    {
+      "id": "large-tree",
+      "label": "Large tree"
+    },
+    {
+      "id": "small-shrub",
+      "label": "Small shrub"
+    },
+    {
+      "id": "medium-shrub",
+      "label": "Medium shrub"
+    },
+    {
+      "id": "large-shrub",
+      "label": "Large shrub"
+    },
+    {
+      "id": "low",
+      "label": "Low"
+    },
+    {
+      "id": "mid",
+      "label": "Mid-height"
+    },
+    {
+      "id": "tall",
+      "label": "Tall"
+    }
+  ],
+  "fieldNoteTopic": [
+    {
+      "id": "performance",
+      "label": "Performance"
+    },
+    {
+      "id": "establishment",
+      "label": "Establishment"
+    },
+    {
+      "id": "maintenance",
+      "label": "Maintenance"
+    },
+    {
+      "id": "availability",
+      "label": "Availability"
+    },
+    {
+      "id": "design",
+      "label": "Design"
+    },
+    {
+      "id": "caution",
+      "label": "Caution"
+    }
+  ],
+  "metaMethod": [
+    {
+      "id": "import",
+      "label": "Import"
+    },
+    {
+      "id": "manual",
+      "label": "Manual"
+    },
+    {
+      "id": "submission",
+      "label": "Submission"
+    }
+  ],
+  "license": [
+    {
+      "id": "public-domain",
+      "label": "Public domain",
+      "url": "https://creativecommons.org/publicdomain/mark/1.0/"
+    },
+    {
+      "id": "CC0-1.0",
+      "label": "CC0 1.0",
+      "url": "https://creativecommons.org/publicdomain/zero/1.0/"
+    },
+    {
+      "id": "CC-BY-2.0",
+      "label": "CC BY 2.0",
+      "url": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    {
+      "id": "CC-BY-3.0",
+      "label": "CC BY 3.0",
+      "url": "https://creativecommons.org/licenses/by/3.0/"
+    },
+    {
+      "id": "CC-BY-4.0",
+      "label": "CC BY 4.0",
+      "url": "https://creativecommons.org/licenses/by/4.0/"
+    },
+    {
+      "id": "CC-BY-SA-2.0",
+      "label": "CC BY-SA 2.0",
+      "url": "https://creativecommons.org/licenses/by-sa/2.0/"
+    },
+    {
+      "id": "CC-BY-SA-3.0",
+      "label": "CC BY-SA 3.0",
+      "url": "https://creativecommons.org/licenses/by-sa/3.0/"
+    },
+    {
+      "id": "CC-BY-SA-4.0",
+      "label": "CC BY-SA 4.0",
+      "url": "https://creativecommons.org/licenses/by-sa/4.0/"
+    },
+    {
+      "id": "CC-BY-NC-4.0",
+      "label": "CC BY-NC 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc/4.0/",
+      "nonCommercial": true
+    },
+    {
+      "id": "CC-BY-NC-SA-4.0",
+      "label": "CC BY-NC-SA 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+      "nonCommercial": true
+    }
+  ],
+  "sizeClassRules": {
+    "_comment": "A plant's size class is the first class for its form whose maxHeight is at least height.max. Forms not listed have no size class.",
+    "tree": [
+      {
+        "class": "small-tree",
+        "maxHeight": 25
+      },
+      {
+        "class": "medium-tree",
+        "maxHeight": 50
+      },
+      {
+        "class": "large-tree",
+        "maxHeight": null
+      }
+    ],
+    "shrub": [
+      {
+        "class": "small-shrub",
+        "maxHeight": 4
+      },
+      {
+        "class": "medium-shrub",
+        "maxHeight": 10
+      },
+      {
+        "class": "large-shrub",
+        "maxHeight": null
+      }
+    ],
+    "subshrub": [
+      {
+        "class": "small-shrub",
+        "maxHeight": 4
+      },
+      {
+        "class": "medium-shrub",
+        "maxHeight": null
+      }
+    ],
+    "perennial": [
+      {
+        "class": "low",
+        "maxHeight": 1
+      },
+      {
+        "class": "mid",
+        "maxHeight": 3
+      },
+      {
+        "class": "tall",
+        "maxHeight": null
+      }
+    ],
+    "graminoid": [
+      {
+        "class": "low",
+        "maxHeight": 1
+      },
+      {
+        "class": "mid",
+        "maxHeight": 3
+      },
+      {
+        "class": "tall",
+        "maxHeight": null
+      }
+    ],
+    "fern": [
+      {
+        "class": "low",
+        "maxHeight": 1
+      },
+      {
+        "class": "mid",
+        "maxHeight": 3
+      },
+      {
+        "class": "tall",
+        "maxHeight": null
+      }
+    ],
+    "bulb": [
+      {
+        "class": "low",
+        "maxHeight": 1
+      },
+      {
+        "class": "mid",
+        "maxHeight": 3
+      },
+      {
+        "class": "tall",
+        "maxHeight": null
+      }
+    ]
+  },
+  "seasonMonths": {
+    "winter": [
+      12,
+      1,
+      2
+    ],
+    "spring": [
+      3,
+      4,
+      5
+    ],
+    "summer": [
+      6,
+      7,
+      8
+    ],
+    "fall": [
+      9,
+      10,
+      11
+    ]
+  },
+  "families": {
+    "Aceraceae": {
+      "label": "Maple family",
+      "order": "Sapindales"
+    },
+    "Agavaceae": {
+      "label": "Century-plant family",
+      "order": "Liliales"
+    },
+    "Asteraceae": {
+      "label": "Aster family",
+      "order": "Asterales"
+    },
+    "Berberidaceae": {
+      "label": "Barberry family",
+      "order": "Ranunculales"
+    },
+    "Cupressaceae": {
+      "label": "Cypress family",
+      "order": "Pinales"
+    },
+    "Cyperaceae": {
+      "label": "Sedge family",
+      "order": "Cyperales"
+    },
+    "Dryopteridaceae": {
+      "label": "Wood fern family",
+      "order": "Polypodiales"
+    },
+    "Ericaceae": {
+      "label": "Heath family",
+      "order": "Ericales"
+    },
+    "Garryaceae": {
+      "label": "Silk tassel family",
+      "order": "Cornales"
+    },
+    "Pinaceae": {
+      "label": "Pine family",
+      "order": "Pinales"
+    },
+    "Rosaceae": {
+      "label": "Rose family",
+      "order": "Rosales"
+    }
+  }
+}

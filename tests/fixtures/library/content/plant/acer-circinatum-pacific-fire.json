@@ -1,0 +1,73 @@
+{
+  "type": "plant",
+  "id": "acer-circinatum-pacific-fire",
+  "summary": "A vine maple cultivar with red winter stems.",
+  "data": {
+    "genus": "Acer",
+    "species": "circinatum",
+    "cultivar": "Pacific Fire",
+    "commonNames": [
+      "Pacific Fire vine maple"
+    ],
+    "family": "Aceraceae",
+    "form": "tree",
+    "foliage": "deciduous",
+    "height": {
+      "min": 10,
+      "max": 15
+    },
+    "spread": {
+      "min": 8,
+      "max": 10
+    },
+    "sun": [
+      "full-sun",
+      "part-shade"
+    ],
+    "moisture": [
+      "moist"
+    ],
+    "hardiness": {
+      "min": "6",
+      "max": "9"
+    },
+    "fallColor": [
+      "yellow"
+    ],
+    "sources": [
+      {
+        "source": "usda-plants",
+        "url": "https://plants.usda.gov/plant-profile/ACCI",
+        "accessed": "2026-11-17",
+        "fields": [
+          "family",
+          "form",
+          "foliage",
+          "height",
+          "spread",
+          "sun",
+          "moisture",
+          "hardiness",
+          "fallColor",
+          "commonNames"
+        ]
+      }
+    ],
+    "images": [
+      {
+        "file": "assets/images/plant/acer-circinatum-pacific-fire/1.jpg",
+        "alt": "Test image 1 standing in for a photograph of pacific fire vine maple",
+        "shows": "habit",
+        "credit": "Generated test image",
+        "license": "CC0-1.0",
+        "pinned": true
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-17",
+    "revisedAt": "2026-11-17",
+    "method": "manual",
+    "fixture": true
+  }
+}

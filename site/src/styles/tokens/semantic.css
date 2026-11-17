@@ -1,0 +1,58 @@
+/* Semantic roles. Components use these, the component knobs, and the content colors. */
+@layer tokens {
+  :root {
+    --bg: var(--p-white);
+    --bg-subtle: var(--p-gray-100);
+    --bg-selected: var(--p-vermillion-50);
+    --text: var(--p-black);
+    --text-muted: var(--p-gray-700);
+    --rule: var(--p-black);
+    --rule-faint: var(--p-gray-200);
+    --accent: var(--p-vermillion);
+    --site-accent: var(--p-vermillion);
+    --focus: var(--p-blue);
+    --mark-empty: var(--p-white);
+
+    --font-body: var(--p-font-sans);
+    --font-heading: var(--p-font-sans);
+    --font-data: var(--p-font-sans);
+    --weight-body: var(--p-weight-regular);
+    --weight-strong: var(--p-weight-semibold);
+    --weight-heading: var(--p-weight-heavy);
+
+    --size-label: var(--p-size-xs);
+    --size-small: var(--p-size-sm);
+    --size-body: var(--p-size-md);
+    --size-h3: var(--p-size-lg);
+    --size-h2: var(--p-size-xl);
+    --size-h1: var(--p-size-xxl);
+    --leading-tight: var(--p-leading-tight);
+    --leading-body: var(--p-leading-body);
+    --tracking-label: var(--p-tracking-label);
+
+    --space-xxs: var(--p-space-1);
+    --space-xs: var(--p-space-2);
+    --space-sm: var(--p-space-3);
+    --space-md: var(--p-space-4);
+    --space-lg: var(--p-space-5);
+    --space-xl: var(--p-space-6);
+    --space-xxl: var(--p-space-7);
+    --space-page: var(--p-space-8);
+
+    --line: var(--p-line-thin);
+    --line-heavy: var(--p-line-thick);
+    --line-focus: var(--p-line-focus);
+    --border: var(--line) solid var(--rule);
+    --border-faint: var(--line) solid var(--rule-faint);
+
+    --measure: var(--p-measure);
+    --page-max: var(--p-page-max);
+    --icon-size: var(--p-icon);
+    --hit-size: var(--p-hit);
+    --none: 0;
+    --full: 100%;
+
+    --duration-fast: var(--p-duration-fast);
+    --duration-base: var(--p-duration-base);
+  }
+}

@@ -1,0 +1,146 @@
+{
+  "type": "plant",
+  "id": "gaultheria-shallon",
+  "summary": "A spreading evergreen shrub for shade and slopes.",
+  "data": {
+    "genus": "Gaultheria",
+    "species": "shallon",
+    "commonNames": [
+      "Salal"
+    ],
+    "family": "Ericaceae",
+    "usdaSymbol": "GASH",
+    "form": "shrub",
+    "foliage": "evergreen",
+    "height": {
+      "min": 2,
+      "max": 6
+    },
+    "spread": {
+      "min": 3,
+      "max": 6
+    },
+    "sun": [
+      "part-shade",
+      "shade"
+    ],
+    "moisture": [
+      "dry",
+      "moist"
+    ],
+    "soil": {
+      "drainage": [
+        "well"
+      ]
+    },
+    "hardiness": {
+      "min": "6",
+      "max": "9"
+    },
+    "bloom": {
+      "colors": [
+        "pink",
+        "white"
+      ],
+      "months": {
+        "start": 5,
+        "end": 7
+      }
+    },
+    "fruit": "Dark purple berries",
+    "tolerates": [
+      "compaction"
+    ],
+    "wildlife": [
+      "birds",
+      "pollinators"
+    ],
+    "uses": [
+      "groundcover",
+      "slope"
+    ],
+    "nativeRange": {
+      "states": [
+        "WA",
+        "OR",
+        "CA"
+      ],
+      "ecoregions": []
+    },
+    "sources": [
+      {
+        "source": "usda-plants",
+        "url": "https://plants.usda.gov/plant-profile/GASH",
+        "accessed": "2026-11-17",
+        "fields": [
+          "family",
+          "form",
+          "foliage",
+          "height",
+          "spread",
+          "sun",
+          "moisture",
+          "hardiness",
+          "fruit",
+          "wildlife",
+          "uses",
+          "nativeRange",
+          "soil.drainage",
+          "bloom.colors",
+          "bloom.months",
+          "commonNames"
+        ]
+      },
+      {
+        "source": "staff-observation",
+        "accessed": "2026-11-17",
+        "fields": [
+          "tolerates"
+        ],
+        "contributor": {
+          "name": "Test Contributor",
+          "role": "Landscape architect"
+        }
+      }
+    ],
+    "images": [
+      {
+        "file": "assets/images/plant/gaultheria-shallon/1.jpg",
+        "alt": "Test image 1 standing in for a photograph of salal",
+        "shows": "habit",
+        "credit": "Generated test image",
+        "license": "CC0-1.0",
+        "pinned": true
+      }
+    ]
+  },
+  "fieldNotes": [
+    {
+      "topic": "establishment",
+      "note": "Test fixture note: slow to establish from 1-gallon pots in full sun.",
+      "author": {
+        "name": "Test Contributor",
+        "role": "Landscape architect"
+      },
+      "date": "2026-11-17",
+      "region": "WA"
+    },
+    {
+      "topic": "performance",
+      "trait": "height",
+      "note": "Test fixture note: reaches 8 ft in irrigated beds.",
+      "author": {
+        "name": "Test Contributor",
+        "role": "Landscape architect"
+      },
+      "date": "2026-11-17",
+      "region": "WA"
+    }
+  ],
+  "meta": {
+    "createdAt": "2026-11-17",
+    "revisedAt": "2026-11-17",
+    "method": "manual",
+    "fixture": true
+  }
+}

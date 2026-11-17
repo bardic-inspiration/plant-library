@@ -1,0 +1,339 @@
+{
+  "$schema": "../schemas/types.schema.json",
+  "plant": {
+    "label": "Plant",
+    "plural": "Plants",
+    "schema": "schemas/plant.schema.json",
+    "namedBy": "derived",
+    "facets": [
+      {
+        "id": "form",
+        "label": "Form",
+        "kind": "value",
+        "path": "data.form",
+        "vocab": "form"
+      },
+      {
+        "id": "foliage",
+        "label": "Foliage",
+        "kind": "value",
+        "path": "data.foliage",
+        "vocab": "foliage"
+      },
+      {
+        "group": "size",
+        "label": "Size",
+        "facets": [
+          {
+            "id": "height",
+            "label": "Height",
+            "kind": "range",
+            "path": "data.height",
+            "unit": "ft",
+            "buckets": [
+              {
+                "id": "0-1",
+                "label": "Under 1 ft",
+                "max": 1
+              },
+              {
+                "id": "1-3",
+                "label": "1 to 3 ft",
+                "min": 1,
+                "max": 3
+              },
+              {
+                "id": "3-6",
+                "label": "3 to 6 ft",
+                "min": 3,
+                "max": 6
+              },
+              {
+                "id": "6-15",
+                "label": "6 to 15 ft",
+                "min": 6,
+                "max": 15
+              },
+              {
+                "id": "15-30",
+                "label": "15 to 30 ft",
+                "min": 15,
+                "max": 30
+              },
+              {
+                "id": "30-60",
+                "label": "30 to 60 ft",
+                "min": 30,
+                "max": 60
+              },
+              {
+                "id": "60-",
+                "label": "Over 60 ft",
+                "min": 60
+              }
+            ]
+          },
+          {
+            "id": "spread",
+            "label": "Spread",
+            "kind": "range",
+            "path": "data.spread",
+            "unit": "ft",
+            "buckets": [
+              {
+                "id": "0-3",
+                "label": "Under 3 ft",
+                "max": 3
+              },
+              {
+                "id": "3-6",
+                "label": "3 to 6 ft",
+                "min": 3,
+                "max": 6
+              },
+              {
+                "id": "6-15",
+                "label": "6 to 15 ft",
+                "min": 6,
+                "max": 15
+              },
+              {
+                "id": "15-30",
+                "label": "15 to 30 ft",
+                "min": 15,
+                "max": 30
+              },
+              {
+                "id": "30-",
+                "label": "Over 30 ft",
+                "min": 30
+              }
+            ]
+          },
+          {
+            "id": "sizeClass",
+            "label": "Size class",
+            "kind": "value",
+            "path": "derived.sizeClass",
+            "vocab": "sizeClass"
+          }
+        ]
+      },
+      {
+        "id": "sun",
+        "label": "Sun",
+        "kind": "value",
+        "path": "data.sun",
+        "vocab": "sun"
+      },
+      {
+        "id": "moisture",
+        "label": "Moisture",
+        "kind": "value",
+        "path": "data.moisture",
+        "vocab": "moisture"
+      },
+      {
+        "group": "soil",
+        "label": "Soil",
+        "facets": [
+          {
+            "id": "texture",
+            "label": "Texture",
+            "kind": "value",
+            "path": "data.soil.texture",
+            "vocab": "soilTexture"
+          },
+          {
+            "id": "drainage",
+            "label": "Drainage",
+            "kind": "value",
+            "path": "data.soil.drainage",
+            "vocab": "soilDrainage"
+          },
+          {
+            "id": "ph",
+            "label": "pH",
+            "kind": "range",
+            "path": "data.soil.ph",
+            "buckets": [
+              {
+                "id": "acid",
+                "label": "Acid (below 6.0)",
+                "max": 6
+              },
+              {
+                "id": "neutral",
+                "label": "Near neutral (6.0 to 7.5)",
+                "min": 6,
+                "max": 7.5
+              },
+              {
+                "id": "alkaline",
+                "label": "Alkaline (above 7.5)",
+                "min": 7.5
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "hardiness",
+        "label": "Hardiness zone",
+        "kind": "zones",
+        "path": "data.hardiness",
+        "vocab": "zone"
+      },
+      {
+        "id": "waterUse",
+        "label": "Water use",
+        "kind": "value",
+        "path": "data.waterUse",
+        "vocab": "waterUse"
+      },
+      {
+        "id": "tolerates",
+        "label": "Tolerates",
+        "kind": "value",
+        "path": "data.tolerates",
+        "vocab": "tolerates"
+      },
+      {
+        "group": "bloom",
+        "label": "Bloom",
+        "facets": [
+          {
+            "id": "bloomColor",
+            "label": "Color",
+            "kind": "value",
+            "path": "data.bloom.colors",
+            "vocab": "bloomColor"
+          },
+          {
+            "id": "bloomMonth",
+            "label": "Month",
+            "kind": "months",
+            "path": "data.bloom.months",
+            "vocab": "month"
+          },
+          {
+            "id": "bloomSeason",
+            "label": "Season",
+            "kind": "value",
+            "path": "derived.bloomSeasons",
+            "vocab": "season"
+          }
+        ]
+      },
+      {
+        "id": "fallColor",
+        "label": "Fall color",
+        "kind": "value",
+        "path": "data.fallColor",
+        "vocab": "fallColor"
+      },
+      {
+        "id": "wildlife",
+        "label": "Wildlife",
+        "kind": "value",
+        "path": "data.wildlife",
+        "vocab": "wildlife"
+      },
+      {
+        "id": "uses",
+        "label": "Uses",
+        "kind": "value",
+        "path": "data.uses",
+        "vocab": "uses"
+      },
+      {
+        "group": "native",
+        "label": "Native",
+        "facets": [
+          {
+            "id": "nativeStatus",
+            "label": "Status",
+            "kind": "value",
+            "path": "derived.nativeStatus",
+            "vocab": "nativeStatus"
+          },
+          {
+            "id": "nativeTo",
+            "label": "Native to",
+            "kind": "value",
+            "path": "data.nativeRange.states",
+            "vocab": "state"
+          }
+        ]
+      },
+      {
+        "id": "wetland",
+        "label": "Wetland indicator",
+        "kind": "pairs",
+        "path": "data.wetlandIndicator",
+        "keyVocab": "wetlandRegion",
+        "vocab": "wetlandRating"
+      },
+      {
+        "group": "taxonomy",
+        "label": "Family and genus",
+        "facets": [
+          {
+            "id": "family",
+            "label": "Family",
+            "kind": "value",
+            "path": "data.family"
+          },
+          {
+            "id": "genus",
+            "label": "Genus",
+            "kind": "value",
+            "path": "data.genus"
+          }
+        ]
+      }
+    ],
+    "sorts": [
+      {
+        "id": "name",
+        "label": "Botanical name",
+        "path": "derived.sortName"
+      },
+      {
+        "id": "common",
+        "label": "Common name",
+        "path": "data.commonNames.0"
+      },
+      {
+        "id": "height",
+        "label": "Height",
+        "path": "data.height.max"
+      },
+      {
+        "id": "hardiness",
+        "label": "Hardiness (coldest zone)",
+        "path": "derived.hardinessMin"
+      },
+      {
+        "id": "created",
+        "label": "Date added",
+        "path": "meta.createdAt",
+        "descending": true
+      }
+    ],
+    "search": {
+      "boosted": [
+        "name",
+        "data.commonNames",
+        "data.synonyms",
+        "data.tradeName"
+      ],
+      "fields": [
+        "summary",
+        "data.family",
+        "tags",
+        "description"
+      ]
+    }
+  }
+}

@@ -1,0 +1,99 @@
+{
+  "type": "plant",
+  "id": "thuja-plicata",
+  "summary": "A large evergreen conifer for screens and moist sites.",
+  "data": {
+    "genus": "Thuja",
+    "species": "plicata",
+    "commonNames": [
+      "Western redcedar"
+    ],
+    "family": "Cupressaceae",
+    "usdaSymbol": "THPL",
+    "form": "tree",
+    "foliage": "evergreen",
+    "height": {
+      "min": 50,
+      "max": 150
+    },
+    "spread": {
+      "min": 20,
+      "max": 30
+    },
+    "growthRate": "moderate",
+    "sun": [
+      "full-sun",
+      "part-shade",
+      "shade"
+    ],
+    "moisture": [
+      "moist",
+      "wet"
+    ],
+    "hardiness": {
+      "min": "5",
+      "max": "8"
+    },
+    "uses": [
+      "screen"
+    ],
+    "wetlandIndicator": {
+      "WMVC": "FAC"
+    },
+    "nativeRange": {
+      "states": [
+        "WA",
+        "OR",
+        "CA"
+      ],
+      "ecoregions": []
+    },
+    "sources": [
+      {
+        "source": "usda-plants",
+        "url": "https://plants.usda.gov/plant-profile/THPL",
+        "accessed": "2026-11-17",
+        "fields": [
+          "family",
+          "form",
+          "foliage",
+          "height",
+          "spread",
+          "growthRate",
+          "sun",
+          "moisture",
+          "hardiness",
+          "uses",
+          "wetlandIndicator",
+          "nativeRange",
+          "commonNames"
+        ]
+      },
+      {
+        "source": "usda-plants",
+        "url": "https://plants.usda.gov/DocumentLibrary/plantguide/pdf/pg_thpl.pdf",
+        "accessed": "2026-11-17",
+        "fields": [
+          "height"
+        ],
+        "note": "Gives a lower mature height than the profile; the profile's figure is used."
+      }
+    ],
+    "images": [
+      {
+        "file": "assets/images/plant/thuja-plicata/1.jpg",
+        "alt": "Test image 1 standing in for a photograph of western redcedar",
+        "shows": "habit",
+        "credit": "Generated test image",
+        "license": "CC0-1.0",
+        "pinned": true
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-17",
+    "revisedAt": "2026-11-17",
+    "method": "manual",
+    "fixture": true
+  }
+}

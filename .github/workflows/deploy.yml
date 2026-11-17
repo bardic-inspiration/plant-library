@@ -1,0 +1,37 @@
+name: deploy
+
+# Builds the site on every merge to main and keeps it as a workflow artifact.
+# The site is static files: the company copy publishes the same build to its
+# internal web server (docs/workflow.md).
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - run: npm ci
+
+      - run: npm run build
+
+      - name: Check the built site's links
+        run: npm run links
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: site
+          path: site/dist
+          retention-days: 30

@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "sources.schema.json",
+  "title": "Source registry (config/sources.json)",
+  "type": "object",
+  "propertyNames": {
+    "pattern": "^(\\$schema|[a-z0-9]+(-[a-z0-9]+)*)$"
+  },
+  "properties": {
+    "$schema": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "name",
+      "publisher",
+      "kind",
+      "provides",
+      "license",
+      "termsChecked",
+      "citation"
+    ],
+    "properties": {
+      "name": {
+        "type": "string",
+        "minLength": 1
+      },
+      "publisher": {
+        "type": "string",
+        "minLength": 1
+      },
+      "kind": {
+        "enum": [
+          "federal",
+          "state",
+          "local",
+          "university",
+          "botanical-institution",
+          "nonprofit",
+          "professional"
+        ]
+      },
+      "url": {
+        "$ref": "common.schema.json#/$defs/url"
+      },
+      "hosts": {
+        "description": "Hostnames whose URLs belong to this source, for classifying submitted URLs. Defaults to the host of url.",
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "provides": {
+        "type": "array",
+        "minItems": 1,
+        "uniqueItems": true,
+        "items": {
+          "enum": [
+            "names",
+            "traits",
+            "range",
+            "wetland",
+            "images",
+            "boundaries"
+          ]
+        }
+      },
+      "license": {
+        "type": "string",
+        "minLength": 1
+      },
+      "restriction": {
+        "enum": [
+          "non-commercial"
+        ]
+      },
+      "termsUrl": {
+        "$ref": "common.schema.json#/$defs/url"
+      },
+      "termsChecked": {
+        "description": "The date someone read the source's terms. A source can't be registered without it.",
+        "$ref": "common.schema.json#/$defs/date"
+      },
+      "termsSummary": {
+        "type": "string"
+      },
+      "citation": {
+        "description": "How the source asks to be cited. {year} and {accessed} are filled from the entry's citation.",
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "if": {
+      "properties": {
+        "kind": {
+          "not": {
+            "const": "professional"
+          }
+        }
+      }
+    },
+    "then": {
+      "required": [
+        "url",
+        "termsUrl"
+      ]
+    }
+  }
+}

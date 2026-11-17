@@ -1,0 +1,84 @@
+{
+  "type": "plant",
+  "id": "polystichum-munitum",
+  "summary": "An evergreen fern for shade.",
+  "data": {
+    "genus": "Polystichum",
+    "species": "munitum",
+    "commonNames": [
+      "Western swordfern"
+    ],
+    "family": "Dryopteridaceae",
+    "usdaSymbol": "POMU",
+    "form": "fern",
+    "foliage": "evergreen",
+    "height": {
+      "min": 2,
+      "max": 4
+    },
+    "spread": {
+      "min": 3,
+      "max": 4
+    },
+    "sun": [
+      "part-shade",
+      "shade"
+    ],
+    "moisture": [
+      "dry",
+      "moist"
+    ],
+    "hardiness": {
+      "min": "5",
+      "max": "9"
+    },
+    "uses": [
+      "groundcover",
+      "slope"
+    ],
+    "nativeRange": {
+      "states": [
+        "WA",
+        "OR",
+        "CA"
+      ],
+      "ecoregions": []
+    },
+    "sources": [
+      {
+        "source": "usda-plants",
+        "url": "https://plants.usda.gov/plant-profile/POMU",
+        "accessed": "2026-11-17",
+        "fields": [
+          "family",
+          "form",
+          "foliage",
+          "height",
+          "spread",
+          "sun",
+          "moisture",
+          "hardiness",
+          "uses",
+          "nativeRange",
+          "commonNames"
+        ]
+      }
+    ],
+    "images": [
+      {
+        "file": "assets/images/plant/polystichum-munitum/1.jpg",
+        "alt": "Test image 1 standing in for a photograph of western swordfern",
+        "shows": "habit",
+        "credit": "Generated test image",
+        "license": "CC0-1.0",
+        "pinned": true
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-17",
+    "revisedAt": "2026-11-17",
+    "method": "manual",
+    "fixture": true
+  }
+}

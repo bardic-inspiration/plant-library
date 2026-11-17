@@ -16,65 +16,10 @@ sites (nursery catalogs included) are not used for it.
 
 ## Design
 
-### Source registry
-
-`config/sources.json` lists every source an entry may cite. An entry citing
-an unregistered source fails validation.
-
-```json
-"usda-plants": {
-  "name": "USDA PLANTS Database",
-  "publisher": "USDA Natural Resources Conservation Service",
-  "kind": "federal",
-  "url": "https://plants.usda.gov",
-  "provides": ["names", "traits", "range", "wetland"],
-  "license": "public-domain",
-  "termsUrl": "https://plants.usda.gov/assets/docs/PLANTS_Help_Document.pdf",
-  "termsChecked": "2026-11-17",
-  "citation": "USDA, NRCS. {year}. The PLANTS Database (https://plants.usda.gov, {accessed}). National Plant Data Team, Greensboro, NC USA."
-}
-```
-
-`kind` is one of `federal`, `state`, `local`, `university`,
-`botanical-institution`, `nonprofit`, and `professional`, which is only the
-organization's own `staff-observation`
-([submissions.md](submissions.md#professional-opinion)). `provides` says what the source may be
-cited for. `termsChecked` is the date someone read the terms; a source can't
-be registered without it.
-
-### Licensing rules
-
-- **Facts, not text.** Entries record measurements and classifications in
-  our own schema, and descriptions are written in our own words. A source's
-  prose, tables, and layout are never copied.
-- **A source is registered only when its terms allow this reuse.** Federal
-  works are public domain. Anything else needs terms that permit reuse with
-  attribution. A source that forbids redistributing its data is not
-  registered, since this repo is open source; it may still be linked from a
-  plant page under "Further reading".
-- **Non-commercial sources are allowed in the prototype, and flagged.** The
-  prototype is a personal, non-commercial project, so a source or image
-  limited to non-commercial use may be used here. But the entries are meant
-  to be copied into a company tool, where that use ends. So the registry
-  marks such a source `"restriction": "non-commercial"`, an image under an
-  NC license is recognized by its license, and `npm run coverage` lists
-  every entry, field, and image that depends on one. The handover clears or
-  replaces each before commercial use
-  ([repo.md](repo.md#prototype-and-handover)). Prefer an unrestricted source
-  whenever one gives the same fact, so that list stays short.
-- **Images** need an explicit license per file: public domain, CC0, CC BY,
-  CC BY-SA, the NC forms of those (flagged, as above), or the owner's own
-  photographs. No ND licenses, and no image whose license can't be shown.
-- **Each source is cited as it asks.** The registry's `citation` renders on
-  the plant page and the About page.
-
-### Attribution
-
-`ATTRIBUTION.md` and the site's About page are generated from the registry
-and the entries: each cited source with its citation, and each image with
-its credit and license. `LICENSE-CONTENT` states the license of this repo's
-own compilation and prose (CC BY 4.0, as TL); images keep their own
-licenses.
+The source registry, the licensing rules, attribution, and coverage are
+built; see [docs/sources.md](../../docs/sources.md). What remains is the
+survey of sources still to check, the 50-plant fixture set, and the import
+workflow.
 
 ### Source survey
 
@@ -130,6 +75,12 @@ sources for Oregon and California to match the Washington ones above.
 The library starts with 50 plants native to the Pacific Northwest, enough to
 exercise every form, trait, and filter.
 
+- **Blocked so far.** The session that built M1 and M2 couldn't reach
+  USDA PLANTS: its API answered every request with a 504 from its own load
+  balancer, and `plants.usda.gov` redirects to `plants.sc.egov.usda.gov`.
+  No plant is entered until its facts are read from the source. The
+  `plant-import` skill (`.claude/skills/plant-import/SKILL.md`) is the
+  workflow to follow when it is reachable.
 - **Which plants.** The list below is a candidate, chosen for nursery
   availability and a spread of forms and conditions. The fixture task
   confirms each against the King County Native Plant Guide and USDA PLANTS
@@ -183,14 +134,10 @@ company copy. The steps that are already settled:
 
 ## Done when
 
-- `config/sources.json` has a schema, and a test fails an entry that cites
-  an unregistered source or leaves a populated trait uncited.
 - 50 plant entries pass validation with full provenance, and at least 40
   have a pinned image under an allowed license.
-- `ATTRIBUTION.md` and the About page are generated, and a test fails when
-  they are stale.
-- `npm run coverage` lists the unsourced names in the fixture projects, and
-  everything that depends on a non-commercial source or image.
+- `npm run coverage` lists the unsourced names in the fixture projects
+  (the listing itself is built; the fixture projects aren't).
 
 ## Open questions
 

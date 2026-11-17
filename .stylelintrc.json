@@ -1,0 +1,104 @@
+{
+  "rules": {
+    "color-no-hex": true,
+    "color-named": "never",
+    "function-disallowed-list": [
+      "rgb",
+      "rgba",
+      "hsl",
+      "hsla",
+      "hwb",
+      "lab",
+      "lch",
+      "oklab",
+      "oklch",
+      "color"
+    ],
+    "unit-disallowed-list": [
+      [
+        "px",
+        "rem",
+        "em",
+        "ex",
+        "ch",
+        "pt",
+        "pc",
+        "cm",
+        "mm",
+        "in",
+        "q",
+        "vw",
+        "vh",
+        "vmin",
+        "vmax",
+        "dvh",
+        "svh",
+        "lvh",
+        "ms",
+        "s"
+      ],
+      {
+        "ignoreProperties": {
+          "em": [
+            "text-underline-offset"
+          ],
+          "vh": [
+            "min-height"
+          ]
+        },
+        "ignoreMediaFeatureNames": {
+          "rem": [
+            "min-width",
+            "max-width",
+            "width"
+          ]
+        }
+      }
+    ],
+    "declaration-property-value-allowed-list": {
+      "font-family": [
+        "/^var\\(--/",
+        "inherit"
+      ],
+      "font": [
+        "inherit"
+      ],
+      "transition-duration": [
+        "/^var\\(--/"
+      ],
+      "animation-duration": [
+        "/^var\\(--/"
+      ]
+    },
+    "declaration-property-value-disallowed-list": {
+      "transition": [
+        "/\\d(m?s)\\b/"
+      ],
+      "animation": [
+        "/\\d(m?s)\\b/"
+      ]
+    },
+    "no-descending-specificity": null
+  },
+  "overrides": [
+    {
+      "files": [
+        "**/*.astro"
+      ],
+      "customSyntax": "postcss-html"
+    },
+    {
+      "files": [
+        "site/src/styles/tokens/**/*.css"
+      ],
+      "rules": {
+        "color-no-hex": null,
+        "color-named": null,
+        "function-disallowed-list": null,
+        "unit-disallowed-list": null,
+        "declaration-property-value-allowed-list": null,
+        "declaration-property-value-disallowed-list": null
+      }
+    }
+  ]
+}

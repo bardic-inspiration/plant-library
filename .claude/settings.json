@@ -1,0 +1,35 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm ci)",
+      "Bash(npm run validate:*)",
+      "Bash(npm run build:*)",
+      "Bash(npm run check)",
+      "Bash(npm run links)",
+      "Bash(npm run lane:*)",
+      "Bash(npm run coverage:*)",
+      "Bash(npm run attribution:*)",
+      "Bash(npm run pr-summary:*)",
+      "Bash(npm run a11y)",
+      "Bash(npm run snapshots)",
+      "Bash(npm test:*)",
+      "Bash(npx vitest:*)",
+      "Bash(npx tsc --noEmit)",
+      "Bash(git status:*)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)"
+    ]
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/session-start.sh"
+          }
+        ]
+      }
+    ]
+  }
+}

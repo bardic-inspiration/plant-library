@@ -1,0 +1,12 @@
+{
+  "$schema": "../schemas/site.schema.json",
+  "title": "Plant Library",
+  "description": "Plant information for landscape architects in Washington, Oregon, and California.",
+  "base": "/",
+  "fixturesOnly": true,
+  "store": "browser",
+  "basemap": {
+    "file": "basemap/west-coast.pmtiles",
+    "maxZoom": 10
+  }
+}

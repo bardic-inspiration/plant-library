@@ -1,0 +1,175 @@
+/* Global element styles. Only tokens; Stylelint rejects literals here. */
+@layer reset, tokens, base, components, utilities;
+
+@import '@fontsource/montserrat/400.css' layer(base);
+@import '@fontsource/montserrat/400-italic.css' layer(base);
+@import '@fontsource/montserrat/600.css' layer(base);
+@import '@fontsource/montserrat/600-italic.css' layer(base);
+@import '@fontsource/montserrat/800.css' layer(base);
+@import './tokens/primitives.css';
+@import './tokens/semantic.css';
+@import './tokens/components.css';
+@import './tokens/content.css';
+@import './tokens/print.css';
+
+@layer reset {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  body,
+  h1,
+  h2,
+  h3,
+  h4,
+  p,
+  figure,
+  dl,
+  dd,
+  ul,
+  ol {
+    margin: var(--none);
+  }
+
+  ul[role='list'],
+  ol[role='list'] {
+    padding: var(--none);
+    list-style: none;
+  }
+
+  img,
+  svg {
+    display: block;
+    max-width: var(--full);
+  }
+
+  button,
+  input,
+  select,
+  textarea {
+    font: inherit;
+    color: inherit;
+  }
+}
+
+@layer base {
+  html {
+    color: var(--text);
+    background: var(--bg);
+    font-family: var(--font-body);
+    font-size: var(--full);
+    line-height: var(--leading-body);
+    text-size-adjust: none;
+  }
+
+  body {
+    min-height: 100vh;
+    font-weight: var(--weight-body);
+    font-size: var(--size-body);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-heading);
+    font-weight: var(--weight-heading);
+    line-height: var(--leading-tight);
+  }
+
+  h1 {
+    font-size: var(--size-h1);
+  }
+
+  h2 {
+    font-size: var(--size-h2);
+  }
+
+  h3 {
+    font-size: var(--size-h3);
+  }
+
+  p,
+  li {
+    max-width: var(--measure);
+  }
+
+  a {
+    color: inherit;
+    text-decoration-thickness: var(--line);
+    text-underline-offset: 0.2em;
+  }
+
+  a:hover {
+    text-decoration-thickness: var(--line-heavy);
+  }
+
+  :focus-visible {
+    outline: var(--line-focus) solid var(--focus);
+    outline-offset: var(--line-heavy);
+  }
+
+  table {
+    border-collapse: collapse;
+    font-family: var(--font-data);
+    font-size: var(--size-small);
+  }
+
+  th,
+  td {
+    padding: var(--table-pad-y) var(--table-pad-x);
+    border-bottom: var(--border-faint);
+    text-align: left;
+    vertical-align: top;
+  }
+
+  th {
+    font-weight: var(--weight-strong);
+  }
+
+  thead th {
+    border-bottom: var(--border);
+  }
+
+  em,
+  i {
+    font-style: italic;
+  }
+
+  hr {
+    border: var(--none);
+    border-top: var(--border);
+  }
+}
+
+@layer utilities {
+  .visually-hidden {
+    position: absolute;
+    width: var(--line);
+    height: var(--line);
+    padding: var(--none);
+    margin: calc(-1 * var(--line));
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: var(--none);
+  }
+
+  .label {
+    font-size: var(--size-label);
+    font-weight: var(--weight-strong);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+  }
+
+  .muted {
+    color: var(--text-muted);
+  }
+
+  .table-scroll {
+    max-width: var(--full);
+    overflow-x: auto;
+  }
+}

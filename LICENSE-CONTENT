@@ -1,0 +1,15 @@
+Plant Library content license
+
+The compilation of plant, project, and palette data in content/ and the
+prose written for this repository (entry summaries, descriptions, and
+field notes) are licensed under the Creative Commons Attribution 4.0
+International License (CC BY 4.0):
+https://creativecommons.org/licenses/by/4.0/
+
+Facts recorded from third-party sources remain facts; each source is cited
+on the entry and listed in ATTRIBUTION.md. Images under assets/images/
+keep their own licenses, stated per file in the entry that uses them and
+listed in ATTRIBUTION.md.
+
+The code in this repository is licensed separately under the MIT license
+(LICENSE).

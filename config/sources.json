@@ -1,0 +1,38 @@
+{
+  "$schema": "../schemas/sources.schema.json",
+  "usda-plants": {
+    "name": "USDA PLANTS Database",
+    "publisher": "USDA Natural Resources Conservation Service",
+    "kind": "federal",
+    "url": "https://plants.usda.gov",
+    "hosts": [
+      "plants.usda.gov",
+      "plants.sc.egov.usda.gov",
+      "plantsservices.sc.egov.usda.gov"
+    ],
+    "provides": [
+      "names",
+      "traits",
+      "range",
+      "wetland"
+    ],
+    "license": "public-domain",
+    "termsUrl": "https://plants.usda.gov/assets/docs/PLANTS_Help_Document.pdf",
+    "termsChecked": "2026-11-17",
+    "termsSummary": "Plant information, lists, and distribution maps are not copyrighted and are free for any use, with citation. Images vary per file.",
+    "citation": "USDA, NRCS. {year}. The PLANTS Database (https://plants.usda.gov, {accessed}). National Plant Data Team, Greensboro, NC USA."
+  },
+  "staff-observation": {
+    "name": "Staff observation",
+    "publisher": "The organization's own landscape architects",
+    "kind": "professional",
+    "hosts": [],
+    "provides": [
+      "traits"
+    ],
+    "license": "own-work",
+    "termsChecked": "2026-11-17",
+    "termsSummary": "A colleague's own professional observation, cited only for a trait no other registered source gives.",
+    "citation": "Observed by {contributor}, {accessed}."
+  }
+}

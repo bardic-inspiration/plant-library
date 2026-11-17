@@ -1,0 +1,44 @@
+/* Data-driven colors: one accent per plant form and project type, a swatch
+   per bloom color, and the sequential scale for choropleths. Elements carry
+   data-form, data-project-type, or data-bloom; a value with no rule keeps
+   the site accent. */
+@layer tokens {
+  [data-form='tree'] { --accent: var(--p-green); }
+  [data-form='shrub'] { --accent: var(--p-teal); }
+  [data-form='subshrub'] { --accent: var(--p-olive); }
+  [data-form='perennial'] { --accent: var(--p-magenta); }
+  [data-form='graminoid'] { --accent: var(--p-ochre); }
+  [data-form='fern'] { --accent: var(--p-blue); }
+  [data-form='vine'] { --accent: var(--p-purple); }
+  [data-form='bulb'] { --accent: var(--p-vermillion); }
+
+  [data-project-type='park'] { --accent: var(--p-green); }
+  [data-project-type='campus'] { --accent: var(--p-blue); }
+  [data-project-type='streetscape'] { --accent: var(--p-vermillion); }
+  [data-project-type='commercial'] { --accent: var(--p-purple); }
+  [data-project-type='civic'] { --accent: var(--p-magenta); }
+  [data-project-type='stormwater'] { --accent: var(--p-teal); }
+  [data-project-type='restoration'] { --accent: var(--p-olive); }
+  [data-project-type='residential'] { --accent: var(--p-ochre); }
+
+  [data-bloom='white'] { --swatch-fill: var(--p-bloom-white); }
+  [data-bloom='cream'] { --swatch-fill: var(--p-bloom-cream); }
+  [data-bloom='yellow'] { --swatch-fill: var(--p-bloom-yellow); }
+  [data-bloom='orange'] { --swatch-fill: var(--p-bloom-orange); }
+  [data-bloom='red'] { --swatch-fill: var(--p-bloom-red); }
+  [data-bloom='pink'] { --swatch-fill: var(--p-bloom-pink); }
+  [data-bloom='magenta'] { --swatch-fill: var(--p-bloom-magenta); }
+  [data-bloom='purple'] { --swatch-fill: var(--p-bloom-purple); }
+  [data-bloom='blue'] { --swatch-fill: var(--p-bloom-blue); }
+  [data-bloom='green'] { --swatch-fill: var(--p-bloom-green); }
+  [data-bloom='brown'] { --swatch-fill: var(--p-bloom-brown); }
+
+  :root {
+    --scale-0: var(--p-white);
+    --scale-1: var(--p-vermillion-50);
+    --scale-2: var(--p-vermillion-100);
+    --scale-3: var(--p-vermillion-200);
+    --scale-4: var(--p-vermillion-300);
+    --scale-5: var(--p-vermillion-400);
+  }
+}

@@ -1,0 +1,139 @@
+---
+/* Every component in every state, for refinement and snapshots. Not linked in navigation. */
+import Base from '../layouts/Base.astro';
+import { Card } from '../components/ui/PlantCard';
+import { FormBadge } from '../components/ui/Badge';
+import { BloomStrip, Swatch } from '../components/ui/BloomStrip';
+import { Conditions } from '../components/ui/Conditions';
+import { PlantName } from '../components/ui/PlantName';
+import { Icon } from '../components/ui/Icon';
+import { vocabList } from '../lib/vocab';
+import { nameSegments } from '../../../lib/names';
+import type { IndexRecord } from '../../../lib/types';
+
+const forms = vocabList('form');
+const blooms = vocabList('bloomColor');
+const sample = (over: Partial<IndexRecord> & { card?: Record<string, unknown> }): IndexRecord => ({
+  key: 'plant/sample', type: 'plant', id: 'sample', name: 'Sample', summary: 'A sample.', url: '#', facets: {}, tags: {}, refs: [], refBy: [], sort: {}, search: {}, createdAt: '2026-01-01',
+  ...over,
+  card: { commonName: 'Sample', form: 'shrub', ...(over.card ?? {}) },
+});
+const full = sample({
+  nameParts: nameSegments({ genus: 'Acer', species: 'circinatum', cultivar: 'Pacific Fire' }),
+  card: { commonName: 'Vine maple', form: 'tree', height: { min: 10, max: 20 }, spread: { min: 10, max: 20 }, sun: ['full-sun', 'part-shade', 'shade'], moisture: ['moist'], hardiness: { min: '5', max: '9' }, bloomMonths: [4, 5], bloomColors: ['red'], nativeStatus: 'native' },
+});
+const bare = sample({ nameParts: nameSegments({ genus: 'Carex', species: 'obnupta' }), card: { commonName: 'Slough sedge', form: 'graminoid' } });
+const hybrid = sample({ nameParts: nameSegments({ genus: 'Rosa', hybrid: true, cultivar: 'Radrazz', tradeName: 'Knock Out' }), card: { commonName: 'Knock Out rose', form: 'shrub', bloomMonths: [11, 12, 1, 2], bloomColors: ['pink'] } });
+const other = { ...sample({}), type: 'project', name: 'A made-up project', summary: 'A project card with no image.' } as IndexRecord;
+---
+<Base title="Style guide">
+  <div class="guide">
+    <h1>Style guide</h1>
+
+    <section id="type">
+      <h2>Type</h2>
+      <h1>Heading one</h1>
+      <h2>Heading two</h2>
+      <h3>Heading three</h3>
+      <p>Body text at regular weight. <a href="#type">A link</a>. <em>Emphasis</em>. <strong>Strong</strong>.</p>
+      <p class="label">A label</p>
+      <p class="muted">Muted text.</p>
+    </section>
+
+    <section>
+      <h2>Plant names</h2>
+      <ul>
+        <li><PlantName parts={nameSegments({ genus: 'Acer', species: 'circinatum' })} /></li>
+        <li><PlantName parts={nameSegments({ genus: 'Pinus', species: 'contorta', infraRank: 'var.', infraEpithet: 'contorta' })} /></li>
+        <li><PlantName parts={nameSegments({ genus: 'Acer', species: 'circinatum', cultivar: 'Pacific Fire' })} /></li>
+        <li><PlantName parts={nameSegments({ genus: 'Acer', species: 'freemanii', hybrid: true })} /></li>
+        <li><PlantName parts={nameSegments({ genus: 'Rosa', hybrid: true, cultivar: 'Radrazz', tradeName: 'Knock Out' })} /></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Form badges</h2>
+      <p class="row">{forms.map((f) => <FormBadge form={f.id} />)}</p>
+    </section>
+
+    <section>
+      <h2>Bloom colors</h2>
+      <p class="row">{blooms.map((b) => <Swatch color={b.id} label={b.label} />)}</p>
+      <p class="row"><BloomStrip months={[4, 5, 6]} colors={['yellow']} label="Blooms April to June, yellow" /> <BloomStrip months={[11, 12, 1, 2]} colors={['white']} label="Blooms November to February, white" /></p>
+    </section>
+
+    <section>
+      <h2>Conditions</h2>
+      <Conditions sun={['full-sun', 'part-shade', 'shade']} moisture={['dry', 'moist', 'wet']} />
+    </section>
+
+    <section>
+      <h2>Icons</h2>
+      <p class="row"><Icon name="search" /> <Icon name="filter" /> <Icon name="close" /> <Icon name="add" /> <Icon name="external" /> <Icon name="expand" /></p>
+    </section>
+
+    <section>
+      <h2>Cards</h2>
+      <ul role="list" class="grid">
+        <li><Card record={full} /></li>
+        <li><Card record={bare} /></li>
+        <li><Card record={hybrid} /></li>
+        <li><Card record={other} /></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Controls</h2>
+      <p class="row">
+        <button type="button" class="chip">Form: Tree <Icon name="close" /></button>
+        <button type="button" class="link-button">Clear all filters</button>
+        <button type="button" class="filters-toggle"><Icon name="filter" /> Filters (2)</button>
+      </p>
+      <p><label><input type="checkbox" checked /> A checked filter value <span class="count">12</span></label></p>
+      <p><label><input type="checkbox" /> An unchecked filter value <span class="count">0</span></label></p>
+    </section>
+
+    <section>
+      <h2>Table</h2>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th scope="col">Botanical name</th><th scope="col">Common name</th><th scope="col">Qty</th></tr></thead>
+          <tbody>
+            <tr><td><i>Acer circinatum</i></td><td>Vine maple</td><td>24</td></tr>
+            <tr><td><i>Gaultheria shallon</i></td><td>Salal</td><td>120</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+</Base>
+
+<style>
+  .guide {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xl);
+  }
+
+  .guide section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    padding-block-start: var(--space-md);
+    border-block-start: var(--border);
+  }
+
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-sm);
+    max-inline-size: none;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(var(--card-min), var(--full)), 1fr));
+    gap: var(--grid-gap);
+  }
+</style>

@@ -1,7 +1,8 @@
 # v1 stage spec
 
-The design for Plant Library v1. Nothing is built yet, so this folder is the
-whole description of the project. It follows the stage-spec convention of
+The design for Plant Library v1. M1 and M3 are built, and M2 apart from its
+plant data; what exists is described in [`docs/`](../../docs/README.md), and
+this folder holds the rest. It follows the stage-spec convention of
 `ttrpg-library` (TL below): it holds only unbuilt design, and the PR that
 builds a part deletes it here and describes what now exists in `docs/`. The
 stage is finished when only this README is left.
@@ -43,7 +44,7 @@ holds no real project data: projects here are made up, and the fields that
 would be proprietary are left blank. When the prototype is ready, it is
 copied, the copy's ownership passes to the company, and real project data
 goes only into that copy, served from an internal web server
-([repo.md](repo.md#prototype-and-handover)). Everything is designed so the
+([docs/workflow.md](../../docs/workflow.md#the-prototype-and-the-company-copy)). Everything is designed so the
 copy needs configuration and data, not code changes.
 
 ## Principles
@@ -73,12 +74,10 @@ of scope (Goal and Design required).
 
 | File | Covers |
 |---|---|
-| [`repo.md`](repo.md) | Repository layout, tech stack, lanes, CI, docs, what carries over from TL and what doesn't |
-| [`data-model.md`](data-model.md) | Entry envelope, the `plant`, `project`, and `palette` types, derived values, references, validation |
-| [`sources.md`](sources.md) | The source registry, licensing rules, the source survey, the 50-plant fixture set, the import workflow |
-| [`library.md`](library.md) | The list view, filter tree, detail pages, links, the palette workspace, compatibility, exports |
-| [`map.md`](map.md) | The map view, the map engine, basemap, overlays, region filters, distribution analysis |
-| [`styling.md`](styling.md) | Visual direction, tokens, type, color, accessibility |
+| [`data-model.md`](data-model.md) | The `project` and `palette` types, plant lists, derived use and geography, their validation |
+| [`sources.md`](sources.md) | The source survey, the 50-plant fixture set, the import workflow |
+| [`library.md`](library.md) | Project and palette pages and cards, cross-type filters, the palette workspace, compatibility, exports |
+| [`map.md`](map.md) | The map view, the map engine, basemap and its style from tokens, overlays, region filters, distribution analysis |
 | [`submissions.md`](submissions.md) | Contribution forms, the submission format, stores, the `integrate` skill and routine, professional opinion |
 
 ## Milestones
@@ -89,9 +88,9 @@ for it.
 
 | | Milestone | Builds |
 |---|---|---|
-| M1 | Skeleton | `repo.md`: tooling, lanes, CI, deploy, docs skeleton, an empty site that builds |
-| M2 | Plants | `data-model.md` plant type and validation; `sources.md` registry and the 50-plant fixture set |
-| M3 | Library | `library.md` list view, filter tree, search, plant detail pages; `styling.md` |
+| M1 | Skeleton | Built: tooling, lanes, CI, deploy, docs, the site ([docs/workflow.md](../../docs/workflow.md)) |
+| M2 | Plants | Built: the plant type, validation, the source registry. Still to do: the 50-plant fixture set in `sources.md`, blocked on reaching USDA PLANTS |
+| M3 | Library | Built: list view, filter tree, search, plant pages, styling ([docs/site.md](../../docs/site.md)) |
 | M4 | Projects | `data-model.md` project type and geography derivation; project pages; plant and project links |
 | M5 | Map | `map.md` map view, overlays, region filters |
 | M6 | Palettes | `data-model.md` palette type; `library.md` workspace, compatibility, exports |
@@ -111,16 +110,16 @@ listed here so the owner can overrule it in review.
 - **A project's plant list may name a plant the library doesn't hold yet**,
   as plain text, so real plant lists can be entered before every species is
   sourced ([data-model.md](data-model.md#references)).
-- **Feet and US units are stored**; the site can show metric
-  ([data-model.md](data-model.md#plant)).
+- **Feet and US units are stored**; the site shows metric beside them
+  ([docs/content-model.md](../../docs/content-model.md#plant)).
 - **MapLibre GL JS with PMTiles** powers the map ([map.md](map.md#engine)).
-- **No dark theme** ([styling.md](styling.md#color)).
+- **No dark theme** ([docs/styling.md](../../docs/styling.md)).
 - **Professional opinion is kept beside published facts, not over them**:
   field notes, and a `staff-observation` source for traits no source covers
   ([submissions.md](submissions.md#professional-opinion)).
 - **Sources with a non-commercial restriction may be used in the
   prototype, flagged**, so they can be found and cleared before commercial
-  use ([sources.md](sources.md#licensing-rules)).
+  use ([docs/sources.md](../../docs/sources.md#licensing-rules)).
 
 ## Open questions
 

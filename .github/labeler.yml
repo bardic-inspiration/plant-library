@@ -1,0 +1,18 @@
+# Area labels by path (docs/workflow.md). Mirrors areaLabels() in lib/lane.ts.
+ui:
+  - changed-files:
+      - any-glob-to-any-file: 'site/**'
+data:
+  - changed-files:
+      - any-glob-to-any-file: ['schemas/**', 'config/**', 'lib/**']
+map:
+  - changed-files:
+      - any-glob-to-any-file: ['geo/**', 'site/src/**/*[Mm]ap*']
+ci:
+  - changed-files:
+      - any-glob-to-any-file: '.github/**'
+migration:
+  - all:
+      - head-branch: ['^dev/']
+      - changed-files:
+          - any-glob-to-any-file: ['content/**', 'assets/images/**']

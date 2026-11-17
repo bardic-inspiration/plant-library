@@ -1,0 +1,98 @@
+{
+  "type": "plant",
+  "id": "garrya-elliptica",
+  "summary": "A coastal evergreen shrub with long winter catkins.",
+  "data": {
+    "genus": "Garrya",
+    "species": "elliptica",
+    "commonNames": [
+      "Wavyleaf silktassel"
+    ],
+    "family": "Garryaceae",
+    "usdaSymbol": "GAEL",
+    "form": "shrub",
+    "foliage": "evergreen",
+    "height": {
+      "min": 10,
+      "max": 20
+    },
+    "spread": {
+      "min": 10,
+      "max": 15
+    },
+    "sun": [
+      "full-sun",
+      "part-shade"
+    ],
+    "moisture": [
+      "dry"
+    ],
+    "hardiness": {
+      "min": "8",
+      "max": "10"
+    },
+    "tolerates": [
+      "drought",
+      "wind",
+      "salt"
+    ],
+    "bloom": {
+      "colors": [
+        "green"
+      ],
+      "months": {
+        "start": 12,
+        "end": 2
+      }
+    },
+    "uses": [
+      "screen"
+    ],
+    "nativeRange": {
+      "states": [
+        "OR",
+        "CA"
+      ],
+      "ecoregions": []
+    },
+    "sources": [
+      {
+        "source": "usda-plants",
+        "url": "https://plants.usda.gov/plant-profile/GAEL",
+        "accessed": "2026-11-17",
+        "fields": [
+          "family",
+          "form",
+          "foliage",
+          "height",
+          "spread",
+          "sun",
+          "moisture",
+          "hardiness",
+          "tolerates",
+          "uses",
+          "nativeRange",
+          "bloom.colors",
+          "bloom.months",
+          "commonNames"
+        ]
+      }
+    ],
+    "images": [
+      {
+        "file": "assets/images/plant/garrya-elliptica/1.jpg",
+        "alt": "Test image 1 standing in for a photograph of wavyleaf silktassel",
+        "shows": "habit",
+        "credit": "Generated test image",
+        "license": "CC0-1.0",
+        "pinned": true
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-17",
+    "revisedAt": "2026-11-17",
+    "method": "manual",
+    "fixture": true
+  }
+}

@@ -1,0 +1,52 @@
+---
+import Base from '../layouts/Base.astro';
+import Library from '../islands/Library.tsx';
+import { Card } from '../components/ui/PlantCard';
+import { buildData } from '../../../lib/build-data';
+
+const { index } = buildData();
+const records = [...index.records].sort((a, b) => String(a.sort.name).localeCompare(String(b.sort.name)));
+---
+<Base current="library" title="Library">
+  <h1 class="page-title">Library</h1>
+  <p class="intro">
+    Trees, shrubs, and perennials for public-realm landscapes in Washington, Oregon, and California.
+    Look plants up by name or by what the site needs.
+  </p>
+  <Library client:only="preact" />
+  <section id="library-fallback" aria-labelledby="all-heading">
+    <h2 id="all-heading" class="results-count">Every entry ({records.length})</h2>
+    {records.length === 0 ? (
+      <p>The library has no entries yet.</p>
+    ) : (
+      <ul role="list" class="card-grid">
+        {records.map((r) => <li><Card record={r} /></li>)}
+      </ul>
+    )}
+  </section>
+</Base>
+
+<style>
+  .page-title {
+    margin-block-end: var(--space-xs);
+  }
+
+  .intro {
+    margin-block-end: var(--space-lg);
+  }
+
+  #library-fallback {
+    margin-block-start: var(--space-lg);
+  }
+
+  #library-fallback .results-count {
+    font-size: var(--size-h3);
+    margin-block-end: var(--space-md);
+  }
+
+  #library-fallback .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(var(--card-min), var(--full)), 1fr));
+    gap: var(--grid-gap);
+  }
+</style>

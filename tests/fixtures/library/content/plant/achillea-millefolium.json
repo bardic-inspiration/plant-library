@@ -1,0 +1,94 @@
+{
+  "type": "plant",
+  "id": "achillea-millefolium",
+  "summary": "A tough perennial for meadows and dry, sunny ground.",
+  "data": {
+    "genus": "Achillea",
+    "species": "millefolium",
+    "commonNames": [
+      "Common yarrow"
+    ],
+    "family": "Asteraceae",
+    "usdaSymbol": "ACMI2",
+    "form": "perennial",
+    "foliage": "deciduous",
+    "height": {
+      "min": 1,
+      "max": 3
+    },
+    "spread": {
+      "min": 1,
+      "max": 2
+    },
+    "growthRate": "fast",
+    "sun": [
+      "full-sun"
+    ],
+    "moisture": [
+      "dry",
+      "moist"
+    ],
+    "hardiness": {
+      "min": "3",
+      "max": "9"
+    },
+    "tolerates": [
+      "drought",
+      "deer"
+    ],
+    "bloom": {
+      "colors": [
+        "white"
+      ],
+      "months": {
+        "start": 5,
+        "end": 9
+      }
+    },
+    "wildlife": [
+      "pollinators"
+    ],
+    "uses": [
+      "meadow"
+    ],
+    "nativeRange": {
+      "states": [
+        "WA",
+        "OR",
+        "CA"
+      ],
+      "ecoregions": []
+    },
+    "sources": [
+      {
+        "source": "usda-plants",
+        "url": "https://plants.usda.gov/plant-profile/ACMI2",
+        "accessed": "2026-11-17",
+        "fields": [
+          "family",
+          "form",
+          "foliage",
+          "height",
+          "spread",
+          "growthRate",
+          "sun",
+          "moisture",
+          "hardiness",
+          "tolerates",
+          "wildlife",
+          "uses",
+          "nativeRange",
+          "bloom.colors",
+          "bloom.months",
+          "commonNames"
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-17",
+    "revisedAt": "2026-11-17",
+    "method": "manual",
+    "fixture": true
+  }
+}
