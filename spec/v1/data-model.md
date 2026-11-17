@@ -26,7 +26,8 @@ match its `type` and `id`. Every entry has:
 | `data` | The type's technical data, validated strictly by `schemas/<type>.schema.json`; unknown keys fail |
 | `description` | Optional prose in the markdown subset, in our own words |
 | `tags` | Optional open organization: a flat map, every key a filter |
-| `meta` | `createdAt`, `revisedAt`, how the entry was made (`import` or `manual`), and `fixture` for made-up test data |
+| `fieldNotes` | Optional attributed professional observations ([submissions.md](submissions.md#professional-opinion)) |
+| `meta` | `createdAt`, `revisedAt`, how the entry was made (`import`, `manual`, or `submission`), `submissions` (the ids of the submissions it drew on), and `fixture` for made-up test data |
 
 Unknown top-level keys are rejected. IDs are lowercase ASCII slugs, unique
 within a type, and never change after merge.
@@ -127,7 +128,9 @@ are TL's: warn above 500 KB, fail above 2 MB.
 `source` must be in the registry ([sources.md](sources.md#source-registry)).
 Every populated trait, plus `family`, must appear in the `fields` of at least
 one source. When sources disagree, the entry records one value and the PR
-says which source won and why.
+says which source won and why. A colleague's own observation is cited to the
+`staff-observation` source, and only for a trait no other source gives
+([submissions.md](submissions.md#professional-opinion)).
 
 ### Project
 
@@ -176,9 +179,9 @@ conifers").
 | `site` | optional object | The conditions the palette is for: any of `sun`, `moisture`, `soil.drainage`, `hardinessZone`, and `location` (`{ lat, lon }`, from which the zone is derived when not given) |
 | `plantList` | array | The same item shape as a project's; `quantity` is optional |
 
-Palettes are made in the site's workspace and become entries only by
-downloading the JSON and committing it
-([library.md](library.md#palette-workspace)).
+Palettes are made in the site's workspace
+([library.md](library.md#palette-workspace)) and become entries by being
+submitted and merged ([submissions.md](submissions.md#forms)).
 
 ### References
 

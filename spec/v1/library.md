@@ -22,11 +22,12 @@ P10).
 | `/map/` | The Library, map view ([map.md](map.md)) |
 | `/plant/<id>/`, `/project/<id>/`, `/palette/<id>/` | Detail pages |
 | `/workspace/` | The palette workspace |
+| `/contribute/` | The contribution forms and My submissions ([submissions.md](submissions.md#forms)) |
 | `/print/` | Print view for a plant list or a set of entries |
 | `/about/` | What the library is, sources, licenses, attribution |
 | `/styleguide/` | Every component state, not linked in navigation |
 
-The top bar reads **Library | Map | Workspace | About**. Library and Map are
+The top bar reads **Library | Map | Workspace | Contribute | About**. Library and Map are
 two views of one result set: switching between them keeps the query string.
 
 ### Index
@@ -105,7 +106,9 @@ Ecology (native status and range, wetland indicator, wildlife), and Uses.
 Then Used on: its projects with quantity and year, a small map of them, and
 totals by state. Then Often planted with (derived companions). Then Sources:
 each cited source with its link, access date, and the fields it supports,
-and Further reading. Cultivars of the same species link to each other and to
+and Further reading. Then Field notes, each with its author, role, and
+date. The page carries "Add photo", "Suggest an edit", and "Add field note".
+Cultivars of the same species link to each other and to
 the species.
 
 **Project.** Name, place and state, a location map, and the facts table
@@ -153,9 +156,9 @@ account.
   chosen listed first.
 - **Keeping it.** The working list is saved in the browser's local storage,
   and several named lists can be kept. A list can be shared as a URL that
-  encodes it, exported ([Exports](#exports)), or downloaded as a palette
-  entry file to commit through a content PR, which is the only way a list
-  becomes part of the library (P1).
+  encodes it, exported ([Exports](#exports)), or submitted to the library
+  ([submissions.md](submissions.md#forms)); it becomes an entry only when
+  that submission's PR is merged (P1).
 
 ### Compatibility
 

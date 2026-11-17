@@ -36,7 +36,9 @@ an unregistered source fails validation.
 ```
 
 `kind` is one of `federal`, `state`, `local`, `university`,
-`botanical-institution`, `nonprofit`. `provides` says what the source may be
+`botanical-institution`, `nonprofit`, and `professional`, which is only the
+organization's own `staff-observation`
+([submissions.md](submissions.md#professional-opinion)). `provides` says what the source may be
 cited for. `termsChecked` is the date someone read the terms; a source can't
 be registered without it.
 
@@ -192,15 +194,14 @@ company copy. The steps that are already settled:
 
 ## Open questions
 
-- **PDF plant lists.** How a PDF becomes a project entry: who transcribes it
-  (a session reading the PDF, or a script), and how schedule
+- **PDF plant lists.** A plant list file arrives attached to an "Add
+  project" submission ([submissions.md](submissions.md#forms)) and the
+  `integrate` routine transcribes it. Still open: how schedule
   abbreviations and misspellings are matched to plants. Steps 1 to 3 above
   don't depend on the answer.
 - **Images.** Whether openly licensed photographs exist for every plant at
   usable quality, or the owner will supply their own; and how many images a
   plant may have before the repo gets too heavy.
-- **Disagreeing sources.** Whether an entry should be able to record a
-  second value with its source instead of choosing one.
 
 ## Out of scope
 

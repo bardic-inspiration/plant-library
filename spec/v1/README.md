@@ -17,6 +17,9 @@ A static site, built from files in this repo, for landscape architects:
 - **Track use**: which plants went on which projects, and where.
 - **See it on a map**: projects, regions, and how a plant's use is
   distributed across them.
+- **Contribute**: colleagues add photos, projects, corrections, and their
+  professional opinion through forms. A routine checks each submission and
+  integrates it through a pull request.
 
 ### Subject matter and scope
 
@@ -50,7 +53,7 @@ Carried from TL's `docs/decisions.md`, renumbered, with two that are new here
 
 | | Principle | Meaning |
 |---|---|---|
-| P1 | Files are the database | One JSON file per entry, reviewed as a diff. Static build on GitHub Actions, served as static files; no runtime services, accounts, or in-browser editing of the library. |
+| P1 | Files are the database | One JSON file per entry, reviewed as a diff. Static build on GitHub Actions, served as static files; no runtime services, accounts, or in-browser editing of the library. Contributions arrive as submissions and enter by a PR. |
 | P2 | Fail closed | Technical data is strict: an unknown key or malformed value fails CI. Tags stay open. |
 | P3 | One source per fact | Each value is stored once. Anything computable (display names, a project's county, how often a plant is used) is derived at build, never stored. |
 | P4 | Configuration over code | A new type, facet, map overlay, or data source is a data or file addition. |
@@ -76,6 +79,7 @@ of scope (Goal and Design required).
 | [`library.md`](library.md) | The list view, filter tree, detail pages, links, the palette workspace, compatibility, exports |
 | [`map.md`](map.md) | The map view, the map engine, basemap, overlays, region filters, distribution analysis |
 | [`styling.md`](styling.md) | Visual direction, tokens, type, color, accessibility |
+| [`submissions.md`](submissions.md) | Contribution forms, the submission format, stores, the `integrate` skill and routine, professional opinion |
 
 ## Milestones
 
@@ -91,7 +95,8 @@ for it.
 | M4 | Projects | `data-model.md` project type and geography derivation; project pages; plant and project links |
 | M5 | Map | `map.md` map view, overlays, region filters |
 | M6 | Palettes | `data-model.md` palette type; `library.md` workspace, compatibility, exports |
-| M7 | Analysis | `map.md` distribution analysis; the import workflow in `sources.md` once its questions are settled |
+| M7 | Contributions | `submissions.md`: forms, the browser store, the inbox script, field notes, the `integrate` skill |
+| M8 | Analysis | `map.md` distribution analysis |
 
 Each milestone starts with a pilot on its hardest cases, which is expected to
 turn up amendments to this spec.
@@ -110,6 +115,9 @@ listed here so the owner can overrule it in review.
   ([data-model.md](data-model.md#plant)).
 - **MapLibre GL JS with PMTiles** powers the map ([map.md](map.md#engine)).
 - **No dark theme** ([styling.md](styling.md#color)).
+- **Professional opinion is kept beside published facts, not over them**:
+  field notes, and a `staff-observation` source for traits no source covers
+  ([submissions.md](submissions.md#professional-opinion)).
 - **Sources with a non-commercial restriction may be used in the
   prototype, flagged**, so they can be found and cleared before commercial
   use ([sources.md](sources.md#licensing-rules)).
@@ -120,3 +128,5 @@ Collected from the area files; no part with an open question is built.
 
 1. The PDF plant-list import workflow. ([sources.md](sources.md#open-questions))
 2. Image sourcing. ([sources.md](sources.md#open-questions))
+3. At handover: how the browser writes to the server folder, and where the
+   routine runs. ([submissions.md](submissions.md#open-questions))

@@ -32,9 +32,11 @@ PR, CI enforces the rules, and `main` is always complete (P1, P8, P11).
 
 - **Rulesets**: `rulesets/`, derived rules values, text tokens other than
   `{ref:…}`, rules pages, primitives, components, and the wording layer.
-- **Routines**: `docs/routines.md`, the `generate` and `revise` skills, the
-  request and revise issue templates, gap fill, and the routine labels.
-  Content is added in sessions the owner starts.
+- **TL's routines**: the `generate` and `revise` skills, the request and
+  revise issue templates, gap fill, and the routine labels. Nothing here
+  generates content. The one routine integrates what people submit
+  ([submissions.md](submissions.md#the-integrate-skill)); other content is
+  added in sessions the owner starts.
 - **SRD material**: the blocklist, SRD import, `srd-coverage`, `srd-extract`,
   and SRD attribution. Attribution here is per source
   ([sources.md](sources.md#attribution)).
@@ -107,13 +109,14 @@ content/plant/<id>.json            plants
 content/project/<id>.json          projects
 content/palette/<id>.json          saved palettes
 assets/images/plant/<id>/<n>.*     plant images
-schemas/                           envelope and one schema per type
+schemas/                           envelope, one schema per type, submission
 config/                            types.json, sources.json, overlays.json, vocab.json, site.json
 geo/                               boundary data for derivation and overlays (map.md)
 lib/                               helpers shared by scripts and the site
                                    (names, derive, compat, geo, site base)
-scripts/                           validate, build-index, coverage, links, lane,
-                                   pr-summary, serve, a11y, snapshots
+scripts/                           validate, build-index, coverage, inbox, links,
+                                   lane, pr-summary, serve, a11y, snapshots
+inbox/, processed/                 submissions unpacked locally; git-ignored
 site/                              the Astro project
 tests/                             Vitest suites and fixtures
 docs/                              what is built (README.md is the index)
@@ -125,14 +128,15 @@ AGENTS.md, CLAUDE.md, README.md, LICENSE, LICENSE-CONTENT, ATTRIBUTION.md
 npm scripts: `validate`, `build:index`, `build`, `dev`, `check`, `links`,
 `test`, `a11y`, `snapshots` as in TL, plus `coverage`, which lists the plants
 that projects and palettes name but the library lacks
-([sources.md](sources.md#import-workflow)).
+([sources.md](sources.md#import-workflow)), and `inbox`, which unpacks and
+checks submissions ([submissions.md](submissions.md#mechanical-checks)).
 
 ### Lanes
 
 | | Content lane | Dev lane |
 |---|---|---|
 | Paths | `content/**`, `assets/images/**` | Everything else; content paths only as a migration |
-| Branch prefix | `content/<short-description>` | `dev/<short-description>`, `dependabot/` |
+| Branch prefix | `content/<short-description>`; `content/sub-<id>` for a submission | `dev/<short-description>`, `dependabot/` |
 | Before a push | `npm run validate`, `npm run build` | Those, then `npm run check` and `npm test` |
 | PR template | `content.md` | `dev.md` |
 
@@ -157,7 +161,7 @@ Area labels, added by the labeler from paths: `ui` (`site/**`), `data`
 
 `docs/README.md` (index and conventions), `architecture.md`,
 `content-model.md`, `sources.md`, `site.md`, `map.md`, `styling.md`,
-`workflow.md`, `decisions.md` (the principles in this spec's README, then one
+`submissions.md`, `routines.md`, `workflow.md`, `decisions.md` (the principles in this spec's README, then one
 row per decision).
 
 ### Skills
@@ -166,6 +170,8 @@ row per decision).
 - `plant-import`: the session workflow for adding plants from registered
   sources, written with the import workflow
   ([sources.md](sources.md#import-workflow)).
+- `integrate`: checks submissions and opens their PRs
+  ([submissions.md](submissions.md#the-integrate-skill)).
 
 ## Done when
 
@@ -185,4 +191,5 @@ go to a Testing backlog issue, not a milestone.
 
 ## Out of scope
 
-Scheduled routines, a backend, user accounts, and submissions from the site.
+A backend, user accounts, and any change to the library that isn't a pull
+request.
