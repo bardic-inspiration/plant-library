@@ -26,7 +26,7 @@ match its `type` and `id`. Every entry has:
 | `data` | The type's technical data, validated strictly by `schemas/<type>.schema.json`; unknown keys fail |
 | `description` | Optional prose in the markdown subset, in our own words |
 | `tags` | Optional open organization: a flat map, every key a filter |
-| `meta` | `createdAt`, `revisedAt`, and how the entry was made (`import` or `manual`) |
+| `meta` | `createdAt`, `revisedAt`, how the entry was made (`import` or `manual`), and `fixture` for made-up test data |
 
 Unknown top-level keys are rejected. IDs are lowercase ASCII slugs, unique
 within a type, and never change after merge.
@@ -135,19 +135,21 @@ says which source won and why.
 |---|---|---|
 | `name` | envelope | |
 | `landscapeArchitect` | string | The landscape architect of record (firm) |
-| `client` | string | |
+| `client` | string | Optional; proprietary |
 | `location` | `{ lat, lon }` | WGS 84, decimal degrees, at most 5 decimal places. Must fall inside WA, OR, or CA. |
 | `projectType` | enum | `park`, `campus`, `streetscape`, `commercial`, `civic`, `stormwater`, `restoration`, `residential` |
 | `sizeAcres` | number | |
-| `constructionBudget` | integer | Landscape construction, US dollars, not adjusted for inflation |
+| `constructionBudget` | integer | Optional; proprietary. Landscape construction, US dollars, not adjusted for inflation |
 | `status` | enum | `proposed`, `constructed` |
 | `completed` | `YYYY`, `YYYY-MM`, or `YYYY-MM-DD` | Required when `constructed`; an expected date when `proposed` |
 | `plantList` | array | See below |
 
-All of these but `plantList` are required. Project data is the
-organization's property; the repo and site are private
-([repo.md](repo.md#hosting)), so real clients, budgets, and locations are
-stored as they are.
+`client` and `constructionBudget` are the proprietary fields: optional in
+the schema, left blank in this repo, and filled only in the company copy
+([repo.md](repo.md#prototype-and-handover)). Everything that reads them
+(cards, filters, `costPerAcre`) copes with their absence. The other fields
+are required. Projects in this repo are made up and carry
+`meta.fixture: true`.
 
 No state, county, or town is stored; they are derived from `location` (P6).
 
@@ -232,6 +234,8 @@ the point, or absent.
 - provenance: registered sources, and every populated trait covered;
 - images: file exists, size limits, exactly one pinned, credit and an allowed
   license present;
+- with `fixturesOnly` on, every project and palette a fixture with the
+  proprietary fields blank;
 - a project's `location` inside the scope states, and `completed` present
   when `constructed`;
 - every ref resolving, and `{ref:…}` tokens only in markdown-subset fields;

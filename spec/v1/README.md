@@ -29,17 +29,19 @@ A static site, built from files in this repo, for landscape architects:
 - Public-realm use first: parks, campuses, streets, commercial landscapes,
   stormwater, and restoration.
 
-### Private
-
-The repo and the site are private, for the organization's own use. Project
-data (clients, budgets, locations, plant lists) is the organization's
-property and is never published. This is decided; it sets how the site is
-hosted ([repo.md](repo.md#hosting)) and how third-party sources are judged
-([sources.md](sources.md#licensing-rules)).
-
 Out of scope for v1: annuals, turf, edibles, houseplants, pest and disease
 data, nursery pricing and availability, and any region outside the three
 states.
+
+### Prototype first
+
+This repo is the owner's personal, open source prototype, MIT licensed. It
+holds no real project data: projects here are made up, and the fields that
+would be proprietary are left blank. When the prototype is ready, it is
+copied, the copy's ownership passes to the company, and real project data
+goes only into that copy, served from an internal web server
+([repo.md](repo.md#prototype-and-handover)). Everything is designed so the
+copy needs configuration and data, not code changes.
 
 ## Principles
 
@@ -108,14 +110,13 @@ listed here so the owner can overrule it in review.
   ([data-model.md](data-model.md#plant)).
 - **MapLibre GL JS with PMTiles** powers the map ([map.md](map.md#engine)).
 - **No dark theme** ([styling.md](styling.md#color)).
-- **Sources with a non-commercial restriction are not used** unless the owner
-  clears one ([sources.md](sources.md#licensing-rules)).
+- **Sources with a non-commercial restriction may be used in the
+  prototype, flagged**, so they can be found and cleared before commercial
+  use ([sources.md](sources.md#licensing-rules)).
 
 ## Open questions
 
 Collected from the area files; no part with an open question is built.
 
-1. Where the private site is hosted. ([repo.md](repo.md#open-questions))
-2. How deep must the basemap zoom? ([map.md](map.md#open-questions))
-3. The PDF plant-list import workflow. ([sources.md](sources.md#open-questions))
-4. Image sourcing and hosting limits. ([sources.md](sources.md#open-questions))
+1. The PDF plant-list import workflow. ([sources.md](sources.md#open-questions))
+2. Image sourcing. ([sources.md](sources.md#open-questions))

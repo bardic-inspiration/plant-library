@@ -47,14 +47,22 @@ be registered without it.
   prose, tables, and layout are never copied.
 - **A source is registered only when its terms allow this reuse.** Federal
   works are public domain. Anything else needs terms that permit reuse with
-  attribution. The library is a private tool used in professional practice,
-  which is commercial use, so a source that allows only non-commercial use
-  is not registered unless its owner gives permission. Neither is one that
-  forbids copying its data into another database. Either may still be linked
-  from a plant page under "Further reading" without being cited for data.
+  attribution. A source that forbids redistributing its data is not
+  registered, since this repo is open source; it may still be linked from a
+  plant page under "Further reading".
+- **Non-commercial sources are allowed in the prototype, and flagged.** The
+  prototype is a personal, non-commercial project, so a source or image
+  limited to non-commercial use may be used here. But the entries are meant
+  to be copied into a company tool, where that use ends. So the registry
+  marks such a source `"restriction": "non-commercial"`, an image under an
+  NC license is recognized by its license, and `npm run coverage` lists
+  every entry, field, and image that depends on one. The handover clears or
+  replaces each before commercial use
+  ([repo.md](repo.md#prototype-and-handover)). Prefer an unrestricted source
+  whenever one gives the same fact, so that list stays short.
 - **Images** need an explicit license per file: public domain, CC0, CC BY,
-  or CC BY-SA, or the owner's own photographs. No NC or ND licenses, and no
-  image whose license can't be shown.
+  CC BY-SA, the NC forms of those (flagged, as above), or the owner's own
+  photographs. No ND licenses, and no image whose license can't be shown.
 - **Each source is cited as it asks.** The registry's `citation` renders on
   the plant page and the About page.
 
@@ -62,10 +70,9 @@ be registered without it.
 
 `ATTRIBUTION.md` and the site's About page are generated from the registry
 and the entries: each cited source with its citation, and each image with
-its credit and license. The site is private, but attribution is kept as if
-it weren't: the licenses require it wherever the material is used, and it is
-how a reader checks a fact. The library's own compilation, prose, and
-project data are proprietary and carry no open license.
+its credit and license. `LICENSE-CONTENT` states the license of this repo's
+own compilation and prose (CC BY 4.0, as TL); images keep their own
+licenses.
 
 ### Source survey
 
@@ -78,8 +85,8 @@ registered.
 | Source | Use for | Terms |
 |---|---|---|
 | USDA PLANTS Database | Accepted names and symbols, family, native status by state, wetland indicator status, and the Characteristics data (height, bloom period, flower color, moisture use, shade tolerance, soil texture, pH, minimum temperature) where a species has it | Plant information, lists, and distribution maps are not copyrighted and are free for any use, with citation. Images vary per file. |
-| GBIF | Occurrence records for native range, later | Every dataset is CC0, CC BY, or CC BY-NC; use only the first two, and cite the download DOI |
-| Calflora | California occurrence and status data | Contributed public data is dedicated CC0; photos default to CC BY-NC, so not for images |
+| GBIF | Occurrence records for native range, later | Every dataset is CC0, CC BY, or CC BY-NC; prefer the first two, and cite the download DOI |
+| Calflora | California occurrence and status data | Contributed public data is dedicated CC0; photos default to CC BY-NC, so flagged if used |
 
 **Check terms, then register** (expected to be usable):
 
@@ -105,15 +112,12 @@ registered.
 | World Flora Online, ITIS | Accepted names and synonyms |
 | Wikimedia Commons, iNaturalist | Images, per-file license only |
 
-**Not usable as data sources as their terms stand:**
+**Restricted:**
 
-| Source | Why |
-|---|---|
-| Calscape (California Native Plant Society) | Non-commercial use only; commercial use needs written consent |
-| OregonFlora | Asks that data not be redistributed without the data owners' permission |
-
-Both may be linked as further reading, and either can be registered if its
-owner gives permission.
+| Source | Terms | Here |
+|---|---|---|
+| Calscape (California Native Plant Society) | Non-commercial use only; commercial use needs written consent | May be registered, flagged non-commercial |
+| OregonFlora | Asks that data not be redistributed without the data owners' permission | Not registered; further reading only, unless its owners give permission |
 
 The survey continues as a build task: read each remaining source's terms,
 register the ones that pass, and add county, city, and botanical garden
@@ -155,14 +159,16 @@ quamash, Carex obnupta, Deschampsia cespitosa, Dicentra formosa, Fragaria
 chiloensis, Iris tenax, Juncus ensifolius, Polystichum munitum, Sisyrinchium
 idahoense, Struthiopteris spicant, Tellima grandiflora.
 
-Alongside them, three to five fixture projects and two palettes, invented and
-clearly named as fixtures, spread across the three states, so the project
+Alongside them, about a dozen made-up projects and a few palettes, marked
+as fixtures, spread across the three states and the project types, so the project
 pages, the map, and the analysis have data before real projects arrive.
 
 ### Import workflow
 
-The owner plans to fill the library from real projects' plant lists. The
-steps that are already settled:
+The owner plans to fill the library from real projects' plant lists. In
+this repo only the species come across: the plants a real list names are
+sourced and added, while the project itself, and its PDF, stay out until the
+company copy. The steps that are already settled:
 
 1. A project entry is written from a plant list, with every plant the
    library holds as a ref and the rest as text
@@ -181,18 +187,18 @@ steps that are already settled:
   have a pinned image under an allowed license.
 - `ATTRIBUTION.md` and the About page are generated, and a test fails when
   they are stale.
-- `npm run coverage` lists the unsourced names in the fixture projects.
+- `npm run coverage` lists the unsourced names in the fixture projects, and
+  everything that depends on a non-commercial source or image.
 
 ## Open questions
 
 - **PDF plant lists.** How a PDF becomes a project entry: who transcribes it
-  (a session reading the PDF, or a script), whether the PDFs are kept in the
-  private repo as the record an entry was made from, and how schedule
+  (a session reading the PDF, or a script), and how schedule
   abbreviations and misspellings are matched to plants. Steps 1 to 3 above
   don't depend on the answer.
 - **Images.** Whether openly licensed photographs exist for every plant at
   usable quality, or the owner will supply their own; and how many images a
-  plant may have before the repo and the site get too heavy for the host.
+  plant may have before the repo gets too heavy.
 - **Disagreeing sources.** Whether an entry should be able to record a
   second value with its source instead of choosing one.
 

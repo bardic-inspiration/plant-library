@@ -63,19 +63,42 @@ PR, CI enforces the rules, and `main` is always complete (P1, P8, P11).
 The site's base path is held in `lib/site.ts` and every internal link goes
 through it, so the site can move between hosts.
 
+### Prototype and handover
+
+The project has two stages, and one codebase serves both.
+
+**Prototype (this repo).** A personal, open source experiment under the MIT
+license. It holds no real project data:
+
+- Every project and palette is made up, and says so: `meta.fixture` is
+  `true`, and the name makes it obvious.
+- The proprietary fields, `client` and `constructionBudget`, are left blank
+  ([data-model.md](data-model.md#project)).
+- `config/site.json` has `"fixturesOnly": true`, and with it the validator
+  fails any project or palette that isn't a fixture or that fills a
+  proprietary field. The rule is enforced, not remembered (P8).
+
+**Company copy.** When the prototype is ready, the repo is copied and the
+copy's ownership passes to the company. From then on the copy is the
+company's: it turns `fixturesOnly` off, takes real project data, and is
+served from an internal web server. Nothing flows back from it to this repo.
+Before the copy is used commercially, its handover checklist is worked
+through:
+
+- remove the fixture projects and palettes;
+- clear or replace every source and image flagged non-commercial
+  ([sources.md](sources.md#licensing-rules)); `npm run coverage` lists them;
+- set the base path and the basemap's zoom for the internal server;
+- decide the copy's own license notice.
+
 ### Hosting
 
-The repo is private, and the site must be readable only by the organization.
-The build is static files, so any host that can put a login in front of
-static files will do; nothing in the site depends on which. GitHub Pages as
-TL uses it doesn't qualify: a Pages site is public even when its repo is
-private, except with GitHub Enterprise Cloud's private Pages. The host is an
-open question below. Until it is chosen, `deploy.yml` builds the site and
-keeps it as a workflow artifact, and the site is run locally with
-`npm run dev`.
-
-Whatever the host, pages carry `noindex`, and the site makes no request that
-sends project data to a third party.
+The site is static files and depends on no particular host: the base path
+and the basemap location are settings in `config/site.json`. The prototype
+runs locally with `npm run dev`, and `deploy.yml` builds the site and keeps
+it as a workflow artifact. The company copy publishes the same build to an
+internal web server; the only requirement on that server is that it honors
+HTTP range requests, for the basemap ([map.md](map.md#basemap)).
 
 ### Layout
 
@@ -85,7 +108,7 @@ content/project/<id>.json          projects
 content/palette/<id>.json          saved palettes
 assets/images/plant/<id>/<n>.*     plant images
 schemas/                           envelope and one schema per type
-config/                            types.json, sources.json, overlays.json, vocab.json
+config/                            types.json, sources.json, overlays.json, vocab.json, site.json
 geo/                               boundary data for derivation and overlays (map.md)
 lib/                               helpers shared by scripts and the site
                                    (names, derive, compat, geo, site base)
@@ -96,7 +119,7 @@ tests/                             Vitest suites and fixtures
 docs/                              what is built (README.md is the index)
 spec/v1/                           this stage spec
 .claude/, .github/                 session settings and skills; workflows and templates
-AGENTS.md, CLAUDE.md, README.md, LICENSE, ATTRIBUTION.md
+AGENTS.md, CLAUDE.md, README.md, LICENSE, LICENSE-CONTENT, ATTRIBUTION.md
 ```
 
 npm scripts: `validate`, `build:index`, `build`, `dev`, `check`, `links`,
@@ -128,7 +151,7 @@ Area labels, added by the labeler from paths: `ui` (`site/**`), `data`
   key facts (a plant's form and size; a project's location and plant count).
   The milestone-closing PR also runs `a11y`.
 - **`deploy.yml`** on merge to `main`: build the index, `astro build`, and
-  publish to the host ([Hosting](#hosting)).
+  keep the site as an artifact ([Hosting](#hosting)).
 
 ### Docs to write as parts are built
 
@@ -150,25 +173,15 @@ row per decision).
   library and CI runs them on a PR.
 - A PR that mixes content and dev paths, or uses the wrong branch prefix,
   fails the lane check; tests cover each rule.
+- With `fixturesOnly` on, a non-fixture project and a project with a
+  `client` each fail validation; with it off, both pass.
 - A merge to `main` produces the built site as an artifact, and its pages
   all link through the base.
 - `AGENTS.md`, `CLAUDE.md`, and the `docs/` skeleton exist and pass the link
   check.
 
-Repository settings (branch protection, visibility) and the host's access
-control are manual checks and
+Repository settings (branch protection) are manual checks and
 go to a Testing backlog issue, not a milestone.
-
-## Open questions
-
-- **The host.** Candidates: GitHub Enterprise Cloud private Pages (access
-  follows repo access, if the organization has that plan); a static host
-  behind single sign-on, such as Cloudflare Pages with Access; or an
-  internal web server. The choice also sets the file size limits the
-  basemap works within ([map.md](map.md#basemap)).
-- **`LICENSE`.** The repo was created with an MIT license file, which
-  doesn't fit a private, proprietary repo. Replace it with a proprietary
-  notice, or keep MIT for the code alone.
 
 ## Out of scope
 

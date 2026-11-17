@@ -14,8 +14,12 @@ The repo is modeled on
 JSON file per entry, strict validation in CI, a static Astro site, and every
 change a pull request.
 
-## Private
+## Status and license
 
-The repo and the site are private. Project data is the property of the
-organization and is never published. Third-party data and image licensing is
-designed in [`spec/v1/sources.md`](spec/v1/sources.md).
+This repo is a personal, open source prototype under the MIT license
+([`LICENSE`](LICENSE)). It holds no real project data: its projects are
+made up, for testing. Real project data belongs to a company and will live
+only in a separate copy on that company's own server
+([`spec/v1/repo.md`](spec/v1/repo.md#prototype-and-handover)). Third-party
+data and image licensing is designed in
+[`spec/v1/sources.md`](spec/v1/sources.md).
