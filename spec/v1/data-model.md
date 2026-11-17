@@ -144,6 +144,11 @@ says which source won and why.
 | `completed` | `YYYY`, `YYYY-MM`, or `YYYY-MM-DD` | Required when `constructed`; an expected date when `proposed` |
 | `plantList` | array | See below |
 
+All of these but `plantList` are required. Project data is the
+organization's property; the repo and site are private
+([repo.md](repo.md#hosting)), so real clients, budgets, and locations are
+stored as they are.
+
 No state, county, or town is stored; they are derived from `location` (P6).
 
 A `plantList` item:
@@ -263,12 +268,6 @@ The fixtures the build must handle; each becomes a test.
 
 ## Open questions
 
-- **Is project data public?** The repo and site are public like TL's. Client
-  names and construction budgets of real projects may not be publishable.
-  Until this is decided, the library holds only fixture projects and projects
-  whose data is already public record, and nothing depends on budget being
-  present. Options: keep those two fields optional and omit them for private
-  work; or make the repo and site private.
 - **Project boundaries.** A point is enough for v1. Whether a project should
   also carry a site polygon is left to the map pilot.
 

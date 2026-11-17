@@ -47,10 +47,11 @@ be registered without it.
   prose, tables, and layout are never copied.
 - **A source is registered only when its terms allow this reuse.** Federal
   works are public domain. Anything else needs terms that permit reuse with
-  attribution. A source that forbids redistribution, or allows only
-  non-commercial use, is not registered unless the owner clears it; it may
-  still be linked from a plant page under "Further reading" without being
-  cited for data.
+  attribution. The library is a private tool used in professional practice,
+  which is commercial use, so a source that allows only non-commercial use
+  is not registered unless its owner gives permission. Neither is one that
+  forbids copying its data into another database. Either may still be linked
+  from a plant page under "Further reading" without being cited for data.
 - **Images** need an explicit license per file: public domain, CC0, CC BY,
   or CC BY-SA, or the owner's own photographs. No NC or ND licenses, and no
   image whose license can't be shown.
@@ -61,8 +62,10 @@ be registered without it.
 
 `ATTRIBUTION.md` and the site's About page are generated from the registry
 and the entries: each cited source with its citation, and each image with
-its credit and license. `LICENSE-CONTENT` states the license of the
-library's own compilation and prose (CC BY 4.0, as TL).
+its credit and license. The site is private, but attribution is kept as if
+it weren't: the licenses require it wherever the material is used, and it is
+how a reader checks a fact. The library's own compilation, prose, and
+project data are proprietary and carry no open license.
 
 ### Source survey
 
@@ -183,13 +186,13 @@ steps that are already settled:
 ## Open questions
 
 - **PDF plant lists.** How a PDF becomes a project entry: who transcribes it
-  (a session reading the PDF, or a script), where uploaded PDFs live (they
-  shouldn't be committed if they carry client information), and how schedule
+  (a session reading the PDF, or a script), whether the PDFs are kept in the
+  private repo as the record an entry was made from, and how schedule
   abbreviations and misspellings are matched to plants. Steps 1 to 3 above
   don't depend on the answer.
 - **Images.** Whether openly licensed photographs exist for every plant at
   usable quality, or the owner will supply their own; and how many images a
-  plant may have before the repo and the Pages site (1 GB) get too heavy.
+  plant may have before the repo and the site get too heavy for the host.
 - **Disagreeing sources.** Whether an entry should be able to record a
   second value with its source instead of choosing one.
 

@@ -24,7 +24,7 @@ for tiles served as static files.
 | Fast | WebGL vector rendering; thousands of points and polygons stay smooth, with clustering built in |
 | Graphically configurable | The whole look is a style document we write: every line weight, fill, and label. The basemap can be drawn in the site's own white, thin-black-line style from the same tokens. |
 | Custom overlays | Any number of GeoJSON, vector tile, raster, and heatmap layers, each data-driven and toggled at runtime; custom WebGL layers if ever needed |
-| No server | With PMTiles, tiles are one static file read by range requests, which GitHub Pages supports |
+| No server | With PMTiles, tiles are one static file read by range requests, which any static host that honors them can serve |
 | Open | No API key, no usage terms, no vendor |
 
 Considered and not chosen:
@@ -49,10 +49,10 @@ labels in Montserrat. Glyphs and sprites are self-hosted.
 
 Tiles are a PMTiles extract of the West Coast, cut by `pmtiles extract` to
 the three states' bounding box and a maximum zoom, published with the site
-rather than committed. GitHub Pages limits a file to 100 MB and a site to
-1 GB, and each zoom level roughly doubles the extract, so the map pilot
-measures how deep a self-hosted extract can go. See Open questions for what
-happens past that zoom.
+rather than committed. Each zoom level roughly doubles the extract, and the
+host sets the file size limit ([repo.md](repo.md#hosting)), so the map pilot
+measures how deep a self-hosted extract can go on the chosen host. See Open
+questions for what happens past that zoom.
 
 ### Boundary data
 
@@ -176,17 +176,16 @@ the Testing backlog.
 
 ## Open questions
 
-- **How deep the basemap zooms.** A self-hosted extract fits Pages only to a
-  moderate zoom, enough for regional and city-scale views. If street-level
-  context is wanted, the options are OpenFreeMap's public tile service (no
-  key, free, offered as-is with no guarantee) for the deeper zooms, or
-  hosting a larger PMTiles file on object storage. The pilot reports the
-  sizes; the owner chooses.
+- **How deep the basemap zooms.** It depends on the host
+  ([repo.md](repo.md#open-questions)). A host with small file limits takes
+  an extract only to a moderate zoom, enough for regional and city-scale
+  views; object storage takes street level. The alternative for deeper zooms
+  is OpenFreeMap's public tile service (no key, free, offered as-is). It
+  receives only tile requests, never project data, but those show a third
+  party which areas are being viewed. The pilot reports the sizes; the owner
+  chooses.
 - **Hardiness zone data terms**, and whether half zones are fine enough at
-  the simplification Pages allows ([sources.md](sources.md#source-survey)).
-- **Location precision.** Whether any project's exact point should be
-  blurred, tied to the project data question
-  ([data-model.md](data-model.md#open-questions)).
+  a simplification that keeps the file small ([sources.md](sources.md#source-survey)).
 
 ## Out of scope
 

@@ -29,6 +29,14 @@ A static site, built from files in this repo, for landscape architects:
 - Public-realm use first: parks, campuses, streets, commercial landscapes,
   stormwater, and restoration.
 
+### Private
+
+The repo and the site are private, for the organization's own use. Project
+data (clients, budgets, locations, plant lists) is the organization's
+property and is never published. This is decided; it sets how the site is
+hosted ([repo.md](repo.md#hosting)) and how third-party sources are judged
+([sources.md](sources.md#licensing-rules)).
+
 Out of scope for v1: annuals, turf, edibles, houseplants, pest and disease
 data, nursery pricing and availability, and any region outside the three
 states.
@@ -40,7 +48,7 @@ Carried from TL's `docs/decisions.md`, renumbered, with two that are new here
 
 | | Principle | Meaning |
 |---|---|---|
-| P1 | Files are the database | One JSON file per entry, reviewed as a diff. Static build on GitHub Actions and Pages; no runtime services, accounts, or in-browser editing of the library. |
+| P1 | Files are the database | One JSON file per entry, reviewed as a diff. Static build on GitHub Actions, served as static files; no runtime services, accounts, or in-browser editing of the library. |
 | P2 | Fail closed | Technical data is strict: an unknown key or malformed value fails CI. Tags stay open. |
 | P3 | One source per fact | Each value is stored once. Anything computable (display names, a project's county, how often a plant is used) is derived at build, never stored. |
 | P4 | Configuration over code | A new type, facet, map overlay, or data source is a data or file addition. |
@@ -107,7 +115,7 @@ listed here so the owner can overrule it in review.
 
 Collected from the area files; no part with an open question is built.
 
-1. Is real project data (client, budget) public? ([data-model.md](data-model.md#open-questions))
+1. Where the private site is hosted. ([repo.md](repo.md#open-questions))
 2. How deep must the basemap zoom? ([map.md](map.md#open-questions))
 3. The PDF plant-list import workflow. ([sources.md](sources.md#open-questions))
 4. Image sourcing and hosting limits. ([sources.md](sources.md#open-questions))

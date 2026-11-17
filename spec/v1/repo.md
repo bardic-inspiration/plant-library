@@ -60,8 +60,22 @@ PR, CI enforces the rules, and `main` is always complete (P1, P8, P11).
 | Icons | Lucide (ISC), inlined SVG | A handful of control icons |
 | Tests | Vitest; Playwright with axe-core | As TL |
 
-The site is served from `https://bardic-inspiration.github.io/plant-library/`,
-with the base held in `lib/site.ts`.
+The site's base path is held in `lib/site.ts` and every internal link goes
+through it, so the site can move between hosts.
+
+### Hosting
+
+The repo is private, and the site must be readable only by the organization.
+The build is static files, so any host that can put a login in front of
+static files will do; nothing in the site depends on which. GitHub Pages as
+TL uses it doesn't qualify: a Pages site is public even when its repo is
+private, except with GitHub Enterprise Cloud's private Pages. The host is an
+open question below. Until it is chosen, `deploy.yml` builds the site and
+keeps it as a workflow artifact, and the site is run locally with
+`npm run dev`.
+
+Whatever the host, pages carry `noindex`, and the site makes no request that
+sends project data to a third party.
 
 ### Layout
 
@@ -82,7 +96,7 @@ tests/                             Vitest suites and fixtures
 docs/                              what is built (README.md is the index)
 spec/v1/                           this stage spec
 .claude/, .github/                 session settings and skills; workflows and templates
-AGENTS.md, CLAUDE.md, README.md, LICENSE, LICENSE-CONTENT, ATTRIBUTION.md
+AGENTS.md, CLAUDE.md, README.md, LICENSE, ATTRIBUTION.md
 ```
 
 npm scripts: `validate`, `build:index`, `build`, `dev`, `check`, `links`,
@@ -113,8 +127,8 @@ Area labels, added by the labeler from paths: `ui` (`site/**`), `data`
   dev PRs `check` and `test`. A job summary lists changed entries with their
   key facts (a plant's form and size; a project's location and plant count).
   The milestone-closing PR also runs `a11y`.
-- **`deploy.yml`** on merge to `main`: build the index, `astro build`, deploy
-  to Pages.
+- **`deploy.yml`** on merge to `main`: build the index, `astro build`, and
+  publish to the host ([Hosting](#hosting)).
 
 ### Docs to write as parts are built
 
@@ -136,12 +150,25 @@ row per decision).
   library and CI runs them on a PR.
 - A PR that mixes content and dev paths, or uses the wrong branch prefix,
   fails the lane check; tests cover each rule.
-- A merge to `main` deploys a site whose pages all link through the base.
+- A merge to `main` produces the built site as an artifact, and its pages
+  all link through the base.
 - `AGENTS.md`, `CLAUDE.md`, and the `docs/` skeleton exist and pass the link
   check.
 
-Repository settings (branch protection, Pages source) are manual checks and
+Repository settings (branch protection, visibility) and the host's access
+control are manual checks and
 go to a Testing backlog issue, not a milestone.
+
+## Open questions
+
+- **The host.** Candidates: GitHub Enterprise Cloud private Pages (access
+  follows repo access, if the organization has that plan); a static host
+  behind single sign-on, such as Cloudflare Pages with Access; or an
+  internal web server. The choice also sets the file size limits the
+  basemap works within ([map.md](map.md#basemap)).
+- **`LICENSE`.** The repo was created with an MIT license file, which
+  doesn't fit a private, proprietary repo. Replace it with a proprietary
+  notice, or keep MIT for the code alone.
 
 ## Out of scope
 

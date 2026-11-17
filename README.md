@@ -14,7 +14,8 @@ The repo is modeled on
 JSON file per entry, strict validation in CI, a static Astro site, and every
 change a pull request.
 
-## License
+## Private
 
-Code is MIT ([`LICENSE`](LICENSE)). Data and image licensing is designed in
-[`spec/v1/sources.md`](spec/v1/sources.md).
+The repo and the site are private. Project data is the property of the
+organization and is never published. Third-party data and image licensing is
+designed in [`spec/v1/sources.md`](spec/v1/sources.md).
