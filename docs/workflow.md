@@ -37,8 +37,9 @@ rules, and `main` is always complete (P1, P8, P11).
   `milestone` also runs `a11y`.
 - **`deploy.yml`** on merge to `main`: build, check the built site's links,
   and keep `site/dist` as the `site` artifact for 30 days. A second job
-  publishes the fixture build (`npm run build:fixtures`, bannered) to
-  GitHub Pages at `/plant-library/`, so the draft can be viewed. Pages must
+  publishes the library's own build (`npm run build`, from `content/`) to
+  GitHub Pages at `/plant-library/`, so the draft can be viewed; its
+  prototype plants are fixtures, so every page carries the banner (D28). Pages must
   be on, with "GitHub Actions" as its source (Settings → Pages).
 - **`labeler.yml`** adds area labels by path: `ui`, `data`, `map`, `ci`,
   and `migration`.
