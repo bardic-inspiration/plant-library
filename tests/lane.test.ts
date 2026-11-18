@@ -20,6 +20,13 @@ describe('lanes', () => {
     expect(checkLane('main', ['lib/derive.ts']).ok).toBe(false);
   });
 
+  it('an admin branch is the dev lane', () => {
+    const r = checkLane('admin/deps-round', ['package.json', 'package-lock.json']);
+    expect(r.ok).toBe(true);
+    expect(r.lane).toBe('dev');
+    expect(r.checks).toEqual(['validate', 'build', 'check', 'test']);
+  });
+
   it('spike branches can’t merge', () => {
     expect(checkLane('spike/try-deckgl', ['site/src/x.ts']).errors[0]).toMatch(/can't merge/);
   });
