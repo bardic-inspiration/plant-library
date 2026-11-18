@@ -17,6 +17,14 @@
       "label": "Perennial"
     },
     {
+      "id": "annual",
+      "label": "Annual"
+    },
+    {
+      "id": "biennial",
+      "label": "Biennial"
+    },
+    {
       "id": "graminoid",
       "label": "Grass or grasslike"
     },
@@ -732,6 +740,34 @@
       }
     ],
     "perennial": [
+      {
+        "class": "low",
+        "maxHeight": 1
+      },
+      {
+        "class": "mid",
+        "maxHeight": 3
+      },
+      {
+        "class": "tall",
+        "maxHeight": null
+      }
+    ],
+    "annual": [
+      {
+        "class": "low",
+        "maxHeight": 1
+      },
+      {
+        "class": "mid",
+        "maxHeight": 3
+      },
+      {
+        "class": "tall",
+        "maxHeight": null
+      }
+    ],
+    "biennial": [
       {
         "class": "low",
         "maxHeight": 1

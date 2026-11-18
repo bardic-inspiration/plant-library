@@ -1,0 +1,62 @@
+{
+  "type": "plant",
+  "id": "poteridium-occidentale",
+  "summary": "An annual 8–30 in tall, for dry to wet soil in sun to part shade.",
+  "data": {
+    "genus": "Poteridium",
+    "species": "occidentale",
+    "commonNames": [
+      "Annual Burnet"
+    ],
+    "family": "Placeholderaceae",
+    "form": "annual",
+    "height": {
+      "min": 0.67,
+      "max": 2.5
+    },
+    "sun": [
+      "full-sun",
+      "part-shade"
+    ],
+    "moisture": [
+      "dry",
+      "moist",
+      "wet"
+    ],
+    "bloom": {
+      "colors": [
+        "green"
+      ]
+    },
+    "sources": [
+      {
+        "source": "portland-plant-list",
+        "url": "https://github.com/bardic-inspiration/plant-library/blob/main/docs/Portland_Plant_List_2016_Update_Final2.pdf",
+        "accessed": "2026-11-18",
+        "fields": [
+          "commonNames",
+          "form",
+          "height",
+          "sun",
+          "moisture",
+          "bloom"
+        ],
+        "note": "Read from the June 2016 update uploaded to docs/ (PDF page 118)."
+      },
+      {
+        "source": "placeholder",
+        "accessed": "2026-11-18",
+        "fields": [
+          "family"
+        ],
+        "note": "Neither reference document gives a family."
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-18",
+    "revisedAt": "2026-11-18",
+    "method": "import",
+    "fixture": true
+  }
+}

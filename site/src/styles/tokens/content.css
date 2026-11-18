@@ -7,6 +7,8 @@
   [data-form='shrub'] { --accent: var(--p-teal); }
   [data-form='subshrub'] { --accent: var(--p-olive); }
   [data-form='perennial'] { --accent: var(--p-magenta); }
+  [data-form='annual'] { --accent: var(--p-crimson); }
+  [data-form='biennial'] { --accent: var(--p-slate); }
   [data-form='graminoid'] { --accent: var(--p-ochre); }
   [data-form='fern'] { --accent: var(--p-blue); }
   [data-form='vine'] { --accent: var(--p-purple); }

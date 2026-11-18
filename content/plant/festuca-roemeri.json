@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "festuca-roemeri",
-  "summary": "A grass or grasslike plant 0.83–3.33 ft tall, for dry soil in sun.",
+  "summary": "A grass or grasslike plant 10–40 in tall, for dry soil in sun.",
   "data": {
     "genus": "Festuca",
     "species": "roemeri",

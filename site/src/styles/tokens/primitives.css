@@ -19,6 +19,8 @@
     --p-vermillion: #c85000;
     --p-ochre: #a67100;
     --p-olive: #6e8500;
+    --p-crimson: #c4314b;
+    --p-slate: #56688a;
 
     /* Tints for fills behind black text (choropleth steps, selected rows). */
     --p-vermillion-50: #fdf0e8;

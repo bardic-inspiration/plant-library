@@ -24,8 +24,8 @@ A static site, built from files in this repo, for landscape architects:
 
 ### Subject matter and scope
 
-- Trees, shrubs, and herbaceous perennials (including ferns and graminoids)
-  used in landscape architecture.
+- Trees, shrubs, vines, and herbaceous plants (perennials, ferns,
+  graminoids, annuals, and biennials) used in landscape architecture.
 - Washington, Oregon, and California.
 - Species grown by West Coast wholesale landscape nurseries and native plant
   nurseries.
@@ -33,7 +33,7 @@ A static site, built from files in this repo, for landscape architects:
 - Public-realm use first: parks, campuses, streets, commercial landscapes,
   stormwater, and restoration.
 
-Out of scope for v1: annuals, turf, edibles, houseplants, pest and disease
+Out of scope for v1: turf, edibles, houseplants, pest and disease
 data, nursery pricing and availability, and any region outside the three
 states.
 
@@ -103,7 +103,7 @@ for it.
 | | Milestone | Builds |
 |---|---|---|
 | M1 | Skeleton | Built: tooling, lanes, CI, deploy, docs, the site ([docs/workflow.md](../../docs/workflow.md)) |
-| M2 | Plants | Built: the plant type, validation, the source registry, and a prototype fixture set of 453 plants from the King County guide and the Portland Plant List ([docs/sources.md](../../docs/sources.md#the-prototype-fixture-set)) |
+| M2 | Plants | Built: the plant type, validation, the source registry, and a prototype fixture set of 473 plants from the King County guide and the Portland Plant List ([docs/sources.md](../../docs/sources.md#the-prototype-fixture-set)) |
 | M3 | Library | Built: list view, filter tree, search, plant pages, styling ([docs/site.md](../../docs/site.md)) |
 | M4 | Projects | `data-model.md` project type and geography derivation; project pages; plant and project links |
 | M5 | Map | `map.md` map view, overlays, region filters |

@@ -1,0 +1,66 @@
+{
+  "type": "plant",
+  "id": "collinsia-parviflora",
+  "summary": "An annual 2–16 in tall, for dry to wet soil in sun.",
+  "data": {
+    "genus": "Collinsia",
+    "species": "parviflora",
+    "commonNames": [
+      "Small-flowered Blue-eyed Mary"
+    ],
+    "family": "Placeholderaceae",
+    "form": "annual",
+    "height": {
+      "min": 0.17,
+      "max": 1.33
+    },
+    "sun": [
+      "full-sun"
+    ],
+    "moisture": [
+      "dry",
+      "moist",
+      "wet"
+    ],
+    "bloom": {
+      "colors": [
+        "white",
+        "blue"
+      ],
+      "months": {
+        "start": 4,
+        "end": 6
+      }
+    },
+    "sources": [
+      {
+        "source": "portland-plant-list",
+        "url": "https://github.com/bardic-inspiration/plant-library/blob/main/docs/Portland_Plant_List_2016_Update_Final2.pdf",
+        "accessed": "2026-11-18",
+        "fields": [
+          "commonNames",
+          "form",
+          "height",
+          "sun",
+          "moisture",
+          "bloom"
+        ],
+        "note": "Read from the June 2016 update uploaded to docs/ (PDF page 92)."
+      },
+      {
+        "source": "placeholder",
+        "accessed": "2026-11-18",
+        "fields": [
+          "family"
+        ],
+        "note": "Neither reference document gives a family."
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-18",
+    "revisedAt": "2026-11-18",
+    "method": "import",
+    "fixture": true
+  }
+}

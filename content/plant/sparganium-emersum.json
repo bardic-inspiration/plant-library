@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "sparganium-emersum",
-  "summary": "A herbaceous plant 0.67–3.33 ft tall, for wet soil.",
+  "summary": "A herbaceous plant 8–40 in tall, for wet soil.",
   "data": {
     "genus": "Sparganium",
     "species": "emersum",

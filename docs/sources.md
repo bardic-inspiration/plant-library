@@ -49,7 +49,7 @@ plant shows the fixture banner ([site.md](site.md#the-fixture-library)).
 
 ### The prototype fixture set
 
-`content/plant/` holds 453 fixture plants (`meta.fixture: true`), from the
+`content/plant/` holds 473 fixture plants (`meta.fixture: true`), from the
 two reference documents in `docs/`, under the names they use:
 
 - **King County** (49 plants): every plant in *Native Plant Guide for
@@ -62,15 +62,18 @@ two reference documents in `docs/`, under the names they use:
   of the species, or of the genus where the species page has no taxonomy
   box. The guide lists two roses under one name, so both carry the common
   name "Rosa species".
-- **Portland** (404 more plants, and a citation on 44 of the King County
+- **Portland** (424 more plants, and a citation on 44 of the King County
   ones): every plant in the native lists of the *Portland Plant List*
-  (sections 3.3 to 3.16), except 20 the list marks annual or biennial,
-  which no `form` fits. Each cites `portland-plant-list` at the copy in
-  `docs/`, with the PDF pages in its note, for:
+  (sections 3.3 to 3.16), read by the `pdf-plant-list` skill from
+  `.claude/skills/pdf-plant-list/lists/portland-2016.json`. Each cites
+  `portland-plant-list` at the copy in `docs/`, with the PDF pages in its
+  note, for:
   - `form` from the list a plant is in: the tree list `tree`; the
     arborescent shrub and shrub lists `shrub`; grasses, sedges and rushes
     `graminoid`; ferns `fern`; forbs and other herbaceous plants
-    `perennial`; and the four the ground-cover list calls vines `vine`.
+    `perennial`; the four the ground-cover list calls vines `vine`; and
+    the 20 the list marks annual or biennial `annual` or `biennial`,
+    whichever table they are in (three of them are grasses or rushes).
   - `height` (the tables' range, in feet), `sun` (full sun, part sun, full
     shade), `moisture` (seasonally wet, perennially wet and submerged are
     `wet`), `bloom` (colors, and the first to last month marked), and
@@ -79,7 +82,7 @@ two reference documents in `docs/`, under the names they use:
     `moderate`, very slow and very fast are `slow` and `fast`), `sun` and
     `moisture` from its conditions line, and `foliage` from the evergreen
     or deciduous tree section.
-  - The list gives no family, so each of the 404 has the placeholder
+  - The list gives no family, so each of the 424 has the placeholder
     family `Placeholderaceae`, cited to `placeholder`.
   - Where a King County plant is on the list, under its name or another
     (8, such as *Berberis aquifolium* for *Mahonia aquifolium*), the entry

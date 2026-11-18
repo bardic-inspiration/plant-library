@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "juncus-balticus",
-  "summary": "An evergreen grass or grasslike plant 0.33–3.33 ft tall, for wet soil in sun.",
+  "summary": "An evergreen grass or grasslike plant 4–40 in tall, for wet soil in sun.",
   "data": {
     "genus": "Juncus",
     "species": "balticus",

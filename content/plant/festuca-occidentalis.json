@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "festuca-occidentalis",
-  "summary": "A grass or grasslike plant 0.83–3.33 ft tall, for dry to moist soil in sun to shade.",
+  "summary": "A grass or grasslike plant 10–40 in tall, for dry to moist soil in sun to shade.",
   "data": {
     "genus": "Festuca",
     "species": "occidentalis",

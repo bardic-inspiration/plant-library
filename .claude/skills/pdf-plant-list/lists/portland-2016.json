@@ -1,0 +1,473 @@
+{
+  "_comment": "Portland Plant List, June 2016 update. Page numbers are the PDF's (1-based), not the printed ones. Lists and extras are transcribed by hand from the pages named; everything else is read by plant_list_pdf.py extract.",
+  "pdf": "docs/Portland_Plant_List_2016_Update_Final2.pdf",
+  "source": "portland-plant-list",
+  "citationUrl": "https://github.com/bardic-inspiration/plant-library/blob/main/docs/Portland_Plant_List_2016_Update_Final2.pdf",
+  "note": "Read from the June 2016 update uploaded to docs/ (PDF {pages}).",
+  "placeholderNote": "Neither reference document gives a family.",
+  "tables": [
+    {
+      "label": "forb",
+      "title": "Herbaceous forbs (3.10)",
+      "first": 84,
+      "last": 133,
+      "step": 2,
+      "form": "perennial"
+    },
+    {
+      "label": "grass",
+      "title": "Herbaceous grasses (3.11)",
+      "first": 134,
+      "last": 137,
+      "step": 2,
+      "form": "graminoid"
+    },
+    {
+      "label": "sedge",
+      "title": "Herbaceous sedges and rushes (3.12)",
+      "first": 138,
+      "last": 141,
+      "step": 2,
+      "form": "graminoid"
+    },
+    {
+      "label": "fern",
+      "title": "Herbaceous ferns (3.13)",
+      "first": 142,
+      "last": 143,
+      "step": 2,
+      "form": "fern"
+    },
+    {
+      "label": "other",
+      "title": "Other herbaceous (3.14): aquatics, orchids, clubmoss",
+      "first": 144,
+      "last": 147,
+      "step": 2,
+      "form": "perennial",
+      "summaryLabel": "herbaceous plant"
+    }
+  ],
+  "lifeCycleForms": {
+    "A": "annual",
+    "B": "biennial"
+  },
+  "evergreenLifeCycles": [
+    "EP"
+  ],
+  "lists": [
+    {
+      "title": "Native tree list (3.3)",
+      "form": "tree",
+      "page": 59,
+      "plants": [
+        [
+          "Abies grandis",
+          "Grand Fir"
+        ],
+        [
+          "Acer macrophyllum",
+          "Bigleaf Maple"
+        ],
+        [
+          "Alnus rubra",
+          "Red Alder"
+        ],
+        [
+          "Arbutus menziesii",
+          "Madrone"
+        ],
+        [
+          "Cornus nuttallii",
+          "Western Flowering Dogwood"
+        ],
+        [
+          "Crataegus gaylussacia",
+          "Suksdorf’s hawthorn"
+        ],
+        [
+          "Frangula purshiana",
+          "Cascara, chitum"
+        ],
+        [
+          "Fraxinus latifolia",
+          "Oregon Ash"
+        ],
+        [
+          "Pinus ponderosa var. benthamiana",
+          "Willamette Valley ponderosa pine"
+        ],
+        [
+          "Populus balsamifera ssp. trichocarpa",
+          "Black Cottonwood"
+        ],
+        [
+          "Populus tremuloides",
+          "Quaking Aspen"
+        ],
+        [
+          "Prunus emarginata",
+          "Bitter Cherry"
+        ],
+        [
+          "Pseudotsuga menziesii",
+          "Douglas Fir"
+        ],
+        [
+          "Quercus garryana",
+          "Oregon White Oak"
+        ],
+        [
+          "Salix lucida ssp. lasiandra",
+          "Pacific Willow"
+        ],
+        [
+          "Salix prolixa",
+          "Rigid Willow"
+        ],
+        [
+          "Salix scouleriana",
+          "Scouler Willow"
+        ],
+        [
+          "Taxus brevifolia",
+          "Pacific Yew"
+        ],
+        [
+          "Thuja plicata",
+          "Western Red Cedar"
+        ],
+        [
+          "Tsuga heterophylla",
+          "Western Hemlock"
+        ]
+      ]
+    },
+    {
+      "title": "Native arborescent shrub list (3.7)",
+      "form": "shrub",
+      "page": 68,
+      "plants": [
+        [
+          "Acer circinatum",
+          "Vine Maple"
+        ],
+        [
+          "Malus fusca",
+          "Western Crabapple"
+        ],
+        [
+          "Prunus virginiana",
+          "Common Chokecherry"
+        ],
+        [
+          "Salix exigua var. columbiana",
+          "Columbia River Willow"
+        ],
+        [
+          "Salix exigua var. sessilifolia",
+          "Soft-leaved Willow"
+        ],
+        [
+          "Salix hookeriana",
+          "Hooker’s willow"
+        ],
+        [
+          "Salix sitchensis",
+          "Sitka Willow"
+        ]
+      ]
+    },
+    {
+      "title": "Native shrub list (3.9)",
+      "form": "shrub",
+      "page": 82,
+      "plants": [
+        [
+          "Amelanchier alnifolia",
+          "Western Serviceberry"
+        ],
+        [
+          "Arctostaphylos columbiana",
+          "Hairy Manzanita"
+        ],
+        [
+          "Arctostaphylos uva-ursi",
+          "Kinnikinnick"
+        ],
+        [
+          "Berberis aquifolium",
+          "Tall Oregongrape"
+        ],
+        [
+          "Berberis nervosa",
+          "Cascade Oregon grape"
+        ],
+        [
+          "Ceanothus cuneatus",
+          "Buckbrush"
+        ],
+        [
+          "Ceanothus sanguineus",
+          "Oregon Tea-tree"
+        ],
+        [
+          "Ceanothus velutinus var. laevigatus",
+          "Mountain Balm"
+        ],
+        [
+          "Corylus cornuta ssp. californica",
+          "California hazelnut"
+        ],
+        [
+          "Cornus sericea",
+          "Redosier dogwood"
+        ],
+        [
+          "Euonymus occidentalis",
+          "Western Wahoo"
+        ],
+        [
+          "Gaultheria shallon",
+          "Salal"
+        ],
+        [
+          "Holodiscus discolor",
+          "Oceanspray"
+        ],
+        [
+          "Lonicera hispidula",
+          "Hairy Honeysuckle"
+        ],
+        [
+          "Lonicera involucrata",
+          "Black Twinberry"
+        ],
+        [
+          "Oemleria cerasiformis",
+          "Indian Plum"
+        ],
+        [
+          "Philadelphus lewisii",
+          "Mockorange"
+        ],
+        [
+          "Physocarpus capitatus",
+          "Pacific Ninebark"
+        ]
+      ]
+    },
+    {
+      "title": "Native shrub list (3.9), continued",
+      "form": "shrub",
+      "page": 83,
+      "plants": [
+        [
+          "Ribes bracteosum",
+          "Blue Currant"
+        ],
+        [
+          "Ribes divaricatum",
+          "Straggly Gooseberry"
+        ],
+        [
+          "Ribes lobbii",
+          "Pioneer Gooseberry"
+        ],
+        [
+          "Ribes sanguineum",
+          "Red Currant"
+        ],
+        [
+          "Ribes viscosissimum",
+          "Sticky Currant"
+        ],
+        [
+          "Rosa gymnocarpa",
+          "Baldhip Rose"
+        ],
+        [
+          "Rosa nutkana",
+          "Nootka Rose"
+        ],
+        [
+          "Rosa pisocarpa",
+          "Swamp Rose"
+        ],
+        [
+          "Rubus leucodermis",
+          "Blackcap Raspberry"
+        ],
+        [
+          "Rubus parviflorus",
+          "Thimbleberry"
+        ],
+        [
+          "Rubus spectabilis",
+          "Salmonberry"
+        ],
+        [
+          "Sambucus nigra ssp. caerulea",
+          "Blue Elderberry"
+        ],
+        [
+          "Sambucus racemosa var. arborescens",
+          "Red Elderberry"
+        ],
+        [
+          "Spiraea betulifolia var. lucida",
+          "Shiny-leaf Spiraea"
+        ],
+        [
+          "Spiraea douglasii",
+          "Douglas’ spirea"
+        ],
+        [
+          "Symphoricarpos albus",
+          "Common Snowberry"
+        ],
+        [
+          "Symphoricarpos mollis",
+          "Creeping Snowberry"
+        ],
+        [
+          "Toxicodendron diversilobum",
+          "Poison Oak"
+        ],
+        [
+          "Vaccinium ovatum",
+          "Evergreen Huckleberry"
+        ],
+        [
+          "Vaccinium parvifolium",
+          "Red Huckleberry"
+        ],
+        [
+          "Viburnum ellipticum",
+          "Oval-leaved Viburnum"
+        ]
+      ]
+    }
+  ],
+  "details": {
+    "pages": {
+      "51-54": {
+        "foliage": "evergreen"
+      },
+      "55-58": {
+        "foliage": "deciduous"
+      },
+      "65-67": {},
+      "69-81": {}
+    },
+    "aliases": {
+      "Corylus cornuta ssp. californica": [
+        "Corlyus cornuta"
+      ],
+      "Spiraea betulifolia var. lucida": [
+        "Spiraea betulifolia"
+      ]
+    },
+    "conditionsOverride": {
+      "Crataegus gaylussacia": "Full sun to full shade, dry to seasonally wet soil"
+    }
+  },
+  "extra": [
+    {
+      "latin": "Carex lyngbyei var. robusta",
+      "common": "Lyngby’s Sedge",
+      "form": "graminoid",
+      "page": 152,
+      "heightInches": [
+        8,
+        40
+      ]
+    },
+    {
+      "latin": "Carex praticola",
+      "common": "Meadow Sedge",
+      "form": "graminoid",
+      "page": 152,
+      "heightInches": [
+        12,
+        28
+      ]
+    },
+    {
+      "latin": "Ribes laxiflorum",
+      "common": "Western Black Currant",
+      "form": "vine",
+      "page": 153,
+      "heightInches": [
+        36,
+        252
+      ]
+    }
+  ],
+  "overrides": {
+    "Lonicera ciliosa": {
+      "form": "vine",
+      "pages": [
+        153
+      ]
+    },
+    "Marah oreganus": {
+      "form": "vine",
+      "pages": [
+        153
+      ]
+    },
+    "Rubus ursinus": {
+      "form": "vine",
+      "pages": [
+        153
+      ]
+    },
+    "Carex utriculata": {
+      "synonyms": [
+        "Carex rostrata var. utriculata"
+      ],
+      "pages": [
+        152
+      ]
+    }
+  },
+  "nameFixes": {
+    "Allium acuminitum": "Allium acuminatum",
+    "Circae alpina": "Circaea alpina",
+    "Equisetum telemateia": "Equisetum telmateia",
+    "Dichelostemma congesta": "Dichelostemma congestum",
+    "Maianthemum racemosa": "Maianthemum racemosum",
+    "Maianthemum stellata": "Maianthemum stellatum",
+    "Acnatherum lemmonii": "Achnatherum lemmonii",
+    "Acnatherum occidentalis ssp. californica": "Achnatherum occidentale ssp. californicum",
+    "Carex hedersonii": "Carex hendersonii",
+    "Callitriche hetrophylla": "Callitriche heterophylla",
+    "Howellia aquatils": "Howellia aquatilis",
+    "Pteridium aquilinium": "Pteridium aquilinum",
+    "Athyrium filix–femina": "Athyrium filix-femina",
+    "Sanicula bipinnatafida": "Sanicula bipinnatifida",
+    "Collinsia rattannii": "Collinsia rattanii",
+    "Scirpus tabernaemonti": "Scirpus tabernaemontani",
+    "Erysium capitatum ssp. capitatum": "Erysimum capitatum ssp. capitatum",
+    "Deschampsia danthinoides": "Deschampsia danthonioides"
+  },
+  "commonFixes": {
+    "Red Coumbine": "Red Columbine",
+    "Pacific Hound’s-tonque": "Pacific Hound’s-tongue",
+    "Western Saxifage": "Western Saxifrage",
+    "Different-leaf Water-starwart": "Different-leaf Water-starwort",
+    "Nutall’s Knotweed": "Nuttall’s Knotweed",
+    "Soft-leaved Willlow": "Soft-leaved Willow"
+  },
+  "sameAs": {
+    "Berberis aquifolium": "mahonia-aquifolium",
+    "Corylus cornuta ssp. californica": "corylus-cornuta",
+    "Crataegus gaylussacia": "crataegus-suksdorfii",
+    "Frangula purshiana": "rhamnus-purshiana",
+    "Populus balsamifera ssp. trichocarpa": "populus-balsamifera",
+    "Salix lucida ssp. lasiandra": "salix-lasiandra",
+    "Sambucus racemosa var. arborescens": "sambucus-racemosa",
+    "Dicentra formosa ssp. formosa": "dicentra-formosa"
+  }
+}

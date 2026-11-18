@@ -1,0 +1,63 @@
+{
+  "type": "plant",
+  "id": "madia-glomerata",
+  "summary": "An annual 2–10 in tall, for dry soil in sun.",
+  "data": {
+    "genus": "Madia",
+    "species": "glomerata",
+    "commonNames": [
+      "Cluster Tarweed"
+    ],
+    "family": "Placeholderaceae",
+    "form": "annual",
+    "height": {
+      "min": 0.17,
+      "max": 0.83
+    },
+    "sun": [
+      "full-sun"
+    ],
+    "moisture": [
+      "dry"
+    ],
+    "bloom": {
+      "colors": [
+        "yellow"
+      ],
+      "months": {
+        "start": 7,
+        "end": 8
+      }
+    },
+    "sources": [
+      {
+        "source": "portland-plant-list",
+        "url": "https://github.com/bardic-inspiration/plant-library/blob/main/docs/Portland_Plant_List_2016_Update_Final2.pdf",
+        "accessed": "2026-11-18",
+        "fields": [
+          "commonNames",
+          "form",
+          "height",
+          "sun",
+          "moisture",
+          "bloom"
+        ],
+        "note": "Read from the June 2016 update uploaded to docs/ (PDF page 108)."
+      },
+      {
+        "source": "placeholder",
+        "accessed": "2026-11-18",
+        "fields": [
+          "family"
+        ],
+        "note": "Neither reference document gives a family."
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-18",
+    "revisedAt": "2026-11-18",
+    "method": "import",
+    "fixture": true
+  }
+}

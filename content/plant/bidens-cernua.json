@@ -1,0 +1,64 @@
+{
+  "type": "plant",
+  "id": "bidens-cernua",
+  "summary": "An annual 6–48 in tall, for moist to wet soil in sun.",
+  "data": {
+    "genus": "Bidens",
+    "species": "cernua",
+    "commonNames": [
+      "Nodding Beggar’s-tick"
+    ],
+    "family": "Placeholderaceae",
+    "form": "annual",
+    "height": {
+      "min": 0.5,
+      "max": 4.0
+    },
+    "sun": [
+      "full-sun"
+    ],
+    "moisture": [
+      "moist",
+      "wet"
+    ],
+    "bloom": {
+      "colors": [
+        "yellow"
+      ],
+      "months": {
+        "start": 7,
+        "end": 9
+      }
+    },
+    "sources": [
+      {
+        "source": "portland-plant-list",
+        "url": "https://github.com/bardic-inspiration/plant-library/blob/main/docs/Portland_Plant_List_2016_Update_Final2.pdf",
+        "accessed": "2026-11-18",
+        "fields": [
+          "commonNames",
+          "form",
+          "height",
+          "sun",
+          "moisture",
+          "bloom"
+        ],
+        "note": "Read from the June 2016 update uploaded to docs/ (PDF page 86)."
+      },
+      {
+        "source": "placeholder",
+        "accessed": "2026-11-18",
+        "fields": [
+          "family"
+        ],
+        "note": "Neither reference document gives a family."
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-18",
+    "revisedAt": "2026-11-18",
+    "method": "import",
+    "fixture": true
+  }
+}
