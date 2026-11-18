@@ -1,8 +1,9 @@
 name: deploy
 
-# Builds the site on every merge to main and keeps it as a workflow artifact.
-# The site is static files: the company copy publishes the same build to its
-# internal web server (docs/workflow.md).
+# On every merge to main: build the site and keep it as a workflow artifact,
+# and publish the draft to GitHub Pages. Until the real fixture set exists,
+# Pages shows the fixture build, whose pages carry a banner. The company copy
+# publishes the real build to its internal web server (docs/workflow.md).
 
 on:
   push:
@@ -11,6 +12,10 @@ on:
 
 permissions:
   contents: read
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
 
 jobs:
   build:
@@ -35,3 +40,36 @@ jobs:
           name: site
           path: site/dist
           retention-days: 30
+
+  pages:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - run: npm ci
+
+      - run: npm run build:fixtures
+
+      - name: Check the built site's links
+        run: npm run links
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site/dist
+
+      - id: deployment
+        uses: actions/deploy-pages@v4

@@ -34,3 +34,4 @@
 | D12 | 2026-11-17 | A fixture library in `tests/fixtures/library/` backs the tests and a demo build, with a banner on every page of that build. | The real fixture set waits on USDA PLANTS being reachable; made-up values must never pass as sourced. |
 | D13 | 2026-11-17 | The `ask-me` and `grill-me` skills were written fresh rather than copied from `ttrpg-library`. | That repo couldn't be read from the session that built M1; replace them with TL's if they differ in ways that matter. |
 | D14 | 2026-11-17 | `npm run a11y` checks at 1280 and 360 px. | The filter layout changes at 64rem; both layouts must pass. |
+| D15 | 2026-11-18 | The draft is published to GitHub Pages at `/plant-library/`, from the fixture build; `base` in `config/site.json` is `/plant-library/`. | The repo holds no proprietary data, and the real library is empty until the fixture set is sourced; the banner marks the values as unsourced. |
