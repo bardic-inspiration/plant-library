@@ -98,8 +98,9 @@ The build also computes each entry's `refs` and `refBy` (back-references).
   plant's own name, or another plant's synonym; a family not in the table;
 - citing an unregistered source; a populated trait no source cites; citing
   a source for what it doesn't `provide`; a staff observation for a trait
-  another source gives, or without a contributor; a non-professional
-  citation without a URL;
+  another source gives, or without a contributor; a citation without a URL,
+  except from a `professional` or `placeholder` source; a placeholder for a
+  field other than `family` or `form`, or for one another source gives;
 - a missing image file, one over 2 MB, a pinned count other than one, a
   license not on the allowed list, a file outside the plant's folder;
 - unresolved refs and ref tokens, ref tokens outside markdown fields, text

@@ -907,6 +907,10 @@
       "label": "Pine family",
       "order": "Pinales"
     },
+    "Placeholderaceae": {
+      "label": "Placeholder: family not yet sourced",
+      "order": "Placeholder"
+    },
     "Rhamnaceae": {
       "label": "Buckthorn family",
       "order": "Rosales"

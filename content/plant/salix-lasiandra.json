@@ -8,6 +8,9 @@
     "commonNames": [
       "Pacific willow"
     ],
+    "synonyms": [
+      "Salix lucida ssp. lasiandra"
+    ],
     "family": "Salicaceae",
     "form": "tree",
     "foliage": "deciduous",
@@ -45,6 +48,16 @@
         "fields": [
           "family"
         ]
+      },
+      {
+        "source": "portland-plant-list",
+        "url": "https://github.com/bardic-inspiration/plant-library/blob/main/docs/Portland_Plant_List_2016_Update_Final2.pdf",
+        "accessed": "2026-11-18",
+        "fields": [
+          "commonNames",
+          "synonyms"
+        ],
+        "note": "Read from the June 2016 update uploaded to docs/ (PDF page 59). Listed as Salix lucida ssp. lasiandra."
       }
     ]
   },

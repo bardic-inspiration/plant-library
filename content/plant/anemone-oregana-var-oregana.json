@@ -1,0 +1,68 @@
+{
+  "type": "plant",
+  "id": "anemone-oregana-var-oregana",
+  "summary": "A perennial 4–12 in tall, for moist soil in part shade to shade.",
+  "data": {
+    "genus": "Anemone",
+    "species": "oregana",
+    "infraRank": "var.",
+    "infraEpithet": "oregana",
+    "commonNames": [
+      "Oregon Anemone"
+    ],
+    "family": "Placeholderaceae",
+    "form": "perennial",
+    "height": {
+      "min": 0.33,
+      "max": 1.0
+    },
+    "sun": [
+      "part-shade",
+      "shade"
+    ],
+    "moisture": [
+      "moist"
+    ],
+    "bloom": {
+      "colors": [
+        "blue",
+        "purple",
+        "pink"
+      ],
+      "months": {
+        "start": 4,
+        "end": 7
+      }
+    },
+    "sources": [
+      {
+        "source": "portland-plant-list",
+        "url": "https://github.com/bardic-inspiration/plant-library/blob/main/docs/Portland_Plant_List_2016_Update_Final2.pdf",
+        "accessed": "2026-11-18",
+        "fields": [
+          "commonNames",
+          "form",
+          "height",
+          "sun",
+          "moisture",
+          "bloom"
+        ],
+        "note": "Read from the June 2016 update uploaded to docs/ (PDF page 86)."
+      },
+      {
+        "source": "placeholder",
+        "accessed": "2026-11-18",
+        "fields": [
+          "family"
+        ],
+        "note": "Neither reference document gives a family."
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-18",
+    "revisedAt": "2026-11-18",
+    "method": "import",
+    "fixture": true
+  }
+}

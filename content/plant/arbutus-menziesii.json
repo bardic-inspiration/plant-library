@@ -1,0 +1,62 @@
+{
+  "type": "plant",
+  "id": "arbutus-menziesii",
+  "summary": "An evergreen tree about 50 ft tall, for dry soil in sun.",
+  "data": {
+    "genus": "Arbutus",
+    "species": "menziesii",
+    "commonNames": [
+      "Madrone"
+    ],
+    "family": "Placeholderaceae",
+    "form": "tree",
+    "foliage": "evergreen",
+    "height": {
+      "min": 50.0,
+      "max": 50.0
+    },
+    "spread": {
+      "min": 50.0,
+      "max": 50.0
+    },
+    "growthRate": "slow",
+    "sun": [
+      "full-sun"
+    ],
+    "moisture": [
+      "dry"
+    ],
+    "sources": [
+      {
+        "source": "portland-plant-list",
+        "url": "https://github.com/bardic-inspiration/plant-library/blob/main/docs/Portland_Plant_List_2016_Update_Final2.pdf",
+        "accessed": "2026-11-18",
+        "fields": [
+          "commonNames",
+          "form",
+          "foliage",
+          "height",
+          "spread",
+          "growthRate",
+          "sun",
+          "moisture"
+        ],
+        "note": "Read from the June 2016 update uploaded to docs/ (PDF pages 51, 59)."
+      },
+      {
+        "source": "placeholder",
+        "accessed": "2026-11-18",
+        "fields": [
+          "family"
+        ],
+        "note": "Neither reference document gives a family."
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-18",
+    "revisedAt": "2026-11-18",
+    "method": "import",
+    "fixture": true
+  }
+}

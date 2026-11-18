@@ -1,0 +1,56 @@
+{
+  "type": "plant",
+  "id": "arctostaphylos-columbiana",
+  "summary": "A shrub 6–8 ft tall, for dry to moist soil in sun.",
+  "data": {
+    "genus": "Arctostaphylos",
+    "species": "columbiana",
+    "commonNames": [
+      "Hairy Manzanita"
+    ],
+    "family": "Placeholderaceae",
+    "form": "shrub",
+    "height": {
+      "min": 6.0,
+      "max": 8.0
+    },
+    "growthRate": "slow",
+    "sun": [
+      "full-sun"
+    ],
+    "moisture": [
+      "dry",
+      "moist"
+    ],
+    "sources": [
+      {
+        "source": "portland-plant-list",
+        "url": "https://github.com/bardic-inspiration/plant-library/blob/main/docs/Portland_Plant_List_2016_Update_Final2.pdf",
+        "accessed": "2026-11-18",
+        "fields": [
+          "commonNames",
+          "form",
+          "height",
+          "growthRate",
+          "sun",
+          "moisture"
+        ],
+        "note": "Read from the June 2016 update uploaded to docs/ (PDF pages 69, 82)."
+      },
+      {
+        "source": "placeholder",
+        "accessed": "2026-11-18",
+        "fields": [
+          "family"
+        ],
+        "note": "Neither reference document gives a family."
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-18",
+    "revisedAt": "2026-11-18",
+    "method": "import",
+    "fixture": true
+  }
+}

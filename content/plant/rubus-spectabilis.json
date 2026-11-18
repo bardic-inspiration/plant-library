@@ -15,6 +15,7 @@
       "min": 10,
       "max": 10
     },
+    "growthRate": "fast",
     "sun": [
       "full-sun",
       "part-shade",
@@ -46,6 +47,16 @@
         "fields": [
           "family"
         ]
+      },
+      {
+        "source": "portland-plant-list",
+        "url": "https://github.com/bardic-inspiration/plant-library/blob/main/docs/Portland_Plant_List_2016_Update_Final2.pdf",
+        "accessed": "2026-11-18",
+        "fields": [
+          "commonNames",
+          "growthRate"
+        ],
+        "note": "Read from the June 2016 update uploaded to docs/ (PDF pages 78, 83)."
       }
     ]
   },

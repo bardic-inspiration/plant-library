@@ -1,0 +1,66 @@
+{
+  "type": "plant",
+  "id": "veratrum-californicum",
+  "summary": "A perennial 4–8 ft tall, for moist to wet soil in sun to part shade.",
+  "data": {
+    "genus": "Veratrum",
+    "species": "californicum",
+    "commonNames": [
+      "False Hellebore"
+    ],
+    "family": "Placeholderaceae",
+    "form": "perennial",
+    "height": {
+      "min": 4.0,
+      "max": 8.0
+    },
+    "sun": [
+      "full-sun",
+      "part-shade"
+    ],
+    "moisture": [
+      "moist",
+      "wet"
+    ],
+    "bloom": {
+      "colors": [
+        "white",
+        "green"
+      ],
+      "months": {
+        "start": 6,
+        "end": 8
+      }
+    },
+    "sources": [
+      {
+        "source": "portland-plant-list",
+        "url": "https://github.com/bardic-inspiration/plant-library/blob/main/docs/Portland_Plant_List_2016_Update_Final2.pdf",
+        "accessed": "2026-11-18",
+        "fields": [
+          "commonNames",
+          "form",
+          "height",
+          "sun",
+          "moisture",
+          "bloom"
+        ],
+        "note": "Read from the June 2016 update uploaded to docs/ (PDF page 130)."
+      },
+      {
+        "source": "placeholder",
+        "accessed": "2026-11-18",
+        "fields": [
+          "family"
+        ],
+        "note": "Neither reference document gives a family."
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-18",
+    "revisedAt": "2026-11-18",
+    "method": "import",
+    "fixture": true
+  }
+}

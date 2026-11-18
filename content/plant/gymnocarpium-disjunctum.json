@@ -1,0 +1,54 @@
+{
+  "type": "plant",
+  "id": "gymnocarpium-disjunctum",
+  "summary": "A fern 6–16 in tall, for moist soil in part shade to shade.",
+  "data": {
+    "genus": "Gymnocarpium",
+    "species": "disjunctum",
+    "commonNames": [
+      "Oak Fern"
+    ],
+    "family": "Placeholderaceae",
+    "form": "fern",
+    "height": {
+      "min": 0.5,
+      "max": 1.33
+    },
+    "sun": [
+      "part-shade",
+      "shade"
+    ],
+    "moisture": [
+      "moist"
+    ],
+    "sources": [
+      {
+        "source": "portland-plant-list",
+        "url": "https://github.com/bardic-inspiration/plant-library/blob/main/docs/Portland_Plant_List_2016_Update_Final2.pdf",
+        "accessed": "2026-11-18",
+        "fields": [
+          "commonNames",
+          "form",
+          "height",
+          "sun",
+          "moisture"
+        ],
+        "note": "Read from the June 2016 update uploaded to docs/ (PDF page 142)."
+      },
+      {
+        "source": "placeholder",
+        "accessed": "2026-11-18",
+        "fields": [
+          "family"
+        ],
+        "note": "Neither reference document gives a family."
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-18",
+    "revisedAt": "2026-11-18",
+    "method": "import",
+    "fixture": true
+  }
+}

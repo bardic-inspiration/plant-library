@@ -1,0 +1,67 @@
+{
+  "type": "plant",
+  "id": "linnaea-borealis",
+  "summary": "An evergreen perennial 4–7 in tall, for dry to moist soil in part shade to shade.",
+  "data": {
+    "genus": "Linnaea",
+    "species": "borealis",
+    "commonNames": [
+      "Twinflower"
+    ],
+    "family": "Placeholderaceae",
+    "form": "perennial",
+    "foliage": "evergreen",
+    "height": {
+      "min": 0.33,
+      "max": 0.58
+    },
+    "sun": [
+      "part-shade",
+      "shade"
+    ],
+    "moisture": [
+      "dry",
+      "moist"
+    ],
+    "bloom": {
+      "colors": [
+        "pink"
+      ],
+      "months": {
+        "start": 7,
+        "end": 8
+      }
+    },
+    "sources": [
+      {
+        "source": "portland-plant-list",
+        "url": "https://github.com/bardic-inspiration/plant-library/blob/main/docs/Portland_Plant_List_2016_Update_Final2.pdf",
+        "accessed": "2026-11-18",
+        "fields": [
+          "commonNames",
+          "form",
+          "foliage",
+          "height",
+          "sun",
+          "moisture",
+          "bloom"
+        ],
+        "note": "Read from the June 2016 update uploaded to docs/ (PDF page 104)."
+      },
+      {
+        "source": "placeholder",
+        "accessed": "2026-11-18",
+        "fields": [
+          "family"
+        ],
+        "note": "Neither reference document gives a family."
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-18",
+    "revisedAt": "2026-11-18",
+    "method": "import",
+    "fixture": true
+  }
+}

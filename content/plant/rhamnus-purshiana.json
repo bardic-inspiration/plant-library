@@ -6,7 +6,11 @@
     "genus": "Rhamnus",
     "species": "purshiana",
     "commonNames": [
-      "Cascara"
+      "Cascara",
+      "Cascara, chitum"
+    ],
+    "synonyms": [
+      "Frangula purshiana"
     ],
     "family": "Rhamnaceae",
     "form": "tree",
@@ -15,6 +19,11 @@
       "min": 30,
       "max": 30
     },
+    "spread": {
+      "min": 25.0,
+      "max": 25.0
+    },
+    "growthRate": "slow",
     "sun": [
       "full-sun",
       "part-shade",
@@ -47,6 +56,18 @@
         "fields": [
           "family"
         ]
+      },
+      {
+        "source": "portland-plant-list",
+        "url": "https://github.com/bardic-inspiration/plant-library/blob/main/docs/Portland_Plant_List_2016_Update_Final2.pdf",
+        "accessed": "2026-11-18",
+        "fields": [
+          "commonNames",
+          "synonyms",
+          "spread",
+          "growthRate"
+        ],
+        "note": "Read from the June 2016 update uploaded to docs/ (PDF pages 56, 59). Listed as Frangula purshiana."
       }
     ]
   },

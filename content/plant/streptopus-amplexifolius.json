@@ -1,0 +1,60 @@
+{
+  "type": "plant",
+  "id": "streptopus-amplexifolius",
+  "summary": "A perennial 1.5–3 ft tall, for moist soil in part shade to shade.",
+  "data": {
+    "genus": "Streptopus",
+    "species": "amplexifolius",
+    "commonNames": [
+      "Clasping-leaved Twisted-stalk"
+    ],
+    "family": "Placeholderaceae",
+    "form": "perennial",
+    "height": {
+      "min": 1.5,
+      "max": 3.0
+    },
+    "sun": [
+      "part-shade",
+      "shade"
+    ],
+    "moisture": [
+      "moist"
+    ],
+    "bloom": {
+      "colors": [
+        "white"
+      ]
+    },
+    "sources": [
+      {
+        "source": "portland-plant-list",
+        "url": "https://github.com/bardic-inspiration/plant-library/blob/main/docs/Portland_Plant_List_2016_Update_Final2.pdf",
+        "accessed": "2026-11-18",
+        "fields": [
+          "commonNames",
+          "form",
+          "height",
+          "sun",
+          "moisture",
+          "bloom"
+        ],
+        "note": "Read from the June 2016 update uploaded to docs/ (PDF page 126)."
+      },
+      {
+        "source": "placeholder",
+        "accessed": "2026-11-18",
+        "fields": [
+          "family"
+        ],
+        "note": "Neither reference document gives a family."
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-18",
+    "revisedAt": "2026-11-18",
+    "method": "import",
+    "fixture": true
+  }
+}

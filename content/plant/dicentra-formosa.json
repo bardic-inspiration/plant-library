@@ -8,6 +8,9 @@
     "commonNames": [
       "Bleeding heart"
     ],
+    "synonyms": [
+      "Dicentra formosa ssp. formosa"
+    ],
     "family": "Papaveraceae",
     "form": "perennial",
     "foliage": "deciduous",
@@ -23,6 +26,15 @@
       "dry",
       "moist"
     ],
+    "bloom": {
+      "colors": [
+        "pink"
+      ],
+      "months": {
+        "start": 4,
+        "end": 6
+      }
+    },
     "sources": [
       {
         "source": "king-county-native-plant-guide",
@@ -45,6 +57,17 @@
         "fields": [
           "family"
         ]
+      },
+      {
+        "source": "portland-plant-list",
+        "url": "https://github.com/bardic-inspiration/plant-library/blob/main/docs/Portland_Plant_List_2016_Update_Final2.pdf",
+        "accessed": "2026-11-18",
+        "fields": [
+          "commonNames",
+          "synonyms",
+          "bloom"
+        ],
+        "note": "Read from the June 2016 update uploaded to docs/ (PDF page 94). Listed as Dicentra formosa ssp. formosa."
       }
     ]
   },

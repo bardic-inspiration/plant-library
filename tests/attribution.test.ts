@@ -24,4 +24,12 @@ describe('coverage', () => {
   it('lists nothing non-commercial in the fixtures', () => {
     expect(coverage(buildData({ dataRoot: FIXTURES })).nonCommercial).toEqual([]);
   });
+
+  it('lists every placeholder in the library', () => {
+    const c = coverage(buildData({ dataRoot: FIXTURES }));
+    expect(c.placeholders).toEqual([]);
+    const lib = coverage(buildData({ dataRoot: ROOT }));
+    expect(lib.placeholders.length).toBeGreaterThan(0);
+    expect(lib.placeholders.every((p) => p.what === 'family')).toBe(true);
+  });
 });

@@ -6,7 +6,8 @@
     "genus": "Vancouveria",
     "species": "hexandra",
     "commonNames": [
-      "Inside-out flower"
+      "Inside-out flower",
+      "White Inside-out Flower"
     ],
     "family": "Berberidaceae",
     "form": "perennial",
@@ -23,6 +24,15 @@
       "dry",
       "moist"
     ],
+    "bloom": {
+      "colors": [
+        "white"
+      ],
+      "months": {
+        "start": 5,
+        "end": 7
+      }
+    },
     "sources": [
       {
         "source": "king-county-native-plant-guide",
@@ -45,6 +55,16 @@
         "fields": [
           "family"
         ]
+      },
+      {
+        "source": "portland-plant-list",
+        "url": "https://github.com/bardic-inspiration/plant-library/blob/main/docs/Portland_Plant_List_2016_Update_Final2.pdf",
+        "accessed": "2026-11-18",
+        "fields": [
+          "commonNames",
+          "bloom"
+        ],
+        "note": "Read from the June 2016 update uploaded to docs/ (PDF page 130)."
       }
     ]
   },

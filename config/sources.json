@@ -72,5 +72,40 @@
     "termsChecked": "2026-11-18",
     "termsSummary": "Read through the Wikidata taxonomy box on Wikimedia Commons category pages, since wikidata.org is blocked from cloud sessions. Commons' licensing page says structured data is CC0; Wikidata's own terms page couldn't be opened. Prototype only (D20): cited for family.",
     "citation": "Wikidata contributors. {year}. Wikidata, via the Wikimedia Commons taxonomy box (https://www.wikidata.org, {accessed})."
+  },
+  "portland-plant-list": {
+    "name": "Portland Plant List",
+    "publisher": "City of Portland Bureau of Planning and Sustainability",
+    "kind": "local",
+    "url": "https://www.portlandonline.com/bps",
+    "hosts": [
+      "portlandonline.com",
+      "www.portlandonline.com",
+      "portland.gov",
+      "www.portland.gov"
+    ],
+    "provides": [
+      "names",
+      "traits"
+    ],
+    "license": "unstated",
+    "termsUrl": "https://www.portlandonline.com/bps",
+    "termsChecked": "2026-11-18",
+    "termsSummary": "The June 2016 update (read from a copy the owner uploaded to docs/) states no copyright, license, or reuse terms, and the city's sites couldn't be reached from the session. Registered for facts only, like the King County guide (D18, D23): common names, form, foliage, height, spread, growth rate, sun, moisture, and bloom. Its prose, tables, and illustrations are never copied. The URL is the bureau address the document gives.",
+    "citation": "City of Portland Bureau of Planning and Sustainability. 2016. Portland Plant List, June 2016 update (https://www.portlandonline.com/bps, {accessed})."
+  },
+  "placeholder": {
+    "name": "Placeholder",
+    "publisher": "None: not a source",
+    "kind": "placeholder",
+    "hosts": [],
+    "provides": [
+      "names",
+      "traits"
+    ],
+    "license": "none",
+    "termsChecked": "2026-11-18",
+    "termsSummary": "Not a source. It stands in for a required field (family or form) that no reference document gives, so a prototype fixture passes validation (D24). Its value is not a fact; npm run coverage lists every use, and each is replaced from a real source.",
+    "citation": "Placeholder: no reference document gave this value."
   }
 }

@@ -1,0 +1,56 @@
+{
+  "type": "plant",
+  "id": "juncus-tenuis",
+  "summary": "An evergreen grass or grasslike plant 6–20 in tall, for moist to wet soil in sun.",
+  "data": {
+    "genus": "Juncus",
+    "species": "tenuis",
+    "commonNames": [
+      "Slender Rush"
+    ],
+    "family": "Placeholderaceae",
+    "form": "graminoid",
+    "foliage": "evergreen",
+    "height": {
+      "min": 0.5,
+      "max": 1.67
+    },
+    "sun": [
+      "full-sun"
+    ],
+    "moisture": [
+      "moist",
+      "wet"
+    ],
+    "sources": [
+      {
+        "source": "portland-plant-list",
+        "url": "https://github.com/bardic-inspiration/plant-library/blob/main/docs/Portland_Plant_List_2016_Update_Final2.pdf",
+        "accessed": "2026-11-18",
+        "fields": [
+          "commonNames",
+          "form",
+          "foliage",
+          "height",
+          "sun",
+          "moisture"
+        ],
+        "note": "Read from the June 2016 update uploaded to docs/ (PDF page 140)."
+      },
+      {
+        "source": "placeholder",
+        "accessed": "2026-11-18",
+        "fields": [
+          "family"
+        ],
+        "note": "Neither reference document gives a family."
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-18",
+    "revisedAt": "2026-11-18",
+    "method": "import",
+    "fixture": true
+  }
+}
