@@ -36,7 +36,10 @@ rules, and `main` is always complete (P1, P8, P11).
   of changed entries with their key facts, `check`, `test`). A PR labelled
   `milestone` also runs `a11y`.
 - **`deploy.yml`** on merge to `main`: build, check the built site's links,
-  and keep `site/dist` as the `site` artifact for 30 days.
+  and keep `site/dist` as the `site` artifact for 30 days. A second job
+  publishes the fixture build (`npm run build:fixtures`, bannered) to
+  GitHub Pages at `/plant-library/`, so the draft can be viewed. Pages must
+  be on, with "GitHub Actions" as its source (Settings → Pages).
 - **`labeler.yml`** adds area labels by path: `ui`, `data`, `map`, `ci`,
   and `migration`.
 - **Dependabot** proposes npm and Actions updates weekly.
@@ -64,8 +67,9 @@ use, the copy works through its handover checklist:
 
 - remove the fixture projects and palettes;
 - clear or replace everything `npm run coverage` lists as non-commercial;
-- set `base` and `basemap.maxZoom` in `config/site.json` for the internal
-  server;
+- set `base` (`/plant-library/` here, for GitHub Pages) and
+  `basemap.maxZoom` in `config/site.json` for the internal server;
+- remove the Pages job from `deploy.yml`;
 - decide the copy's own license notice.
 
 The site depends on no particular host; the server only needs to honor HTTP

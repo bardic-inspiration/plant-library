@@ -5,6 +5,7 @@ import { applyQuery, emptyQuery, facetCounts, parseQuery, serializeQuery, sortOp
 import { facetValues } from '../lib/facets';
 import { TYPES } from '../lib/registry';
 import type { FacetDef, IndexRecord, LibraryIndex } from '../lib/types';
+import { BASE } from '../lib/site';
 import { FIXTURES } from './helpers';
 
 const data = buildData({ dataRoot: FIXTURES });
@@ -33,7 +34,7 @@ describe('the index', () => {
   });
 
   it('carries the pinned image as the thumbnail, and none when there is no image', () => {
-    expect(index.records.find((r) => r.id === 'acer-circinatum')!.thumb!.src).toBe('/assets/images/plant/acer-circinatum/1.jpg');
+    expect(index.records.find((r) => r.id === 'acer-circinatum')!.thumb!.src).toBe(`${BASE}assets/images/plant/acer-circinatum/1.jpg`);
     expect(index.records.find((r) => r.id === 'achillea-millefolium')!.thumb).toBeUndefined();
   });
 
