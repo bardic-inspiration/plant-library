@@ -24,6 +24,7 @@ Registered now:
 | Source | Why |
 |---|---|
 | `usda-plants` | USDA PLANTS. Terms read while the spec was written: plant information is free for any use, with citation. |
+| `king-county-native-plant-guide` | King County's *Native Plant Guide for Western Washington Yards* (2017). It states no terms, so it is cited for facts only (D16): common names, leaf habit, sun, moisture, mature height. |
 | `staff-observation` | The organization's own observation, kind `professional`. Cited only for a trait no other source gives, and only with a `contributor`. It has no URL. |
 
 ### Licensing rules
