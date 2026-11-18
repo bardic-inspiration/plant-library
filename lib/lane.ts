@@ -44,12 +44,13 @@ export function areaLabels(files: string[], lane: Lane | null): string[] {
 
 /**
  * Branch prefixes: `content/` (and `content/sub-<id>` for a submission),
- * `dev/`, and `dependabot/`. A `claude/` or `ccr-` branch, as cloud
- * sessions name them, takes its lane from its paths. `spike/` branches can't merge.
+ * `dev/`, `admin/` (maintenance, such as dependency rounds), and
+ * `dependabot/`. A `claude/` or `ccr-` branch, as cloud sessions name
+ * them, takes its lane from its paths. `spike/` branches can't merge.
  */
 export function laneForBranch(branch: string): Lane | 'infer' | 'spike' | null {
   if (branch.startsWith('content/')) return 'content';
-  if (branch.startsWith('dev/') || branch.startsWith('dependabot/')) return 'dev';
+  if (branch.startsWith('dev/') || branch.startsWith('admin/') || branch.startsWith('dependabot/')) return 'dev';
   if (branch.startsWith('claude/') || branch.startsWith('ccr-')) return 'infer';
   if (branch.startsWith('spike/')) return 'spike';
   return null;
@@ -60,7 +61,7 @@ export function checkLane(branch: string, files: string[]): LaneResult {
   const byBranch = laneForBranch(branch);
   let lane: Lane | null = null;
   if (byBranch === 'spike') errors.push(`${branch}: spike/ branches can't merge`);
-  else if (byBranch === null) errors.push(`${branch}: branch names start with content/ or dev/ (or dependabot/)`);
+  else if (byBranch === null) errors.push(`${branch}: branch names start with content/, dev/, or admin/ (or dependabot/)`);
   else if (byBranch === 'infer') lane = files.length > 0 && files.every(isContentPath) ? 'content' : 'dev';
   else lane = byBranch;
 

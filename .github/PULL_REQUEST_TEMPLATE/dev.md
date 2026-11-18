@@ -1,4 +1,4 @@
-<!-- Dev lane: everything but content, which a dev PR touches only as a migration. Branch dev/<short-description>. Title: `<area>: <summary>`. -->
+<!-- Dev lane: everything but content, which a dev PR touches only as a migration. Branch dev/<short-description>, or admin/<short-description> for maintenance. Title: `<area>: <summary>`. -->
 
 ## What changes
 

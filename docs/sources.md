@@ -24,8 +24,8 @@ Registered now:
 | Source | Why |
 |---|---|
 | `usda-plants` | USDA PLANTS. Terms read while the spec was written: plant information is free for any use, with citation. |
-| `wikidata` | Wikidata, read through the taxonomy box on Wikimedia Commons category pages. Its data is CC0. Prototype only: cited for `family` (D18). |
-| `king-county-native-plant-guide` | King County's *Native Plant Guide for Western Washington Yards* (2017). It states no terms, so it is cited for facts only (D16): common names, leaf habit, sun, moisture, mature height. |
+| `wikidata` | Wikidata, read through the taxonomy box on Wikimedia Commons category pages. Its data is CC0. Prototype only: cited for `family` (D20). |
+| `king-county-native-plant-guide` | King County's *Native Plant Guide for Western Washington Yards* (2017). It states no terms, so it is cited for facts only (D18): common names, leaf habit, sun, moisture, mature height. |
 | `staff-observation` | The organization's own observation, kind `professional`. Cited only for a trait no other source gives, and only with a `contributor`. It has no URL. |
 
 ### Data stages

@@ -12,7 +12,7 @@ rules, and `main` is always complete (P1, P8, P11).
 | | Content lane | Dev lane |
 |---|---|---|
 | Paths | `content/**`, `assets/images/**` | Everything else; content paths only as a migration |
-| Branch | `content/<short-description>`; `content/sub-<id>` for a submission | `dev/<short-description>`, `dependabot/` |
+| Branch | `content/<short-description>`; `content/sub-<id>` for a submission | `dev/<short-description>`, `admin/<short-description>` for maintenance such as dependency rounds, `dependabot/` |
 | CI checks | `validate`, `build` | Those, then `check` and `test` |
 | PR template | `.github/PULL_REQUEST_TEMPLATE/content.md` | `.github/PULL_REQUEST_TEMPLATE/dev.md` |
 

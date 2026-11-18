@@ -14,7 +14,8 @@ Rules for anyone, person or agent, changing this repo.
 
 - **Every change is a pull request**, in one lane: content
   (`content/**`, `assets/images/**`, branch `content/…`) or dev (everything
-  else, branch `dev/…`). Never push to `main` or rewrite pushed history.
+  else, branch `dev/…`, or `admin/…` for maintenance). Never push to
+  `main` or rewrite pushed history.
   Details in [`docs/workflow.md`](docs/workflow.md).
 - **Before pushing:** `npm run validate` and `npm run build`; for dev work
   also `npm run check` and `npm test`. Don't skip or weaken a check to get
