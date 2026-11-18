@@ -47,6 +47,20 @@ goes only into that copy, served from an internal web server
 ([docs/workflow.md](../../docs/workflow.md#the-prototype-and-the-company-copy)). Everything is designed so the
 copy needs configuration and data, not code changes.
 
+### Data stages
+
+Plant data is built in two stages
+([docs/sources.md](../../docs/sources.md#data-stages)):
+
+- **Prototype (now).** Plants are fixtures for developing and testing the
+  site, marked `meta.fixture: true`. Accuracy isn't required: values may
+  come from any public source a session can read and may be approximate,
+  as long as each cites the page it came from and nothing is copied.
+- **Production (later).** The dataset the company copy serves: P5 in full,
+  USDA PLANTS names and families, every source's terms read. Building it
+  is a later stage, outside the v1 milestones
+  ([sources.md](sources.md#production-dataset)).
+
 ## Principles
 
 Carried from TL's `docs/decisions.md`, renumbered, with two that are new here
@@ -58,7 +72,7 @@ Carried from TL's `docs/decisions.md`, renumbered, with two that are new here
 | P2 | Fail closed | Technical data is strict: an unknown key or malformed value fails CI. Tags stay open. |
 | P3 | One source per fact | Each value is stored once. Anything computable (display names, a project's county, how often a plant is used) is derived at build, never stored. |
 | P4 | Configuration over code | A new type, facet, map overlay, or data source is a data or file addition. |
-| P5 | Facts with provenance | Every technical value on a plant cites a registered source. We record facts in our own schema and write our own prose; we don't copy a source's text. |
+| P5 | Facts with provenance | Every technical value on a plant cites a registered source. We record facts in our own schema and write our own prose; we don't copy a source's text. Applied in full to production data; prototype fixtures follow the lighter rules under [Data stages](#data-stages). |
 | P6 | Geography is derived | An entry stores coordinates or region codes only. Names, regions, and zones come from boundary data at build. |
 | P7 | Templates own presentation | Entries hold content; templates hold wording, order, units, and typography. |
 | P8 | Enforced, not by convention | Lanes, schemas, provenance, links, and accessibility are checked by CI. |
@@ -75,7 +89,7 @@ of scope (Goal and Design required).
 | File | Covers |
 |---|---|
 | [`data-model.md`](data-model.md) | The `project` and `palette` types, plant lists, derived use and geography, their validation |
-| [`sources.md`](sources.md) | The source survey, the 50-plant fixture set, the import workflow |
+| [`sources.md`](sources.md) | The source survey, the production dataset (a later stage), fixture projects, the import workflow |
 | [`library.md`](library.md) | Project and palette pages and cards, cross-type filters, the palette workspace, compatibility, exports |
 | [`map.md`](map.md) | The map view, the map engine, basemap and its style from tokens, overlays, region filters, distribution analysis |
 | [`submissions.md`](submissions.md) | Contribution forms, the submission format, stores, the `integrate` skill and routine, professional opinion |
@@ -89,7 +103,7 @@ for it.
 | | Milestone | Builds |
 |---|---|---|
 | M1 | Skeleton | Built: tooling, lanes, CI, deploy, docs, the site ([docs/workflow.md](../../docs/workflow.md)) |
-| M2 | Plants | Built: the plant type, validation, the source registry. Still to do: the 50-plant fixture set in `sources.md`, blocked on reaching USDA PLANTS |
+| M2 | Plants | Built: the plant type, validation, the source registry, and a prototype fixture set of 49 plants from the King County guide ([docs/sources.md](../../docs/sources.md#the-prototype-fixture-set)) |
 | M3 | Library | Built: list view, filter tree, search, plant pages, styling ([docs/site.md](../../docs/site.md)) |
 | M4 | Projects | `data-model.md` project type and geography derivation; project pages; plant and project links |
 | M5 | Map | `map.md` map view, overlays, region filters |

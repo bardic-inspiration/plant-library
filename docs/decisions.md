@@ -8,7 +8,7 @@
 | P2 | Fail closed | Technical data is strict: an unknown key or malformed value fails CI. Tags stay open. |
 | P3 | One source per fact | Each value is stored once. Anything computable is derived at build, never stored. |
 | P4 | Configuration over code | A new type, facet, map overlay, or data source is a data or file addition. |
-| P5 | Facts with provenance | Every technical value on a plant cites a registered source. We record facts in our own schema and write our own prose. |
+| P5 | Facts with provenance | Every technical value on a plant cites a registered source. We record facts in our own schema and write our own prose. Applied in full to production data; prototype fixtures follow lighter rules (D17). |
 | P6 | Geography is derived | An entry stores coordinates or region codes only. Names, regions, and zones come from boundary data at build. |
 | P7 | Templates own presentation | Entries hold content; templates hold wording, order, units, and typography. |
 | P8 | Enforced, not by convention | Lanes, schemas, provenance, links, and accessibility are checked by CI. |
@@ -36,3 +36,7 @@
 | D14 | 2026-11-17 | `npm run a11y` checks at 1280 and 360 px. | The filter layout changes at 64rem; both layouts must pass. |
 | D15 | 2026-11-18 | The draft is published to GitHub Pages at `/plant-library/`, from the fixture build; `base` in `config/site.json` is `/plant-library/`. | The repo holds no proprietary data, and the real library is empty until the fixture set is sourced; the banner marks the values as unsourced. |
 | D16 | 2026-11-18 | `king-county-native-plant-guide` is registered with license `unstated` and cited for facts only. | The brochure carries no copyright notice or reuse terms, and the county site's terms couldn't be read; the owner chose to use it as a public reference for facts, which aren't copyrightable, and never its prose, layout, or illustrations. |
+| D17 | 2026-11-18 | Data has two stages. In the prototype stage (now) plants are fixtures, marked `meta.fixture: true`, whose values may be approximate and may come from any readable public source; production data, with P5 in full and USDA PLANTS names, is a later stage. | The owner needs fixtures to build and test the site; accurate, cleared data matters only for the production library. |
+| D18 | 2026-11-18 | `wikidata`, read through the taxonomy box on Commons category pages, is registered for `family` in the prototype. Families follow Wikidata (APG, e.g. Sapindaceae), and the family table holds them beside USDA's; D7 applies again in production. | USDA PLANTS is unreachable, `family` is required, and Wikidata is CC0; `wikidata.org` itself is blocked from cloud sessions, Commons isn't. |
+| D19 | 2026-11-18 | `ccr-` branches, as cloud sessions now name them, take their lane from their paths, like `claude/` branches (D11). | Cloud sessions are assigned `ccr-…` branches and may push nowhere else; the lane check rejected them. |
+| D20 | 2026-11-18 | The fixture banner shows on any build that holds a fixture plant, not only on the test fixture library's build. | Prototype plants in `content/` are fixtures too, and their values are not checked. |

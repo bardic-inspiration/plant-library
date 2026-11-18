@@ -12,7 +12,9 @@ interface Props {
 }
 const { title, description = site.description, current } = Astro.props;
 const fullTitle = title ? `${title} · ${SITE_TITLE}` : SITE_TITLE;
-const { fixtureData } = buildData().library;
+const { fixtureData, entries } = buildData().library;
+// Prototype plants in content/ are fixtures too (docs/sources.md, Data stages).
+const fixturePlants = !fixtureData && entries.some((e) => e.entry.meta.fixture === true);
 
 // Only built sections appear; the rest join as they are built (spec/v1/README.md milestones).
 const nav = [
@@ -36,6 +38,12 @@ const nav = [
       <p class="fixture-banner" role="note">
         This build shows the test fixture library. Its plants are illustrative: their values have not
         been checked against the sources they cite.
+      </p>
+    )}
+    {fixturePlants && (
+      <p class="fixture-banner" role="note">
+        This is a prototype. Its plants are test fixtures: their values may be approximate and are not
+        checked for production use.
       </p>
     )}
     <header class="site-header">

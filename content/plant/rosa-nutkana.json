@@ -1,0 +1,58 @@
+{
+  "type": "plant",
+  "id": "rosa-nutkana",
+  "summary": "A deciduous shrub reaching about 6 ft, for dry to wet soil in sun to part shade.",
+  "data": {
+    "genus": "Rosa",
+    "species": "nutkana",
+    "commonNames": [
+      "Rosa species"
+    ],
+    "family": "Rosaceae",
+    "form": "shrub",
+    "foliage": "deciduous",
+    "height": {
+      "min": 6,
+      "max": 6
+    },
+    "sun": [
+      "full-sun",
+      "part-shade"
+    ],
+    "moisture": [
+      "dry",
+      "moist",
+      "wet"
+    ],
+    "sources": [
+      {
+        "source": "king-county-native-plant-guide",
+        "url": "https://kingcounty.gov/gonative",
+        "accessed": "2026-11-18",
+        "fields": [
+          "commonNames",
+          "form",
+          "foliage",
+          "height",
+          "sun",
+          "moisture"
+        ],
+        "note": "Read from the 2017 brochure, which gives this address; height is its single mature height."
+      },
+      {
+        "source": "wikidata",
+        "url": "https://commons.wikimedia.org/wiki/Category:Rosa",
+        "accessed": "2026-11-18",
+        "fields": [
+          "family"
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-18",
+    "revisedAt": "2026-11-18",
+    "method": "import",
+    "fixture": true
+  }
+}

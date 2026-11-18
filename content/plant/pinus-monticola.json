@@ -1,0 +1,57 @@
+{
+  "type": "plant",
+  "id": "pinus-monticola",
+  "summary": "An evergreen tree reaching about 130 ft, for dry to moist soil in sun to part shade.",
+  "data": {
+    "genus": "Pinus",
+    "species": "monticola",
+    "commonNames": [
+      "Western white pine"
+    ],
+    "family": "Pinaceae",
+    "form": "tree",
+    "foliage": "evergreen",
+    "height": {
+      "min": 130,
+      "max": 130
+    },
+    "sun": [
+      "full-sun",
+      "part-shade"
+    ],
+    "moisture": [
+      "dry",
+      "moist"
+    ],
+    "sources": [
+      {
+        "source": "king-county-native-plant-guide",
+        "url": "https://kingcounty.gov/gonative",
+        "accessed": "2026-11-18",
+        "fields": [
+          "commonNames",
+          "form",
+          "foliage",
+          "height",
+          "sun",
+          "moisture"
+        ],
+        "note": "Read from the 2017 brochure, which gives this address; height is its single mature height."
+      },
+      {
+        "source": "wikidata",
+        "url": "https://commons.wikimedia.org/wiki/Category:Pinus_monticola",
+        "accessed": "2026-11-18",
+        "fields": [
+          "family"
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-18",
+    "revisedAt": "2026-11-18",
+    "method": "import",
+    "fixture": true
+  }
+}

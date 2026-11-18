@@ -19,11 +19,21 @@ Rules for anyone, person or agent, changing this repo.
 - **Before pushing:** `npm run validate` and `npm run build`; for dev work
   also `npm run check` and `npm test`. Don't skip or weaken a check to get
   green.
-- **Facts need provenance (P5).** Every technical value on a plant cites a
-  registered source, at a page you actually read. Never invent a value or
-  a citation; leave a trait empty instead. Never copy a source's prose.
-  Register a source only after reading its terms. The `plant-import` skill
-  has the workflow.
+- **Data has two stages.** The repo is in the **prototype** stage: plant
+  data is fixture data for building and testing the site, and accuracy
+  isn't required. The **production** dataset is a later stage. Details in
+  [`docs/sources.md`](docs/sources.md#data-stages).
+  - *Prototype (now):* every plant is marked `meta.fixture: true`. Values
+    may come from any public source you can read, including one that
+    states no terms (register it as facts only), and may be approximate.
+    Validation still wants a citation per trait: cite the page the value
+    came from. Never cite a page you didn't open, never copy a source's
+    prose, and use only images with an allowed license.
+  - *Production (later):* every technical value cites a registered source
+    whose terms were read and allow reuse (P5), at a page you actually
+    read; names and families follow USDA PLANTS; a fact no source gives
+    stays empty.
+  - The `plant-import` skill has the workflow for both.
 - **No real project data here.** Projects and palettes in this repo are
   made up and marked `meta.fixture: true`; `client` and
   `constructionBudget` stay blank.

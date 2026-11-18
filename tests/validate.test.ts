@@ -100,7 +100,7 @@ describe('names and synonyms', () => {
   });
 
   it('the family must be in the family table', () => {
-    expectError(validateWith((es) => (plant(es, 'acer-circinatum').data.family = 'Sapindaceae')), /family Sapindaceae is not in/);
+    expectError(validateWith((es) => (plant(es, 'acer-circinatum').data.family = 'Notarealaceae')), /family Notarealaceae is not in/);
   });
 
   it('warns on near-duplicate common names', () => {

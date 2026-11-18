@@ -7,10 +7,14 @@ depends: [data-model]
 ## Goal
 
 Decide where plant data, images, and boundary data may come from, how each
-fact stays traceable to its source, and how the library is first filled: a
-fixture set of 50 Pacific Northwest natives (P5, P8).
+fact stays traceable to its source, and how the production library is
+first filled: 50 Pacific Northwest natives (P5, P8).
 
-Technical plant information comes only from educational and governmental
+This file is about production data, a later stage
+([README](README.md#data-stages)). Prototype fixtures follow lighter rules
+and are built ([docs/sources.md](../../docs/sources.md#data-stages)).
+
+In production, technical plant information comes only from educational and governmental
 sources and botanical institutions. Blogs, informal sources, and commercial
 sites (nursery catalogs included) are not used for it.
 
@@ -18,8 +22,8 @@ sites (nursery catalogs included) are not used for it.
 
 The source registry, the licensing rules, attribution, and coverage are
 built; see [docs/sources.md](../../docs/sources.md). What remains is the
-survey of sources still to check, the 50-plant fixture set, and the import
-workflow.
+survey of sources still to check, the production dataset, the fixture
+projects, and the import workflow.
 
 ### Source survey
 
@@ -70,29 +74,34 @@ The survey continues as a build task: read each remaining source's terms,
 register the ones that pass, and add county, city, and botanical garden
 sources for Oregon and California to match the Washington ones above.
 
-### Fixture set
+### Production dataset
 
-The library starts with 50 plants native to the Pacific Northwest, enough to
-exercise every form, trait, and filter.
+A later stage, outside the v1 milestones: it starts when the owner opens
+it. The prototype fixture plants
+([docs/sources.md](../../docs/sources.md#the-prototype-fixture-set)) are
+then checked against these rules or replaced.
 
-- **Blocked so far.** The session that built M1 and M2 couldn't reach
-  USDA PLANTS: its API answered every request with a 504 from its own load
-  balancer, and `plants.usda.gov` redirects to `plants.sc.egov.usda.gov`.
-  No plant is entered until its facts are read from the source. The
-  `plant-import` skill (`.claude/skills/plant-import/SKILL.md`) is the
-  workflow to follow when it is reachable.
-- **Which plants.** The list below is a candidate, chosen for nursery
-  availability and a spread of forms and conditions. The fixture task
-  confirms each against the King County Native Plant Guide and USDA PLANTS
-  (accepted name, native in Washington) and swaps any that fail. The King
-  County site couldn't be reached from the session that wrote this spec, so
-  none is confirmed yet.
+- **Which plants.** The production library starts with 50 plants native to
+  the Pacific Northwest, enough to exercise every form, trait, and filter.
+  The list below is a candidate, chosen for nursery availability and a
+  spread of forms and conditions. The task confirms each against the King
+  County Native Plant Guide and USDA PLANTS (accepted name, native in
+  Washington) and swaps any that fail.
 - **Where the data comes from.** USDA PLANTS first, since its terms are
   verified. Gaps are filled from the federal sources above, then from others
   as their terms are checked. A trait no registered source gives stays empty.
+  Sources registered only for the prototype (`wikidata`, and
+  `king-county-native-plant-guide`, whose terms are unstated) are cleared or
+  dropped.
 - **Names** follow USDA PLANTS' accepted name, with the names the nursery
   trade uses as `synonyms` (Mahonia and Berberis, Frangula and Rhamnus,
   Struthiopteris and Blechnum).
+- **Done when** 50 plant entries, not fixtures, pass validation with full
+  provenance, and at least 40 have a pinned image under an allowed license.
+- **Last known blocker.** USDA PLANTS' API answered every request with a 504
+  from its own load balancer on 2026-11-17 and 2026-11-18, and
+  `plants.usda.gov` redirects to `plants.sc.egov.usda.gov`, which the cloud
+  environment doesn't allow.
 
 Trees (14): Acer circinatum, Acer macrophyllum, Alnus rubra, Arbutus
 menziesii, Cornus nuttallii, Crataegus douglasii, Frangula purshiana, Malus
@@ -112,8 +121,10 @@ quamash, Carex obnupta, Deschampsia cespitosa, Dicentra formosa, Fragaria
 chiloensis, Iris tenax, Juncus ensifolius, Polystichum munitum, Sisyrinchium
 idahoense, Struthiopteris spicant, Tellima grandiflora.
 
-Alongside them, about a dozen made-up projects and a few palettes, marked
-as fixtures, spread across the three states and the project types, so the project
+### Fixture projects
+
+About a dozen made-up projects and a few palettes, marked as fixtures,
+spread across the three states and the project types, so the project
 pages, the map, and the analysis have data before real projects arrive.
 
 ### Import workflow
@@ -134,8 +145,6 @@ company copy. The steps that are already settled:
 
 ## Done when
 
-- 50 plant entries pass validation with full provenance, and at least 40
-  have a pinned image under an allowed license.
 - `npm run coverage` lists the unsourced names in the fixture projects
   (the listing itself is built; the fixture projects aren't).
 
@@ -151,6 +160,10 @@ company copy. The steps that are already settled:
   plant may have before the repo gets too heavy.
 
 ## Out of scope
+
+The production dataset, in v1: a later stage
+([Production dataset](#production-dataset)).
+
 
 Scraping at build time, live API calls from the site, and any source that
 needs an account or a paid license.

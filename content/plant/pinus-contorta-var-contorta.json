@@ -1,0 +1,60 @@
+{
+  "type": "plant",
+  "id": "pinus-contorta-var-contorta",
+  "summary": "An evergreen tree reaching about 50 ft, for dry to wet soil in sun to part shade.",
+  "data": {
+    "genus": "Pinus",
+    "species": "contorta",
+    "infraRank": "var.",
+    "infraEpithet": "contorta",
+    "commonNames": [
+      "Shore pine"
+    ],
+    "family": "Pinaceae",
+    "form": "tree",
+    "foliage": "evergreen",
+    "height": {
+      "min": 50,
+      "max": 50
+    },
+    "sun": [
+      "full-sun",
+      "part-shade"
+    ],
+    "moisture": [
+      "dry",
+      "moist",
+      "wet"
+    ],
+    "sources": [
+      {
+        "source": "king-county-native-plant-guide",
+        "url": "https://kingcounty.gov/gonative",
+        "accessed": "2026-11-18",
+        "fields": [
+          "commonNames",
+          "form",
+          "foliage",
+          "height",
+          "sun",
+          "moisture"
+        ],
+        "note": "Read from the 2017 brochure, which gives this address; height is its single mature height."
+      },
+      {
+        "source": "wikidata",
+        "url": "https://commons.wikimedia.org/wiki/Category:Pinus",
+        "accessed": "2026-11-18",
+        "fields": [
+          "family"
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-18",
+    "revisedAt": "2026-11-18",
+    "method": "import",
+    "fixture": true
+  }
+}

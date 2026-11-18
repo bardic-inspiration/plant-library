@@ -1,0 +1,57 @@
+{
+  "type": "plant",
+  "id": "myrica-californica",
+  "summary": "An evergreen shrub reaching about 15 ft, for dry to moist soil in sun to part shade.",
+  "data": {
+    "genus": "Myrica",
+    "species": "californica",
+    "commonNames": [
+      "Pacific wax myrtle"
+    ],
+    "family": "Myricaceae",
+    "form": "shrub",
+    "foliage": "evergreen",
+    "height": {
+      "min": 15,
+      "max": 15
+    },
+    "sun": [
+      "full-sun",
+      "part-shade"
+    ],
+    "moisture": [
+      "dry",
+      "moist"
+    ],
+    "sources": [
+      {
+        "source": "king-county-native-plant-guide",
+        "url": "https://kingcounty.gov/gonative",
+        "accessed": "2026-11-18",
+        "fields": [
+          "commonNames",
+          "form",
+          "foliage",
+          "height",
+          "sun",
+          "moisture"
+        ],
+        "note": "Read from the 2017 brochure, which gives this address; height is its single mature height. The guide adds that in full sun it wants moist soil, while dry shade suits it."
+      },
+      {
+        "source": "wikidata",
+        "url": "https://commons.wikimedia.org/wiki/Category:Myrica_californica",
+        "accessed": "2026-11-18",
+        "fields": [
+          "family"
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-18",
+    "revisedAt": "2026-11-18",
+    "method": "import",
+    "fixture": true
+  }
+}

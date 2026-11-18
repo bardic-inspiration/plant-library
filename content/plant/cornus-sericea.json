@@ -1,0 +1,58 @@
+{
+  "type": "plant",
+  "id": "cornus-sericea",
+  "summary": "A deciduous shrub reaching about 15 ft, for moist to wet soil in sun to shade.",
+  "data": {
+    "genus": "Cornus",
+    "species": "sericea",
+    "commonNames": [
+      "Red osier dogwood"
+    ],
+    "family": "Cornaceae",
+    "form": "shrub",
+    "foliage": "deciduous",
+    "height": {
+      "min": 15,
+      "max": 15
+    },
+    "sun": [
+      "full-sun",
+      "part-shade",
+      "shade"
+    ],
+    "moisture": [
+      "moist",
+      "wet"
+    ],
+    "sources": [
+      {
+        "source": "king-county-native-plant-guide",
+        "url": "https://kingcounty.gov/gonative",
+        "accessed": "2026-11-18",
+        "fields": [
+          "commonNames",
+          "form",
+          "foliage",
+          "height",
+          "sun",
+          "moisture"
+        ],
+        "note": "Read from the 2017 brochure, which gives this address; height is its single mature height."
+      },
+      {
+        "source": "wikidata",
+        "url": "https://commons.wikimedia.org/wiki/Category:Cornus_sericea",
+        "accessed": "2026-11-18",
+        "fields": [
+          "family"
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-18",
+    "revisedAt": "2026-11-18",
+    "method": "import",
+    "fixture": true
+  }
+}
