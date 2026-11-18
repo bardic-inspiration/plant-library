@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "eriogonum-nudum",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Eriogonum",
     "species": "nudum",
@@ -9,7 +9,7 @@
       "Barestem Buckwheat"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

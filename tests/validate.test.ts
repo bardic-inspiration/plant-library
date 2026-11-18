@@ -121,6 +121,17 @@ describe('provenance', () => {
     );
   });
 
+  it('life cycle is a trait apart from form, and is cited like one', () => {
+    expect(messages(validateWith((es) => (plant(es, 'achillea-millefolium').data.form = 'graminoid')))).toEqual([]);
+    expectError(
+      validateWith((es) => {
+        const s = plant(es, 'achillea-millefolium').data.sources.find((c) => c.source === 'usda-plants')!;
+        s.fields = s.fields.filter((f) => f !== 'lifeCycle');
+      }),
+      /data\.lifeCycle is populated but no source cites it/,
+    );
+  });
+
   it('a parent key cites all its parts', () => {
     const r = validateWith((es) => {
       const s = plant(es, 'acer-circinatum').data.sources[0];

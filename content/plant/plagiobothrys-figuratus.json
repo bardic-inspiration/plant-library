@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "plagiobothrys-figuratus",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Plagiobothrys",
     "species": "figuratus",
@@ -9,7 +9,7 @@
       "Fragrant Plagiobothrys"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

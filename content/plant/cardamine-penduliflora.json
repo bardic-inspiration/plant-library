@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "cardamine-penduliflora",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Cardamine",
     "species": "penduliflora",
@@ -9,7 +9,7 @@
       "Willamette Valley Bittercress"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

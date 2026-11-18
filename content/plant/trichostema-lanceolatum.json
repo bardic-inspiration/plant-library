@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "trichostema-lanceolatum",
-  "summary": "A perennial, for moist soil in sun.",
+  "summary": "A herbaceous plant, for moist soil in sun.",
   "data": {
     "genus": "Trichostema",
     "species": "lanceolatum",
@@ -9,7 +9,7 @@
       "Mt. Blue-Curls"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sun": [
       "full-sun"
     ],

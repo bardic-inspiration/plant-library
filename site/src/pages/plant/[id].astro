@@ -54,6 +54,7 @@ const groups: { title: string; rows: Row[] }[] = [
     title: 'Size and habit',
     rows: [
       { trait: 'form', label: 'Form', links: valueLinks('form', 'form', [d.form]) },
+      { trait: 'lifeCycle', label: 'Life cycle', links: valueLinks('lifeCycle', 'lifeCycle', d.lifeCycle ? [d.lifeCycle] : []) },
       { trait: 'foliage', label: 'Foliage', links: valueLinks('foliage', 'foliage', d.foliage ? [d.foliage] : []) },
       { trait: 'height', label: 'Height', text: d.height && `${formatRange(d.height)} (${formatMetric(d.height)})` },
       { trait: 'spread', label: 'Spread', text: d.spread && `${formatRange(d.spread)} (${formatMetric(d.spread)})` },

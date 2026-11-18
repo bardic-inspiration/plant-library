@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "agoseris-grandiflora",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Agoseris",
     "species": "grandiflora",
@@ -9,7 +9,7 @@
       "Large-flowered Agoseris"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

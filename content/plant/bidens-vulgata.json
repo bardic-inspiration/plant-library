@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "bidens-vulgata",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Bidens",
     "species": "vulgata",
@@ -9,7 +9,7 @@
       "Western Beggar’s-tick"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

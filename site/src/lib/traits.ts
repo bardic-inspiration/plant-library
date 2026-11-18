@@ -8,6 +8,7 @@ export const TRAIT_LABELS: Record<string, string> = {
   usdaSymbol: 'USDA symbol',
   family: 'Family',
   form: 'Form',
+  lifeCycle: 'Life cycle',
   foliage: 'Foliage',
   height: 'Height',
   spread: 'Spread',

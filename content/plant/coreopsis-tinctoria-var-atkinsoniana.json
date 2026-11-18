@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "coreopsis-tinctoria-var-atkinsoniana",
-  "summary": "A perennial about 40 in tall, for dry to wet soil in sun to part shade.",
+  "summary": "A herbaceous plant about 40 in tall, for dry to wet soil in sun to part shade.",
   "data": {
     "genus": "Coreopsis",
     "species": "tinctoria",
@@ -11,7 +11,7 @@
       "Columbia Tickseed"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "height": {
       "min": 3.33,
       "max": 3.33

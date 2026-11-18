@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "allium-amplectens",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Allium",
     "species": "amplectens",
@@ -9,7 +9,7 @@
       "Slim-leafed Onion"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

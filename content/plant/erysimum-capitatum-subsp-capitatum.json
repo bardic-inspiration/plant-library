@@ -11,7 +11,8 @@
       "Prairie Rocket"
     ],
     "family": "Placeholderaceae",
-    "form": "biennial",
+    "form": "forb",
+    "lifeCycle": "biennial",
     "height": {
       "min": 1.0,
       "max": 3.0
@@ -39,6 +40,7 @@
         "fields": [
           "commonNames",
           "form",
+          "lifeCycle",
           "height",
           "sun",
           "moisture",

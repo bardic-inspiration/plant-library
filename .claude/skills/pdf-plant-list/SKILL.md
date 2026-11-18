@@ -33,8 +33,9 @@ config in `lists/`. The rules are the `plant-import` skill's and
      `step: 2` for tables that run across a spread (the left page holds the
      facing page's words too). Optional `summaryLabel` names the form in the
      summary sentence.
-   - `lifeCycleForms`: life-cycle codes that set `form` over the table's
-     (`A` annual, `B` biennial); `evergreenLifeCycles` set `foliage`.
+   - `lifeCycles`: the table's life-cycle codes and the `lifeCycle` each
+     records (`P` perennial, `A` annual, …); `evergreenLifeCycles` also set
+     `foliage`. Life cycle never changes `form`, the habit.
    - `lists`: short unruled lists, transcribed by hand,
      `{title, form, page, plants: [[name, common], …]}`. They come first,
      so their form outranks a table's.
@@ -74,7 +75,8 @@ config in `lists/`. The rules are the `plant-import` skill's and
 
 | Trait | From |
 |---|---|
-| `commonNames`, `form` | the table or list a plant is in, or its life cycle |
+| `commonNames`, `form` | the table or list a plant is in |
+| `lifeCycle` | the table's life-cycle column; blank stays empty |
 | `height`, `spread` | the table's mature height, or the description page; inches and feet both read, stored in feet |
 | `sun` | full sun `full-sun`, part sun `part-shade`, full shade `shade`, or the conditions line |
 | `moisture` | dry, moist; seasonally wet, perennially wet, and submerged are `wet`; ranges ("dry to wet") fill in between |

@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "tiarella-trifoliata-var-unifoliata",
-  "summary": "A perennial, for dry to moist soil in shade.",
+  "summary": "A herbaceous plant, for dry to moist soil in shade.",
   "data": {
     "genus": "Tiarella",
     "species": "trifoliata",
@@ -11,7 +11,7 @@
       "Trefoil Tiarella"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sun": [
       "shade"
     ],

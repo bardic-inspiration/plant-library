@@ -64,7 +64,8 @@ Name, place and state, a location map, and the facts table (architect,
 client, type, size, budget, cost per acre, status, completion). The plant
 list as a schedule table grouped by form: botanical name, common name,
 quantity, size, spacing, note; unsourced plants show as plain text. Then a
-summary of the list: taxa, total quantity, native share, mix by form, and
+summary of the list: taxa, total quantity, native share, mix by form and
+by life cycle, and
 its compatibility panel. Actions: export the schedule, open the list in the
 workspace.
 
@@ -93,7 +94,7 @@ account.
   and a location picked on a map, which supplies the hardiness zone, state,
   and ecoregion.
 - **Feedback as you build**: totals, taxa count, native share for the site's
-  state, mix by form, a combined bloom calendar showing gaps in seasonal
+  state, mix by form and by life cycle, a combined bloom calendar showing gaps in seasonal
   interest, and the compatibility panel.
 - **Suggestions.** "Plants that fit": the Library filtered to the list's
   shared conditions and the site, with the companions of the plants already

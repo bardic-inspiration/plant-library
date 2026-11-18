@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "stellaria-crispa",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Stellaria",
     "species": "crispa",
@@ -9,7 +9,7 @@
       "Crisped Starwort"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

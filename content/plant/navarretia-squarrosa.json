@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "navarretia-squarrosa",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Navarretia",
     "species": "squarrosa",
@@ -9,7 +9,7 @@
       "Skunkweed"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

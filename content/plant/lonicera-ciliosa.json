@@ -10,6 +10,7 @@
     ],
     "family": "Placeholderaceae",
     "form": "vine",
+    "lifeCycle": "perennial",
     "height": {
       "min": 15.0,
       "max": 20.0
@@ -38,6 +39,7 @@
         "fields": [
           "commonNames",
           "form",
+          "lifeCycle",
           "height",
           "sun",
           "moisture",

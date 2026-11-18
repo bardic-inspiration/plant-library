@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "clarkia-amoena",
-  "summary": "A perennial about 2 ft tall, for dry soil in sun.",
+  "summary": "A herbaceous plant about 2 ft tall, for dry soil in sun.",
   "data": {
     "genus": "Clarkia",
     "species": "amoena",
@@ -9,7 +9,7 @@
       "Farewell to Spring"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "height": {
       "min": 2.0,
       "max": 2.0

@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "orobanche-uniflora",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Orobanche",
     "species": "uniflora",
@@ -9,7 +9,7 @@
       "Naked Broomrape"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

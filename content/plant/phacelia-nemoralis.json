@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "phacelia-nemoralis",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Phacelia",
     "species": "nemoralis",
@@ -9,7 +9,7 @@
       "Shade Phacelia"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

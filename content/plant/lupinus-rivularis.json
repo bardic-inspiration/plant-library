@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "lupinus-rivularis",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Lupinus",
     "species": "rivularis",
@@ -9,7 +9,7 @@
       "Stream Lupine"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

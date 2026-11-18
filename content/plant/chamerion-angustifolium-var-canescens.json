@@ -11,7 +11,8 @@
       "Fireweed"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
+    "lifeCycle": "perennial",
     "height": {
       "min": 3.0,
       "max": 8.0
@@ -41,6 +42,7 @@
         "fields": [
           "commonNames",
           "form",
+          "lifeCycle",
           "height",
           "sun",
           "moisture",

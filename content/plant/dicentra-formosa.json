@@ -12,7 +12,8 @@
       "Dicentra formosa ssp. formosa"
     ],
     "family": "Papaveraceae",
-    "form": "perennial",
+    "form": "forb",
+    "lifeCycle": "perennial",
     "foliage": "deciduous",
     "height": {
       "min": 1.5,
@@ -65,6 +66,7 @@
         "fields": [
           "commonNames",
           "synonyms",
+          "lifeCycle",
           "bloom"
         ],
         "note": "Read from the June 2016 update uploaded to docs/ (PDF page 94). Listed as Dicentra formosa ssp. formosa."

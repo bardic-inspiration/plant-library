@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "cardamine-nuttallii-var-nuttallii",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Cardamine",
     "species": "nuttallii",
@@ -11,7 +11,7 @@
       "Slender Toothwort"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

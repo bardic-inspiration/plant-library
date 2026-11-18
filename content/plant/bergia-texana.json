@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "bergia-texana",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Bergia",
     "species": "texana",
@@ -9,7 +9,7 @@
       "Texas Bergia"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

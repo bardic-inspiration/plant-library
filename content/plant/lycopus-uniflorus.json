@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "lycopus-uniflorus",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Lycopus",
     "species": "uniflorus",
@@ -9,7 +9,7 @@
       "Northern Bugleweed"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

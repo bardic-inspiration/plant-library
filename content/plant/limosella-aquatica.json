@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "limosella-aquatica",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Limosella",
     "species": "aquatica",
@@ -9,7 +9,7 @@
       "Mudwort"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

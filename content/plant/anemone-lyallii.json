@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "anemone-lyallii",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Anemone",
     "species": "lyallii",
@@ -9,7 +9,7 @@
       "Small Wind-flower"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

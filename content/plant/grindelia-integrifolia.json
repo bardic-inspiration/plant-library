@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "grindelia-integrifolia",
-  "summary": "A perennial, for dry to wet soil in sun to part shade.",
+  "summary": "A herbaceous plant, for dry to wet soil in sun to part shade.",
   "data": {
     "genus": "Grindelia",
     "species": "integrifolia",
@@ -9,7 +9,7 @@
       "Willamette Valley Gumweed"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sun": [
       "full-sun",
       "part-shade"

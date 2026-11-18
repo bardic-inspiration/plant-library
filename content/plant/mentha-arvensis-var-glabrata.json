@@ -11,7 +11,8 @@
       "Field Mint"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
+    "lifeCycle": "perennial",
     "height": {
       "min": 0.67,
       "max": 3.0
@@ -43,6 +44,7 @@
         "fields": [
           "commonNames",
           "form",
+          "lifeCycle",
           "height",
           "sun",
           "moisture",

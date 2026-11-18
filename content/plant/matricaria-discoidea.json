@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "matricaria-discoidea",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Matricaria",
     "species": "discoidea",
@@ -9,7 +9,7 @@
       "Pineapple Weed"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

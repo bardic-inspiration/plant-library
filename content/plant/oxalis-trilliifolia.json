@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "oxalis-trilliifolia",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Oxalis",
     "species": "trilliifolia",
@@ -9,7 +9,7 @@
       "Trillium-leaved Wood-sorrel"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

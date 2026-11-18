@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "lathyrus-nevadensis",
-  "summary": "A perennial, for dry to moist soil in sun to part shade.",
+  "summary": "A herbaceous plant, for dry to moist soil in sun to part shade.",
   "data": {
     "genus": "Lathyrus",
     "species": "nevadensis",
@@ -9,7 +9,7 @@
       "Nevada Peavine"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sun": [
       "full-sun",
       "part-shade"

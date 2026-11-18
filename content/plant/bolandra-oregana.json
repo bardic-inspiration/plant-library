@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "bolandra-oregana",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Bolandra",
     "species": "oregana",
@@ -9,7 +9,7 @@
       "Bolandra"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

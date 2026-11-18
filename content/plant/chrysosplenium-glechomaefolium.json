@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "chrysosplenium-glechomaefolium",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Chrysosplenium",
     "species": "glechomaefolium",
@@ -9,7 +9,7 @@
       "Pacific Water-carpet"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "polygonum-polygaloides-subsp-kelloggii",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Polygonum",
     "species": "polygaloides",
@@ -11,7 +11,7 @@
       "Kellogg’s Knotweed"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

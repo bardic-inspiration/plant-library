@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "triodanis-perfoliata",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Triodanis",
     "species": "perfoliata",
@@ -9,7 +9,7 @@
       "Venus’ looking-glass"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

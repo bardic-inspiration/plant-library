@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "navarretia-tagetina",
-  "summary": "A perennial, in sun to part shade.",
+  "summary": "A herbaceous plant, in sun to part shade.",
   "data": {
     "genus": "Navarretia",
     "species": "tagetina",
@@ -9,7 +9,7 @@
       "Northern Navarretia"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sun": [
       "full-sun",
       "part-shade"

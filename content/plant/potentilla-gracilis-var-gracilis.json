@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "potentilla-gracilis-var-gracilis",
-  "summary": "A perennial, for dry to moist soil in sun to part shade.",
+  "summary": "A herbaceous plant, for dry to moist soil in sun to part shade.",
   "data": {
     "genus": "Potentilla",
     "species": "gracilis",
@@ -11,7 +11,7 @@
       "Slender Cinquefoil"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sun": [
       "full-sun",
       "part-shade"

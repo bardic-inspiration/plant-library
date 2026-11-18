@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "clarkia-rhomboidea",
-  "summary": "A perennial, for dry soil in sun.",
+  "summary": "A herbaceous plant, for dry soil in sun.",
   "data": {
     "genus": "Clarkia",
     "species": "rhomboidea",
@@ -9,7 +9,7 @@
       "Common Clarkia"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sun": [
       "full-sun"
     ],

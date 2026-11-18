@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "cardamine-angulata",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Cardamine",
     "species": "angulata",
@@ -9,7 +9,7 @@
       "Angled Bittercress"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

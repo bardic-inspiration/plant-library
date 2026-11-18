@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "epilobium-ciliatum-subsp-glandulosum",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Epilobium",
     "species": "ciliatum",
@@ -11,7 +11,7 @@
       "Common Willow-weed"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

@@ -9,7 +9,8 @@
       "White-topped Aster"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
+    "lifeCycle": "perennial",
     "sun": [
       "full-sun"
     ],
@@ -30,6 +31,7 @@
         "fields": [
           "commonNames",
           "form",
+          "lifeCycle",
           "sun",
           "moisture",
           "bloom"

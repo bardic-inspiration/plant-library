@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "ranunculus-alismaefolius",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Ranunculus",
     "species": "alismaefolius",
@@ -9,7 +9,7 @@
       "Water-plaintain Buttercup"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

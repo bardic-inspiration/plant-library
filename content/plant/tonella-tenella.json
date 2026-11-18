@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "tonella-tenella",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Tonella",
     "species": "tenella",
@@ -9,7 +9,7 @@
       "Small-flowered Tonella"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

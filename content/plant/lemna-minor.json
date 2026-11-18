@@ -9,7 +9,8 @@
       "Water Lentil (duckweed)"
     ],
     "family": "Placeholderaceae",
-    "form": "annual",
+    "form": "forb",
+    "lifeCycle": "annual",
     "moisture": [
       "wet"
     ],
@@ -21,6 +22,7 @@
         "fields": [
           "commonNames",
           "form",
+          "lifeCycle",
           "moisture"
         ],
         "note": "Read from the June 2016 update uploaded to docs/ (PDF page 144)."

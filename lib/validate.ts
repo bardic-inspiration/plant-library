@@ -24,6 +24,7 @@ export const IMAGE_FAIL_BYTES = 2 * 1024 * 1024;
 export const CITED_TRAITS: Record<string, string> = {
   family: 'names',
   form: 'traits',
+  lifeCycle: 'traits',
   foliage: 'traits',
   height: 'traits',
   spread: 'traits',

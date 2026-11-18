@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "sidalcea-nelsoniana",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Sidalcea",
     "species": "nelsoniana",
@@ -9,7 +9,7 @@
       "Nelson’s Checkermallow"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

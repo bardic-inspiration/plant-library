@@ -9,7 +9,8 @@
       "Cow parsnip"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
+    "lifeCycle": "perennial",
     "height": {
       "min": 3.0,
       "max": 9.0
@@ -40,6 +41,7 @@
         "fields": [
           "commonNames",
           "form",
+          "lifeCycle",
           "height",
           "sun",
           "moisture",

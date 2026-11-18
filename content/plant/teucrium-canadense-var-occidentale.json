@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "teucrium-canadense-var-occidentale",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Teucrium",
     "species": "canadense",
@@ -11,7 +11,7 @@
       "Wood Sage"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

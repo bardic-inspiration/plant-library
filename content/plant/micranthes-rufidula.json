@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "micranthes-rufidula",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Micranthes",
     "species": "rufidula",
@@ -9,7 +9,7 @@
       "Western Saxifrage"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

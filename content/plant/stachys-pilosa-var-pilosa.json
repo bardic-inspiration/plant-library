@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "stachys-pilosa-var-pilosa",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Stachys",
     "species": "pilosa",
@@ -11,7 +11,7 @@
       "Swamp Hedgenettle"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

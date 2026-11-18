@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "brodiaea-howellii",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Brodiaea",
     "species": "howellii",
@@ -9,7 +9,7 @@
       "Howell’s Brodiaea"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

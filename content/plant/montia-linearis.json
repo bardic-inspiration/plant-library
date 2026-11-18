@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "montia-linearis",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Montia",
     "species": "linearis",
@@ -9,7 +9,7 @@
       "Narrow-leaved Montia"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

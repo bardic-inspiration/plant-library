@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "sagina-decumbens-subsp-occidentalis",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Sagina",
     "species": "decumbens",
@@ -11,7 +11,7 @@
       "Western Pearlwort"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

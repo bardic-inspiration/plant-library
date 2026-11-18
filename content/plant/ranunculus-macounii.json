@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "ranunculus-macounii",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Ranunculus",
     "species": "macounii",
@@ -9,7 +9,7 @@
       "Macoun’s Buttercup"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

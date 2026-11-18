@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "geranium-bicknellii",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Geranium",
     "species": "bicknellii",
@@ -9,7 +9,7 @@
       "Bicknell’s Geranium"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

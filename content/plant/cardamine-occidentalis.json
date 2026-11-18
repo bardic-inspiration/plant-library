@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "cardamine-occidentalis",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Cardamine",
     "species": "occidentalis",
@@ -9,7 +9,7 @@
       "Western Bittercress"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

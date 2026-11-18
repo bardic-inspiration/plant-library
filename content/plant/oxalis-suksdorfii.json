@@ -9,7 +9,8 @@
       "Western Yellow Oxalis"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
+    "lifeCycle": "perennial",
     "height": {
       "min": 0.17,
       "max": 0.5
@@ -34,6 +35,7 @@
         "fields": [
           "commonNames",
           "form",
+          "lifeCycle",
           "height",
           "sun",
           "moisture",

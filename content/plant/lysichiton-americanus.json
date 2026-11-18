@@ -9,7 +9,8 @@
       "Skunk Cabbage"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
+    "lifeCycle": "perennial",
     "height": {
       "min": 1.0,
       "max": 5.0
@@ -40,6 +41,7 @@
         "fields": [
           "commonNames",
           "form",
+          "lifeCycle",
           "height",
           "sun",
           "moisture",

@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "lysimachia-ciliata",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Lysimachia",
     "species": "ciliata",
@@ -9,7 +9,7 @@
       "Fringed Loosestrife"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

@@ -13,7 +13,7 @@ through tokens and checked automatically (P9).
   ([content-model.md](content-model.md#plant)). Plant photographs are the
   color on most pages.
 - **Color.** One light palette. Text is black on white; accents are for
-  rules, marks, and fills. Ten accent hues, each at least 3:1 against
+  rules, marks, and fills. Eight accent hues, each at least 3:1 against
   white, map to plant forms and project types through `data-form` and
   `data-project-type`; bloom colors have fixed swatches through
   `data-bloom`, always inside a black frame. A vermillion tint scale steps

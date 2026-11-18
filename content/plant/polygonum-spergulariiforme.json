@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "polygonum-spergulariiforme",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Polygonum",
     "species": "spergulariiforme",
@@ -9,7 +9,7 @@
       "Fall Knotweed"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

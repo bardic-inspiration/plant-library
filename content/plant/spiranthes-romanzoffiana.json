@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "spiranthes-romanzoffiana",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Spiranthes",
     "species": "romanzoffiana",
@@ -9,7 +9,7 @@
       "Ladies-tresses"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

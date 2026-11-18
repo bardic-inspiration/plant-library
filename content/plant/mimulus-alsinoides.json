@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "mimulus-alsinoides",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Mimulus",
     "species": "alsinoides",
@@ -9,7 +9,7 @@
       "Chickweed Monkeyflower"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

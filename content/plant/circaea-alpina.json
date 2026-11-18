@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "circaea-alpina",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Circaea",
     "species": "alpina",
@@ -9,7 +9,7 @@
       "Enchanter’s Nightshade"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

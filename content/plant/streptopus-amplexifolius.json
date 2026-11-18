@@ -9,7 +9,8 @@
       "Clasping-leaved Twisted-stalk"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
+    "lifeCycle": "perennial",
     "height": {
       "min": 1.5,
       "max": 3.0
@@ -34,6 +35,7 @@
         "fields": [
           "commonNames",
           "form",
+          "lifeCycle",
           "height",
           "sun",
           "moisture",

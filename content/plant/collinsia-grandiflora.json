@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "collinsia-grandiflora",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Collinsia",
     "species": "grandiflora",
@@ -9,7 +9,7 @@
       "Large-flowered Blue-eyed Mary"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

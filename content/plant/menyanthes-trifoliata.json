@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "menyanthes-trifoliata",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Menyanthes",
     "species": "trifoliata",
@@ -9,7 +9,7 @@
       "Buckbean"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

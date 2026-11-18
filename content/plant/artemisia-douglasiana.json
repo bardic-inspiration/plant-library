@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "artemisia-douglasiana",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Artemisia",
     "species": "douglasiana",
@@ -9,7 +9,7 @@
       "Douglas’s Sagewort"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

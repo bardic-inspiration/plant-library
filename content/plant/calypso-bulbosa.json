@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "calypso-bulbosa",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Calypso",
     "species": "bulbosa",
@@ -9,7 +9,7 @@
       "Fairy Slipper"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

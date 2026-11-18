@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "ranunculus-cymbalaria",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Ranunculus",
     "species": "cymbalaria",
@@ -9,7 +9,7 @@
       "Shore Buttercup"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

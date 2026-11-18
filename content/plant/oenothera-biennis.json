@@ -9,7 +9,8 @@
       "Evening Primrose"
     ],
     "family": "Placeholderaceae",
-    "form": "biennial",
+    "form": "forb",
+    "lifeCycle": "biennial",
     "height": {
       "min": 2.0,
       "max": 4.0
@@ -38,6 +39,7 @@
         "fields": [
           "commonNames",
           "form",
+          "lifeCycle",
           "height",
           "sun",
           "moisture",

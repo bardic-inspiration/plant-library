@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "bidens-frondosa",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Bidens",
     "species": "frondosa",
@@ -9,7 +9,7 @@
       "Leafy Beggar’s tick"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

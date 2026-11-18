@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "ranunculus-pensylvanicus",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Ranunculus",
     "species": "pensylvanicus",
@@ -9,7 +9,7 @@
       "Pennsylvania Buttercup"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

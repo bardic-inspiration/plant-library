@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "rorippa-columbiae",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Rorippa",
     "species": "columbiae",
@@ -9,7 +9,7 @@
       "Columbia Cress"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "hypericum-scouleri",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Hypericum",
     "species": "scouleri",
@@ -9,7 +9,7 @@
       "Western Saint John’s Wort"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

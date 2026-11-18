@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "angelica-arguta",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Angelica",
     "species": "arguta",
@@ -9,7 +9,7 @@
       "Sharptooth Angelica"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

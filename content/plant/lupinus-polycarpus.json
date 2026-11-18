@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "lupinus-polycarpus",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Lupinus",
     "species": "polycarpus",
@@ -9,7 +9,7 @@
       "Bigleaf lupine"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

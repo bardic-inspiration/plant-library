@@ -9,7 +9,8 @@
       "Dotted Smartweed"
     ],
     "family": "Placeholderaceae",
-    "form": "annual",
+    "form": "forb",
+    "lifeCycle": "annual",
     "height": {
       "min": 0.83,
       "max": 3.33
@@ -22,6 +23,7 @@
         "fields": [
           "commonNames",
           "form",
+          "lifeCycle",
           "height"
         ],
         "note": "Read from the June 2016 update uploaded to docs/ (PDF page 146)."

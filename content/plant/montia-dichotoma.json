@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "montia-dichotoma",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Montia",
     "species": "dichotoma",
@@ -9,7 +9,7 @@
       "Dwarf Montia"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

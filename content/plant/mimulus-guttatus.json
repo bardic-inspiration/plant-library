@@ -9,7 +9,8 @@
       "Common Monkeyflower"
     ],
     "family": "Placeholderaceae",
-    "form": "annual",
+    "form": "forb",
+    "lifeCycle": "annual",
     "height": {
       "min": 0.25,
       "max": 2.5
@@ -39,6 +40,7 @@
         "fields": [
           "commonNames",
           "form",
+          "lifeCycle",
           "height",
           "sun",
           "moisture",

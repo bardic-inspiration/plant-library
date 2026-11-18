@@ -12,6 +12,7 @@
     ],
     "family": "Placeholderaceae",
     "form": "graminoid",
+    "lifeCycle": "perennial",
     "height": {
       "min": 2.0,
       "max": 4.0
@@ -32,6 +33,7 @@
         "fields": [
           "commonNames",
           "form",
+          "lifeCycle",
           "height",
           "sun",
           "moisture"

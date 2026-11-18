@@ -42,12 +42,14 @@ beside the cultivar and outside the botanical name.
 Also: `commonNames` (first is primary), `synonyms`, `family` (must be in the
 `config/vocab.json` family table, which holds the order), `usdaSymbol`.
 
-**Form** is one of the vocabulary's `form` list: `tree`, `shrub`,
-`subshrub`, `perennial` (a herbaceous perennial), `annual`, `biennial`,
-`graminoid`, `fern`, `vine`, `bulb`. For a herbaceous plant the life cycle
-decides first: an annual grass is `annual` (D25).
+**Habit and life cycle** are separate traits that never compete (D27).
+`form` is the habit, required: `tree`, `shrub`, `subshrub`, `forb` (a
+herbaceous plant that isn't grasslike), `graminoid`, `fern`, `vine`,
+`bulb`. `lifeCycle` is optional: `perennial`, `biennial`, `annual`. An
+annual grass is `graminoid` and `annual`; a woody plant's life cycle is
+left empty unless a source gives it. Each has its own filter.
 
-**Traits** (all optional but `form`): `form`, `foliage`, `height` and
+**Traits** (all optional but `form`): `form`, `lifeCycle`, `foliage`, `height` and
 `spread` (`{min, max}` feet), `growthRate`, `sun`, `moisture`,
 `soil.texture`, `soil.drainage`, `soil.ph`, `hardiness` (USDA zones `7` or
 `7b`), `waterUse`, `tolerates`, `bloom.colors`, `bloom.months` (`{start,

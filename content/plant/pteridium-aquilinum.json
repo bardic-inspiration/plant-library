@@ -10,6 +10,7 @@
     ],
     "family": "Placeholderaceae",
     "form": "fern",
+    "lifeCycle": "perennial",
     "height": {
       "min": 1.0,
       "max": 9.0
@@ -31,6 +32,7 @@
         "fields": [
           "commonNames",
           "form",
+          "lifeCycle",
           "height",
           "sun",
           "moisture"

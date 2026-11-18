@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "cryptantha-intermedia",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Cryptantha",
     "species": "intermedia",
@@ -9,7 +9,7 @@
       "Common Forget-me-not"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

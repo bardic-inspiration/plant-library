@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "montia-fontana",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Montia",
     "species": "fontana",
@@ -9,7 +9,7 @@
       "Water Chickweed"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

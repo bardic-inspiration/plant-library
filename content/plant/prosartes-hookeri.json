@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "prosartes-hookeri",
-  "summary": "A perennial, for dry to moist soil in part shade to shade.",
+  "summary": "A herbaceous plant, for dry to moist soil in part shade to shade.",
   "data": {
     "genus": "Prosartes",
     "species": "hookeri",
@@ -9,7 +9,7 @@
       "Hooker’s Fairybells"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sun": [
       "part-shade",
       "shade"

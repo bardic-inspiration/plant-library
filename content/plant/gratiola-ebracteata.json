@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "gratiola-ebracteata",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Gratiola",
     "species": "ebracteata",
@@ -9,7 +9,7 @@
       "Bractless Hedge-hyssop"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

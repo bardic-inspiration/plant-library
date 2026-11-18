@@ -10,7 +10,8 @@
       "White Inside-out Flower"
     ],
     "family": "Berberidaceae",
-    "form": "perennial",
+    "form": "forb",
+    "lifeCycle": "perennial",
     "foliage": "deciduous",
     "height": {
       "min": 0.5,
@@ -62,6 +63,7 @@
         "accessed": "2026-11-18",
         "fields": [
           "commonNames",
+          "lifeCycle",
           "bloom"
         ],
         "note": "Read from the June 2016 update uploaded to docs/ (PDF page 130)."

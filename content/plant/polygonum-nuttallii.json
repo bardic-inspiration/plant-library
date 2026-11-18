@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "polygonum-nuttallii",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Polygonum",
     "species": "nuttallii",
@@ -9,7 +9,7 @@
       "Nuttall’s Knotweed"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "listera-cordata",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Listera",
     "species": "cordata",
@@ -9,7 +9,7 @@
       "Heart-leafed Listera"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

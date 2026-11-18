@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "arnica-amplexicaulis",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Arnica",
     "species": "amplexicaulis",
@@ -9,7 +9,7 @@
       "Clasping Arnica"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "bloom": {
       "months": {
         "start": 5,

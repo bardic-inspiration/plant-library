@@ -9,7 +9,8 @@
       "Cluster Tarweed"
     ],
     "family": "Placeholderaceae",
-    "form": "annual",
+    "form": "forb",
+    "lifeCycle": "annual",
     "height": {
       "min": 0.17,
       "max": 0.83
@@ -37,6 +38,7 @@
         "fields": [
           "commonNames",
           "form",
+          "lifeCycle",
           "height",
           "sun",
           "moisture",

@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "sullivantia-oregana",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Sullivantia",
     "species": "oregana",
@@ -9,7 +9,7 @@
       "Sullivantia"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

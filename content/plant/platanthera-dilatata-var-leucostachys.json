@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "platanthera-dilatata-var-leucostachys",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Platanthera",
     "species": "dilatata",
@@ -11,7 +11,7 @@
       "White Bog-orchid"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

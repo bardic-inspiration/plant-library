@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "viola-praemorsa-var-praemorsa",
-  "summary": "A perennial, for dry soil in sun.",
+  "summary": "A herbaceous plant, for dry soil in sun.",
   "data": {
     "genus": "Viola",
     "species": "praemorsa",
@@ -11,7 +11,7 @@
       "Canary Violet"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sun": [
       "full-sun"
     ],

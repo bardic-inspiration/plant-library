@@ -9,7 +9,8 @@
       "Wild Ginger"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
+    "lifeCycle": "perennial",
     "sun": [
       "shade"
     ],
@@ -35,6 +36,7 @@
         "fields": [
           "commonNames",
           "form",
+          "lifeCycle",
           "sun",
           "moisture",
           "bloom"

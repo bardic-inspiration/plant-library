@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "lysimachia-thyrsiflora",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Lysimachia",
     "species": "thyrsiflora",
@@ -9,7 +9,7 @@
       "Tufted Loosestrife"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

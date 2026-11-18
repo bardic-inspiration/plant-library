@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "sanicula-bipinnatifida",
-  "summary": "A perennial, for dry soil in sun to part shade.",
+  "summary": "A herbaceous plant, for dry soil in sun to part shade.",
   "data": {
     "genus": "Sanicula",
     "species": "bipinnatifida",
@@ -9,7 +9,7 @@
       "Purple Sanicle"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sun": [
       "full-sun",
       "part-shade"

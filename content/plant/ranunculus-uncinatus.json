@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "ranunculus-uncinatus",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Ranunculus",
     "species": "uncinatus",
@@ -9,7 +9,7 @@
       "Little Buttercup"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

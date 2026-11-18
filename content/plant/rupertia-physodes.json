@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "rupertia-physodes",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Rupertia",
     "species": "physodes",
@@ -9,7 +9,7 @@
       "California Tea"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

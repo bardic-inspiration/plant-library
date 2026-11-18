@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "lithophragma-parviflorum",
-  "summary": "A perennial, for dry soil in sun to part shade.",
+  "summary": "A herbaceous plant, for dry soil in sun to part shade.",
   "data": {
     "genus": "Lithophragma",
     "species": "parviflorum",
@@ -9,7 +9,7 @@
       "Small-flowered Prairiestar"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sun": [
       "full-sun",
       "part-shade"

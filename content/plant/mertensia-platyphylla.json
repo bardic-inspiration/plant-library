@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "mertensia-platyphylla",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Mertensia",
     "species": "platyphylla",
@@ -9,7 +9,7 @@
       "Western Bluebells"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

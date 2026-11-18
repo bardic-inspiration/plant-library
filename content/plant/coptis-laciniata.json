@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "coptis-laciniata",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Coptis",
     "species": "laciniata",
@@ -9,7 +9,7 @@
       "Cutleaf Goldthread"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

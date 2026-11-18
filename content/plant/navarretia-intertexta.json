@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "navarretia-intertexta",
-  "summary": "A perennial, for moist to wet soil in sun to part shade.",
+  "summary": "A herbaceous plant, for moist to wet soil in sun to part shade.",
   "data": {
     "genus": "Navarretia",
     "species": "intertexta",
@@ -9,7 +9,7 @@
       "Needle-Leaf Navarretia"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sun": [
       "full-sun",
       "part-shade"

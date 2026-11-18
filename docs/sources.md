@@ -58,7 +58,7 @@ two reference documents in `docs/`, under the names they use:
   `moisture`, `height` (its single mature height, stored as min and max),
   and `form`, read from the list a plant is in: trees are `tree`, ferns
   `fern`, other shrubs `shrub`, and every groundcover and perennial
-  `perennial`; and `wikidata` for `family`, from the Commons category page
+  `forb`; and `wikidata` for `family`, from the Commons category page
   of the species, or of the genus where the species page has no taxonomy
   box. The guide lists two roses under one name, so both carry the common
   name "Rosa species".
@@ -70,10 +70,12 @@ two reference documents in `docs/`, under the names they use:
   note, for:
   - `form` from the list a plant is in: the tree list `tree`; the
     arborescent shrub and shrub lists `shrub`; grasses, sedges and rushes
-    `graminoid`; ferns `fern`; forbs and other herbaceous plants
-    `perennial`; the four the ground-cover list calls vines `vine`; and
-    the 20 the list marks annual or biennial `annual` or `biennial`,
-    whichever table they are in (three of them are grasses or rushes).
+    `graminoid`; ferns `fern`; forbs and other herbaceous plants `forb`;
+    and the four the ground-cover list calls vines `vine`.
+  - `lifeCycle` from the tables' life-cycle column, apart from `form`:
+    perennial (or evergreen perennial), biennial, or annual. 202 plants
+    have one, 20 of them annual or biennial; where the column is blank,
+    and for trees and shrubs, it stays empty.
   - `height` (the tables' range, in feet), `sun` (full sun, part sun, full
     shade), `moisture` (seasonally wet, perennially wet and submerged are
     `wet`), `bloom` (colors, and the first to last month marked), and

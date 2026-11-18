@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "moehringia-macrophylla",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Moehringia",
     "species": "macrophylla",
@@ -9,7 +9,7 @@
       "Bigleaf Sandwort"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

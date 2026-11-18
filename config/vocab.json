@@ -13,16 +13,8 @@
       "label": "Subshrub"
     },
     {
-      "id": "perennial",
-      "label": "Perennial"
-    },
-    {
-      "id": "annual",
-      "label": "Annual"
-    },
-    {
-      "id": "biennial",
-      "label": "Biennial"
+      "id": "forb",
+      "label": "Forb"
     },
     {
       "id": "graminoid",
@@ -39,6 +31,20 @@
     {
       "id": "bulb",
       "label": "Bulb"
+    }
+  ],
+  "lifeCycle": [
+    {
+      "id": "perennial",
+      "label": "Perennial"
+    },
+    {
+      "id": "biennial",
+      "label": "Biennial"
+    },
+    {
+      "id": "annual",
+      "label": "Annual"
     }
   ],
   "foliage": [
@@ -739,35 +745,7 @@
         "maxHeight": null
       }
     ],
-    "perennial": [
-      {
-        "class": "low",
-        "maxHeight": 1
-      },
-      {
-        "class": "mid",
-        "maxHeight": 3
-      },
-      {
-        "class": "tall",
-        "maxHeight": null
-      }
-    ],
-    "annual": [
-      {
-        "class": "low",
-        "maxHeight": 1
-      },
-      {
-        "class": "mid",
-        "maxHeight": 3
-      },
-      {
-        "class": "tall",
-        "maxHeight": null
-      }
-    ],
-    "biennial": [
+    "forb": [
       {
         "class": "low",
         "maxHeight": 1

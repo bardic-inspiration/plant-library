@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "madia-gracilis",
-  "summary": "A perennial, for dry soil in sun to part shade.",
+  "summary": "A herbaceous plant, for dry soil in sun to part shade.",
   "data": {
     "genus": "Madia",
     "species": "gracilis",
@@ -9,7 +9,7 @@
       "Slender Tarweed"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sun": [
       "full-sun",
       "part-shade"

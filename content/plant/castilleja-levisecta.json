@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "castilleja-levisecta",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Castilleja",
     "species": "levisecta",
@@ -9,7 +9,7 @@
       "Golden Indian-paintbrush"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

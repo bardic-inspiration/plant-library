@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "equisetum-telmateia",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Equisetum",
     "species": "telmateia",
@@ -9,7 +9,7 @@
       "Giant Horsetail"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

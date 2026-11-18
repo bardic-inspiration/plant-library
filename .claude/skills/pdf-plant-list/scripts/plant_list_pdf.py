@@ -148,7 +148,7 @@ SUN = {'fullsun': 'full-sun', 'partsun': 'part-shade', 'fullshade': 'shade'}
 MOISTURE = {'dry': 'dry', 'moist': 'moist', 'seaswet': 'wet', 'pernlwet': 'wet', 'sub': 'wet'}
 LEVELS = ['dry', 'moist', 'wet']
 RATE = {'very slow': 'slow', 'slow': 'slow', 'medium': 'moderate', 'moderate': 'moderate', 'fast': 'fast', 'very fast': 'fast'}
-TRAITS = ['form', 'foliage', 'height', 'spread', 'growthRate', 'sun', 'moisture', 'bloom']
+TRAITS = ['form', 'lifeCycle', 'foliage', 'height', 'spread', 'growthRate', 'sun', 'moisture', 'bloom']
 NAME_FIELDS = ['commonNames', 'synonyms']
 
 
@@ -222,12 +222,18 @@ def fmt_height(h):
     return span(lambda x: f'{x:g}' if float(x).is_integer() else f'{round(x, 1):g}') + ' ft'
 
 
-FORM_WORDS = {'graminoid': 'grass or grasslike plant'}
+FORM_WORDS = {'graminoid': 'grass or grasslike plant', 'forb': 'herbaceous plant'}
 
 
 def summary(d, label):
     """A fresh sentence from the entry's own values; never the source's prose."""
-    form = label or FORM_WORDS.get(d['form'], d['form'])
+    life = d.get('lifeCycle')
+    if d['form'] == 'forb' and life in ('annual', 'biennial'):
+        form = life
+    elif d['form'] == 'forb':
+        form = label or life or FORM_WORDS['forb']
+    else:
+        form = (life + ' ' if life in ('annual', 'biennial') else '') + FORM_WORDS.get(d['form'], d['form'])
     adj = d.get('foliage')
     first = (adj or form)[0]
     s = f"{'An' if first in 'aeiou' else 'A'} {adj + ' ' if adj else ''}{form}"
@@ -245,7 +251,7 @@ def summary(d, label):
 def collect(cfg, rows):
     """Plants from the tables, the transcribed lists, and the extras, keyed by name."""
     fix, cfix = cfg.get('nameFixes', {}), cfg.get('commonFixes', {})
-    lifeforms, evergreen = cfg.get('lifeCycleForms', {}), set(cfg.get('evergreenLifeCycles', []))
+    lifecycles, evergreen = cfg.get('lifeCycles', {}), set(cfg.get('evergreenLifeCycles', []))
     tables = {t['label']: t for t in cfg.get('tables', [])}
 
     def cname(c):
@@ -289,12 +295,12 @@ def collect(cfg, rows):
         if sun: kw['sun'] = sun
         if moi: kw['moisture'] = moi
         if h['life'] in evergreen: kw['foliage'] = 'evergreen'
+        if h['life'] in lifecycles: kw['lifeCycle'] = lifecycles[h['life']]
         bloom = {}
         if h['color']: bloom['colors'] = [c.lower() for c in h['color'].split()]
         if h['months']: bloom['months'] = {'start': min(h['months']), 'end': max(h['months'])}
         if bloom: kw['bloom'] = bloom
-        form = lifeforms.get(h['life'], t['form'])
-        add(h['latin'], h['common'], form, [h['page']], label=None if form in lifeforms.values() else t.get('summaryLabel'), **kw)
+        add(h['latin'], h['common'], t['form'], [h['page']], label=t.get('summaryLabel'), **kw)
     for x in cfg.get('extra', []):
         kw = {'height': feet(x['heightInches'])} if 'heightInches' in x else {}
         add(x['latin'], x['common'], x['form'], [x['page']], **kw)

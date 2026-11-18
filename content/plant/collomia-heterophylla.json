@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "collomia-heterophylla",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Collomia",
     "species": "heterophylla",
@@ -9,7 +9,7 @@
       "Varied-leaved Collomia"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "artemisia-lindleyana",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Artemisia",
     "species": "lindleyana",
@@ -9,7 +9,7 @@
       "Columbia River mugwort"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

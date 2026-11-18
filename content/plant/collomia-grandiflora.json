@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "collomia-grandiflora",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Collomia",
     "species": "grandiflora",
@@ -9,7 +9,7 @@
       "Large-flowered Collomia"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

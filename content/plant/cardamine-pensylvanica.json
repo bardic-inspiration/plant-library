@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "cardamine-pensylvanica",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Cardamine",
     "species": "pensylvanica",
@@ -9,7 +9,7 @@
       "Pennsylvania Bittercress"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

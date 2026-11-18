@@ -11,7 +11,8 @@
       "Sweet Coltsfoot"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
+    "lifeCycle": "perennial",
     "height": {
       "min": 0.33,
       "max": 1.5
@@ -44,6 +45,7 @@
         "fields": [
           "commonNames",
           "form",
+          "lifeCycle",
           "height",
           "sun",
           "moisture",

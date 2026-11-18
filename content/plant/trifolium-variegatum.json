@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "trifolium-variegatum",
-  "summary": "A perennial, for dry soil in sun.",
+  "summary": "A herbaceous plant, for dry soil in sun.",
   "data": {
     "genus": "Trifolium",
     "species": "variegatum",
@@ -9,7 +9,7 @@
       "White-tip Clover"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sun": [
       "full-sun"
     ],

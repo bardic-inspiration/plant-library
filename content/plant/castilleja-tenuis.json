@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "castilleja-tenuis",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Castilleja",
     "species": "tenuis",
@@ -9,7 +9,7 @@
       "Hairy Owl-Clover"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

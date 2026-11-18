@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "conyza-canadensis-var-glabrata",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Conyza",
     "species": "canadensis",
@@ -11,7 +11,7 @@
       "Horseweed"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

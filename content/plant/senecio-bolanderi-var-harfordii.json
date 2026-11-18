@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "senecio-bolanderi-var-harfordii",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Senecio",
     "species": "bolanderi",
@@ -11,7 +11,7 @@
       "Bolander’s Groundsel"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

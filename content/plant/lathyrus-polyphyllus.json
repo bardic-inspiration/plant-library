@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "lathyrus-polyphyllus",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Lathyrus",
     "species": "polyphyllus",
@@ -9,7 +9,7 @@
       "Leafy-pea"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

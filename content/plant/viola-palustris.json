@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "viola-palustris",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Viola",
     "species": "palustris",
@@ -9,7 +9,7 @@
       "Marsh Violet"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

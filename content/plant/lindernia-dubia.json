@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "lindernia-dubia",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Lindernia",
     "species": "dubia",
@@ -9,7 +9,7 @@
       "Yellowseed false pimpernel"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

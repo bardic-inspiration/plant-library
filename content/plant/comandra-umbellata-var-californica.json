@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "comandra-umbellata-var-californica",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Comandra",
     "species": "umbellata",
@@ -11,7 +11,7 @@
       "Bastard Toadflax"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

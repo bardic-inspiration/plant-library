@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "epilobium-brachycarpum-var-paniculatum",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Epilobium",
     "species": "brachycarpum",
@@ -11,7 +11,7 @@
       "Tall Annual Willow Herb"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

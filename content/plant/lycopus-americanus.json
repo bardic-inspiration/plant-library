@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "lycopus-americanus",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Lycopus",
     "species": "americanus",
@@ -9,7 +9,7 @@
       "Cut-leaved Bugleweed"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

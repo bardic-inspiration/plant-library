@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "beckmannia-syzigachne",
-  "summary": "An annual about 3 ft tall, for moist to wet soil in sun.",
+  "summary": "An annual grass or grasslike plant about 3 ft tall, for moist to wet soil in sun.",
   "data": {
     "genus": "Beckmannia",
     "species": "syzigachne",
@@ -9,7 +9,8 @@
       "Slough Grass"
     ],
     "family": "Placeholderaceae",
-    "form": "annual",
+    "form": "graminoid",
+    "lifeCycle": "annual",
     "height": {
       "min": 3.0,
       "max": 3.0
@@ -29,6 +30,7 @@
         "fields": [
           "commonNames",
           "form",
+          "lifeCycle",
           "height",
           "sun",
           "moisture"

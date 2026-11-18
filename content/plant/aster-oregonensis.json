@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "aster-oregonensis",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Aster",
     "species": "oregonensis",
@@ -9,7 +9,7 @@
       "Oregon White-topped Aster"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

@@ -9,7 +9,8 @@
       "Yellow Water-lily"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
+    "lifeCycle": "perennial",
     "moisture": [
       "wet"
     ],
@@ -30,6 +31,7 @@
         "fields": [
           "commonNames",
           "form",
+          "lifeCycle",
           "moisture",
           "bloom"
         ],

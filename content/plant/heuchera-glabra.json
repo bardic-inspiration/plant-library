@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "heuchera-glabra",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Heuchera",
     "species": "glabra",
@@ -9,7 +9,7 @@
       "Smooth Alumroot"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

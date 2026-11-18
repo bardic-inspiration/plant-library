@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "polygonum-aviculare",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Polygonum",
     "species": "aviculare",
@@ -9,7 +9,7 @@
       "Doorweed"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

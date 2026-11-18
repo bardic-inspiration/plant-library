@@ -28,6 +28,7 @@
     "usdaSymbol": { "type": "string", "pattern": "^[A-Z][A-Z0-9]{1,7}$" },
 
     "form": { "x-vocab": "form" },
+    "lifeCycle": { "description": "How long the plant lives: annual, biennial, or perennial. Independent of form, the habit.", "x-vocab": "lifeCycle" },
     "foliage": { "x-vocab": "foliage" },
     "height": { "$ref": "common.schema.json#/$defs/range" },
     "spread": { "$ref": "common.schema.json#/$defs/range" },

@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "montia-diffusa",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Montia",
     "species": "diffusa",
@@ -9,7 +9,7 @@
       "Branching Montia"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

@@ -9,7 +9,8 @@
       "Water Smartweed"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
+    "lifeCycle": "perennial",
     "height": {
       "min": 0.5,
       "max": 1.0
@@ -34,6 +35,7 @@
         "fields": [
           "commonNames",
           "form",
+          "lifeCycle",
           "height",
           "moisture",
           "bloom"

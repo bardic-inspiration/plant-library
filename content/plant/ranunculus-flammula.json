@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "ranunculus-flammula",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Ranunculus",
     "species": "flammula",
@@ -9,7 +9,7 @@
       "Creeping Buttercup"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

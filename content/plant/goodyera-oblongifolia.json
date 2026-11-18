@@ -9,7 +9,8 @@
       "Giant Rattlesnake-plantain"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
+    "lifeCycle": "perennial",
     "foliage": "evergreen",
     "height": {
       "min": 0.5,
@@ -40,6 +41,7 @@
         "fields": [
           "commonNames",
           "form",
+          "lifeCycle",
           "foliage",
           "height",
           "sun",

@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "silene-antirrhina",
-  "summary": "A perennial, for dry soil in sun.",
+  "summary": "A herbaceous plant, for dry soil in sun.",
   "data": {
     "genus": "Silene",
     "species": "antirrhina",
@@ -9,7 +9,7 @@
       "Sleepy Catchfly"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sun": [
       "full-sun"
     ],

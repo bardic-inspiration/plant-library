@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "ranunculus-scleratus",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Ranunculus",
     "species": "scleratus",
@@ -9,7 +9,7 @@
       "Celery-leaved Buttercup"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

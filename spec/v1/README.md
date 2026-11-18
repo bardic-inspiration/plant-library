@@ -11,8 +11,8 @@ stage is finished when only this README is left.
 
 A static site, built from files in this repo, for landscape architects:
 
-- **Look plants up** by name or by criteria (form, size, sun, soil, moisture,
-  hardiness, bloom, native status).
+- **Look plants up** by name or by criteria (form, life cycle, size, sun,
+  soil, moisture, hardiness, bloom, native status).
 - **Build plant palettes**, check that their plants suit each other and a
   site, and mock up plant lists with quantities as a design tool.
 - **Track use**: which plants went on which projects, and where.
@@ -24,8 +24,9 @@ A static site, built from files in this repo, for landscape architects:
 
 ### Subject matter and scope
 
-- Trees, shrubs, vines, and herbaceous plants (perennials, ferns,
-  graminoids, annuals, and biennials) used in landscape architecture.
+- Trees, shrubs, vines, and herbaceous plants (forbs, ferns, and
+  graminoids), whether perennial, biennial, or annual, used in landscape
+  architecture. Habit (form) and life cycle are recorded separately.
 - Washington, Oregon, and California.
 - Species grown by West Coast wholesale landscape nurseries and native plant
   nurseries.

@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "erigeron-decumbens-var-decumbens",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Erigeron",
     "species": "decumbens",
@@ -11,7 +11,7 @@
       "Willamette Daisy"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

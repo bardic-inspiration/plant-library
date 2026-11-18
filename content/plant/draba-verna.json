@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "draba-verna",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Draba",
     "species": "verna",
@@ -9,7 +9,7 @@
       "Spring Whitlow-grass"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

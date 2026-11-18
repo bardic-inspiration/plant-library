@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "listera-caurina",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Listera",
     "species": "caurina",
@@ -9,7 +9,7 @@
       "Western Twayblade"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",

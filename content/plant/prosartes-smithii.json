@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "prosartes-smithii",
-  "summary": "A perennial, for moist soil in sun to shade.",
+  "summary": "A herbaceous plant, for moist soil in sun to shade.",
   "data": {
     "genus": "Prosartes",
     "species": "smithii",
@@ -9,7 +9,7 @@
       "Smith’s Fairybells"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sun": [
       "full-sun",
       "part-shade",

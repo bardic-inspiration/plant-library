@@ -1,7 +1,7 @@
 {
   "type": "plant",
   "id": "hypericum-anagalloides",
-  "summary": "A perennial.",
+  "summary": "A herbaceous plant.",
   "data": {
     "genus": "Hypericum",
     "species": "anagalloides",
@@ -9,7 +9,7 @@
       "Bog Saint John’s Wort"
     ],
     "family": "Placeholderaceae",
-    "form": "perennial",
+    "form": "forb",
     "sources": [
       {
         "source": "portland-plant-list",
