@@ -40,7 +40,13 @@ describe('the index', () => {
 
   it('lists only facet values that occur, in vocabulary order', () => {
     const form = index.facets.find((f) => f.key === 'plant.form')!;
-    expect(form.values.map((v) => v.id)).toEqual(['tree', 'shrub', 'subshrub', 'perennial', 'graminoid', 'fern', 'bulb']);
+    expect(form.values.map((v) => v.id)).toEqual(['tree', 'shrub', 'subshrub', 'forb', 'graminoid', 'fern', 'bulb']);
+  });
+
+  it('filters life cycle apart from form', () => {
+    const life = index.facets.find((f) => f.key === 'plant.lifeCycle')!;
+    expect(life.values.map((v) => v.id)).toEqual(['perennial']);
+    expect(index.records.find((r) => r.id === 'achillea-millefolium')!.facets['plant.lifeCycle']).toEqual(['perennial']);
   });
 });
 

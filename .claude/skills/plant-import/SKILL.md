@@ -25,11 +25,17 @@ plants are fixtures, and the production rules below are relaxed.
 The steps below are the production workflow; in the prototype, follow them
 as far as the sources at hand allow.
 
+## From a PDF list
+
+When the plants come from a reference PDF in `docs/` (a city or county
+native plant list), the `pdf-plant-list` skill reads its tables and writes
+the entries; the rules here still apply.
+
 ## Pick the plants
 
 - From a request, from the fixture list in `docs/sources.md`, or from
   `npm run coverage`, most used first.
-- Skip anything out of scope: annuals, turf, edibles, houseplants, and
+- Skip anything out of scope: turf, edibles, houseplants, and
   plants not grown in Washington, Oregon, or California.
 
 ## For each plant

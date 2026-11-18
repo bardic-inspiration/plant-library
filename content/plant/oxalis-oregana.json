@@ -6,10 +6,12 @@
     "genus": "Oxalis",
     "species": "oregana",
     "commonNames": [
-      "Wood sorrel"
+      "Wood sorrel",
+      "Oregon Oxalis"
     ],
     "family": "Oxalidaceae",
-    "form": "perennial",
+    "form": "forb",
+    "lifeCycle": "perennial",
     "foliage": "deciduous",
     "height": {
       "min": 0.5,
@@ -23,6 +25,16 @@
       "dry",
       "moist"
     ],
+    "bloom": {
+      "colors": [
+        "white",
+        "pink"
+      ],
+      "months": {
+        "start": 4,
+        "end": 5
+      }
+    },
     "sources": [
       {
         "source": "king-county-native-plant-guide",
@@ -45,6 +57,17 @@
         "fields": [
           "family"
         ]
+      },
+      {
+        "source": "portland-plant-list",
+        "url": "https://github.com/bardic-inspiration/plant-library/blob/main/docs/Portland_Plant_List_2016_Update_Final2.pdf",
+        "accessed": "2026-11-18",
+        "fields": [
+          "commonNames",
+          "lifeCycle",
+          "bloom"
+        ],
+        "note": "Read from the June 2016 update uploaded to docs/ (PDF page 114)."
       }
     ]
   },

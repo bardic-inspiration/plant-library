@@ -1,0 +1,56 @@
+{
+  "type": "plant",
+  "id": "danthonia-californica",
+  "summary": "A grass or grasslike plant 1–12 in tall, for dry to moist soil in sun.",
+  "data": {
+    "genus": "Danthonia",
+    "species": "californica",
+    "commonNames": [
+      "California Oat-grass"
+    ],
+    "family": "Placeholderaceae",
+    "form": "graminoid",
+    "lifeCycle": "perennial",
+    "height": {
+      "min": 0.08,
+      "max": 1.0
+    },
+    "sun": [
+      "full-sun"
+    ],
+    "moisture": [
+      "dry",
+      "moist"
+    ],
+    "sources": [
+      {
+        "source": "portland-plant-list",
+        "url": "https://github.com/bardic-inspiration/plant-library/blob/main/docs/Portland_Plant_List_2016_Update_Final2.pdf",
+        "accessed": "2026-11-18",
+        "fields": [
+          "commonNames",
+          "form",
+          "lifeCycle",
+          "height",
+          "sun",
+          "moisture"
+        ],
+        "note": "Read from the June 2016 update uploaded to docs/ (PDF page 134)."
+      },
+      {
+        "source": "placeholder",
+        "accessed": "2026-11-18",
+        "fields": [
+          "family"
+        ],
+        "note": "Neither reference document gives a family."
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-18",
+    "revisedAt": "2026-11-18",
+    "method": "import",
+    "fixture": true
+  }
+}

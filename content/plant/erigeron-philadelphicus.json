@@ -1,0 +1,65 @@
+{
+  "type": "plant",
+  "id": "erigeron-philadelphicus",
+  "summary": "A perennial 8–28 in tall, for moist to wet soil in sun to part shade.",
+  "data": {
+    "genus": "Erigeron",
+    "species": "philadelphicus",
+    "commonNames": [
+      "Philadelphia Fleabane"
+    ],
+    "family": "Placeholderaceae",
+    "form": "forb",
+    "lifeCycle": "perennial",
+    "height": {
+      "min": 0.67,
+      "max": 2.33
+    },
+    "sun": [
+      "full-sun",
+      "part-shade"
+    ],
+    "moisture": [
+      "moist",
+      "wet"
+    ],
+    "bloom": {
+      "colors": [
+        "white",
+        "pink",
+        "purple"
+      ]
+    },
+    "sources": [
+      {
+        "source": "portland-plant-list",
+        "url": "https://github.com/bardic-inspiration/plant-library/blob/main/docs/Portland_Plant_List_2016_Update_Final2.pdf",
+        "accessed": "2026-11-18",
+        "fields": [
+          "commonNames",
+          "form",
+          "lifeCycle",
+          "height",
+          "sun",
+          "moisture",
+          "bloom"
+        ],
+        "note": "Read from the June 2016 update uploaded to docs/ (PDF page 98)."
+      },
+      {
+        "source": "placeholder",
+        "accessed": "2026-11-18",
+        "fields": [
+          "family"
+        ],
+        "note": "Neither reference document gives a family."
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-18",
+    "revisedAt": "2026-11-18",
+    "method": "import",
+    "fixture": true
+  }
+}

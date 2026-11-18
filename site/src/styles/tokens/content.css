@@ -6,7 +6,7 @@
   [data-form='tree'] { --accent: var(--p-green); }
   [data-form='shrub'] { --accent: var(--p-teal); }
   [data-form='subshrub'] { --accent: var(--p-olive); }
-  [data-form='perennial'] { --accent: var(--p-magenta); }
+  [data-form='forb'] { --accent: var(--p-magenta); }
   [data-form='graminoid'] { --accent: var(--p-ochre); }
   [data-form='fern'] { --accent: var(--p-blue); }
   [data-form='vine'] { --accent: var(--p-purple); }

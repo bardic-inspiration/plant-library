@@ -40,7 +40,8 @@
           "university",
           "botanical-institution",
           "nonprofit",
-          "professional"
+          "professional",
+          "placeholder"
         ]
       },
       "url": {
@@ -97,7 +98,10 @@
       "properties": {
         "kind": {
           "not": {
-            "const": "professional"
+            "enum": [
+              "professional",
+              "placeholder"
+            ]
           }
         }
       }

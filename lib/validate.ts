@@ -24,6 +24,7 @@ export const IMAGE_FAIL_BYTES = 2 * 1024 * 1024;
 export const CITED_TRAITS: Record<string, string> = {
   family: 'names',
   form: 'traits',
+  lifeCycle: 'traits',
   foliage: 'traits',
   height: 'traits',
   spread: 'traits',
@@ -45,6 +46,9 @@ export const CITED_TRAITS: Record<string, string> = {
   wetlandIndicator: 'wetland',
   nativeRange: 'range',
 };
+
+/** Required fields a `placeholder` citation may stand in for, when no reference gives them. */
+export const PLACEHOLDER_FIELDS = ['family', 'form'];
 
 /** Name fields a source may also be cited for, though citing them isn't required. */
 const NAME_FIELDS = ['genus', 'species', 'infraEpithet', 'commonNames', 'synonyms', 'usdaSymbol'];
@@ -262,7 +266,14 @@ export function validateLibrary(config: Config, schemas: Schemas, loaded: Loaded
         return;
       }
       if (src.kind === 'professional' && !c.contributor) err(file, `data.sources[${i}]: a ${c.source} citation names its contributor`);
-      if (src.kind !== 'professional' && !c.url) err(file, `data.sources[${i}]: give the URL of the page cited`);
+      if (src.kind !== 'professional' && src.kind !== 'placeholder' && !c.url) err(file, `data.sources[${i}]: give the URL of the page cited`);
+      if (src.kind === 'placeholder') {
+        for (const f of c.fields) {
+          if (!PLACEHOLDER_FIELDS.includes(f)) err(file, `data.sources[${i}]: a placeholder stands in only for a required field (${PLACEHOLDER_FIELDS.join(', ')}), not ${f}`);
+          const others = d.sources.filter((o) => o !== c && o.fields.includes(f));
+          if (others.length) err(file, `data.sources[${i}]: ${f} is given by ${others.map((o) => o.source).join(', ')}, so it needs no placeholder`);
+        }
+      }
       for (const f of c.fields) {
         const parts = PARENTS[f] ?? [f];
         for (const p of parts) {

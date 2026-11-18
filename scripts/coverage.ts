@@ -1,4 +1,4 @@
-/** npm run coverage — unsourced plant names, most used first, and everything resting on a non-commercial source or image. */
+/** npm run coverage — unsourced plant names, most used first, everything resting on a non-commercial source or image, and every placeholder. */
 import { buildData } from '../lib/build-data';
 import { coverage } from '../lib/coverage';
 
@@ -9,4 +9,7 @@ for (const u of c.unsourced) console.log(`  ${u.name}: ${u.lists.length} lists, 
 console.log('\nNon-commercial dependencies (clear before commercial use):');
 if (!c.nonCommercial.length) console.log('  none');
 for (const n of c.nonCommercial) console.log(`  ${n.entry}: ${n.what}`);
+console.log('\nPlaceholders (no reference gave a required field; replace from a real source):');
+if (!c.placeholders.length) console.log('  none');
+for (const n of c.placeholders) console.log(`  ${n.entry}: ${n.what}`);
 if (process.argv.includes('--json')) console.log(JSON.stringify(c, null, 2));

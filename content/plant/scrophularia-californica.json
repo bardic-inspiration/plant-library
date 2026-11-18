@@ -1,0 +1,63 @@
+{
+  "type": "plant",
+  "id": "scrophularia-californica",
+  "summary": "A perennial 2–5 ft tall, for moist to wet soil in sun to part shade.",
+  "data": {
+    "genus": "Scrophularia",
+    "species": "californica",
+    "commonNames": [
+      "California Figwort"
+    ],
+    "family": "Placeholderaceae",
+    "form": "forb",
+    "lifeCycle": "perennial",
+    "height": {
+      "min": 2.0,
+      "max": 5.0
+    },
+    "sun": [
+      "full-sun",
+      "part-shade"
+    ],
+    "moisture": [
+      "moist",
+      "wet"
+    ],
+    "bloom": {
+      "colors": [
+        "purple"
+      ]
+    },
+    "sources": [
+      {
+        "source": "portland-plant-list",
+        "url": "https://github.com/bardic-inspiration/plant-library/blob/main/docs/Portland_Plant_List_2016_Update_Final2.pdf",
+        "accessed": "2026-11-18",
+        "fields": [
+          "commonNames",
+          "form",
+          "lifeCycle",
+          "height",
+          "sun",
+          "moisture",
+          "bloom"
+        ],
+        "note": "Read from the June 2016 update uploaded to docs/ (PDF page 122)."
+      },
+      {
+        "source": "placeholder",
+        "accessed": "2026-11-18",
+        "fields": [
+          "family"
+        ],
+        "note": "Neither reference document gives a family."
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-18",
+    "revisedAt": "2026-11-18",
+    "method": "import",
+    "fixture": true
+  }
+}

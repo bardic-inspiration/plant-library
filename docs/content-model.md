@@ -42,7 +42,14 @@ beside the cultivar and outside the botanical name.
 Also: `commonNames` (first is primary), `synonyms`, `family` (must be in the
 `config/vocab.json` family table, which holds the order), `usdaSymbol`.
 
-**Traits** (all optional but `form`): `form`, `foliage`, `height` and
+**Habit and life cycle** are separate traits that never compete (D27).
+`form` is the habit, required: `tree`, `shrub`, `subshrub`, `forb` (a
+herbaceous plant that isn't grasslike), `graminoid`, `fern`, `vine`,
+`bulb`. `lifeCycle` is optional: `perennial`, `biennial`, `annual`. An
+annual grass is `graminoid` and `annual`; a woody plant's life cycle is
+left empty unless a source gives it. Each has its own filter.
+
+**Traits** (all optional but `form`): `form`, `lifeCycle`, `foliage`, `height` and
 `spread` (`{min, max}` feet), `growthRate`, `sun`, `moisture`,
 `soil.texture`, `soil.drainage`, `soil.ph`, `hardiness` (USDA zones `7` or
 `7b`), `waterUse`, `tolerates`, `bloom.colors`, `bloom.months` (`{start,
@@ -98,8 +105,9 @@ The build also computes each entry's `refs` and `refBy` (back-references).
   plant's own name, or another plant's synonym; a family not in the table;
 - citing an unregistered source; a populated trait no source cites; citing
   a source for what it doesn't `provide`; a staff observation for a trait
-  another source gives, or without a contributor; a non-professional
-  citation without a URL;
+  another source gives, or without a contributor; a citation without a URL,
+  except from a `professional` or `placeholder` source; a placeholder for a
+  field other than `family` or `form`, or for one another source gives;
 - a missing image file, one over 2 MB, a pinned count other than one, a
   license not on the allowed list, a file outside the plant's folder;
 - unresolved refs and ref tokens, ref tokens outside markdown fields, text

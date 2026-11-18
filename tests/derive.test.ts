@@ -33,7 +33,7 @@ describe('derived plant values', () => {
     expect(sizeClassFor('tree', 26)).toBe('medium-tree');
     expect(sizeClassFor('tree', 150)).toBe('large-tree');
     expect(sizeClassFor('shrub', 6)).toBe('medium-shrub');
-    expect(sizeClassFor('perennial', 0.5)).toBe('low');
+    expect(sizeClassFor('forb', 0.5)).toBe('low');
     expect(sizeClassFor('vine', 30)).toBeUndefined();
     expect(sizeClassFor('tree', undefined)).toBeUndefined();
   });

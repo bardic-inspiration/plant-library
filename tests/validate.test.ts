@@ -121,6 +121,17 @@ describe('provenance', () => {
     );
   });
 
+  it('life cycle is a trait apart from form, and is cited like one', () => {
+    expect(messages(validateWith((es) => (plant(es, 'achillea-millefolium').data.form = 'graminoid')))).toEqual([]);
+    expectError(
+      validateWith((es) => {
+        const s = plant(es, 'achillea-millefolium').data.sources.find((c) => c.source === 'usda-plants')!;
+        s.fields = s.fields.filter((f) => f !== 'lifeCycle');
+      }),
+      /data\.lifeCycle is populated but no source cites it/,
+    );
+  });
+
   it('a parent key cites all its parts', () => {
     const r = validateWith((es) => {
       const s = plant(es, 'acer-circinatum').data.sources[0];
@@ -142,6 +153,27 @@ describe('provenance', () => {
 
   it('a staff observation names its contributor', () => {
     expectError(validateWith((es) => delete plant(es, 'gaultheria-shallon').data.sources[1].contributor), /names its contributor/);
+  });
+
+  const usePlaceholder = (es: Parameters<Parameters<typeof validateWith>[0]>[0], fields: string[]) => {
+    const d = plant(es, 'acer-circinatum').data;
+    d.sources[0].fields = d.sources[0].fields.filter((f) => !fields.includes(f));
+    d.sources.push({ source: 'placeholder', accessed: '2026-11-18', fields });
+  };
+
+  it('a placeholder, with no URL, may stand in for a required field no source gives', () => {
+    expect(messages(validateWith((es) => usePlaceholder(es, ['family'])))).toEqual([]);
+  });
+
+  it('a placeholder stands in only for a required field', () => {
+    expectError(validateWith((es) => usePlaceholder(es, ['height'])), /a placeholder stands in only for a required field \(family, form\), not height/);
+  });
+
+  it('a placeholder is not cited for a field a source gives', () => {
+    expectError(
+      validateWith((es) => plant(es, 'acer-circinatum').data.sources.push({ source: 'placeholder', accessed: '2026-11-18', fields: ['family'] })),
+      /family is given by usda-plants, so it needs no placeholder/,
+    );
   });
 
   it('two sources may both cite a trait (they disagreed; the PR said which won)', () => {

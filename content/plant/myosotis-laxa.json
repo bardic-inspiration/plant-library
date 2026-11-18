@@ -1,0 +1,67 @@
+{
+  "type": "plant",
+  "id": "myosotis-laxa",
+  "summary": "An annual 2–12 in tall, for moist to wet soil in sun to part shade.",
+  "data": {
+    "genus": "Myosotis",
+    "species": "laxa",
+    "commonNames": [
+      "Small-flowered Forget-me-not"
+    ],
+    "family": "Placeholderaceae",
+    "form": "forb",
+    "lifeCycle": "annual",
+    "height": {
+      "min": 0.17,
+      "max": 1.0
+    },
+    "sun": [
+      "full-sun",
+      "part-shade"
+    ],
+    "moisture": [
+      "moist",
+      "wet"
+    ],
+    "bloom": {
+      "colors": [
+        "blue"
+      ],
+      "months": {
+        "start": 6,
+        "end": 9
+      }
+    },
+    "sources": [
+      {
+        "source": "portland-plant-list",
+        "url": "https://github.com/bardic-inspiration/plant-library/blob/main/docs/Portland_Plant_List_2016_Update_Final2.pdf",
+        "accessed": "2026-11-18",
+        "fields": [
+          "commonNames",
+          "form",
+          "lifeCycle",
+          "height",
+          "sun",
+          "moisture",
+          "bloom"
+        ],
+        "note": "Read from the June 2016 update uploaded to docs/ (PDF page 112)."
+      },
+      {
+        "source": "placeholder",
+        "accessed": "2026-11-18",
+        "fields": [
+          "family"
+        ],
+        "note": "Neither reference document gives a family."
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-18",
+    "revisedAt": "2026-11-18",
+    "method": "import",
+    "fixture": true
+  }
+}

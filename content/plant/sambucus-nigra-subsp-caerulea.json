@@ -1,0 +1,60 @@
+{
+  "type": "plant",
+  "id": "sambucus-nigra-subsp-caerulea",
+  "summary": "A shrub 10–20 ft tall, for dry to wet soil in sun to part shade.",
+  "data": {
+    "genus": "Sambucus",
+    "species": "nigra",
+    "infraRank": "subsp.",
+    "infraEpithet": "caerulea",
+    "commonNames": [
+      "Blue Elderberry"
+    ],
+    "family": "Placeholderaceae",
+    "form": "shrub",
+    "height": {
+      "min": 10.0,
+      "max": 20.0
+    },
+    "growthRate": "fast",
+    "sun": [
+      "full-sun",
+      "part-shade"
+    ],
+    "moisture": [
+      "dry",
+      "moist",
+      "wet"
+    ],
+    "sources": [
+      {
+        "source": "portland-plant-list",
+        "url": "https://github.com/bardic-inspiration/plant-library/blob/main/docs/Portland_Plant_List_2016_Update_Final2.pdf",
+        "accessed": "2026-11-18",
+        "fields": [
+          "commonNames",
+          "form",
+          "height",
+          "growthRate",
+          "sun",
+          "moisture"
+        ],
+        "note": "Read from the June 2016 update uploaded to docs/ (PDF pages 78, 83)."
+      },
+      {
+        "source": "placeholder",
+        "accessed": "2026-11-18",
+        "fields": [
+          "family"
+        ],
+        "note": "Neither reference document gives a family."
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-18",
+    "revisedAt": "2026-11-18",
+    "method": "import",
+    "fixture": true
+  }
+}

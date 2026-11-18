@@ -10,6 +10,7 @@
     ],
     "family": "Dryopteridaceae",
     "form": "fern",
+    "lifeCycle": "perennial",
     "foliage": "evergreen",
     "height": {
       "min": 3,
@@ -45,6 +46,16 @@
         "fields": [
           "family"
         ]
+      },
+      {
+        "source": "portland-plant-list",
+        "url": "https://github.com/bardic-inspiration/plant-library/blob/main/docs/Portland_Plant_List_2016_Update_Final2.pdf",
+        "accessed": "2026-11-18",
+        "fields": [
+          "commonNames",
+          "lifeCycle"
+        ],
+        "note": "Read from the June 2016 update uploaded to docs/ (PDF page 142)."
       }
     ]
   },

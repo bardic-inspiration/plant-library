@@ -1,0 +1,69 @@
+{
+  "type": "plant",
+  "id": "viola-adunca",
+  "summary": "A perennial 3–6 in tall, for dry to moist soil in sun to shade.",
+  "data": {
+    "genus": "Viola",
+    "species": "adunca",
+    "commonNames": [
+      "Early Blue Violet"
+    ],
+    "family": "Placeholderaceae",
+    "form": "forb",
+    "lifeCycle": "perennial",
+    "height": {
+      "min": 0.25,
+      "max": 0.5
+    },
+    "sun": [
+      "full-sun",
+      "part-shade",
+      "shade"
+    ],
+    "moisture": [
+      "dry",
+      "moist"
+    ],
+    "bloom": {
+      "colors": [
+        "blue",
+        "purple"
+      ],
+      "months": {
+        "start": 5,
+        "end": 7
+      }
+    },
+    "sources": [
+      {
+        "source": "portland-plant-list",
+        "url": "https://github.com/bardic-inspiration/plant-library/blob/main/docs/Portland_Plant_List_2016_Update_Final2.pdf",
+        "accessed": "2026-11-18",
+        "fields": [
+          "commonNames",
+          "form",
+          "lifeCycle",
+          "height",
+          "sun",
+          "moisture",
+          "bloom"
+        ],
+        "note": "Read from the June 2016 update uploaded to docs/ (PDF page 132)."
+      },
+      {
+        "source": "placeholder",
+        "accessed": "2026-11-18",
+        "fields": [
+          "family"
+        ],
+        "note": "Neither reference document gives a family."
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-18",
+    "revisedAt": "2026-11-18",
+    "method": "import",
+    "fixture": true
+  }
+}

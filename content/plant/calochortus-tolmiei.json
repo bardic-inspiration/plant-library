@@ -1,0 +1,50 @@
+{
+  "type": "plant",
+  "id": "calochortus-tolmiei",
+  "summary": "A herbaceous plant, for dry to moist soil in sun to part shade.",
+  "data": {
+    "genus": "Calochortus",
+    "species": "tolmiei",
+    "commonNames": [
+      "Tolmie’s Mariposa"
+    ],
+    "family": "Placeholderaceae",
+    "form": "forb",
+    "sun": [
+      "full-sun",
+      "part-shade"
+    ],
+    "moisture": [
+      "dry",
+      "moist"
+    ],
+    "sources": [
+      {
+        "source": "portland-plant-list",
+        "url": "https://github.com/bardic-inspiration/plant-library/blob/main/docs/Portland_Plant_List_2016_Update_Final2.pdf",
+        "accessed": "2026-11-18",
+        "fields": [
+          "commonNames",
+          "form",
+          "sun",
+          "moisture"
+        ],
+        "note": "Read from the June 2016 update uploaded to docs/ (PDF page 88)."
+      },
+      {
+        "source": "placeholder",
+        "accessed": "2026-11-18",
+        "fields": [
+          "family"
+        ],
+        "note": "Neither reference document gives a family."
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-18",
+    "revisedAt": "2026-11-18",
+    "method": "import",
+    "fixture": true
+  }
+}

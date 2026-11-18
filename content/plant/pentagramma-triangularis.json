@@ -1,0 +1,58 @@
+{
+  "type": "plant",
+  "id": "pentagramma-triangularis",
+  "summary": "An evergreen fern 3–12 in tall, for dry soil in sun to part shade.",
+  "data": {
+    "genus": "Pentagramma",
+    "species": "triangularis",
+    "commonNames": [
+      "Gold-back Fern"
+    ],
+    "family": "Placeholderaceae",
+    "form": "fern",
+    "lifeCycle": "perennial",
+    "foliage": "evergreen",
+    "height": {
+      "min": 0.25,
+      "max": 1.0
+    },
+    "sun": [
+      "full-sun",
+      "part-shade"
+    ],
+    "moisture": [
+      "dry"
+    ],
+    "sources": [
+      {
+        "source": "portland-plant-list",
+        "url": "https://github.com/bardic-inspiration/plant-library/blob/main/docs/Portland_Plant_List_2016_Update_Final2.pdf",
+        "accessed": "2026-11-18",
+        "fields": [
+          "commonNames",
+          "form",
+          "lifeCycle",
+          "foliage",
+          "height",
+          "sun",
+          "moisture"
+        ],
+        "note": "Read from the June 2016 update uploaded to docs/ (PDF page 142)."
+      },
+      {
+        "source": "placeholder",
+        "accessed": "2026-11-18",
+        "fields": [
+          "family"
+        ],
+        "note": "Neither reference document gives a family."
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-18",
+    "revisedAt": "2026-11-18",
+    "method": "import",
+    "fixture": true
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "type": "plant",
+  "id": "elymus-trachycaulus",
+  "summary": "A grass or grasslike plant 18–36 in tall, for dry soil in sun to part shade.",
+  "data": {
+    "genus": "Elymus",
+    "species": "trachycaulus",
+    "commonNames": [
+      "Bluebunch Wheatgrass"
+    ],
+    "family": "Placeholderaceae",
+    "form": "graminoid",
+    "lifeCycle": "perennial",
+    "height": {
+      "min": 1.5,
+      "max": 3.0
+    },
+    "sun": [
+      "full-sun",
+      "part-shade"
+    ],
+    "moisture": [
+      "dry"
+    ],
+    "sources": [
+      {
+        "source": "portland-plant-list",
+        "url": "https://github.com/bardic-inspiration/plant-library/blob/main/docs/Portland_Plant_List_2016_Update_Final2.pdf",
+        "accessed": "2026-11-18",
+        "fields": [
+          "commonNames",
+          "form",
+          "lifeCycle",
+          "height",
+          "sun",
+          "moisture"
+        ],
+        "note": "Read from the June 2016 update uploaded to docs/ (PDF page 134)."
+      },
+      {
+        "source": "placeholder",
+        "accessed": "2026-11-18",
+        "fields": [
+          "family"
+        ],
+        "note": "Neither reference document gives a family."
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-18",
+    "revisedAt": "2026-11-18",
+    "method": "import",
+    "fixture": true
+  }
+}

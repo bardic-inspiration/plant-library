@@ -71,6 +71,7 @@ export interface PlantData extends NameParts {
   family: string;
   usdaSymbol?: string;
   form: string;
+  lifeCycle?: string;
   foliage?: string;
   height?: Range;
   spread?: Range;

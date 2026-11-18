@@ -1,0 +1,62 @@
+{
+  "type": "plant",
+  "id": "asarum-caudatum",
+  "summary": "A perennial, for moist to wet soil in shade.",
+  "data": {
+    "genus": "Asarum",
+    "species": "caudatum",
+    "commonNames": [
+      "Wild Ginger"
+    ],
+    "family": "Placeholderaceae",
+    "form": "forb",
+    "lifeCycle": "perennial",
+    "sun": [
+      "shade"
+    ],
+    "moisture": [
+      "moist",
+      "wet"
+    ],
+    "bloom": {
+      "colors": [
+        "purple",
+        "brown"
+      ],
+      "months": {
+        "start": 4,
+        "end": 6
+      }
+    },
+    "sources": [
+      {
+        "source": "portland-plant-list",
+        "url": "https://github.com/bardic-inspiration/plant-library/blob/main/docs/Portland_Plant_List_2016_Update_Final2.pdf",
+        "accessed": "2026-11-18",
+        "fields": [
+          "commonNames",
+          "form",
+          "lifeCycle",
+          "sun",
+          "moisture",
+          "bloom"
+        ],
+        "note": "Read from the June 2016 update uploaded to docs/ (PDF page 86)."
+      },
+      {
+        "source": "placeholder",
+        "accessed": "2026-11-18",
+        "fields": [
+          "family"
+        ],
+        "note": "Neither reference document gives a family."
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-18",
+    "revisedAt": "2026-11-18",
+    "method": "import",
+    "fixture": true
+  }
+}

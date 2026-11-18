@@ -1,0 +1,68 @@
+{
+  "type": "plant",
+  "id": "piperia-elegans",
+  "summary": "A perennial 1–2 ft tall, for dry to moist soil in part shade to shade.",
+  "data": {
+    "genus": "Piperia",
+    "species": "elegans",
+    "commonNames": [
+      "Elegant Rein-orchid"
+    ],
+    "family": "Placeholderaceae",
+    "form": "forb",
+    "lifeCycle": "perennial",
+    "height": {
+      "min": 1.0,
+      "max": 2.0
+    },
+    "sun": [
+      "part-shade",
+      "shade"
+    ],
+    "moisture": [
+      "dry",
+      "moist"
+    ],
+    "bloom": {
+      "colors": [
+        "white",
+        "green"
+      ],
+      "months": {
+        "start": 5,
+        "end": 6
+      }
+    },
+    "sources": [
+      {
+        "source": "portland-plant-list",
+        "url": "https://github.com/bardic-inspiration/plant-library/blob/main/docs/Portland_Plant_List_2016_Update_Final2.pdf",
+        "accessed": "2026-11-18",
+        "fields": [
+          "commonNames",
+          "form",
+          "lifeCycle",
+          "height",
+          "sun",
+          "moisture",
+          "bloom"
+        ],
+        "note": "Read from the June 2016 update uploaded to docs/ (PDF page 116)."
+      },
+      {
+        "source": "placeholder",
+        "accessed": "2026-11-18",
+        "fields": [
+          "family"
+        ],
+        "note": "Neither reference document gives a family."
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-18",
+    "revisedAt": "2026-11-18",
+    "method": "import",
+    "fixture": true
+  }
+}
