@@ -26,8 +26,8 @@ spec/v1/                           the unbuilt part of the v1 design
 
 ### Stack
 
-TypeScript on Node 22, npm with a committed lockfile, Astro 5 (static
-output) with Preact 10 islands, Ajv (JSON Schema 2020-12), MiniSearch,
+TypeScript on Node 22, npm with a committed lockfile, Astro 7 (static
+output) with Preact 11 islands, Ajv (JSON Schema 2020-12), MiniSearch,
 `marked` for the markdown subset, plain CSS with tokens and Stylelint,
 Montserrat through `@fontsource`, Lucide icons inlined, Vitest, and
 Playwright with axe-core. Versions are pinned in `package-lock.json`;
