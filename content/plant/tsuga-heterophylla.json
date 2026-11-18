@@ -1,0 +1,57 @@
+{
+  "type": "plant",
+  "id": "tsuga-heterophylla",
+  "summary": "An evergreen tree reaching about 225 ft, for moist to wet soil in part shade to shade.",
+  "data": {
+    "genus": "Tsuga",
+    "species": "heterophylla",
+    "commonNames": [
+      "Western hemlock"
+    ],
+    "family": "Pinaceae",
+    "form": "tree",
+    "foliage": "evergreen",
+    "height": {
+      "min": 225,
+      "max": 225
+    },
+    "sun": [
+      "part-shade",
+      "shade"
+    ],
+    "moisture": [
+      "moist",
+      "wet"
+    ],
+    "sources": [
+      {
+        "source": "king-county-native-plant-guide",
+        "url": "https://kingcounty.gov/gonative",
+        "accessed": "2026-11-18",
+        "fields": [
+          "commonNames",
+          "form",
+          "foliage",
+          "height",
+          "sun",
+          "moisture"
+        ],
+        "note": "Read from the 2017 brochure, which gives this address; height is its single mature height."
+      },
+      {
+        "source": "wikidata",
+        "url": "https://commons.wikimedia.org/wiki/Category:Tsuga_heterophylla",
+        "accessed": "2026-11-18",
+        "fields": [
+          "family"
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-18",
+    "revisedAt": "2026-11-18",
+    "method": "import",
+    "fixture": true
+  }
+}

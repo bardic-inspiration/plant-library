@@ -45,13 +45,13 @@ export function areaLabels(files: string[], lane: Lane | null): string[] {
 /**
  * Branch prefixes: `content/` (and `content/sub-<id>` for a submission),
  * `dev/`, `admin/` (maintenance, such as dependency rounds), and
- * `dependabot/`. A `claude/` branch, as cloud sessions name
+ * `dependabot/`. A `claude/` or `ccr-` branch, as cloud sessions name
  * them, takes its lane from its paths. `spike/` branches can't merge.
  */
 export function laneForBranch(branch: string): Lane | 'infer' | 'spike' | null {
   if (branch.startsWith('content/')) return 'content';
   if (branch.startsWith('dev/') || branch.startsWith('admin/') || branch.startsWith('dependabot/')) return 'dev';
-  if (branch.startsWith('claude/')) return 'infer';
+  if (branch.startsWith('claude/') || branch.startsWith('ccr-')) return 'infer';
   if (branch.startsWith('spike/')) return 'spike';
   return null;
 }

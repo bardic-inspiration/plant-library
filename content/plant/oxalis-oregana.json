@@ -1,0 +1,57 @@
+{
+  "type": "plant",
+  "id": "oxalis-oregana",
+  "summary": "A deciduous groundcover or perennial reaching about 6 in, for dry to moist soil in part shade to shade.",
+  "data": {
+    "genus": "Oxalis",
+    "species": "oregana",
+    "commonNames": [
+      "Wood sorrel"
+    ],
+    "family": "Oxalidaceae",
+    "form": "perennial",
+    "foliage": "deciduous",
+    "height": {
+      "min": 0.5,
+      "max": 0.5
+    },
+    "sun": [
+      "part-shade",
+      "shade"
+    ],
+    "moisture": [
+      "dry",
+      "moist"
+    ],
+    "sources": [
+      {
+        "source": "king-county-native-plant-guide",
+        "url": "https://kingcounty.gov/gonative",
+        "accessed": "2026-11-18",
+        "fields": [
+          "commonNames",
+          "form",
+          "foliage",
+          "height",
+          "sun",
+          "moisture"
+        ],
+        "note": "Read from the 2017 brochure, which gives this address; height is its single mature height."
+      },
+      {
+        "source": "wikidata",
+        "url": "https://commons.wikimedia.org/wiki/Category:Oxalis_oregana",
+        "accessed": "2026-11-18",
+        "fields": [
+          "family"
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-18",
+    "revisedAt": "2026-11-18",
+    "method": "import",
+    "fixture": true
+  }
+}

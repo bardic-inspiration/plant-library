@@ -21,8 +21,8 @@ rules, and `main` is always complete (P1, P8, P11).
   `migration` label.
 - A dev PR that changes only Markdown outside `content/` runs `check`
   alone.
-- `claude/` branches, as cloud sessions name them, take their lane from
-  their paths: content-only changes are the content lane, anything else
+- `claude/` and `ccr-` branches, as cloud sessions name them, take their
+  lane from their paths: content-only changes are the content lane, anything else
   the dev lane.
 - `spike/` branches can't merge. Never push to `main`, never rewrite pushed
   history; PRs are squash-merged with the title `<area>: <summary>`.

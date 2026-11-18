@@ -1,0 +1,56 @@
+{
+  "type": "plant",
+  "id": "iris-tenax",
+  "summary": "A deciduous groundcover or perennial reaching about 1.5 ft, for moist soil in sun to part shade.",
+  "data": {
+    "genus": "Iris",
+    "species": "tenax",
+    "commonNames": [
+      "Oregon iris"
+    ],
+    "family": "Iridaceae",
+    "form": "perennial",
+    "foliage": "deciduous",
+    "height": {
+      "min": 1.5,
+      "max": 1.5
+    },
+    "sun": [
+      "full-sun",
+      "part-shade"
+    ],
+    "moisture": [
+      "moist"
+    ],
+    "sources": [
+      {
+        "source": "king-county-native-plant-guide",
+        "url": "https://kingcounty.gov/gonative",
+        "accessed": "2026-11-18",
+        "fields": [
+          "commonNames",
+          "form",
+          "foliage",
+          "height",
+          "sun",
+          "moisture"
+        ],
+        "note": "Read from the 2017 brochure, which gives this address; height is its single mature height."
+      },
+      {
+        "source": "wikidata",
+        "url": "https://commons.wikimedia.org/wiki/Category:Iris_tenax",
+        "accessed": "2026-11-18",
+        "fields": [
+          "family"
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-18",
+    "revisedAt": "2026-11-18",
+    "method": "import",
+    "fixture": true
+  }
+}

@@ -6,7 +6,8 @@ This repository's own compilation and prose are under CC BY 4.0 ([LICENSE-CONTEN
 
 ## Sources
 
-No entry cites a source yet.
+- **Native Plant Guide for Western Washington Yards** (King County Department of Natural Resources and Parks, Water and Land Resources Division). Cited by 49 entries. King County Department of Natural Resources and Parks. 2026. Native Plant Guide for Western Washington Yards (https://kingcounty.gov/gonative, 2026-11-18).
+- **Wikidata** (Wikimedia Foundation and Wikidata contributors). Cited by 49 entries. Wikidata contributors. 2026. Wikidata, via the Wikimedia Commons taxonomy box (https://www.wikidata.org, 2026-11-18).
 
 ## Images
 

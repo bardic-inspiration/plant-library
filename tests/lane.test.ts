@@ -39,6 +39,8 @@ describe('lanes', () => {
   it('a session branch takes its lane from its paths', () => {
     expect(checkLane('claude/x', ['content/plant/a.json']).lane).toBe('content');
     expect(checkLane('claude/x', ['lib/a.ts', 'content/plant/a.json']).lane).toBe('dev');
+    expect(checkLane('ccr-1a2b-x', ['content/plant/a.json']).lane).toBe('content');
+    expect(checkLane('ccr-1a2b-x', ['lib/a.ts']).lane).toBe('dev');
   });
 
   it('chooses checks: content runs validate and build; dev adds check and test; docs-only runs check', () => {

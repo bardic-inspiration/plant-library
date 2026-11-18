@@ -1,0 +1,57 @@
+{
+  "type": "plant",
+  "id": "dicentra-formosa",
+  "summary": "A deciduous groundcover or perennial reaching about 1.5 ft, for dry to moist soil in part shade to shade.",
+  "data": {
+    "genus": "Dicentra",
+    "species": "formosa",
+    "commonNames": [
+      "Bleeding heart"
+    ],
+    "family": "Papaveraceae",
+    "form": "perennial",
+    "foliage": "deciduous",
+    "height": {
+      "min": 1.5,
+      "max": 1.5
+    },
+    "sun": [
+      "part-shade",
+      "shade"
+    ],
+    "moisture": [
+      "dry",
+      "moist"
+    ],
+    "sources": [
+      {
+        "source": "king-county-native-plant-guide",
+        "url": "https://kingcounty.gov/gonative",
+        "accessed": "2026-11-18",
+        "fields": [
+          "commonNames",
+          "form",
+          "foliage",
+          "height",
+          "sun",
+          "moisture"
+        ],
+        "note": "Read from the 2017 brochure, which gives this address; height is its single mature height."
+      },
+      {
+        "source": "wikidata",
+        "url": "https://commons.wikimedia.org/wiki/Category:Dicentra_formosa",
+        "accessed": "2026-11-18",
+        "fields": [
+          "family"
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-18",
+    "revisedAt": "2026-11-18",
+    "method": "import",
+    "fixture": true
+  }
+}

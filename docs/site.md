@@ -85,6 +85,10 @@ staff observation, two citations of one trait). The tests use it.
 (`PLANT_LIBRARY_DATA`), and every page then carries a banner saying its
 values haven't been checked against the sources they cite.
 
+A build of the library's own content shows a banner too when any plant is
+a fixture (`meta.fixture: true`), as every prototype plant is
+([sources.md](sources.md#data-stages)).
+
 ## Where the rules live
 
 `config/types.json` (facets, sorts, search fields), `lib/facets.ts`,

@@ -1,0 +1,57 @@
+{
+  "type": "plant",
+  "id": "fragaria-chiloensis",
+  "summary": "An evergreen groundcover or perennial reaching about 6 in, for dry to moist soil in sun to part shade.",
+  "data": {
+    "genus": "Fragaria",
+    "species": "chiloensis",
+    "commonNames": [
+      "Beach strawberry"
+    ],
+    "family": "Rosaceae",
+    "form": "perennial",
+    "foliage": "evergreen",
+    "height": {
+      "min": 0.5,
+      "max": 0.5
+    },
+    "sun": [
+      "full-sun",
+      "part-shade"
+    ],
+    "moisture": [
+      "dry",
+      "moist"
+    ],
+    "sources": [
+      {
+        "source": "king-county-native-plant-guide",
+        "url": "https://kingcounty.gov/gonative",
+        "accessed": "2026-11-18",
+        "fields": [
+          "commonNames",
+          "form",
+          "foliage",
+          "height",
+          "sun",
+          "moisture"
+        ],
+        "note": "Read from the 2017 brochure, which gives this address; height is its single mature height."
+      },
+      {
+        "source": "wikidata",
+        "url": "https://commons.wikimedia.org/wiki/Category:Fragaria_chiloensis",
+        "accessed": "2026-11-18",
+        "fields": [
+          "family"
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-18",
+    "revisedAt": "2026-11-18",
+    "method": "import",
+    "fixture": true
+  }
+}

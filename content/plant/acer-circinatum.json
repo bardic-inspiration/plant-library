@@ -1,0 +1,58 @@
+{
+  "type": "plant",
+  "id": "acer-circinatum",
+  "summary": "A deciduous tree reaching about 25 ft, for dry to moist soil in sun to shade.",
+  "data": {
+    "genus": "Acer",
+    "species": "circinatum",
+    "commonNames": [
+      "Vine maple"
+    ],
+    "family": "Sapindaceae",
+    "form": "tree",
+    "foliage": "deciduous",
+    "height": {
+      "min": 25,
+      "max": 25
+    },
+    "sun": [
+      "full-sun",
+      "part-shade",
+      "shade"
+    ],
+    "moisture": [
+      "dry",
+      "moist"
+    ],
+    "sources": [
+      {
+        "source": "king-county-native-plant-guide",
+        "url": "https://kingcounty.gov/gonative",
+        "accessed": "2026-11-18",
+        "fields": [
+          "commonNames",
+          "form",
+          "foliage",
+          "height",
+          "sun",
+          "moisture"
+        ],
+        "note": "Read from the 2017 brochure, which gives this address; height is its single mature height. The guide adds that in full sun it wants moist soil, while dry shade suits it."
+      },
+      {
+        "source": "wikidata",
+        "url": "https://commons.wikimedia.org/wiki/Category:Acer_circinatum",
+        "accessed": "2026-11-18",
+        "fields": [
+          "family"
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-18",
+    "revisedAt": "2026-11-18",
+    "method": "import",
+    "fixture": true
+  }
+}

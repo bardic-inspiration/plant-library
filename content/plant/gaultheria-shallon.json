@@ -1,0 +1,57 @@
+{
+  "type": "plant",
+  "id": "gaultheria-shallon",
+  "summary": "An evergreen shrub reaching about 5 ft, for dry to moist soil in part shade to shade.",
+  "data": {
+    "genus": "Gaultheria",
+    "species": "shallon",
+    "commonNames": [
+      "Salal"
+    ],
+    "family": "Ericaceae",
+    "form": "shrub",
+    "foliage": "evergreen",
+    "height": {
+      "min": 5,
+      "max": 5
+    },
+    "sun": [
+      "part-shade",
+      "shade"
+    ],
+    "moisture": [
+      "dry",
+      "moist"
+    ],
+    "sources": [
+      {
+        "source": "king-county-native-plant-guide",
+        "url": "https://kingcounty.gov/gonative",
+        "accessed": "2026-11-18",
+        "fields": [
+          "commonNames",
+          "form",
+          "foliage",
+          "height",
+          "sun",
+          "moisture"
+        ],
+        "note": "Read from the 2017 brochure, which gives this address; height is its single mature height."
+      },
+      {
+        "source": "wikidata",
+        "url": "https://commons.wikimedia.org/wiki/Category:Gaultheria_shallon",
+        "accessed": "2026-11-18",
+        "fields": [
+          "family"
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-18",
+    "revisedAt": "2026-11-18",
+    "method": "import",
+    "fixture": true
+  }
+}

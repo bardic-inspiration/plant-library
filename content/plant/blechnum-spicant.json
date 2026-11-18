@@ -1,0 +1,57 @@
+{
+  "type": "plant",
+  "id": "blechnum-spicant",
+  "summary": "An evergreen fern reaching about 2 ft, for moist to wet soil in part shade to shade.",
+  "data": {
+    "genus": "Blechnum",
+    "species": "spicant",
+    "commonNames": [
+      "Deer fern"
+    ],
+    "family": "Blechnaceae",
+    "form": "fern",
+    "foliage": "evergreen",
+    "height": {
+      "min": 2,
+      "max": 2
+    },
+    "sun": [
+      "part-shade",
+      "shade"
+    ],
+    "moisture": [
+      "moist",
+      "wet"
+    ],
+    "sources": [
+      {
+        "source": "king-county-native-plant-guide",
+        "url": "https://kingcounty.gov/gonative",
+        "accessed": "2026-11-18",
+        "fields": [
+          "commonNames",
+          "form",
+          "foliage",
+          "height",
+          "sun",
+          "moisture"
+        ],
+        "note": "Read from the 2017 brochure, which gives this address; height is its single mature height."
+      },
+      {
+        "source": "wikidata",
+        "url": "https://commons.wikimedia.org/wiki/Category:Struthiopteris_spicant",
+        "accessed": "2026-11-18",
+        "fields": [
+          "family"
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-18",
+    "revisedAt": "2026-11-18",
+    "method": "import",
+    "fixture": true
+  }
+}

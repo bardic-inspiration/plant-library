@@ -34,5 +34,43 @@
     "termsChecked": "2026-11-17",
     "termsSummary": "A colleague's own professional observation, cited only for a trait no other registered source gives.",
     "citation": "Observed by {contributor}, {accessed}."
+  },
+  "king-county-native-plant-guide": {
+    "name": "Native Plant Guide for Western Washington Yards",
+    "publisher": "King County Department of Natural Resources and Parks, Water and Land Resources Division",
+    "kind": "local",
+    "url": "https://kingcounty.gov/gonative",
+    "hosts": [
+      "kingcounty.gov",
+      "www.kingcounty.gov",
+      "green2.kingcounty.gov"
+    ],
+    "provides": [
+      "names",
+      "traits"
+    ],
+    "license": "unstated",
+    "termsUrl": "https://kingcounty.gov/gonative",
+    "termsChecked": "2026-11-18",
+    "termsSummary": "The 2017 brochure (read from a copy the owner uploaded) states no copyright, license, or reuse terms, and the terms of the county site couldn't be read from the session. By the owner's decision (D18) it is cited for facts only: common names, leaf habit, sun, moisture, and mature height. Its prose, plant list layout, and illustrations are never copied.",
+    "citation": "King County Department of Natural Resources and Parks. {year}. Native Plant Guide for Western Washington Yards (https://kingcounty.gov/gonative, {accessed})."
+  },
+  "wikidata": {
+    "name": "Wikidata",
+    "publisher": "Wikimedia Foundation and Wikidata contributors",
+    "kind": "nonprofit",
+    "url": "https://www.wikidata.org",
+    "hosts": [
+      "www.wikidata.org",
+      "wikidata.org"
+    ],
+    "provides": [
+      "names"
+    ],
+    "license": "CC0-1.0",
+    "termsUrl": "https://commons.wikimedia.org/wiki/Commons:Licensing",
+    "termsChecked": "2026-11-18",
+    "termsSummary": "Read through the Wikidata taxonomy box on Wikimedia Commons category pages, since wikidata.org is blocked from cloud sessions. Commons' licensing page says structured data is CC0; Wikidata's own terms page couldn't be opened. Prototype only (D20): cited for family.",
+    "citation": "Wikidata contributors. {year}. Wikidata, via the Wikimedia Commons taxonomy box (https://www.wikidata.org, {accessed})."
   }
 }

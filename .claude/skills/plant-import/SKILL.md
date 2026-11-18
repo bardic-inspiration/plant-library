@@ -9,6 +9,22 @@ Adds plant entries whose every fact cites a registered source (P5). The
 rules live in `docs/content-model.md` and `docs/sources.md`; this is the
 session workflow.
 
+## Which stage
+
+The repo is in the **prototype** stage (`docs/sources.md`, "Data stages"):
+plants are fixtures, and the production rules below are relaxed.
+
+- Mark every entry `meta.fixture: true`.
+- Use any public source you can read. If it states no terms, register it
+  for facts only and say so in `termsSummary`. Names and families may
+  follow the source rather than USDA PLANTS.
+- Values may be approximate, but each still cites the page it came from.
+  Never cite a page you didn't open, never copy prose, and use only images
+  with an allowed license.
+
+The steps below are the production workflow; in the prototype, follow them
+as far as the sources at hand allow.
+
 ## Pick the plants
 
 - From a request, from the fixture list in `docs/sources.md`, or from
