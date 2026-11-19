@@ -13,7 +13,7 @@ builds one HTML page per entry and a Preact island for the Library.
 ```
 content/<type>/<id>.json           entries (plants so far)
 assets/images/plant/<id>/<n>.*     plant images
-schemas/                           JSON schemas: common, envelope, plant, project, sources, site, types, overlays
+schemas/                           JSON schemas: common, envelope, plant, project, palette, submission, sources, site, types, overlays
 config/                            site.json, types.json, vocab.json, sources.json, overlays.json
 geo/                               boundary layers (TopoJSON) the build derives geography from
 lib/                               code shared by scripts, the site, and tests
@@ -73,13 +73,14 @@ from `config/site.json`.
 | `coverage` | Unsourced plant names and non-commercial dependencies ([sources.md](sources.md#coverage)) |
 | `attribution` | Regenerates `ATTRIBUTION.md`; `-- --check` fails when stale |
 | `geo` | Rebuilds the boundary layers in `geo/` from their sources; not part of the build ([geography.md](geography.md)) |
+| `inbox` | `list` and `check <id>`: the mechanical checks on a submission in `inbox/` ([submissions.md](submissions.md#inbox-and-mechanical-checks)) |
 | `basemap` | Cuts the PMTiles basemap into `site/public/`; run by the deploy workflow, needs Go ([map.md](map.md#basemap)) |
 
 ## Where the rules live
 
 `lib/` holds every rule; scripts are thin entry points. Client-safe modules
 (`names`, `derive`, `compat`, `geo`, `zones`, `facets`, `filter`, `format`, `markdown`,
-`site`, `registry`, `map-style`, `map-data`, `glyphs`, `overlays`, `workspace`, `export`, `cutsheet`) have no Node imports, so the island uses them too.
+`site`, `registry`, `map-style`, `map-data`, `glyphs`, `overlays`, `workspace`, `export`, `cutsheet`, `submission`) have no Node imports, so the island uses them too.
 
 ## Extending
 

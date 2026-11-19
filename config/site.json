@@ -5,6 +5,13 @@
   "base": "/plant-library/",
   "fixturesOnly": true,
   "store": "browser",
+  "submissions": {
+    "maxBytes": {
+      "image": 26214400,
+      "plant-list": 26214400,
+      "supporting": 26214400
+    }
+  },
   "basemap": {
     "file": "basemap/west-coast.pmtiles",
     "maxZoom": 10

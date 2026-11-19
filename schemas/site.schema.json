@@ -4,7 +4,7 @@
   "title": "Site settings (config/site.json)",
   "type": "object",
   "additionalProperties": false,
-  "required": ["title", "description", "base", "fixturesOnly", "store", "basemap"],
+  "required": ["title", "description", "base", "fixturesOnly", "store", "submissions", "basemap"],
   "properties": {
     "$schema": { "type": "string" },
     "title": { "type": "string", "minLength": 1 },
@@ -19,6 +19,24 @@
       "type": "boolean"
     },
     "store": { "enum": ["browser", "folder"] },
+    "submissions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["maxBytes"],
+      "properties": {
+        "maxBytes": {
+          "description": "The largest file a submission may carry, in bytes, per file role.",
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["image", "plant-list", "supporting"],
+          "properties": {
+            "image": { "type": "integer", "minimum": 1 },
+            "plant-list": { "type": "integer", "minimum": 1 },
+            "supporting": { "type": "integer", "minimum": 1 }
+          }
+        }
+      }
+    },
     "basemap": {
       "type": "object",
       "additionalProperties": false,

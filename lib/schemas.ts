@@ -30,6 +30,7 @@ export interface Schemas {
   site: ValidateFunction;
   types: ValidateFunction;
   overlays: ValidateFunction;
+  submission: ValidateFunction;
   data: Record<string, ValidateFunction>;
   /** The raw (vocab-filled) schema per type, for forms and path checks. */
   raw: Record<string, unknown>;
@@ -54,7 +55,7 @@ export function loadSchemas(root: string, vocab: Vocab, typeSchemas: Record<stri
     data[type] = get(id);
     raw[type] = load(file);
   }
-  return { ajv, envelope: get('envelope.schema.json'), sources: get('sources.schema.json'), site: get('site.schema.json'), types: get('types.schema.json'), overlays: get('overlays.schema.json'), data, raw };
+  return { ajv, envelope: get('envelope.schema.json'), sources: get('sources.schema.json'), site: get('site.schema.json'), types: get('types.schema.json'), overlays: get('overlays.schema.json'), submission: get('submission.schema.json'), data, raw };
 }
 
 export function formatErrors(errors: ErrorObject[] | null | undefined, prefix = ''): string[] {
