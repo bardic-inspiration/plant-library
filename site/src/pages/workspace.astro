@@ -1,0 +1,24 @@
+---
+import Base from '../layouts/Base.astro';
+import Workspace from '../islands/Workspace.tsx';
+---
+<Base current="workspace" title="Workspace" description="Mock up a plant list: check that its plants suit each other and a site, and share it.">
+  <h1 class="page-title">Workspace</h1>
+  <p class="intro">
+    Mock up a plant list as a design tool. Lists are kept in this browser, with no account; share one
+    by its link. Nothing here changes the library.
+  </p>
+  <Workspace client:only="preact" />
+  <p id="workspace-fallback">The workspace runs in the browser and needs JavaScript.</p>
+</Base>
+
+<style>
+  .page-title {
+    margin-block-end: var(--space-xs);
+  }
+
+  .intro {
+    margin-block-end: var(--space-lg);
+    max-inline-size: var(--measure);
+  }
+</style>

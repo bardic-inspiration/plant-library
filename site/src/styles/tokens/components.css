@@ -16,6 +16,8 @@
     --header-height: 3.5rem;
     --gallery-height: 22rem;
     --thumb-height: 6rem;
+    /* A text field on a workspace line (size, spacing, note). */
+    --ws-field-width: 10rem;
     --map-height: 32rem;
     /* A small map on a detail page. */
     --map-height-compact: 20rem;

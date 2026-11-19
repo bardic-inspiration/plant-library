@@ -1,7 +1,7 @@
 # v1 stage spec
 
 The design for Plant Library v1. M1, M3, and M4 are built, M2 apart from
-its plant data, and M5's engine, basemap, token-built style, overlays, map view, region filters, and small maps on detail pages, and M6's compatibility function, palette type, fixture palettes, palette pages and cards, and compatibility panel; what exists is described in [`docs/`](../../docs/README.md), and
+its plant data, and M5's engine, basemap, token-built style, overlays, map view, region filters, and small maps on detail pages, and M6's compatibility function, palette type, fixture palettes, palette pages and cards, compatibility panel, and palette workspace; what exists is described in [`docs/`](../../docs/README.md), and
 this folder holds the rest. It follows the stage-spec convention of
 `ttrpg-library` (TL below): it holds only unbuilt design, and the PR that
 builds a part deletes it here and describes what now exists in `docs/`. The
@@ -123,7 +123,7 @@ for it.
 | M3 | Library | Built: list view, filter tree, search, plant pages, styling ([docs/site.md](../../docs/site.md)) |
 | M4 | Projects | Built: the project schema, validation, derived values, and fixture projects ([docs/content-model.md](../../docs/content-model.md#project), [docs/sources.md](../../docs/sources.md#fixture-projects)); geography apart from hardiness zones ([docs/geography.md](../../docs/geography.md)); project pages, project facets, the cross-type filters, project search, and plant and project links ([docs/site.md](../../docs/site.md)) |
 | M5 | Map | Engine, basemap extract, style from tokens, glyphs, project clustering, the overlay registry with its boundary overlays, the `/map/` view, region filters, and small maps on detail pages built ([docs/map.md](../../docs/map.md), [docs/site.md](../../docs/site.md#map-view)); `map.md` hardiness zone overlay |
-| M6 | Palettes | The compatibility function, the palette type with its derived values, the fixture palettes, palette pages and cards, the palette facet, palette points on the map, and the compatibility panel are built ([docs/content-model.md](../../docs/content-model.md#palette), [docs/sources.md](../../docs/sources.md#fixture-palettes), [docs/site.md](../../docs/site.md#palette-page)); `library.md` workspace, exports |
+| M6 | Palettes | The compatibility function, the palette type with its derived values, the fixture palettes, palette pages and cards, the palette facet, palette points on the map, the compatibility panel, and the workspace are built ([docs/content-model.md](../../docs/content-model.md#palette), [docs/sources.md](../../docs/sources.md#fixture-palettes), [docs/site.md](../../docs/site.md#palette-page)); `library.md` exports |
 | M7 | Contributions | `submissions.md`: forms, the browser store, the inbox script, field notes, the `integrate` skill |
 | M8 | Analysis | `map.md` distribution analysis |
 

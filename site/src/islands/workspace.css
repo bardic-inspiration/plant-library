@@ -1,0 +1,221 @@
+/* The palette workspace. */
+@layer components {
+  .workspace {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xl);
+  }
+
+  .workspace h2 {
+    font-size: var(--size-h3);
+    padding-block-end: var(--space-xs);
+    border-block-end: var(--border);
+    margin-block-end: var(--space-md);
+  }
+
+  .workspace h3 {
+    font-size: var(--size-body);
+    margin-block: var(--space-md) var(--space-xs);
+  }
+
+  .ws-lists {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    padding: var(--space-md);
+    border: var(--border);
+    background: var(--bg-subtle);
+  }
+
+  .ws-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: var(--space-sm);
+    margin-block: var(--space-sm);
+  }
+
+  .ws-field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xxs);
+    font-size: var(--size-small);
+  }
+
+  .ws-field > span {
+    font-weight: var(--weight-strong);
+  }
+
+  .ws-field input,
+  .ws-field select {
+    min-block-size: var(--hit-size);
+    padding-inline: var(--space-xs);
+    border: var(--border);
+    background: var(--bg);
+    font: inherit;
+  }
+
+  .ws-grow {
+    flex: 1 1 var(--card-min);
+  }
+
+  .ws-button {
+    min-block-size: var(--hit-size);
+    padding-inline: var(--space-sm);
+    border: var(--border);
+    background: var(--bg);
+    font-size: var(--size-small);
+    cursor: pointer;
+  }
+
+  .ws-button:hover {
+    background: var(--bg-subtle);
+  }
+
+  .ws-button:disabled {
+    color: var(--text-muted);
+    cursor: default;
+  }
+
+  .ws-status,
+  .ws-hint {
+    color: var(--text-muted);
+    font-size: var(--size-small);
+  }
+
+  .ws-note {
+    padding: var(--space-xs) var(--space-sm);
+    border-inline-start: var(--line-focus) solid var(--accent);
+    background: var(--bg-selected);
+  }
+
+  .ws-add {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    margin-block-end: var(--space-md);
+  }
+
+  .ws-add .ws-grow {
+    flex: none;
+  }
+
+  .ws-hits,
+  .ws-fit {
+    display: flex;
+    flex-direction: column;
+    border-block-start: var(--border-faint);
+  }
+
+  .ws-hits li,
+  .ws-fit li {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-xs);
+    padding-block: var(--space-xxs);
+    border-block-end: var(--border-faint);
+  }
+
+  .ws-check {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    min-block-size: var(--hit-size);
+  }
+
+  .ws-lines {
+    display: flex;
+    flex-direction: column;
+    padding-inline-start: var(--space-lg);
+  }
+
+  .ws-line {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: var(--space-xs) var(--space-md);
+    padding-block: var(--space-sm);
+    border-block-end: var(--border-faint);
+  }
+
+  .ws-line-name {
+    display: flex;
+    flex: 1 1 var(--card-min);
+    flex-direction: column;
+    align-self: center;
+  }
+
+  .ws-line-fields {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+  }
+
+  .ws-line-fields .ws-field input {
+    inline-size: var(--ws-field-width);
+  }
+
+  .ws-line-fields .ws-field input[type="number"] {
+    inline-size: var(--thumb-height);
+  }
+
+  .ws-line-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xxs);
+  }
+
+  .ws-site {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: var(--space-md) var(--space-xl);
+  }
+
+  .ws-fieldset {
+    border: var(--none);
+    padding: var(--none);
+    margin: var(--none);
+  }
+
+  .ws-fieldset legend {
+    font-size: var(--size-small);
+    font-weight: var(--weight-strong);
+  }
+
+  .ws-facts {
+    inline-size: var(--full);
+    max-inline-size: var(--measure);
+  }
+
+  .ws-facts th {
+    inline-size: 35%;
+  }
+
+  .ws-bloom {
+    font-size: var(--size-small);
+    border-collapse: collapse;
+  }
+
+  .ws-bloom th,
+  .ws-bloom td {
+    padding: var(--space-xxs) var(--space-xs);
+    border: var(--border-faint);
+    text-align: center;
+  }
+
+  .ws-bloom th[scope="row"] {
+    text-align: start;
+  }
+
+  .ws-bloom td.on {
+    font-weight: var(--weight-strong);
+  }
+
+  .ws-bloom td.gap {
+    color: var(--text-muted);
+    font-style: italic;
+  }
+}

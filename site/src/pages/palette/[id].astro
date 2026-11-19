@@ -8,6 +8,7 @@ import { url } from '../../../../lib/site';
 import MapView from '../../islands/MapView.tsx';
 import { libraryUrl } from '../../../../lib/filter';
 import { featureBounds, paletteFeatures } from '../../../../lib/map-data';
+import { shareUrl } from '../../../../lib/workspace';
 import type { PaletteData, PaletteDerived } from '../../../../lib/types';
 
 export function getStaticPaths() {
@@ -46,6 +47,8 @@ const fit = featureBounds(located);
 const none = { type: 'FeatureCollection' as const, features: [] };
 
 const lines = scheduleLines(d.plantList, data.byKey);
+// "Open in workspace": the workspace's share URL for a copy of the list and its site.
+const workspaceHref = shareUrl({ name: b.name, site: d.site ?? {}, lines: d.plantList });
 const site = d.site ? { sun: d.site.sun, moisture: d.site.moisture, soil: d.site.soil, hardinessZone: d.site.hardinessZone ?? dv.geo?.hardinessZone } : undefined;
 ---
 <Base title={b.name} description={b.entry.summary}>
@@ -88,6 +91,7 @@ const site = d.site ? { sun: d.site.sun, moisture: d.site.moisture, soil: d.site
 
     <section aria-labelledby="list-heading">
       <h2 id="list-heading">Plant list</h2>
+      {d.plantList.length > 0 && <p class="list-actions"><a class="workspace-link" href={workspaceHref}>Open in workspace</a></p>}
       <Schedule lines={lines} empty="This palette has no plants yet." />
     </section>
 
@@ -99,6 +103,10 @@ const site = d.site ? { sun: d.site.sun, moisture: d.site.moisture, soil: d.site
 </Base>
 
 <style>
+  .list-actions {
+    margin-block-end: var(--space-md);
+  }
+
   .palette {
     display: flex;
     flex-direction: column;

@@ -11,11 +11,10 @@ import { neighbors } from 'topojson-client';
 import type { GeometryCollection, GeometryObject, Topology } from 'topojson-specification';
 import { readJson, repoRoot } from './config';
 import type { MapTokens } from './map-style';
-import { overlayLayers, overlayLegend, PALETTE_PROP, type OverlayDef, type OverlayMeta } from './overlays';
+import { OVERLAY_DIR, overlayLayers, overlayLegend, PALETTE_PROP, type OverlayDef, type OverlayMeta } from './overlays';
 
 export const OVERLAYS_FILE = join('config', 'overlays.json');
-/** Where build:map writes overlay data, under site/public and the base path. */
-export const OVERLAY_DIR = 'map/overlays';
+export { OVERLAY_DIR };
 
 /** The registry, bottom to top. `file` is from the repo root (a test passes a fixture registry). */
 export function loadOverlays(root = repoRoot(), file = OVERLAYS_FILE): OverlayDef[] {

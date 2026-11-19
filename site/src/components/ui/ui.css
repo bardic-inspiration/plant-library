@@ -97,6 +97,7 @@
   }
 
   .card-body {
+    flex: 1 1 auto;
     display: flex;
     flex-direction: column;
     gap: var(--space-xs);
@@ -240,5 +241,39 @@
   .schedule .num {
     text-align: end;
     font-variant-numeric: tabular-nums;
+  }
+
+  /* "Add to list" (cards in the Library island, plant pages) and "Open in workspace". */
+  .add-to-list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-xxs) var(--space-sm);
+    margin-block-start: auto;
+    padding-block-start: var(--space-xs);
+    font-size: var(--size-small);
+  }
+
+  .add-button,
+  .workspace-link {
+    display: inline-flex;
+    align-items: center;
+    min-block-size: var(--hit-size);
+    padding-inline: var(--space-sm);
+    border: var(--border);
+    background: var(--bg);
+    font-size: var(--size-small);
+    font-weight: var(--weight-strong);
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .add-button:hover,
+  .workspace-link:hover {
+    background: var(--bg-subtle);
+  }
+
+  .add-button:disabled {
+    cursor: progress;
   }
 }
