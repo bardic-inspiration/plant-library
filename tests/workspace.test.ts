@@ -6,6 +6,8 @@ import {
   addText,
   cleanList,
   cleanStore,
+  companionScores,
+  companionsFirst,
   compatSite,
   decodeList,
   emptyList,
@@ -171,5 +173,18 @@ describe('feedback', () => {
     // Every suggestion accepts one of the shared sun values; as in the Library, a plant with no data on a filtered axis is left out.
     for (const k of fits) expect(plants.get(k)!.sun!.some((v) => shady['plant.sun']!.includes(v))).toBe(true);
     expect(fitFilters(listCompatibility(emptyList(), plants), { hardinessZone: '8' })['plant.hardiness']).toEqual(['8a', '8b']);
+  });
+
+  it('lists the companions of the plants already chosen first among the plants that fit', () => {
+    const byKey = new Map(data.index.records.map((r) => [r.key, r]));
+    const list = { ...emptyList(), lines: [{ plant: { ref: 'plant/polystichum-munitum' } }, { plant: { ref: 'plant/gaultheria-shallon' } }, { plant: 'Unknown sedge' }] };
+    const scores = companionScores(list, byKey);
+    // thuja-plicata shares two projects with polystichum-munitum (and fewer than two with gaultheria-shallon); plants on the list are never suggested.
+    expect(scores.get('plant/thuja-plicata')).toBe(2);
+    expect(scores.has('plant/gaultheria-shallon')).toBe(false);
+    expect(scores.has('plant/polystichum-munitum')).toBe(false);
+    const recs = [{ key: 'plant/a' }, { key: 'plant/thuja-plicata' }, { key: 'plant/b' }];
+    expect(companionsFirst(recs, scores).map((r) => r.key)).toEqual(['plant/thuja-plicata', 'plant/a', 'plant/b']);
+    expect(companionsFirst(recs, new Map()).map((r) => r.key)).toEqual(['plant/a', 'plant/thuja-plicata', 'plant/b']);
   });
 });

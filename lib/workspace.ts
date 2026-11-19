@@ -14,7 +14,7 @@ import { compatibility, type Compatibility, type CompatSite } from './compat';
 import { monthsBetween } from './derive';
 import { expandZones, isZone } from './zones';
 import { url } from './site';
-import type { PaletteSite, PlantData, PlantListItem, Vocab } from './types';
+import type { IndexRecord, PaletteSite, PlantData, PlantListItem, Vocab } from './types';
 
 const defaultVocab = vocabJson as unknown as Vocab;
 
@@ -353,4 +353,30 @@ export function fitFilters(compat: Compatibility, site: PaletteSite): Record<str
   const zones = pick(site.hardinessZone ? expandZones({ min: site.hardinessZone, max: site.hardinessZone }) : undefined, 'hardiness');
   if (zones) filters['plant.hardiness'] = zones;
   return filters;
+}
+
+/**
+ * How often each plant is planted with the list's plants: for every plant
+ * the list doesn't hold, the shared projects summed over the list's plants'
+ * companions (`IndexRecord.companions`, minimum two each).
+ */
+export function companionScores(list: WorkspaceList, byKey: ReadonlyMap<string, Pick<IndexRecord, 'companions'>>): Map<string, number> {
+  const scores = new Map<string, number>();
+  const chosen = new Set(list.lines.map((l) => (typeof l.plant === 'string' ? undefined : l.plant.ref)).filter((k): k is string => Boolean(k)));
+  for (const k of chosen) {
+    for (const c of byKey.get(k)?.companions ?? []) {
+      if (chosen.has(c.plant)) continue;
+      scores.set(c.plant, (scores.get(c.plant) ?? 0) + c.projects);
+    }
+  }
+  return scores;
+}
+
+/**
+ * "Plants that fit" with the companions of the list's plants first, most
+ * shared projects first, the rest in their given order.
+ */
+export function companionsFirst<T extends { key: string }>(records: readonly T[], scores: ReadonlyMap<string, number>): T[] {
+  const at = new Map(records.map((r, i) => [r.key, i]));
+  return [...records].sort((a, b) => (scores.get(b.key) ?? 0) - (scores.get(a.key) ?? 0) || at.get(a.key)! - at.get(b.key)!);
 }

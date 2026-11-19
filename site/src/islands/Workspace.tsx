@@ -15,6 +15,8 @@ import type { Topology } from 'topojson-specification';
 import {
   addPlant,
   addText,
+  companionScores,
+  companionsFirst,
   emptyList,
   fitFilters,
   hasPlant,
@@ -558,9 +560,11 @@ function BloomCalendar({ list, plants }: { list: WorkspaceList; plants: Readonly
   );
 }
 
-function Fit({ index, list, filters, onList }: { index: LibraryIndex; list: WorkspaceList; filters: Record<string, string[]>; onList: (l: WorkspaceList) => void }) {
+function Fit({ index, byKey, list, filters, onList }: { index: LibraryIndex; byKey: ReadonlyMap<string, IndexRecord>; list: WorkspaceList; filters: Record<string, string[]>; onList: (l: WorkspaceList) => void }) {
   const all = useMemo(() => applyQuery(index.records, { ...emptyQuery(), filters }, null), [index, filters]);
-  const shown = all.filter((r) => !hasPlant(list, r.key)).slice(0, FIT_SHOWN);
+  // Companions of the plants already chosen come first (spec: library.md, Suggestions).
+  const scores = useMemo(() => companionScores(list, byKey), [list, byKey]);
+  const shown = companionsFirst(all.filter((r) => !hasPlant(list, r.key)), scores).slice(0, FIT_SHOWN);
   const facetLabel = (k: string) => index.facets.find((f) => f.key === k);
   const terms = Object.entries(filters)
     .filter(([k]) => k !== 'type')
@@ -571,6 +575,7 @@ function Fit({ index, list, filters, onList }: { index: LibraryIndex; list: Work
         {terms.length
           ? `Plants in the library that accept ${terms.join('; ')}, from the site where it states a condition and otherwise from what the list's plants share.`
           : 'Add plants with recorded conditions, or give the site conditions, to narrow this to plants that fit.'}{' '}
+        {scores.size ? 'Plants that share two or more projects with the list\'s plants come first. ' : null}
         <a href={libraryUrl(filters)}>See all {all.length} in the Library</a>
       </p>
       {shown.length ? (
@@ -582,6 +587,7 @@ function Fit({ index, list, filters, onList }: { index: LibraryIndex; list: Work
                   <PlantName parts={r.nameParts} fallback={r.name} />
                 </a>
                 {r.card.commonName ? <span class="muted"> {String(r.card.commonName)}</span> : null}
+                {scores.has(r.key) ? <span class="muted"> · often planted with the list's plants</span> : null}
               </span>
               <button type="button" class="ws-button" aria-label={`Add ${r.name}`} onClick={() => onList(addPlant(list, r.key))}>
                 Add
@@ -783,7 +789,7 @@ export default function Workspace() {
 
       <section aria-labelledby="fit-heading">
         <h2 id="fit-heading">Plants that fit</h2>
-        <Fit index={index} list={list} filters={filters} onList={setList} />
+        <Fit index={index} byKey={byKey} list={list} filters={filters} onList={setList} />
       </section>
 
       <section aria-labelledby="export-heading">
