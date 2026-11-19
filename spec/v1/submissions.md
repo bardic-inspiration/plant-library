@@ -74,12 +74,10 @@ the shared folder by hand.
 
 `scripts/inbox/` does everything that needs no judgment, so the routine's
 review starts from facts (`npm run inbox -- list | check <id> | import | close <id>`).
-`list`, `import`, and `check` with all its checks are built
+`list`, `import`, `check` with all its checks, and `image`, which
+re-encodes a photo for the library, are built
 ([docs/submissions.md](../../docs/submissions.md#inbox-and-mechanical-checks));
-`close` is built with the skill. Still to build:
-
-- Images that go on to the library are re-encoded and resized by the
-  script, which drops embedded metadata; date and place come from the form.
+`close` is built with the skill.
 
 ### The `integrate` skill
 
@@ -196,7 +194,6 @@ other (P5).
 
 The forms' items and the `browser` store's round trip are met ([docs/submissions.md](../../docs/submissions.md#forms), [#stores](../../docs/submissions.md#stores)). Still to meet:
 
-- Image re-encoding has a passing and a failing fixture.
 - The skill exists, and a fixture inbox holding the cases above documents
   the expected result of each, so a run of the skill can be compared against
   it. What a routine run actually decides is a manual check for the Testing

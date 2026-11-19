@@ -10,6 +10,11 @@
       "image": 26214400,
       "plant-list": 26214400,
       "supporting": 26214400
+    },
+    "image": {
+      "format": "jpeg",
+      "maxEdge": 2400,
+      "quality": 82
     }
   },
   "basemap": {

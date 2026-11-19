@@ -54,6 +54,7 @@
     "lucide-static": "^1.74.0",
     "opentype.js": "^2.0.0",
     "postcss-html": "^2.0.0",
+    "sharp": "^0.35.5",
     "stylelint": "^18.0.0",
     "supercluster": "^9.1.0",
     "tsx": "^4.23.15",

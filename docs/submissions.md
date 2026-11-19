@@ -243,6 +243,26 @@ through the entry file's git history for the version whose hash is
 `basedOn` and compares it with the current entry; two paths touch when one
 is the other or inside it.
 
+### Library images
+
+`npm run inbox -- image <id> <file> [<entry id>]` takes one image of a
+submission into the library. It runs `check` first and refuses a rejected
+submission, then re-encodes the file with `sharp` (`lib/image.ts`): turned
+upright by its orientation tag, fitted inside `submissions.image.maxEdge`
+pixels (never enlarged), converted to sRGB, and written as
+`submissions.image.format` at `submissions.image.quality`, with no embedded
+metadata: no EXIF, GPS, XMP, IPTC, or ICC profile. Date and place come from
+the form, never the file. The defaults in `config/site.json` are JPEG,
+2400 px, quality 82; a JPEG is flattened onto white.
+
+The image goes to the next free `assets/images/<type>/<entry>/<n>.<ext>`
+(one more than the highest number held), never over an existing file. For
+an `add`, the new entry's id is the third argument. The command prints the
+`images` item the form's metadata gives (`file`, `alt`, `shows`, `credit`
+from the photographer, `license`, `sourceUrl`), for the routine to check and
+add to the entry. A file that only looks like an image, or that can't be
+decoded, isn't written.
+
 ### Professional opinion
 
 A colleague's judgment sits beside the published facts, never silently over
@@ -283,7 +303,8 @@ and `site/src/pages/contribute.astro`, tested in `tests/contribute.test.ts`;
 and `schemas/envelope.schema.json` (`fieldNotes`, `meta.submissions`); the
 field-note rules in `lib/validate.ts`; `lib/submission.ts` (client-safe: edit
 differences, applying them, `entryHash`); `lib/inbox.ts` (the checks, `resolvePath`,
-`classifyUrl`, import); `scripts/inbox/index.ts`; `config/site.json` (`submissions`);
+`classifyUrl`, import); `lib/image.ts` (re-encoding, tested in
+`tests/image.test.ts`); `scripts/inbox/index.ts`; `config/site.json` (`submissions`);
 tests in `tests/submission.test.ts`, field notes in `tests/validate.test.ts`.
 
 ## Extending
@@ -294,6 +315,7 @@ contributors shouldn't edit it. A new type gets its Add and Suggest an edit
 forms the same way. A new store is an adapter file in `site/src/lib/stores/`, an entry in
 `STORES`, and a value in the site schema's `store` enum.
 A new file type is a signature in `sniff` and an entry in `ALLOWED` for the
-roles that take it. A new size limit is a value in `config/site.json`. A new
+roles that take it. A new size limit is a value in `config/site.json`, as are the library image
+settings (`submissions.image`). A new
 check is a function in `lib/inbox.ts` that adds its results, with a passing
 and a failing case in the tests.
