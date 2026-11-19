@@ -5,6 +5,7 @@ import { PlantName } from '../../components/ui/PlantName';
 import { BloomStrip, Swatch } from '../../components/ui/BloomStrip';
 import { Conditions } from '../../components/ui/Conditions';
 import { buildData, type BuiltEntry } from '../../../../lib/build-data';
+import { plantDistribution } from '../../../../lib/analysis';
 import { nameSegments, fullName } from '../../../../lib/names';
 import { formatMetric, formatMonths, formatRange } from '../../../../lib/format';
 import { formatZoneRange } from '../../../../lib/zones';
@@ -127,9 +128,22 @@ const usedOn = (dv.use?.projects ?? []).map((k) => {
   const when = pd.status === 'proposed' ? (year ? `${year} (proposed)` : 'Proposed') : year;
   return { key: k, name: p.name, place: pv.placeName, state: pv.geo.state, quantity, when };
 }).sort((x, y) => y.when.localeCompare(x.when) || x.name.localeCompare(y.name));
-const byState = (dv.use?.states ?? []).map((st) => {
-  const mine = usedOn.filter((u) => u.state === st);
-  return { state: st, name: label('state', st), projects: mine.length, quantity: mine.reduce((n, u) => n + u.quantity, 0), href: libraryUrl({ 'plant.usedInState': [st] }), map: mapUrl({ 'plant.usedInState': [st] }) };
+// Totals by state and by completion year, each with its sample size (lib/analysis.ts).
+const dist = plantDistribution(key, data.projects, d);
+const projectCount = (n: number) => (n === 1 ? '1 project' : `${n} projects`);
+const byState = dist.byState.map((t) => ({
+  ...t,
+  name: label('state', t.id),
+  href: libraryUrl({ 'plant.usedInState': [t.id] }),
+  map: mapUrl({ 'plant.usedInState': [t.id] }),
+}));
+const listNames = (names: string[]) => (names.length < 3 ? names.join(' and ') : `${names.slice(0, -1).join(', ')}, and ${names.at(-1)}`);
+const outside = listNames(dist.outsideNativeRange.map((st) => label('state', st)));
+const nativeTo = d.nativeRange?.states.length ? listNames(d.nativeRange.states.map((st) => label('state', st))) : undefined;
+// Often planted with: the plants sharing two or more of its projects (derived companions).
+const companionList = (dv.companions ?? []).map((c) => {
+  const t = data.byKey.get(c.plant)!;
+  return { key: c.plant, parts: nameSegments(t.entry.data as unknown as PlantData), projects: c.projects };
 });
 // A small map of the projects it is used on, each sized by the quantity listed.
 // The palettes whose lists name this plant by ref, by name.
@@ -252,9 +266,40 @@ const bloomLabel = dv.bloomMonthList ? `Bloom calendar: ${formatMonths(d.bloom?.
         <h3 class="used-totals-heading">By state</h3>
         <ul class="used-totals" role="list">
           {byState.map((t) => (
-            <li><a href={t.href}>{t.name}</a> <a class="map-link" href={t.map} aria-label={`${t.name} on the map`}>on the map</a>: {t.projects === 1 ? '1 project' : `${t.projects} projects`}, {number.format(t.quantity)} plants</li>
+            <li><a href={t.href}>{t.name}</a> <a class="map-link" href={t.map} aria-label={`${t.name} on the map`}>on the map</a>: {projectCount(t.projects)}, {number.format(t.quantity)} plants</li>
           ))}
         </ul>
+        {outside && (
+          <p class="used-note">
+            Used in {outside}, outside its native range{nativeTo ? ` (${nativeTo})` : ', which takes in none of the three states'}.
+          </p>
+        )}
+        <h3 class="used-totals-heading">By completion year</h3>
+        <ul class="used-totals" role="list">
+          {dist.byYear.map((t) => (
+            <li>{t.id}: {projectCount(t.projects)}, {number.format(t.quantity)} plants</li>
+          ))}
+          {dist.undated.projects > 0 && <li>No completion date: {projectCount(dist.undated.projects)}, {number.format(dist.undated.quantity)} plants</li>}
+        </ul>
+        <p class="sample muted">
+          From {projectCount(dist.projects)} in the library. These figures reflect the projects entered, not the region's planting as a whole.
+        </p>
+      </section>
+    )}
+
+    {usedOn.length > 0 && (
+      <section aria-labelledby="companions-heading">
+        <h2 id="companions-heading">Often planted with</h2>
+        {companionList.length ? (
+          <ul class="companions" role="list">
+            {companionList.map((c) => (
+              <li><a href={url(`${c.key}/`)}><PlantName parts={c.parts} /></a>: on {c.projects} of the same projects</li>
+            ))}
+          </ul>
+        ) : (
+          <p>No plant shares two or more of its projects yet.</p>
+        )}
+        <p class="sample muted">Plants listed with it on at least two projects, most shared first; from the projects entered in the library.</p>
       </section>
     )}
 
@@ -412,6 +457,12 @@ const bloomLabel = dv.bloomMonthList ? `Bloom calendar: ${formatMonths(d.bloom?.
     letter-spacing: var(--tracking-label);
     text-transform: uppercase;
     margin-block: var(--space-md) var(--space-xs);
+  }
+
+  .used-note,
+  .sample {
+    font-size: var(--size-small);
+    margin-block-start: var(--space-xs);
   }
 
   .bloom-calendar {

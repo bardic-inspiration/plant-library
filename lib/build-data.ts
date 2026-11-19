@@ -5,6 +5,7 @@
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { loadLibrary, type Library } from './library';
+import type { AnalysisProject } from './analysis';
 import { companions, derivePalette, derivePlant, derivePlantUse, deriveGeo, deriveProject } from './derive';
 import { loadGeo } from './geo-load';
 import { nameSegments, fullName } from './names';
@@ -29,6 +30,8 @@ export interface BuildData {
   entries: BuiltEntry[];
   byKey: Map<string, BuiltEntry>;
   index: LibraryIndex;
+  /** The projects as the analysis reads them (lib/analysis.ts): key, data, and derived geography. */
+  projects: AnalysisProject[];
 }
 
 function refsOf(v: unknown, out = new Set<string>()): Set<string> {
@@ -243,7 +246,7 @@ export function buildData(opts: { dataRoot?: string } = {}): BuildData {
   for (const e of entries) for (const r of e.refs) byKey.get(r)?.refBy.push(e.key);
   for (const e of entries) e.refBy.sort();
   // A plant's use comes from the projects that list it, once their geography is derived.
-  const projects = entries
+  const projects: AnalysisProject[] = entries
     .filter((e) => e.entry.type === 'project')
     .map((e) => ({ key: e.key, data: e.entry.data as unknown as ProjectData, geo: (e.derived as unknown as ProjectDerived).geo }));
   for (const e of entries) {
@@ -298,7 +301,12 @@ export function buildData(opts: { dataRoot?: string } = {}): BuildData {
       const v = getPath(subject, path);
       (rec.links ??= {})[other] = Array.isArray(v) ? [...new Set(v.map(String))].sort() : [];
     }
-    if (type === 'plant') rec.nameParts = nameSegments(b.entry.data as unknown as PlantData);
+    if (type === 'plant') {
+      rec.nameParts = nameSegments(b.entry.data as unknown as PlantData);
+      // Its companions, so the workspace can list them first among the plants that fit.
+      const comp = (b.derived as unknown as PlantDerived).companions;
+      if (comp?.length) rec.companions = comp;
+    }
     const pinned = ((b.entry.data as { images?: { file: string; alt: string; pinned?: boolean }[] }).images ?? []).find((i) => i.pinned);
     if (pinned) rec.thumb = { src: url(pinned.file), alt: pinned.alt };
     return rec;
@@ -307,7 +315,7 @@ export function buildData(opts: { dataRoot?: string } = {}): BuildData {
     boosted: [...new Set(Object.values(config.types).flatMap((t) => t.search.boosted))],
     fields: [...new Set(Object.values(config.types).flatMap((t) => t.search.fields))],
   };
-  const result = { library, entries, byKey, index: { facets, records, searchFields } };
+  const result = { library, entries, byKey, index: { facets, records, searchFields }, projects };
   if (!opts.dataRoot) cache = result;
   return result;
 }

@@ -63,18 +63,20 @@ zone, and completion year, with the states outside a plant's native range;
 per-region figures (the ranked plants, taxa, native share, and mix by
 form); and companions, each figure with the number of projects behind it
 ([docs/content-model.md](../../docs/content-model.md#distribution-analysis)).
-What remains is where they are read:
+Plant pages read them: totals by state and year, the note on states
+outside the native range, and companions
+([docs/site.md](../../docs/site.md#plant-page)). What remains is where the
+rest are read:
 
-- **Per plant**, on the map, is the use choropleth. Where a plant is used
-  in a state outside its native range, the page says so.
+- **Per plant**, on the map, is the use choropleth.
 - **Per region** is the "what gets planted here" view for the selected
   regions, and it exports as CSV.
-- **Companions** are listed on plant pages.
 - **Comparison**: two plants, or two regions, side by side on the same
   measures.
 
 Every figure shown gives its sample size, and the pages say the library
-reflects the projects entered, not the region's planting as a whole.
+reflects the projects entered, not the region's planting as a whole, as
+plant pages do.
 
 ## Cases
 

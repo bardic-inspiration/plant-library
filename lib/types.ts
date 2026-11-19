@@ -315,6 +315,8 @@ export interface IndexRecord {
   search: Record<string, string>;
   card: Record<string, unknown>;
   createdAt: string;
+  /** A plant's companions (`PlantDerived.companions`); absent when it has none. */
+  companions?: Companion[];
 }
 
 export interface LibraryIndex {

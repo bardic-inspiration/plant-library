@@ -35,9 +35,8 @@ each joining as it is built (Library, Map, Workspace, and About are).
 
 ### Plant page, still to add
 
-Used on, with its small map of the projects, is built
-([docs/site.md](../../docs/site.md#plant-page)). After it: Often planted
-with (derived companions).
+Used on, with its small map, its totals by state and year, and Often
+planted with, is built ([docs/site.md](../../docs/site.md#plant-page)).
 The page carries "Add photo", "Suggest an edit", and "Add field note".
 
 ### Project page, still to add
@@ -50,11 +49,9 @@ and the exports ([docs/site.md](../../docs/site.md#exports-and-print)).
 ### Palette workspace
 
 Built ([docs/site.md](../../docs/site.md#workspace)), with its exports
-([docs/site.md](../../docs/site.md#exports-and-print)). Still to come:
+([docs/site.md](../../docs/site.md#exports-and-print)) and companions first
+in "Plants that fit". Still to come:
 
-- **Suggestions.** In "Plants that fit", the companions of the plants
-  already chosen are listed first, once M8 derives companions
-  ([map.md](map.md)).
 - **Keeping it.** Submitting a list to the library
   ([submissions.md](submissions.md#forms)); it becomes an entry only when
   that submission's PR is merged (P1).

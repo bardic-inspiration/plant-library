@@ -182,10 +182,17 @@ on any value resting on a staff observation, and field notes shown beside
 the trait they address; Used on, when a project lists it by ref (each
 project with its place, the quantity listed, and its completion year,
 "(proposed)" when proposed, most recent first, then totals of projects and
-plants by state, each state linked to the Library filtered by *Used in*);
+plants by state, each state linked to the Library filtered by *Used in*, a
+note naming the states it is used in outside its native range, totals by
+completion year with the projects that have no date, and the number of
+projects behind the figures, with the note that they reflect the projects
+entered, not the region's planting as a whole; all from
+`plantDistribution`);
 a small map of those projects, each sized by the quantity listed, as the
 map view draws the plant alone, and each state also offering the same
-filter on the map; In palettes, the palettes whose lists ref it, by name;
+filter on the map; Often planted with, when it is used: its companions,
+each linked with the number of projects it shares (or a line saying none
+shares two yet); In palettes, the palettes whose lists ref it, by name;
 related plants (the same species and its cultivars and varieties); sources, each with its link, the fields it supports, the
 access date, and its citation; further reading; and field notes.
 
@@ -299,7 +306,11 @@ them as they are.
   share; a facet's values combine as OR, so a plant accepting any one
   shared value keeps it shared. Up to twelve not already on the list are
   shown, each with an Add button, with a link to all of them in the
-  Library.
+  Library. The companions of the plants already chosen come first, ranked
+  by their shared projects summed over the list's plants
+  (`companionScores`, `companionsFirst` in `lib/workspace.ts`), and are
+  marked "often planted with the list's plants"; the index carries each
+  plant's companions for this.
 
 - **Export:** *Schedule as CSV*, *Palette file (JSON)*, *Print schedule*,
   and *Print cut sheets* ([Exports and print](#exports-and-print)), with

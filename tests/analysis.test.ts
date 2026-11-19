@@ -169,4 +169,13 @@ describe('companions', () => {
     expect(poly.companions).toEqual(companions('plant/polystichum-munitum', projects));
     expect((byKey.get('plant/rosa-radrazz')!.derived as unknown as PlantDerived).companions).toEqual([]);
   });
+
+  it('travel in the index on plant records, absent when there are none, and the build exposes the analysis projects', () => {
+    const { index, projects: built } = buildData({ dataRoot: FIXTURES });
+    const rec = (k: string) => index.records.find((r) => r.key === k)!;
+    expect(rec('plant/polystichum-munitum').companions).toEqual(companions('plant/polystichum-munitum', projects));
+    expect(rec('plant/rosa-radrazz').companions).toBeUndefined();
+    expect(keys(built)).toEqual(keys(projects));
+    expect(plantDistribution('plant/garrya-elliptica', built, plants.get('plant/garrya-elliptica')).outsideNativeRange).toEqual(['WA']);
+  });
 });

@@ -171,7 +171,9 @@ plants its lists share, by ref, on at least two projects
 (`COMPANION_MIN`), each with the number of shared projects, most first and
 ties by key. A plant at several sizes counts its project once. Passing a
 region's projects gives its companions there, so a region with one project
-has none. The build attaches them as `derived.companions`.
+has none. The build attaches them as `derived.companions`, and copies them
+to the plant's index record as `companions` when there are any, for the
+workspace's suggestions.
 
 ### Distribution analysis
 
