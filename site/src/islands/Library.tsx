@@ -76,8 +76,10 @@ function treeFor(facets: IndexFacet[], type: string): FacetNode[] {
 function FacetValues({ facet, query, counts, onToggle }: { facet: IndexFacet; query: Query; counts: Record<string, number>; onToggle: (key: string, value: string) => void }) {
   const selected = query.filters[facet.key] ?? [];
   const active = selected.length > 0;
+  // Open state is the reader's: seeded once from the query, never re-derived from it.
+  const [initiallyOpen] = useState(active);
   return (
-    <details class="facet" open={active}>
+    <details class="facet" open={initiallyOpen}>
       <summary>
         {facet.label}
         {active && <span class="facet-active"> ({selected.length} selected)</span>}
@@ -101,6 +103,18 @@ function FacetValues({ facet, query, counts, onToggle }: { facet: IndexFacet; qu
   );
 }
 
+function FacetGroup({ group, query, counts, onToggle }: { group: NonNullable<FacetNode['group']>; query: Query; counts: Record<string, Record<string, number>>; onToggle: (k: string, v: string) => void }) {
+  const [initiallyOpen] = useState(() => group.facets.some((f) => query.filters[f.key]?.length));
+  return (
+    <details class="facet-group" open={initiallyOpen}>
+      <summary>{group.label}</summary>
+      {group.facets.map((f) => (
+        <FacetValues facet={f} query={query} counts={counts[f.key]} onToggle={onToggle} />
+      ))}
+    </details>
+  );
+}
+
 function FilterTree({ index, query, counts, onToggle }: { index: LibraryIndex; query: Query; counts: Record<string, Record<string, number>>; onToggle: (k: string, v: string) => void }) {
   const typeFacet = index.facets.find((f) => f.key === 'type');
   const typeIds = typeFacet?.values.map((v) => v.id) ?? [];
@@ -115,12 +129,7 @@ function FilterTree({ index, query, counts, onToggle }: { index: LibraryIndex; q
             n.facet ? (
               <FacetValues facet={n.facet} query={query} counts={counts[n.facet.key]} onToggle={onToggle} />
             ) : (
-              <details class="facet-group" open={n.group!.facets.some((f) => query.filters[f.key]?.length)}>
-                <summary>{n.group!.label}</summary>
-                {n.group!.facets.map((f) => (
-                  <FacetValues facet={f} query={query} counts={counts[f.key]} onToggle={onToggle} />
-                ))}
-              </details>
+              <FacetGroup group={n.group!} query={query} counts={counts} onToggle={onToggle} />
             ),
           )}
         </details>
