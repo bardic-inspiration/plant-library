@@ -128,13 +128,19 @@ A project's, from `deriveProject` (its plant list, the plants it refs, and
 | `plants.byForm` | Quantity by plant form; unsourced lines under `unknown` |
 | `plants.nativeShare` | Quantity of plants native to the project's own state, over the quantity of plants with a known `nativeRange`; absent with no state or none known |
 | `costPerAcre` | `constructionBudget` over `sizeAcres`, rounded to the dollar; absent without a budget |
+| `completedYear` | The year of `completed`; absent without a date |
+| `usesPlant` | The `plant/<id>` keys the list refs that the library holds, sorted and distinct; the *Uses plant* facet |
+
+The build adds `placeName` ("Portland, OR") and `locationNames` (the place
+and county names, searched) from the boundary layers.
 
 A plant's use, from `derivePlantUse` over the projects whose lists ref it
 (unsourced text never counts, even when it names the plant): `use.projects`,
 `use.quantity`, and the distinct `use.states`, `use.counties`,
 `use.ecoregions`, and `use.zones` of those projects. `use.zones` stays empty
-until `geo.hardinessZone` exists (D33). These are pure functions; they are
-not yet in the index, which project pages (#25) and filters (#26) add.
+until `geo.hardinessZone` exists (D33). `lib/build-data.ts` attaches it to
+each plant as `derived.use`, which the *Used in* facets and the plant page's
+"Used on" read.
 
 The build also computes each entry's `refs` and `refBy` (back-references).
 

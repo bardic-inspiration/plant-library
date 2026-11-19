@@ -5,13 +5,14 @@
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { loadLibrary, type Library } from './library';
-import { derivePlant, deriveGeo, deriveProject } from './derive';
+import { derivePlant, derivePlantUse, deriveGeo, deriveProject } from './derive';
 import { loadGeo } from './geo-load';
 import { nameSegments, fullName } from './names';
-import { facetValues, flatFacets, getPath, indexFacets } from './facets';
+import { facetValues, flatFacets, getPath, indexFacets, type Labeller } from './facets';
 import { plainText } from './markdown';
 import { entryUrl, url } from './site';
-import type { Entry, IndexRecord, LibraryIndex, PlantData, PlantDerived, ProjectData, ProjectDerived } from './types';
+import type { GeoLayers } from './geo';
+import type { Entry, FacetLabels, IndexRecord, LibraryIndex, PlantData, PlantDerived, ProjectData, ProjectDerived } from './types';
 
 export interface BuiltEntry {
   key: string;
@@ -46,12 +47,40 @@ function tagArrays(tags: Entry['tags']): Record<string, string[]> {
   return out;
 }
 
+/** "King County": a county's name as the boundary layer gives it, with "County" added unless it has it. */
+function countyName(name: string): string {
+  return /county$/i.test(name) ? name : `${name} County`;
+}
+
 /** "Portland, OR": the place, else the county, with the state; names come from the boundary layers (P6). */
 export function placeLabel(geo: ProjectDerived['geo'], layers = loadGeo()): string {
   const named = (layer: 'places' | 'counties', id?: string) => (id ? layers[layer].find((f) => f.id === id)?.name : undefined);
   const county = named('counties', geo.county);
-  const where = named('places', geo.place) ?? (county ? (/county$/i.test(county) ? county : `${county} County`) : undefined);
+  const where = named('places', geo.place) ?? (county ? countyName(county) : undefined);
   return [where, geo.state].filter(Boolean).join(', ');
+}
+
+/** The names a project's place goes by, for search: the place and the county (P6). */
+function locationNames(geo: ProjectDerived['geo'], layers: GeoLayers): string[] {
+  const place = geo.place ? layers.places.find((f) => f.id === geo.place)?.name : undefined;
+  const county = geo.county ? layers.counties.find((f) => f.id === geo.county)?.name : undefined;
+  return [place, county && countyName(county)].filter((x): x is string => Boolean(x));
+}
+
+/**
+ * Labels for facet values outside any vocabulary: a county or place code gets
+ * its name and state ("King County, WA", "Portland, OR"), an ecoregion code its
+ * name, and an entry key the entry's name.
+ */
+export function makeLabeller(layers: GeoLayers, names: ReadonlyMap<string, string>): Labeller {
+  // A place's state from its FIPS prefix, through the counties, which carry the postal code.
+  const stateByFips = new Map(layers.counties.map((f) => [f.id.slice(0, 2), f.props.state]));
+  const maps: Record<Exclude<FacetLabels, 'entries'>, Map<string, string>> = {
+    counties: new Map(layers.counties.map((f) => [f.id, `${countyName(f.name)}, ${f.props.state}`])),
+    places: new Map(layers.places.map((f) => [f.id, [f.name, stateByFips.get(f.id.slice(0, 2))].filter(Boolean).join(', ')])),
+    ecoregions: new Map(layers.ecoregions.map((f) => [f.id, f.name])),
+  };
+  return (source, id) => (source === 'entries' ? names.get(id) : maps[source].get(id));
 }
 
 function deriveFor(entry: Entry, plants: ReadonlyMap<string, PlantData>): { name: string; derived: Record<string, unknown> } {
@@ -62,8 +91,9 @@ function deriveFor(entry: Entry, plants: ReadonlyMap<string, PlantData>): { name
   if (entry.type === 'project') {
     const d = entry.data as unknown as ProjectData;
     const name = entry.name ?? entry.id;
-    const dp = deriveProject(d, plants, deriveGeo(d.location, loadGeo()));
-    return { name, derived: { name, sortName: name.toLowerCase(), ...dp, placeName: placeLabel(dp.geo) } };
+    const layers = loadGeo();
+    const dp = deriveProject(d, plants, deriveGeo(d.location, layers));
+    return { name, derived: { name, sortName: name.toLowerCase(), ...dp, placeName: placeLabel(dp.geo, layers), locationNames: locationNames(dp.geo, layers) } };
   }
   const name = entry.name ?? entry.id;
   return { name, derived: { name, sortName: name.toLowerCase() } };
@@ -139,6 +169,11 @@ export function buildData(opts: { dataRoot?: string } = {}): BuildData {
   const byKey = new Map(entries.map((e) => [e.key, e]));
   for (const e of entries) for (const r of e.refs) byKey.get(r)?.refBy.push(e.key);
   for (const e of entries) e.refBy.sort();
+  // A plant's use comes from the projects that list it, once their geography is derived.
+  const projects = entries
+    .filter((e) => e.entry.type === 'project')
+    .map((e) => ({ key: e.key, data: e.entry.data as unknown as ProjectData, geo: (e.derived as unknown as ProjectDerived).geo }));
+  for (const e of entries) if (e.entry.type === 'plant') e.derived.use = derivePlantUse(e.key, projects);
 
   const listed = new Set(Object.keys(config.types).filter((t) => hasPages(config.root, t)));
   const subjects = entries.filter((b) => listed.has(b.entry.type)).map((b) => ({
@@ -147,7 +182,8 @@ export function buildData(opts: { dataRoot?: string } = {}): BuildData {
     tags: tagArrays(b.entry.tags),
     subject: { ...b.entry, name: b.name, derived: b.derived, description: b.entry.description ? plainText(b.entry.description) : undefined },
   }));
-  const facets = indexFacets(config.types, config.vocab, subjects);
+  const labeller = makeLabeller(loadGeo(), new Map(entries.map((e) => [e.key, e.entry.type === 'plant' ? fullName(e.entry.data as unknown as PlantData) : e.name])));
+  const facets = indexFacets(config.types, config.vocab, subjects, labeller);
   const records: IndexRecord[] = subjects.map(({ b, type, tags, subject }) => {
     const def = config.types[type];
     const fv: Record<string, string[]> = {};

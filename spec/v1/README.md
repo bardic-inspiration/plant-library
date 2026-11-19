@@ -123,7 +123,7 @@ for it.
 | M1 | Skeleton | Built: tooling, lanes, CI, deploy, docs, the site ([docs/workflow.md](../../docs/workflow.md)) |
 | M2 | Plants | Built: the plant type, validation, the source registry, and a prototype fixture set of 473 plants from the King County guide and the Portland Plant List ([docs/sources.md](../../docs/sources.md#the-prototype-fixture-set)) |
 | M3 | Library | Built: list view, filter tree, search, plant pages, styling ([docs/site.md](../../docs/site.md)) |
-| M4 | Projects | `data-model.md` project derived values (the project schema and its validation are built: [docs/content-model.md](../../docs/content-model.md#project); geography is built apart from hardiness zones: [docs/geography.md](../../docs/geography.md); the fixture projects are built: [docs/sources.md](../../docs/sources.md#fixture-projects)); project pages; plant and project links |
+| M4 | Projects | `library.md` *on a project* and the cross-type filter case (open question). Built: the project schema, validation, derived values, and fixture projects ([docs/content-model.md](../../docs/content-model.md#project), [docs/sources.md](../../docs/sources.md#fixture-projects)); geography apart from hardiness zones ([docs/geography.md](../../docs/geography.md)); project pages, project facets, *Uses plant* and *Used in*, project search, and plant and project links ([docs/site.md](../../docs/site.md)) |
 | M5 | Map | `map.md` map view, overlays, region filters |
 | M6 | Palettes | `data-model.md` palette type; `sources.md` fixture palettes; `library.md` workspace, compatibility, exports |
 | M7 | Contributions | `submissions.md`: forms, the browser store, the inbox script, field notes, the `integrate` skill |
@@ -162,3 +162,6 @@ Collected from the area files; no part with an open question is built.
 2. Image sourcing. ([sources.md](sources.md#open-questions))
 3. At handover: how the browser writes to the server folder, and where the
    routine runs. ([submissions.md](submissions.md#open-questions))
+4. How *on a project* chooses its projects, and so how the filter case
+   "trees used on streetscape projects in King County" is expressed.
+   ([library.md](library.md#open-questions))

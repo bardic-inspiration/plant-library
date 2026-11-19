@@ -298,6 +298,33 @@
             "path": "data.genus"
           }
         ]
+      },
+      {
+        "group": "usedIn",
+        "label": "Used in",
+        "facets": [
+          {
+            "id": "usedInState",
+            "label": "State",
+            "kind": "value",
+            "path": "derived.use.states",
+            "vocab": "state"
+          },
+          {
+            "id": "usedInCounty",
+            "label": "County",
+            "kind": "value",
+            "path": "derived.use.counties",
+            "labels": "counties"
+          },
+          {
+            "id": "usedInEcoregion",
+            "label": "Ecoregion",
+            "kind": "value",
+            "path": "derived.use.ecoregions",
+            "labels": "ecoregions"
+          }
+        ]
       }
     ],
     "sorts": [
@@ -354,11 +381,212 @@
         "constructionBudget"
       ]
     },
-    "facets": [],
+    "facets": [
+      {
+        "id": "projectType",
+        "label": "Type",
+        "kind": "value",
+        "path": "data.projectType",
+        "vocab": "projectType"
+      },
+      {
+        "id": "status",
+        "label": "Status",
+        "kind": "value",
+        "path": "data.status",
+        "vocab": "projectStatus"
+      },
+      {
+        "id": "completed",
+        "label": "Completed",
+        "kind": "range",
+        "path": "derived.completedYear",
+        "buckets": [
+          {
+            "id": "-2015",
+            "label": "Before 2015",
+            "max": 2015
+          },
+          {
+            "id": "2015-2019",
+            "label": "2015 to 2019",
+            "min": 2015,
+            "max": 2020
+          },
+          {
+            "id": "2020-2024",
+            "label": "2020 to 2024",
+            "min": 2020,
+            "max": 2025
+          },
+          {
+            "id": "2025-",
+            "label": "2025 or later",
+            "min": 2025
+          }
+        ]
+      },
+      {
+        "id": "size",
+        "label": "Size",
+        "kind": "range",
+        "path": "data.sizeAcres",
+        "unit": "acres",
+        "buckets": [
+          {
+            "id": "0-1",
+            "label": "Under 1 acre",
+            "max": 1
+          },
+          {
+            "id": "1-5",
+            "label": "1 to 5 acres",
+            "min": 1,
+            "max": 5
+          },
+          {
+            "id": "5-20",
+            "label": "5 to 20 acres",
+            "min": 5,
+            "max": 20
+          },
+          {
+            "id": "20-",
+            "label": "Over 20 acres",
+            "min": 20
+          }
+        ]
+      },
+      {
+        "id": "budget",
+        "label": "Budget",
+        "kind": "range",
+        "path": "data.constructionBudget",
+        "unit": "USD",
+        "buckets": [
+          {
+            "id": "0-250k",
+            "label": "Under $250,000",
+            "max": 250000
+          },
+          {
+            "id": "250k-1m",
+            "label": "$250,000 to $1 million",
+            "min": 250000,
+            "max": 1000000
+          },
+          {
+            "id": "1m-5m",
+            "label": "$1 million to $5 million",
+            "min": 1000000,
+            "max": 5000000
+          },
+          {
+            "id": "5m-",
+            "label": "Over $5 million",
+            "min": 5000000
+          }
+        ]
+      },
+      {
+        "id": "costPerAcre",
+        "label": "Cost per acre",
+        "kind": "range",
+        "path": "derived.costPerAcre",
+        "unit": "USD",
+        "buckets": [
+          {
+            "id": "0-100k",
+            "label": "Under $100,000",
+            "max": 100000
+          },
+          {
+            "id": "100k-500k",
+            "label": "$100,000 to $500,000",
+            "min": 100000,
+            "max": 500000
+          },
+          {
+            "id": "500k-1m",
+            "label": "$500,000 to $1 million",
+            "min": 500000,
+            "max": 1000000
+          },
+          {
+            "id": "1m-",
+            "label": "Over $1 million",
+            "min": 1000000
+          }
+        ]
+      },
+      {
+        "id": "landscapeArchitect",
+        "label": "Landscape architect",
+        "kind": "value",
+        "path": "data.landscapeArchitect"
+      },
+      {
+        "id": "client",
+        "label": "Client",
+        "kind": "value",
+        "path": "data.client"
+      },
+      {
+        "group": "location",
+        "label": "Location",
+        "facets": [
+          {
+            "id": "state",
+            "label": "State",
+            "kind": "value",
+            "path": "derived.geo.state",
+            "vocab": "state"
+          },
+          {
+            "id": "county",
+            "label": "County",
+            "kind": "value",
+            "path": "derived.geo.county",
+            "labels": "counties"
+          },
+          {
+            "id": "place",
+            "label": "Place",
+            "kind": "value",
+            "path": "derived.geo.place",
+            "labels": "places"
+          },
+          {
+            "id": "ecoregion",
+            "label": "Ecoregion",
+            "kind": "value",
+            "path": "derived.geo.ecoregion",
+            "labels": "ecoregions"
+          },
+          {
+            "id": "zone",
+            "label": "Hardiness zone",
+            "kind": "value",
+            "path": "derived.geo.hardinessZone",
+            "vocab": "zone"
+          }
+        ]
+      },
+      {
+        "id": "usesPlant",
+        "label": "Uses plant",
+        "kind": "value",
+        "path": "derived.usesPlant",
+        "labels": "entries"
+      }
+    ],
     "sorts": [],
     "search": {
       "boosted": [
-        "name"
+        "name",
+        "data.landscapeArchitect",
+        "data.client",
+        "derived.locationNames"
       ],
       "fields": [
         "summary",

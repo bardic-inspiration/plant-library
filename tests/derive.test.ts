@@ -102,6 +102,15 @@ describe('derived project values', () => {
     expect(deriveProject(proj({ constructionBudget: 1_000_000, sizeAcres: 3 }), plants, wa).costPerAcre).toBe(333333);
     expect('costPerAcre' in deriveProject(proj(), plants, wa)).toBe(false);
   });
+  it('usesPlant lists the plants the library holds, once each, sorted', () => {
+    expect(deriveProject(proj(), plants, wa).usesPlant).toEqual(['plant/acer-circinatum', 'plant/acer-palmatum', 'plant/festuca-roemeri']);
+    expect(deriveProject(proj({ plantList: [{ plant: { ref: 'plant/missing' }, quantity: 1 }] }), plants, wa).usesPlant).toEqual([]);
+  });
+  it('completedYear is the year of a full or partial date, absent without one', () => {
+    expect(deriveProject(proj({ completed: '2021' }), plants, wa).completedYear).toBe(2021);
+    expect(deriveProject(proj({ completed: '2023-06-15' }), plants, wa).completedYear).toBe(2023);
+    expect('completedYear' in deriveProject(proj({ status: 'proposed' }), plants, wa)).toBe(false);
+  });
   it('a proposed project with no completion date and a state-line project derive the same way', () => {
     const d = deriveProject(proj({ status: 'proposed' }), plants, { state: 'OR', county: '41067' });
     expect(d.geo.state).toBe('OR');

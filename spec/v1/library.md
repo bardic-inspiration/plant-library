@@ -38,23 +38,19 @@ set: switching between them keeps the query string.
   count, and its site conditions. Every card has an "add to list" control
   for the workspace.
 - **The view switch** (List, Map) beside sort and the count.
-- **Project and palette facets.** Project: Type, Status, Completed (year
-  range), Size, Budget, Cost per acre, Landscape architect, Client,
-  Location (state, county, place, ecoregion, hardiness zone), Uses plant.
-  Palette: site conditions. Plant: Used in (state, county, ecoregion, on a
-  project).
-- **Two cross-type filters** make the link structure usable from the tree:
-  *Uses plant* narrows projects to those whose lists include the chosen
-  plants; *Used in* and *on a project* narrow plants to those used in a
-  region or on the chosen projects.
+- **Palette facets**: site conditions. (The project facets, *Uses plant*,
+  and the plant *Used in* state, county, and ecoregion facets are built:
+  [docs/site.md](../../docs/site.md#list-view).)
+- **On a project**, the rest of the plant *Used in* group, narrows plants to
+  those used on the chosen projects. Open question below.
 - **Region filters** set from the map ([map.md](map.md#region-filters)) show
   in the tree as ordinary checked values and can be cleared there.
-- **Search** finds a project by its name, architect, client, or place.
 
 ### Plant page, still to add
 
-After Traits: Used on (its projects with quantity and year, a small map of
-them, and totals by state), then Often planted with (derived companions).
+Used on is built ([docs/site.md](../../docs/site.md#plant-page)); it still
+needs a small map of its projects (M5). After it: Often planted with
+(derived companions).
 The page carries "Add photo", "Suggest an edit", and "Add field note".
 
 ### Project page, still to add
@@ -70,9 +66,9 @@ compatibility.
 
 ### Links, still to add
 
-- A plant page lists every project and palette that uses it.
-- A facet value on a project page (a county, an architect, a client, a
-  project type) links to the Library filtered by that value.
+- A plant page lists every palette that uses it (projects are built).
+- A facet value on a palette page links to the Library filtered by it, as
+  a project page's do ([docs/site.md](../../docs/site.md#project-page)).
 - A region name also offers the same filter on the map.
 
 ### Palette workspace
@@ -140,7 +136,8 @@ about design, spacing, or competition.
 ## Done when
 
 - The cross-type filters have unit tests over a fixture index, including the
-  filter case above.
+  filter case above. (*Uses plant* and *Used in* are tested; the case waits
+  on *on a project*.)
 - `lib/compat.ts` has tests for shared ranges, minimal conflicts, unknowns,
   and site fit.
 - Palette pages build for every fixture entry, with every ref
@@ -148,6 +145,15 @@ about design, spacing, or competition.
 - The workspace round-trips a list through local storage, a share URL, CSV,
   and a palette file that passes validation.
 - `npm run a11y` passes on project and palette pages and the workspace.
+
+## Open questions
+
+- **How *on a project* chooses its projects** (#26). Either the project
+  facets reach plants through their projects (a plant matches when one
+  project listing it matches every project filter, so the case is Form =
+  Tree, Project type = Streetscape, County = King), or it is a facet of
+  project names picked by hand. The case can't be met exactly by the
+  per-plant *Used in* facets alone.
 
 ## Out of scope
 

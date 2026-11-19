@@ -3,6 +3,7 @@
  * any view can be bookmarked and the list and map share it. Pure functions
  * over the index, used by the island and the tests.
  */
+import { url } from './site';
 import type { IndexFacet, IndexRecord, TypeRegistry } from './types';
 
 export interface Query {
@@ -56,6 +57,11 @@ export function serializeQuery(query: Query): string {
   for (const k of Object.keys(query.extra).sort()) if (!RESERVED.has(k)) p.set(k, query.extra[k]);
   const s = p.toString();
   return s ? `?${s}` : '';
+}
+
+/** The Library filtered by these values: `libraryUrl({ 'project.county': ['53033'] })`. Detail pages link facet values this way. */
+export function libraryUrl(filters: Record<string, string[]>): string {
+  return url() + serializeQuery({ ...emptyQuery(), filters });
 }
 
 export function toggleValue(query: Query, key: string, value: string): Query {

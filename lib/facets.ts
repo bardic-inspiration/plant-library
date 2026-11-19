@@ -4,7 +4,10 @@
  */
 import { expandZones } from './zones';
 import { monthsBetween } from './derive';
-import type { FacetDef, FacetGroupDef, IndexFacet, TypeRegistry, Vocab, VocabValue, Range } from './types';
+import type { FacetDef, FacetGroupDef, FacetLabels, IndexFacet, TypeRegistry, Vocab, VocabValue, Range } from './types';
+
+/** A label for a value from a facet's `labels` source; undefined when it has none. */
+export type Labeller = (source: FacetLabels, id: string) => string | undefined;
 
 export function isGroup(f: FacetDef | FacetGroupDef): f is FacetGroupDef {
   return 'group' in f;
@@ -58,7 +61,8 @@ export function facetValues(def: FacetDef, subject: unknown): string[] {
     case 'value':
       return (Array.isArray(v) ? v : [v]).map(String);
     case 'range': {
-      const r = v as Range;
+      // A single figure (a project's acreage) is a range of one value.
+      const r = typeof v === 'number' ? { min: v, max: v } : (v as Range);
       return (def.buckets ?? []).filter((b) => overlaps(r, b)).map((b) => b.id);
     }
     case 'zones':
@@ -73,7 +77,7 @@ export function facetValues(def: FacetDef, subject: unknown): string[] {
 }
 
 /** The values a facet offers, in display order, labelled. */
-export function facetOptions(def: FacetDef, vocab: Vocab, present: Set<string>): { id: string; label: string }[] {
+export function facetOptions(def: FacetDef, vocab: Vocab, present: Set<string>, labeller?: Labeller): { id: string; label: string }[] {
   if (def.kind === 'range') return (def.buckets ?? []).filter((b) => present.has(b.id)).map((b) => ({ id: b.id, label: b.label }));
   if (def.kind === 'pairs') {
     const keys = vocabList(vocab, def.keyVocab) ?? [];
@@ -87,6 +91,10 @@ export function facetOptions(def: FacetDef, vocab: Vocab, present: Set<string>):
   }
   const list = vocabList(vocab, def.vocab);
   if (list) return list.filter((x) => present.has(x.id)).map((x) => ({ id: x.id, label: x.label }));
+  if (def.labels) {
+    const src = def.labels;
+    return [...present].map((id) => ({ id, label: labeller?.(src, id) ?? id })).sort((a, b) => a.label.localeCompare(b.label) || a.id.localeCompare(b.id));
+  }
   return [...present].sort((a, b) => a.localeCompare(b)).map((id) => ({ id, label: id }));
 }
 
@@ -95,6 +103,7 @@ export function indexFacets(
   types: TypeRegistry,
   vocab: Vocab,
   subjects: { type: string; subject: unknown; tags: Record<string, string[]> }[],
+  labeller?: Labeller,
 ): IndexFacet[] {
   const out: IndexFacet[] = [];
   const typeIds = Object.keys(types).filter((t) => subjects.some((s) => s.type === t));
@@ -109,7 +118,7 @@ export function indexFacets(
     for (const def of flatFacets(types, t)) {
       const present = new Set(mine.flatMap((s) => facetValues(def, s.subject)));
       if (present.size === 0) continue;
-      out.push({ key: def.key, type: t, label: def.label, group: def.group, groupLabel: def.groupLabel, values: facetOptions(def, vocab, present) });
+      out.push({ key: def.key, type: t, label: def.label, group: def.group, groupLabel: def.groupLabel, values: facetOptions(def, vocab, present, labeller) });
     }
   }
   const tagKeys = [...new Set(subjects.flatMap((s) => Object.keys(s.tags)))].sort();

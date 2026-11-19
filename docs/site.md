@@ -41,8 +41,9 @@ JavaScript it is a full list; the island hides that list once it loads.
 - **Search:** MiniSearch, prefix and light fuzzy matching, all terms
   required. Botanical name, common names, synonyms, and trade name weigh
   three times the summary, family, tags, and description. "Berberis" finds
-  the Mahonias through their synonyms. With search text, a Relevance sort
-  is offered.
+  the Mahonias through their synonyms. A project is found by its name,
+  landscape architect, client, or place (its place and county names). With
+  search text, a Relevance sort is offered.
 - **Filter tree:** type, then each facet (grouped as `config/types.json`
   groups them), then values with counts. Values in a facet combine as OR,
   facets as AND, and an entry missing a value never matches. A value's
@@ -50,9 +51,24 @@ JavaScript it is a full list; the island hides that list once it loads.
   selections. Active filters show as removable chips.
 - **Facet kinds** (`lib/facets.ts`): `value` (a field's value or values),
   `range` (buckets; a range matches every bucket it overlaps, so a 3–10 ft
-  shrub is in "3 to 6 ft"), `zones` (a plant matches each half zone its
+  shrub is in "3 to 6 ft", and a single figure, such as a project's acreage,
+  is in the bucket that holds it), `zones` (a plant matches each half zone its
   range contains), `months` (bloom months, wrapping the year), `pairs`
   (`region:rating`).
+- **Facet labels:** a value in a vocabulary takes its label and order from
+  it. A facet with `labels` takes them from a boundary layer (`counties`:
+  "King County, WA", `places`: "Portland, OR", `ecoregions`: "Puget
+  Lowland") or from the entries its values name (`entries`), in label order.
+  Other values are their own labels, in alphabetical order.
+- **Project facets:** Type, Status, Completed (year buckets), Size (acres),
+  Budget, Cost per acre, Landscape architect, Client, Location (state,
+  county, place, ecoregion, hardiness zone), and Uses plant. A facet with no
+  values is left out of the index, so Client, Budget, and Cost per acre
+  (blank in every fixture) and Hardiness zone (not derived, D33) don't show.
+- **Cross-type filters:** *Uses plant* (a project facet) narrows projects to
+  those whose lists ref the chosen plants. *Used in* (a plant group: state,
+  county, ecoregion) narrows plants to those a project in the region lists by
+  ref. Unsourced text never counts.
 - **Sort:** every type's sorts from `config/types.json`; missing values go
   last; ties fall back to name.
 - **URL state:** `lib/filter.ts`. Search is `q`, a filter is its facet key
@@ -74,7 +90,11 @@ with its credit and license; the description; a traits table grouped as
 Size and habit, Site, Seasonal interest (with a bloom calendar), Ecology,
 and Uses, with every value linked to the Library filtered by it, a marker
 on any value resting on a staff observation, and field notes shown beside
-the trait they address; related plants (the same species and its cultivars
+the trait they address; Used on, when a project lists it by ref (each
+project with its place, the quantity listed, and its completion year,
+"(proposed)" when proposed, most recent first, then totals of projects and
+plants by state, each state linked to the Library filtered by *Used in*);
+related plants (the same species and its cultivars
 and varieties); sources, each with its link, the fields it supports, the
 access date, and its citation; further reading; and field notes.
 
@@ -82,16 +102,19 @@ access date, and its citation; further reading; and field notes.
 
 Name, place and state ("Portland, OR": the place, else the county, named from
 the boundary layers), summary, a facts table (landscape architect, client,
-type, size, construction budget, cost per acre, status, completion; a fact
-the entry leaves blank, as every fixture does the client and budget, has no
-row), the plant schedule, and the list summary. The schedule is one table per
+type, size, construction budget, cost per acre, status, completion, place,
+county, state, ecoregion; a fact the entry leaves blank, as every fixture
+does the client and budget, has no row), the plant schedule, and the list summary. The schedule is one table per
 form (botanical name, common name, quantity, and the size, spacing, and note
 columns when any line has one); a plant links to its page, and names the
 library doesn't hold sit last, under "Not in the library", as plain text. The
 summary gives taxa, names not in the library, total quantity, native share
 (or "Unknown"), and the quantity mixed by form and by life cycle, with
-unsourced lines under unknown. The location map (M5), compatibility panel,
-and export and workspace actions (M6) join later. A project card shows name,
+unsourced lines under unknown. Architect, client, type, status, and the four
+location facts link to the Library filtered by that value; the links are
+built from the project's own index record (`libraryUrl` in `lib/filter.ts`),
+so each names a value the index offers. The location map (M5),
+compatibility panel, and export and workspace actions (M6) join later. A project card shows name,
 place and state, type, status, completion year, size in acres, and plant
 count (taxa plus unsourced names, D37).
 
@@ -121,7 +144,7 @@ a fixture (`meta.fixture: true`), as every prototype plant is
 
 - **A new facet:** an entry in the type's `facets` in `config/types.json`
   with a kind, a path into the entry (`data.…` or `derived.…`), and a
-  vocabulary list or buckets. No code.
+  vocabulary list, buckets, or a `labels` source. No code.
 - **A new sort:** an entry in the type's `sorts`.
 - **A new page:** a file in `site/src/pages/` using `layouts/Base.astro`;
   every internal link goes through `url()` from `lib/site.ts`.
