@@ -17,13 +17,13 @@ follow links between entries (P4, P7, P10).
 | `/project/<id>/` | Project detail page |
 | `/palette/<id>/` | Palette detail page |
 | `/workspace/` | The palette workspace |
+| `/contribute/` | The contribution forms and My submissions ([submissions.md](submissions.md#forms)) |
 | `/print/` | Print view: a plant schedule or plant cut sheets; not in navigation |
 | `/about/` | What the library is, the source registry, licenses, image credits, contributors |
 | `/styleguide/` | Every component state; not in navigation |
 | `/404.html` | Not found |
 
-The top bar lists only built sections (Library, Map, Workspace, About);
-Contribute joins when it is built.
+The top bar lists Library, Map, Workspace, Contribute, and About.
 
 ### Index
 
@@ -373,7 +373,7 @@ a fixture (`meta.fixture: true`), as every prototype plant is
 ## Where the rules live
 
 `config/types.json` (facets, sorts, search fields), `lib/facets.ts`,
-`lib/filter.ts`, `lib/map-data.ts`, `lib/compat-text.ts`, `lib/workspace.ts`, `lib/export.ts`, `lib/cutsheet.ts`, `lib/build-data.ts`, `site/src/islands/Library.tsx`, `site/src/islands/Workspace.tsx`, `site/src/islands/Print.tsx`,
+`lib/filter.ts`, `lib/map-data.ts`, `lib/compat-text.ts`, `lib/workspace.ts`, `lib/export.ts`, `lib/cutsheet.ts`, `lib/build-data.ts`, `site/src/islands/Library.tsx`, `site/src/islands/Workspace.tsx`, `site/src/islands/Print.tsx`, `site/src/islands/Contribute.tsx`,
 `site/src/pages/`, and the shared components in
 `site/src/components/ui/`, which both the pages and the island render.
 

@@ -1,0 +1,243 @@
+/* The contribution forms (/contribute/). */
+@layer components {
+  .contribute {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+    max-inline-size: var(--page-max);
+  }
+
+  .contribute h1 {
+    margin-block-end: var(--space-xs);
+  }
+
+  .contribute h2 {
+    font-size: var(--size-h3);
+    padding-block-end: var(--space-xs);
+    border-block-end: var(--border);
+    margin-block: var(--space-lg) var(--space-md);
+  }
+
+  .c-intro {
+    max-inline-size: var(--measure);
+  }
+
+  .c-back {
+    font-size: var(--size-small);
+  }
+
+  .c-forms {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(var(--card-min), 1fr));
+    gap: var(--space-md);
+  }
+
+  .c-forms li {
+    padding: var(--space-sm) var(--space-md);
+    border: var(--border);
+  }
+
+  .c-forms a {
+    font-weight: var(--weight-strong);
+  }
+
+  .c-forms p {
+    margin-block-start: var(--space-xxs);
+    font-size: var(--size-small);
+  }
+
+  .c-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+
+  .c-fields,
+  .c-group-fields {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm) var(--space-md);
+  }
+
+  .c-field {
+    display: flex;
+    flex: 1 1 var(--card-min);
+    flex-direction: column;
+    gap: var(--space-xxs);
+    font-size: var(--size-small);
+  }
+
+  .c-field > label,
+  .c-group > legend {
+    font-weight: var(--weight-strong);
+  }
+
+  .c-wide,
+  .c-group,
+  .c-plantlist {
+    flex-basis: var(--full);
+  }
+
+  .c-number {
+    flex-grow: 0;
+  }
+
+  .c-field input,
+  .c-field select,
+  .c-field textarea,
+  .c-table input {
+    min-block-size: var(--hit-size);
+    padding-inline: var(--space-xs);
+    border: var(--border);
+    background: var(--bg);
+    font: inherit;
+  }
+
+  .c-field textarea {
+    padding-block: var(--space-xs);
+    resize: vertical;
+  }
+
+  .c-group {
+    padding: var(--space-sm) var(--space-md) var(--space-md);
+    border: var(--border-faint);
+  }
+
+  .c-group > legend {
+    padding-inline: var(--space-xxs);
+    font-size: var(--size-small);
+  }
+
+  .c-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--none) var(--space-md);
+  }
+
+  .c-basis .c-options,
+  .c-file .c-options {
+    flex-direction: column;
+  }
+
+  .c-check {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-xs);
+    min-block-size: var(--hit-size);
+    font-size: var(--size-small);
+  }
+
+  .c-hint {
+    color: var(--text-muted);
+    font-size: var(--size-small);
+    font-weight: var(--weight-body);
+  }
+
+  .c-warn {
+    color: var(--text);
+    font-size: var(--size-small);
+    padding-inline-start: var(--space-xs);
+    border-inline-start: var(--line-heavy) solid var(--accent);
+  }
+
+  .c-note,
+  .c-done,
+  .c-summary,
+  .c-alert {
+    padding: var(--space-sm) var(--space-md);
+    border-inline-start: var(--line-focus) solid var(--accent);
+    background: var(--bg-selected);
+  }
+
+  .c-summary ul {
+    padding-inline-start: var(--space-lg);
+    list-style: disc;
+  }
+
+  .c-changes {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+    padding-inline-start: var(--space-lg);
+  }
+
+  .c-change {
+    margin-block-end: var(--space-xs);
+  }
+
+  .c-table {
+    border-collapse: collapse;
+    font-size: var(--size-small);
+  }
+
+  .c-table th,
+  .c-table td {
+    padding: var(--space-xxs) var(--space-xs);
+    border-block-end: var(--border-faint);
+    text-align: start;
+    vertical-align: top;
+  }
+
+  .c-table .num {
+    text-align: end;
+  }
+
+  .c-qty {
+    inline-size: calc(var(--hit-size) * 2);
+  }
+
+  .c-button {
+    min-block-size: var(--hit-size);
+    padding-inline: var(--space-sm);
+    border: var(--border);
+    background: var(--bg);
+    font-size: var(--size-small);
+    cursor: pointer;
+  }
+
+  .c-button:hover {
+    background: var(--bg-subtle);
+  }
+
+  .c-button:disabled {
+    color: var(--text-muted);
+    cursor: default;
+  }
+
+  .c-primary {
+    font-weight: var(--weight-strong);
+    border-width: var(--line-heavy);
+  }
+
+  .c-link {
+    padding: var(--none);
+    border: none;
+    background: none;
+    font: inherit;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  .c-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-sm);
+    margin-block-start: var(--space-md);
+  }
+
+  .c-picker {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: var(--space-sm);
+  }
+
+  .c-files {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    margin-block-end: var(--space-md);
+  }
+}

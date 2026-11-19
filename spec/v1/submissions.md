@@ -35,43 +35,12 @@ input from start to finish.
 
 ### Forms
 
-Reached from **Contribute** in the top bar (`/contribute/`) and from where
-the need arises:
-
-| Form | Reached from | Files |
-|---|---|---|
-| Add photo | A plant or project page; Contribute | One or more images |
-| Suggest an edit | Any plant, project, or palette page | Optional supporting files |
-| Add field note | A plant page | None |
-| Add plant | Contribute; an unsourced plant name on a project page | Optional images |
-| Add project | Contribute | Optional plant list file, images |
-| Submit palette | The workspace ("Submit to library"); Contribute | None |
-
-- **Generated from the schemas.** Fields, enumerations, labels, and units
-  come from the type schemas and `config/vocab.json`, so a form can't drift
-  from the data model and a new field needs no form code (P4).
-- **Edits are differences.** An edit form opens filled with the current
-  entry and submits only what the person changed, each change with its
-  basis (below) and a note saying why.
-- **Every claim states its basis**: `observation` (the person's own
-  professional experience), `source` (with a URL or citation), or
-  `correction` (a plain error, such as a misspelling).
-- **Plant lists.** The project form takes a plant list three ways: picking
-  plants with autocomplete from the library (free text allowed for plants it
-  lacks), pasting rows from a spreadsheet, or attaching the schedule as a
-  file (PDF, CSV, or XLSX) for the routine to transcribe.
-- **Photos** ask for what licensing needs: who took it, the rights basis
-  (below), where and when, what it shows, and alt text.
-- **Lenient at the door.** The form warns about missing or odd values but
-  blocks only what makes a submission unusable: no target, no content, no
-  rights basis on a file, a file over the size limit or of the wrong type.
-  Cleaning up is the routine's job.
-- **Drafts** save in the browser as the person types.
-- **Who.** The form asks for a name, a role, and optionally an email, and
-  remembers them in the browser. There are no accounts; the name is a
-  statement, not an identity.
-- **My submissions** lists what this browser has sent, each with its
-  result once the store has one.
+Built: the forms, generated from the schemas, with edits as differences,
+a basis for every claim, plant lists, photo metadata, lenient checks,
+drafts, the remembered submitter, and My submissions
+([docs/submissions.md](../../docs/submissions.md#forms)). Still to build
+with the stores: My submissions showing each result once the store has
+one.
 
 ### The submission
 
@@ -234,10 +203,8 @@ other (P5).
 
 ## Done when
 
-- Each form produces a submission that validates against
-  `schemas/submission.schema.json`.
-- An edit form's submission contains exactly the fields changed, as
-  `editDifferences` gives them.
+The forms' items are met ([docs/submissions.md](../../docs/submissions.md#forms)). Still to meet:
+
 - The `browser` store round-trips a submission with files through export
   and `inbox import`, with hashes intact.
 - `inbox check` has a passing and a failing fixture for each remaining
@@ -246,7 +213,6 @@ other (P5).
   the expected result of each, so a run of the skill can be compared against
   it. What a routine run actually decides is a manual check for the Testing
   backlog.
-- `npm run a11y` passes on every form.
 
 ## Open questions
 

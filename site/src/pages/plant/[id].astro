@@ -13,6 +13,7 @@ import { renderCitation } from '../../../../lib/citation';
 import { url } from '../../../../lib/site';
 import MapView from '../../islands/MapView.tsx';
 import { AddToList } from '../../components/ui/AddToList';
+import ContributeLinks from '../../components/ContributeLinks.astro';
 import { printPlantsUrl } from '../../../../lib/export';
 import { libraryUrl, mapUrl } from '../../../../lib/filter';
 import { detailFeatures, featureBounds } from '../../../../lib/map-data';
@@ -154,6 +155,7 @@ const bloomLabel = dv.bloomMonthList ? `Bloom calendar: ${formatMonths(d.bloom?.
         <a class="workspace-link" href={printPlantsUrl([key])}>Print cut sheet</a>
         <a class="workspace-link" href={url(`data/${key}.json`)} download={`${b.entry.id}.json`}>Entry as JSON</a>
       </p>
+      <ContributeLinks target={key} />
     </header>
 
     {images.length > 0 && (

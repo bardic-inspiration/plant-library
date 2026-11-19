@@ -9,9 +9,10 @@ const number = new Intl.NumberFormat('en-US');
  * the library doesn't hold last under "Not in the library", each group in
  * list order. The quantity column shows when any line has a quantity (a
  * project's always do), and the size, spacing, and note columns when any
- * line has one.
+ * line has one. With `addPlant`, a name the library doesn't hold links to
+ * the Add plant form.
  */
-export function Schedule({ lines, empty, quantity = lines.some((l) => l.item.quantity !== undefined) }: { lines: ScheduleLine[]; empty: string; quantity?: boolean }) {
+export function Schedule({ lines, empty, quantity = lines.some((l) => l.item.quantity !== undefined), addPlant }: { lines: ScheduleLine[]; empty: string; quantity?: boolean; addPlant?: (name: string) => string }) {
   if (!lines.length) return <p>{empty}</p>;
   const groups = [
     ...vocabList('form').map((f) => ({ id: f.id, title: label('form', f.id), lines: lines.filter((l) => l.plant?.form === f.id) })),
@@ -44,7 +45,17 @@ export function Schedule({ lines, empty, quantity = lines.some((l) => l.item.qua
                           <PlantName parts={l.parts} fallback={l.text} />
                         </a>
                       ) : (
-                        l.text
+                        <>
+                          {l.text}
+                          {addPlant && (
+                            <>
+                              {' '}
+                              <a class="schedule-add" href={addPlant(l.text)}>
+                                Add plant<span class="visually-hidden">: {l.text}</span>
+                              </a>
+                            </>
+                          )}
+                        </>
                       )}
                     </th>
                     <td>{l.plant?.commonNames[0]}</td>

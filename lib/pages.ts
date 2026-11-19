@@ -35,7 +35,15 @@ export function samplePages(dist: string): string[] {
       pages.push(`workspace/?${SHARE_PARAM}=${list}`);
       // The print view: that list's schedule, and its plants' cut sheets.
       if (existsSync(join(dist, 'print'))) pages.push(`print/?${SHARE_PARAM}=${list}`, `print/?${PRINT_SHEETS}=1&${SHARE_PARAM}=${list}`);
+      // Submit palette, from that list.
+      if (existsSync(join(dist, 'contribute'))) pages.push(`contribute/?form=add&type=palette&${SHARE_PARAM}=${list}`);
     }
+  }
+  // Every contribution form (spec: submissions.md, Done when: a11y passes on every form).
+  if (existsSync(join(dist, 'contribute'))) {
+    pages.push('contribute/', 'contribute/?form=add&type=plant', 'contribute/?form=add&type=project', 'contribute/?form=photo', 'contribute/?form=edit');
+    const plant = existsSync(plants) ? readdirSync(plants).sort()[0] : undefined;
+    if (plant) for (const form of ['edit', 'photo', 'note']) pages.push(`contribute/?form=${form}&target=plant/${plant}`);
   }
   return pages;
 }

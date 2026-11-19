@@ -1,0 +1,22 @@
+---
+/**
+ * A detail page's contribution entry points (spec: submissions.md, the forms
+ * table): Suggest an edit on every entry, Add photo where the type takes
+ * photos, and Add field note on plants.
+ */
+import { NOTE_TYPES, PHOTO_TYPES, contributeUrl } from '../../../lib/contribute';
+
+interface Props {
+  target: string;
+}
+const { target } = Astro.props;
+const type = target.split('/')[0];
+const links = [
+  PHOTO_TYPES.includes(type) && { text: 'Add photo', href: contributeUrl({ form: 'photo', target }) },
+  { text: 'Suggest an edit', href: contributeUrl({ form: 'edit', target }) },
+  NOTE_TYPES.includes(type) && { text: 'Add field note', href: contributeUrl({ form: 'note', target }) },
+].filter((l): l is { text: string; href: string } => Boolean(l));
+---
+<p class="list-actions contribute-links">
+  {links.map((l) => <a class="workspace-link" href={l.href}>{l.text}</a>)}
+</p>

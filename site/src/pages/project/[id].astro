@@ -1,6 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import FieldNotes from '../../components/FieldNotes.astro';
+import ContributeLinks from '../../components/ContributeLinks.astro';
 import { Schedule } from '../../components/ui/Schedule';
 import { CompatPanel } from '../../components/ui/CompatPanel';
 import { buildData, compatPlants, scheduleLines } from '../../../../lib/build-data';
@@ -12,6 +13,7 @@ import { detailFeatures, featureBounds } from '../../../../lib/map-data';
 import { label } from '../../lib/vocab';
 import { shareUrl } from '../../../../lib/workspace';
 import { printListUrl } from '../../../../lib/export';
+import { contributeUrl } from '../../../../lib/contribute';
 import type { ProjectData, ProjectDerived } from '../../../../lib/types';
 
 export function getStaticPaths() {
@@ -86,6 +88,7 @@ const byLifeRows = mix(byLife, (id) => (id === 'unknown' ? 'Not recorded' : labe
       <h1>{b.name}</h1>
       <p class="place">{dv.placeName}</p>
       <p class="summary">{b.entry.summary}</p>
+      <ContributeLinks target={b.key} />
     </header>
 
     {b.entry.description && <section class="prose" set:html={renderMarkdown(b.entry.description, resolve)} />}
@@ -121,7 +124,7 @@ const byLifeRows = mix(byLife, (id) => (id === 'unknown' ? 'Not recorded' : labe
         {d.plantList.length > 0 && <a class="workspace-link" href={printHref}>Print schedule</a>}
         <a class="workspace-link" href={url(`data/${key}.json`)} download={`${b.entry.id}.json`}>Entry as JSON</a>
       </p>
-      <Schedule lines={lines} empty="This project has no plant list yet." quantity />
+      <Schedule lines={lines} empty="This project has no plant list yet." quantity addPlant={(name) => contributeUrl({ form: 'add', type: 'plant', name })} />
     </section>
 
     <section aria-labelledby="summary-heading">

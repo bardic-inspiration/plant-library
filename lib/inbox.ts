@@ -9,45 +9,9 @@ import type { Config } from './config';
 import type { LoadedEntry } from './content';
 import { formatErrors, type Schemas } from './schemas';
 import { editDifferences, entryText, pathsOverlap } from './submission';
+import { ALLOWED, EXTENSIONS, LABEL, extension, sniff, type FileRole } from './sniff';
 
-export type FileRole = 'image' | 'plant-list' | 'supporting';
-export type Sniffed = 'jpeg' | 'png' | 'webp' | 'pdf' | 'xlsx' | 'csv';
-
-/** What a file of each role may be, by its content. */
-export const ALLOWED: Record<FileRole, Sniffed[]> = {
-  image: ['jpeg', 'png', 'webp'],
-  'plant-list': ['pdf', 'csv', 'xlsx'],
-  supporting: ['jpeg', 'png', 'webp', 'pdf', 'csv', 'xlsx'],
-};
-
-const LABEL: Record<Sniffed, string> = { jpeg: 'JPEG', png: 'PNG', webp: 'WebP', pdf: 'PDF', xlsx: 'XLSX', csv: 'CSV' };
-const EXTENSIONS: Record<Sniffed, string[]> = { jpeg: ['jpg', 'jpeg'], png: ['png'], webp: ['webp'], pdf: ['pdf'], xlsx: ['xlsx'], csv: ['csv'] };
-
-const startsWith = (b: Buffer, sig: number[], at = 0) => sig.every((x, i) => b[at + i] === x);
-const ascii = (s: string) => [...s].map((c) => c.charCodeAt(0));
-
-/** A file's type by its content, never its name; undefined when it is none of the allowed types. */
-export function sniff(b: Buffer): Sniffed | undefined {
-  if (startsWith(b, [0xff, 0xd8, 0xff])) return 'jpeg';
-  if (startsWith(b, [0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a])) return 'png';
-  if (startsWith(b, ascii('RIFF')) && startsWith(b, ascii('WEBP'), 8)) return 'webp';
-  if (startsWith(b, ascii('%PDF-'))) return 'pdf';
-  // An XLSX file is a zip whose entry names (stored uncompressed) include the workbook part.
-  if (startsWith(b, [0x50, 0x4b, 0x03, 0x04])) return b.includes('xl/workbook.xml') ? 'xlsx' : undefined;
-  // CSV is text: UTF-8 with no control characters besides tab and line ends, and a separator.
-  if (b.length && isText(b) && /[,;\t]/.test(b.toString('utf8'))) return 'csv';
-  return undefined;
-}
-
-function isText(b: Buffer): boolean {
-  let s: string;
-  try {
-    s = new TextDecoder('utf-8', { fatal: true }).decode(b);
-  } catch {
-    return false;
-  }
-  return !/[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]/.test(s);
-}
+export { ALLOWED, sniff, type FileRole, type Sniffed } from './sniff';
 
 export const sha256 = (b: Buffer | string) => createHash('sha256').update(b).digest('hex');
 
@@ -136,8 +100,7 @@ function checkFiles(dir: string, sub: Submission, config: Config, add: Add): voi
       add('file-type', 'fail', `${f.name} is ${kind ? `a ${LABEL[kind]} file` : 'none of the allowed types'} by its content; a file of role ${f.role} must be ${want}`);
       continue;
     }
-    const ext = f.name.includes('.') ? f.name.split('.').pop()!.toLowerCase() : '';
-    if (!EXTENSIONS[kind].includes(ext)) add('file-type', 'warn', `${f.name} is a ${LABEL[kind]} file by its content, whatever its name says`);
+    if (!EXTENSIONS[kind].includes(extension(f.name))) add('file-type', 'warn', `${f.name} is a ${LABEL[kind]} file by its content, whatever its name says`);
     else add('file-type', 'pass', `${f.name} is a ${LABEL[kind]} file`);
   }
   for (const name of readdirSync(dir).sort()) {
