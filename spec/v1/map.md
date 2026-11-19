@@ -59,14 +59,10 @@ Plant pages read them: totals by state and year, the note on states
 outside the native range, and companions
 ([docs/site.md](../../docs/site.md#plant-page)); the map view reads them
 in the use choropleth and the "what gets planted here" view
-([docs/site.md](../../docs/site.md#map-view)). What remains:
-
-- **Comparison**: two plants, or two regions, side by side on the same
-  measures.
-
-Every figure shown gives its sample size, and the pages say the library
-reflects the projects entered, not the region's planting as a whole, as
-plant pages do.
+([docs/site.md](../../docs/site.md#map-view)); and the compare page sets
+two plants, or two regions, side by side
+([docs/site.md](../../docs/site.md#compare-page)). Nothing of it remains to
+build.
 
 ## Cases
 

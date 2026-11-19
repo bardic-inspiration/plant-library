@@ -17,6 +17,7 @@ follow links between entries (P4, P7, P10).
 | `/project/<id>/` | Project detail page |
 | `/palette/<id>/` | Palette detail page |
 | `/workspace/` | The palette workspace |
+| `/compare/` | Two plants, or two regions, side by side; not in navigation |
 | `/contribute/` | The contribution forms and My submissions ([submissions.md](submissions.md#forms)) |
 | `/print/` | Print view: a plant schedule or plant cut sheets; not in navigation |
 | `/about/` | What the library is, the source registry, licenses, image credits, contributors |
@@ -173,7 +174,9 @@ on this page.
   by projects or by quantity (the first 20, then *Show all*), each linked,
   with its projects and quantity. *Download as CSV* saves the ranked table
   (rank, botanical and common name, form, projects, quantity;
-  `regionCsv` in `lib/export.ts`). With no region selected a line says how
+  `regionCsv` in `lib/export.ts`). With one region selected, *Compare with
+  another region* opens the [compare page](#compare-page) with it; with
+  two, *Compare these two side by side* opens it with both. With no region selected a line says how
   to pick one. The figures are `regionSummary` over `projectsIn`, run in
   the browser on `site/public/analysis.json`, fetched the first time a
   region is selected (`site/src/islands/RegionView.tsx`,
@@ -209,7 +212,8 @@ note naming the states it is used in outside its native range, totals by
 completion year with the projects that have no date, and the number of
 projects behind the figures, with the note that they reflect the projects
 entered, not the region's planting as a whole; all from
-`plantDistribution`);
+`plantDistribution`; and *Compare with another plant*, which opens the
+[compare page](#compare-page) with it);
 a small map of those projects, each sized by the quantity listed, as the
 map view draws the plant alone, and each state also offering the same
 filter on the map; Often planted with, when it is used: its companions,
@@ -222,6 +226,48 @@ Field notes close a plant, project, or palette page alike (`FieldNotes.astro`
 in `site/src/components/`): each with its topic (and trait, on a plant), the
 note, the author's name and role, the date, and the state and project it
 comes from, the project linked to its page.
+
+### Compare page
+
+`/compare/` sets two plants, or two regions, side by side on the same
+measures (`site/src/islands/Compare.tsx`). What is compared is in the query
+string, `?plants=plant/a,plant/b` or `?regions=state:WA,county:53033`
+(`readComparison`, `comparisonSearch`, and `compareUrl` in
+`lib/compare.ts`); a choice the reader makes writes it back. It fetches the
+index (for names) and `site/public/analysis.json` (for the figures) and
+computes them with the build's own functions (P3). It is reached from a
+plant page's Used on and from the map view's per-region view, and isn't in
+the top bar.
+
+- **Choosing.** *Two plants* or *Two regions*, then a first and a second
+  picker: the plants listed by ref on any project, by name; or the regions
+  holding any project, grouped by level as the selectable overlays list
+  them (ecoregions, counties, states) and named as their facets name them.
+  A plant or region from the URL that no project uses is still offered, so
+  a link from a plant page always shows. Until both are chosen a line says
+  what to choose.
+- **Every figure gives its sample size** ("12 plants on 3 projects"), and a
+  line above the tables gives each side's projects, the projects listing
+  both plants (or in both regions), and the note that the library reflects
+  the projects entered, not the region's planting as a whole.
+- **Two plants** (`comparePlants`): projects, total quantity, native range,
+  and the states it is used in outside it (*Unknown* without a range); then
+  by state, by ecoregion, by county, and by completion year with *No
+  completion date*, each row a region or year either plant has, *None*
+  where one has none. Each plant's figures are its plant page's
+  `plantDistribution`. The column heads link the plant pages.
+- **Two regions** (`compareRegions`): projects, taxa, names not in the
+  library, native share, and total quantity, each with its projects; the
+  mix by form; the first ten plants each ranks by projects; and *Planted in
+  both*, the plants listed in both with their figures in each, those on
+  more projects on both sides first (or a line saying none is). Each
+  region's figures are the per-region view's `regionSummary` for it alone.
+  The column heads link the map view filtered to the region.
+- Every table has the same three equal columns, so the sides line up down
+  the page; on a narrow screen a table scrolls sideways.
+
+`npm run a11y` loads it empty, with two plants used on projects, and with
+two states.
 
 ### Project page
 
@@ -406,7 +452,7 @@ a fixture (`meta.fixture: true`), as every prototype plant is
 ## Where the rules live
 
 `config/types.json` (facets, sorts, search fields), `lib/facets.ts`,
-`lib/filter.ts`, `lib/map-data.ts`, `lib/compat-text.ts`, `lib/workspace.ts`, `lib/export.ts`, `lib/cutsheet.ts`, `lib/build-data.ts`, `site/src/islands/Library.tsx`, `site/src/islands/Workspace.tsx`, `site/src/islands/Print.tsx`, `site/src/islands/Contribute.tsx`,
+`lib/filter.ts`, `lib/map-data.ts`, `lib/compat-text.ts`, `lib/workspace.ts`, `lib/export.ts`, `lib/cutsheet.ts`, `lib/build-data.ts`, `site/src/islands/Library.tsx`, `site/src/islands/Workspace.tsx`, `site/src/islands/Print.tsx`, `site/src/islands/Contribute.tsx`, `site/src/islands/Compare.tsx`, `lib/compare.ts`,
 `site/src/pages/`, and the shared components in
 `site/src/components/ui/`, which both the pages and the island render.
 

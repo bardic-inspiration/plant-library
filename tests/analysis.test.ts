@@ -205,10 +205,19 @@ describe('the per-region view’s data (site/public/analysis.json)', () => {
     }
   });
 
+  it('gives the same plant figures as the build, by year too (P3)', () => {
+    for (const k of ['plant/garrya-elliptica', 'plant/polystichum-munitum', 'plant/acer-circinatum']) {
+      expect(plantDistribution(k, file.projects, filePlants.get(k))).toEqual(plantDistribution(k, projects, plants.get(k)));
+    }
+  });
+
   it('carries only what the figures read', () => {
     const p = file.projects.find((x) => x.key === 'project/mirada-terraces')!;
     expect(Object.keys(p).sort()).toEqual(['data', 'geo', 'key']);
-    expect(Object.keys(p.data)).toEqual(['plantList']);
+    expect(Object.keys(p.data)).toEqual(['plantList', 'completed']);
+    // The completion year only, for the figures by year.
+    expect(p.data.completed).toBe('2023');
+    expect(file.projects.find((x) => x.key === 'project/ridge-meadow-swale')!.data.completed).toBeUndefined();
     for (const line of p.data.plantList) expect(Object.keys(line).every((k) => k === 'plant' || k === 'quantity')).toBe(true);
     expect(file.plants['plant/garrya-elliptica']).toEqual({ form: 'shrub', nativeRange: { states: ['OR', 'CA'] } });
   });

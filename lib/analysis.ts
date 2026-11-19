@@ -24,6 +24,14 @@ export interface RegionProject {
   geo: Partial<Pick<GeoDerived, RegionLevel>>;
 }
 
+/**
+ * What `plantDistribution` reads of a project: a `RegionProject` with its
+ * completion date (a date or just its year), for the figures by year.
+ */
+export interface DistributionProject extends RegionProject {
+  data: RegionProject['data'] & { completed?: string };
+}
+
 /** What `regionSummary` reads of a plant. */
 export type RegionPlantData = Pick<PlantData, 'form'> & { nativeRange?: { states: readonly string[] } };
 
@@ -84,9 +92,9 @@ export interface RegionSummary {
   byForm: Record<string, UseFigure>;
 }
 
-const yearOf = (d: ProjectData) => (d.completed ? d.completed.slice(0, 4) : undefined);
+const yearOf = (d: { completed?: string }) => (d.completed ? d.completed.slice(0, 4) : undefined);
 
-function linesFor(d: ProjectData, plantKey: string) {
+function linesFor(d: RegionProject['data'], plantKey: string) {
   return d.plantList.filter((i) => typeof i.plant !== 'string' && i.plant.ref === plantKey);
 }
 
@@ -103,10 +111,11 @@ const listed = (map: Map<string, UseFigure>): UseBy[] =>
 
 /**
  * A plant's projects and quantity, in total, by state, county, ecoregion,
- * and zone, and by completion year. `plant` is its data, for the native-range
- * note; without it `outsideNativeRange` is empty.
+ * and zone, and by completion year. `plant` is its data (or its native
+ * range), for the native-range note; without it `outsideNativeRange` is
+ * empty. It takes the build's projects or analysis.json's alike.
  */
-export function plantDistribution(plantKey: string, projects: readonly AnalysisProject[], plant?: PlantData): PlantDistribution {
+export function plantDistribution(plantKey: string, projects: readonly DistributionProject[], plant?: Pick<RegionPlantData, 'nativeRange'>): PlantDistribution {
   const by = { state: new Map<string, UseFigure>(), county: new Map<string, UseFigure>(), ecoregion: new Map<string, UseFigure>(), hardinessZone: new Map<string, UseFigure>() };
   const years = new Map<string, UseFigure>();
   const undated: UseFigure = { projects: 0, quantity: 0 };

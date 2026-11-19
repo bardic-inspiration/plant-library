@@ -11,6 +11,8 @@ import { useEffect, useMemo, useState } from 'preact/hooks';
 import { projectsIn, rankPlants, regionSummary, type RegionSummary } from '../../../lib/analysis';
 import { ANALYSIS_FILE, regionFilterKeys, selectedRegions, type AnalysisFile } from '../../../lib/analysis-data';
 import { fileName, recordPlant, regionCsv } from '../../../lib/export';
+import { compareUrl, type RegionRef } from '../../../lib/compare';
+import type { RegionLevel } from '../../../lib/analysis';
 import { OVERLAYS } from '../../../lib/registry';
 import { url } from '../../../lib/site';
 import type { IndexRecord, LibraryIndex } from '../../../lib/types';
@@ -111,6 +113,9 @@ export default function RegionView({ index, filters }: { index: LibraryIndex; fi
     return regionSummary(projects, new Map(Object.entries(file.plants)));
   }, [file, any, JSON.stringify(filters)]);
   const names = regionNames(index, filters);
+  // One or two regions selected: compare it with another, or the two side by side.
+  const picked: RegionRef[] = file ? Object.entries(selectedRegions(file.regions, filters)).flatMap(([level, ids]) => ids!.map((id) => ({ level: level as RegionLevel, id }))) : [];
+  const compare = picked.length === 1 || picked.length === 2 ? compareUrl({ kind: 'regions', sides: [picked[0], picked[1]] }) : undefined;
 
   if (!any) {
     return (
@@ -165,6 +170,7 @@ export default function RegionView({ index, filters }: { index: LibraryIndex; fi
                 >
                   Download as CSV
                 </button>
+                {compare && <a href={compare}>{picked.length === 1 ? 'Compare with another region' : 'Compare these two side by side'}</a>}
               </div>
               {rows.length === 0 ? (
                 <p class="map-results-note">The projects here list no plant the library holds.</p>

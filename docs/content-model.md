@@ -190,14 +190,27 @@ unsourced text.
 | `regionSummary(projects, plants)` | For those projects: `plants`, ranked by projects, then quantity, then key; `taxa` and `unsourced` counts with the projects listing any; `nativeShare`, quantity native to each plant's own project's state over the quantity with a known range, with that quantity and its projects; `byForm`, quantity and projects per form, unsourced lines under `unknown` |
 | `rankPlants(plants, by)` | The same table ranked by quantity instead, projects breaking ties |
 
+Comparison (`lib/compare.ts`) sets two of these side by side for the
+compare page ([site.md](site.md#compare-page)), never computing a figure
+of its own beyond pairing and overlap:
+
+| Function | Gives |
+|---|---|
+| `comparePlants(a, b, projects, plants)` | Each plant's `plantDistribution`; `byState`, `byCounty`, `byEcoregion`, `byZone`, and `byYear` paired (`pair`: one row per id either side has, sorted by id, a zero figure where a side has none); and `both`, the projects whose lists ref both |
+| `compareRegions(a, b, projects, plants)` | Each region's `regionSummary` over `projectsIn` for it alone; `byForm` paired; `shared`, the plants listed in both with each side's figure, by the fewer projects of the two sides, then their sum, then key; and `overlap`, the projects in both (a county inside a state) |
+
+A region is a level and an id (`state:WA`, `county:53033`, `ecoregion:10`).
+
 `build:index` also writes `site/public/analysis.json` (`analysisFile` in
-`lib/analysis-data.ts`): each project's region ids and plant list (plant
-and quantity only), each plant's form and native states, and the region
+`lib/analysis-data.ts`): each project's region ids, plant list (plant
+and quantity only), and completion year, each plant's form and native states, and the region
 levels the selectable overlays filter by, with the facet keys that select
 each (`selectedRegions` reads a query's filters with them). The map view's
 per-region view runs `projectsIn` and `regionSummary` on it, which take any
-project with a list and geography (`RegionProject`), so the browser and the
-build give the same figures (P3).
+project with a list and geography (`RegionProject`), and the compare page
+runs `plantDistribution` on it too, which takes one with a completion date
+or year as well (`DistributionProject`), so the browser and the build give
+the same figures (P3).
 
 Counts follow `deriveProject`: a line with no quantity adds nothing to a
 quantity but still counts its project, and a plant at several sizes counts

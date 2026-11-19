@@ -1,0 +1,61 @@
+/* The compare page: two plants or two regions, side by side. */
+@layer components {
+  .compare-kind {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-md);
+    border: var(--none);
+    padding: var(--none);
+    margin-block-end: var(--space-md);
+  }
+
+  .compare-kind legend {
+    margin-block-end: var(--space-xs);
+  }
+
+  .compare-pickers {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-md);
+    margin-block-end: var(--space-md);
+  }
+
+  .compare-pickers label {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    max-inline-size: var(--full);
+  }
+
+  .compare-pickers select {
+    max-inline-size: var(--full);
+  }
+
+  .compare-sample,
+  .compare-note {
+    font-size: var(--size-small);
+    margin-block: var(--space-xs) var(--space-md);
+    max-inline-size: var(--measure);
+  }
+
+  .compare-note {
+    color: var(--text-muted);
+  }
+
+  /* The same three equal columns in every table, so the sides line up down the page. */
+  .compare-table {
+    inline-size: var(--full);
+    table-layout: fixed;
+    margin-block-end: var(--space-lg);
+  }
+
+  .compare-table caption {
+    text-align: start;
+    padding-block-end: var(--space-xs);
+  }
+
+  .compare-shared-heading {
+    font-size: var(--size-h3);
+    margin-block: var(--space-md) var(--space-xs);
+  }
+}
