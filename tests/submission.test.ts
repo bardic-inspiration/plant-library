@@ -1,11 +1,11 @@
-import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
+import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { afterAll, describe, expect, it } from 'vitest';
 import { loadConfig } from '../lib/config';
 import { checkSubmission, sha256, sniff, type CheckReport } from '../lib/inbox';
 import { applyDifferences, editDifferences, entryHash, entryText, type Change } from '../lib/submission';
-import { clone, entry, fixtureEntries, ROOT, setup } from './helpers';
+import { clone, entry, FIXTURES, fixtureEntries, ROOT, setup } from './helpers';
 
 const { schemas } = setup();
 const config = loadConfig(ROOT);
@@ -206,7 +206,9 @@ describe('inbox check', () => {
     for (const [name, b] of Object.entries(files)) writeFileSync(join(dir, name), b);
     return dir;
   };
-  const run = (dir: string, history?: (f: string) => string[]) => checkSubmission(dir, { config, schemas, entries, history });
+  const processed = mkdtempSync(join(tmpdir(), 'processed-'));
+  afterAll(() => rmSync(processed, { recursive: true, force: true }));
+  const run = (dir: string, history?: (f: string) => string[]) => checkSubmission(dir, { config, schemas, entries, history, dataRoot: FIXTURES, processed });
   const of = (r: CheckReport, check: string) => r.results.filter((x) => x.check === check);
   const photo = (files: Record<string, unknown>[]) => ({ kind: 'photo', target: 'plant/acer-circinatum', files });
 
@@ -317,5 +319,128 @@ describe('inbox check', () => {
     const sub = JSON.parse(JSON.stringify(envelope({ kind: 'note', target: 'plant/acer-circinatum', fieldNotes: [{ topic: 'design', note: 'x' }], id: '20261117T000000Z-000000' })));
     writeFileSync(join(dir, 'submission.json'), JSON.stringify(sub));
     expect(run(dir).rejected).toBe(true);
+  });
+
+  describe('duplicate', () => {
+    const addPlant = (data: Record<string, unknown>) => file({ kind: 'add', target: 'plant', entry: { data } });
+
+    it('passes an add naming no plant the library holds', () => {
+      const r = run(addPlant({ genus: 'Acer', species: 'macrophyllum' }));
+      expect(of(r, 'duplicate')).toEqual([expect.objectContaining({ status: 'pass' })]);
+    });
+
+    it('warns when an add duplicates a plant by name', () => {
+      const [d] = of(run(addPlant({ genus: 'acer', species: 'Circinatum' })), 'duplicate');
+      expect(d.status).toBe('warn');
+      expect(d.message).toContain('plant/acer-circinatum');
+    });
+
+    it('warns when an add is a synonym of a plant, or names a plant as its synonym', () => {
+      const [a] = of(run(addPlant({ genus: 'Berberis', species: 'aquifolium' })), 'duplicate');
+      expect(a).toMatchObject({ status: 'warn', message: expect.stringContaining('synonym Berberis aquifolium of plant/mahonia-aquifolium') });
+      const [b] = of(run(addPlant({ genus: 'Berberis', species: 'repens', synonyms: ['Acer circinatum'] })), 'duplicate');
+      expect(b).toMatchObject({ status: 'warn', message: expect.stringContaining('plant/acer-circinatum') });
+    });
+
+    it('compares a project or palette by its name', () => {
+      expect(of(run(file({ kind: 'add', target: 'palette', entry: { name: 'Bioswale Bottom' } })), 'duplicate')[0]).toMatchObject({ status: 'warn', message: expect.stringContaining('palette/bioswale-bottom') });
+      expect(of(run(file({ kind: 'add', target: 'palette', entry: { name: 'Roof garden' } })), 'duplicate')[0].status).toBe('pass');
+    });
+
+    it('warns when an image is one the library holds, by hash', () => {
+      const held = readFileSync(join(FIXTURES, 'assets/images/plant/acer-circinatum/1.jpg'));
+      const r = run(file(photo([image('again.jpg', held)]), { 'again.jpg': held }));
+      expect(of(r, 'duplicate')).toEqual([expect.objectContaining({ status: 'warn', message: expect.stringContaining('assets/images/plant/acer-circinatum/1.jpg') })]);
+      expect(r.rejected).toBe(false);
+    });
+
+    it('finds the original of an integrated image in processed/', () => {
+      const original = Buffer.concat([PNG, Buffer.from('original')]);
+      const id = '20261101T000000Z-abcdef';
+      mkdirSync(join(processed, id));
+      writeFileSync(join(processed, id, 'submission.json'), JSON.stringify(envelope({ id, ...photo([image('first.png', original)]) })));
+      const [d] = of(run(file(photo([image('second.png', original)]), { 'second.png': original })), 'duplicate');
+      expect(d).toMatchObject({ status: 'warn', message: expect.stringContaining(`processed/${id}/first.png`) });
+      expect(of(run(file(photo([image('fresh.png', PNG)]), { 'fresh.png': PNG })), 'duplicate')[0].status).toBe('pass');
+    });
+  });
+
+  describe('paths', () => {
+    const edit = (changes: Record<string, unknown>[]) => run(file({
+      kind: 'edit', target: 'plant/acer-circinatum', basedOn: sha256(entryText(acerData)),
+      changes: changes.map((c) => ({ basis: 'observation', note: 'x', ...c })),
+    }));
+    const statuses = (r: CheckReport) => of(r, 'paths').map((x) => x.status);
+
+    it('passes paths in the schema whose values fit', () => {
+      const r = edit([
+        { path: 'data.height.max', value: 30 },
+        { path: 'data.sun', add: ['shade'] },
+        { path: 'data.sun', remove: ['full-sun'] },
+        { path: 'summary', value: 'A small tree for shade.' },
+        { path: 'data.lifeCycle', value: null },
+        { path: 'tags.use', value: 'street' },
+      ]);
+      expect(of(r, 'paths').filter((x) => x.status !== 'pass')).toEqual([]);
+      expect(statuses(r)).toHaveLength(6);
+    });
+
+    it('fails a path the schema doesn\'t have', () => {
+      const r = edit([{ path: 'data.colour', value: 'red' }, { path: 'data.height.tallest', value: 3 }]);
+      expect(statuses(r)).toEqual(['fail', 'fail']);
+      expect(of(r, 'paths')[1].message).toContain('data.height has no tallest');
+      expect(r.rejected).toBe(false);
+    });
+
+    it('fails a value that doesn\'t fit, or a vocabulary value it doesn\'t know', () => {
+      const r = edit([{ path: 'data.height.max', value: 'tall' }, { path: 'data.sun', add: ['moonlight'] }, { path: 'data.form', value: 'blob' }]);
+      expect(statuses(r)).toEqual(['fail', 'fail', 'fail']);
+      expect(of(r, 'paths')[1].message).toContain('item 1');
+    });
+
+    it('fails clearing a required field, a read-only one, a path into a list, and add on a non-list', () => {
+      const r = edit([
+        { path: 'data.genus', value: null },
+        { path: 'data.sources', value: [] },
+        { path: 'data.sun.0', value: 'shade' },
+        { path: 'data.form', add: ['tree'] },
+      ]);
+      const m = of(r, 'paths').map((x) => x.message);
+      expect(statuses(r)).toEqual(['fail', 'fail', 'fail', 'fail']);
+      expect(m[0]).toContain('must have');
+      expect(m[1]).toContain('read-only');
+      expect(m[2]).toContain('is a list');
+      expect(m[3]).toContain("isn't a list");
+    });
+
+    it('checks a field note\'s trait', () => {
+      const note = (trait: string) => run(file({ kind: 'note', target: 'plant/acer-circinatum', fieldNotes: [{ topic: 'performance', note: 'x', trait }] }));
+      expect(of(note('height'), 'paths')[0].status).toBe('pass');
+      expect(of(note('soil.drainage'), 'paths')[0].status).toBe('pass');
+      expect(of(note('wingspan'), 'paths')[0].status).toBe('fail');
+    });
+  });
+
+  describe('urls', () => {
+    it('classes each URL by its host against the source registry', () => {
+      const r = run(file({
+        kind: 'edit', target: 'plant/acer-circinatum', basedOn: sha256(entryText(acerData)),
+        changes: [
+          { path: 'data.height.max', value: 30, basis: 'source', sourceUrl: 'https://plants.usda.gov/plant-profile/ACCI', note: 'x' },
+          { path: 'data.spread.max', value: 25, basis: 'source', sourceUrl: 'https://www.example-nursery.com/acer', note: 'x' },
+        ],
+        comment: 'See also https://plants.sc.egov.usda.gov/x.',
+      }));
+      const u = of(r, 'urls');
+      expect(u.map((x) => x.status)).toEqual(['pass', 'warn', 'pass']);
+      expect(u[0].message).toContain('the registered source usda-plants');
+      expect(u[1].message).toContain('example-nursery.com, which is no registered source');
+      expect(u[2].message).toContain('https://plants.sc.egov.usda.gov/x is on');
+    });
+
+    it('checks a file\'s source page', () => {
+      const r = run(file(photo([{ ...image('a.png', PNG), rights: 'third-party', sourceUrl: 'https://images.example.org/a' }]), { 'a.png': PNG }));
+      expect(of(r, 'urls')).toEqual([expect.objectContaining({ status: 'warn' })]);
+    });
   });
 });
