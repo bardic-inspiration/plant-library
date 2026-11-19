@@ -1,0 +1,58 @@
+{
+  "type": "project",
+  "id": "pine-street-trees",
+  "name": "Pine Street Trees",
+  "summary": "A made-up streetscape in Seattle with street trees.",
+  "data": {
+    "landscapeArchitect": "Example Studio",
+    "location": {
+      "lat": 47.61413,
+      "lon": -122.32791
+    },
+    "projectType": "streetscape",
+    "sizeAcres": 1.2,
+    "status": "constructed",
+    "completed": "2022-05",
+    "plantList": [
+      {
+        "plant": {
+          "ref": "plant/thuja-plicata"
+        },
+        "quantity": 8,
+        "size": "8 ft B&B"
+      },
+      {
+        "plant": {
+          "ref": "plant/pinus-contorta-var-contorta"
+        },
+        "quantity": 10,
+        "size": "6 ft B&B"
+      },
+      {
+        "plant": {
+          "ref": "plant/mahonia-aquifolium"
+        },
+        "quantity": 60,
+        "size": "#2 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/polystichum-munitum"
+        },
+        "quantity": 90,
+        "size": "#1 container"
+      },
+      {
+        "plant": "Acer rubrum 'Armstrong'",
+        "quantity": 6,
+        "size": "2 in cal. B&B"
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-19",
+    "revisedAt": "2026-11-19",
+    "method": "manual",
+    "fixture": true
+  }
+}

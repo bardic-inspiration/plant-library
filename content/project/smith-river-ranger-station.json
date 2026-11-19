@@ -1,0 +1,58 @@
+{
+  "type": "project",
+  "id": "smith-river-ranger-station",
+  "name": "Smith River Ranger Station",
+  "summary": "A made-up proposed civic building just south of the Oregon–California line in Del Norte County.",
+  "data": {
+    "landscapeArchitect": "Northfork Design Collective",
+    "location": {
+      "lat": 41.99961,
+      "lon": -123.60009
+    },
+    "projectType": "civic",
+    "sizeAcres": 3,
+    "status": "proposed",
+    "completed": "2027",
+    "plantList": [
+      {
+        "plant": {
+          "ref": "plant/pseudotsuga-menziesii"
+        },
+        "quantity": 10,
+        "size": "6 ft B&B"
+      },
+      {
+        "plant": {
+          "ref": "plant/vaccinium-ovatum"
+        },
+        "quantity": 80,
+        "size": "#2 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/gaultheria-shallon"
+        },
+        "quantity": 160,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/polystichum-munitum"
+        },
+        "quantity": 140,
+        "size": "#1 container"
+      },
+      {
+        "plant": "Iris douglasiana",
+        "quantity": 200,
+        "size": "4 in pot"
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-19",
+    "revisedAt": "2026-11-19",
+    "method": "manual",
+    "fixture": true
+  }
+}

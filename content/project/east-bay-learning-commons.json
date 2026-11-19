@@ -1,0 +1,73 @@
+{
+  "type": "project",
+  "id": "east-bay-learning-commons",
+  "name": "East Bay Learning Commons",
+  "summary": "A made-up campus quad in Berkeley with a native meadow.",
+  "data": {
+    "landscapeArchitect": "Placeholder Partners",
+    "location": {
+      "lat": 37.87192,
+      "lon": -122.25854
+    },
+    "projectType": "campus",
+    "sizeAcres": 5.5,
+    "status": "constructed",
+    "completed": "2024-03",
+    "plantList": [
+      {
+        "plant": {
+          "ref": "plant/ceanothus-cuneatus"
+        },
+        "quantity": 45,
+        "size": "#5 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/myrica-californica"
+        },
+        "quantity": 30,
+        "size": "#5 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/eschscholzia-californica"
+        },
+        "quantity": 1200,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/festuca-californica"
+        },
+        "quantity": 400,
+        "size": "#1 container"
+      },
+      {
+        "plant": "Salvia spathacea",
+        "quantity": 350,
+        "size": "#1 container"
+      },
+      {
+        "plant": "Muhlenbergia rigens",
+        "quantity": 260,
+        "size": "#1 container"
+      },
+      {
+        "plant": "Iris douglasiana",
+        "quantity": 300,
+        "size": "4 in pot"
+      },
+      {
+        "plant": "Elymus glaucus",
+        "quantity": 700,
+        "size": "Plug"
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-19",
+    "revisedAt": "2026-11-19",
+    "method": "manual",
+    "fixture": true
+  }
+}

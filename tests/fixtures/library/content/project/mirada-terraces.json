@@ -1,0 +1,44 @@
+{
+  "type": "project",
+  "id": "mirada-terraces",
+  "name": "Mirada Terraces",
+  "summary": "A made-up residential garden in La Mirada, near the Orange County line.",
+  "data": {
+    "landscapeArchitect": "Example Studio",
+    "location": {
+      "lat": 33.87398,
+      "lon": -118.01141
+    },
+    "projectType": "residential",
+    "sizeAcres": 0.4,
+    "status": "constructed",
+    "completed": "2023-04-01",
+    "plantList": [
+      {
+        "plant": {
+          "ref": "plant/garrya-elliptica"
+        },
+        "quantity": 6,
+        "size": "#5 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/arctostaphylos-uva-ursi"
+        },
+        "quantity": 150,
+        "size": "4 in pot"
+      },
+      {
+        "plant": "Salvia spathacea",
+        "quantity": 80,
+        "size": "#1 container"
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-19",
+    "revisedAt": "2026-11-19",
+    "method": "manual",
+    "fixture": true
+  }
+}

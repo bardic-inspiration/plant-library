@@ -1,0 +1,83 @@
+{
+  "type": "project",
+  "id": "rainier-valley-green-street",
+  "name": "Rainier Valley Green Street",
+  "summary": "A made-up streetscape with street trees and planted curb extensions in Seattle.",
+  "data": {
+    "landscapeArchitect": "Example Studio",
+    "location": {
+      "lat": 47.55412,
+      "lon": -122.28536
+    },
+    "projectType": "streetscape",
+    "sizeAcres": 3.2,
+    "status": "constructed",
+    "completed": "2022-10",
+    "plantList": [
+      {
+        "plant": {
+          "ref": "plant/quercus-garryana"
+        },
+        "quantity": 18,
+        "size": "2 in cal. B&B"
+      },
+      {
+        "plant": {
+          "ref": "plant/acer-macrophyllum"
+        },
+        "quantity": 6,
+        "size": "2 in cal. B&B"
+      },
+      {
+        "plant": {
+          "ref": "plant/cornus-nuttallii"
+        },
+        "quantity": 9,
+        "size": "1.5 in cal. B&B"
+      },
+      {
+        "plant": "Acer rubrum 'Armstrong'",
+        "quantity": 14,
+        "size": "2 in cal. B&B",
+        "note": "Under power lines"
+      },
+      {
+        "plant": {
+          "ref": "plant/mahonia-aquifolium"
+        },
+        "quantity": 140,
+        "size": "#2 container",
+        "spacing": "30 in o.c."
+      },
+      {
+        "plant": {
+          "ref": "plant/polystichum-munitum"
+        },
+        "quantity": 210,
+        "size": "#1 container",
+        "spacing": "24 in o.c."
+      },
+      {
+        "plant": {
+          "ref": "plant/carex-obnupta"
+        },
+        "quantity": 380,
+        "size": "4 in pot",
+        "spacing": "18 in o.c."
+      },
+      {
+        "plant": {
+          "ref": "plant/symphoricarpos-albus"
+        },
+        "quantity": 90,
+        "size": "#2 container"
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-19",
+    "revisedAt": "2026-11-19",
+    "method": "manual",
+    "fixture": true
+  }
+}

@@ -43,7 +43,7 @@ const withProject = (change: (d: Data, e: LoadedEntry) => void = () => {}, opts?
 const errors = (r: ReturnType<typeof validateWith>) => messages(r).filter((m) => m.startsWith('content/project/'));
 const expectError = (r: ReturnType<typeof validateWith>, pattern: RegExp) =>
   expect(errors(r).some((m) => pattern.test(m)), errors(r).join('\n') || '(no errors)').toBe(true);
-const projectWarnings = (r: ReturnType<typeof validateWith>) => r.warnings.filter((w) => w.file.startsWith('content/project/')).map((w) => w.message);
+const projectWarnings = (r: ReturnType<typeof validateWith>) => r.warnings.filter((w) => w.file === 'content/project/test-park.json').map((w) => w.message);
 
 describe('project schema', () => {
   it('a valid project passes, warning only on its unsourced name', () => {
@@ -161,7 +161,7 @@ describe('back-references', () => {
     const dir = mkdtempSync(join(tmpdir(), 'plant-library-'));
     try {
       cpSync(FIXTURES, dir, { recursive: true });
-      mkdirSync(join(dir, 'content', 'project'));
+      mkdirSync(join(dir, 'content', 'project'), { recursive: true });
       const p = project();
       writeFileSync(join(dir, p.file), JSON.stringify(p.entry));
       const data = buildData({ dataRoot: dir });

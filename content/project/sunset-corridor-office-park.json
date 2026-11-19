@@ -1,0 +1,73 @@
+{
+  "type": "project",
+  "id": "sunset-corridor-office-park",
+  "name": "Sunset Corridor Office Park",
+  "summary": "A made-up office park just inside Washington County, Oregon, at the Multnomah County line.",
+  "data": {
+    "landscapeArchitect": "Placeholder Partners",
+    "location": {
+      "lat": 45.51899,
+      "lon": -122.75273
+    },
+    "projectType": "commercial",
+    "sizeAcres": 8.2,
+    "status": "constructed",
+    "completed": "2017-05",
+    "plantList": [
+      {
+        "plant": {
+          "ref": "plant/acer-circinatum"
+        },
+        "quantity": 40,
+        "size": "#15 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/thuja-plicata"
+        },
+        "quantity": 25,
+        "size": "10 ft B&B"
+      },
+      {
+        "plant": {
+          "ref": "plant/gaultheria-shallon"
+        },
+        "quantity": 300,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/mahonia-aquifolium"
+        },
+        "quantity": 150,
+        "size": "#2 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/polystichum-munitum"
+        },
+        "quantity": 220,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/arctostaphylos-uva-ursi"
+        },
+        "quantity": 600,
+        "size": "4 in pot"
+      },
+      {
+        "plant": "Prunus laurocerasus 'Otto Luyken'",
+        "quantity": 80,
+        "size": "#5 container",
+        "note": "Existing to remain"
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-19",
+    "revisedAt": "2026-11-19",
+    "method": "manual",
+    "fixture": true
+  }
+}

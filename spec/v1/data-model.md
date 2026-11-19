@@ -23,7 +23,7 @@ palettes.
 The `project` schema, its plant list, and its validation are built; see
 [docs/content-model.md](../../docs/content-model.md#project). Projects in
 this repo are made up and carry `meta.fixture: true`; v1 has no other
-project data ([sources.md](sources.md#fixture-projects-and-palettes)).
+project data ([docs/sources.md](../../docs/sources.md#fixture-projects)).
 Everything that reads the proprietary fields (cards, filters, `costPerAcre`)
 copes with their absence.
 
@@ -82,8 +82,9 @@ add:
 ## Cases
 
 The fixtures the build must handle; each becomes a test, and each is
-carried by a fictional fixture project or palette
-([sources.md](sources.md#fixture-projects-and-palettes)).
+carried by a fictional fixture project
+([docs/sources.md](../../docs/sources.md#fixture-projects)) or palette
+([sources.md](sources.md#fixture-palettes)).
 
 - A project whose list mixes refs and unsourced text names.
 - A project on a state line, and one in an unincorporated area (no place).

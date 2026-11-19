@@ -1,0 +1,67 @@
+{
+  "type": "project",
+  "id": "willamette-cohousing",
+  "name": "Willamette Cohousing",
+  "summary": "A made-up cohousing community in Eugene with shared gardens.",
+  "data": {
+    "landscapeArchitect": "Fern & Field Landscape Architects",
+    "location": {
+      "lat": 44.05207,
+      "lon": -123.08675
+    },
+    "projectType": "residential",
+    "sizeAcres": 1.4,
+    "status": "constructed",
+    "completed": "2020-08",
+    "plantList": [
+      {
+        "plant": {
+          "ref": "plant/amelanchier-alnifolia"
+        },
+        "quantity": 12,
+        "size": "#5 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/ribes-sanguineum"
+        },
+        "quantity": 30,
+        "size": "#2 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/mahonia-aquifolium"
+        },
+        "quantity": 40,
+        "size": "#2 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/achillea-millefolium"
+        },
+        "quantity": 200,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/eschscholzia-californica"
+        },
+        "quantity": 300,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/fragaria-chiloensis"
+        },
+        "quantity": 400,
+        "size": "4 in pot"
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-19",
+    "revisedAt": "2026-11-19",
+    "method": "manual",
+    "fixture": true
+  }
+}

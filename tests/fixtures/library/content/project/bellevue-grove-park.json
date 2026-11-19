@@ -1,0 +1,61 @@
+{
+  "type": "project",
+  "id": "bellevue-grove-park",
+  "name": "Bellevue Grove Park",
+  "summary": "A made-up park in King County with trees, not a streetscape.",
+  "data": {
+    "landscapeArchitect": "Northfork Design Collective",
+    "location": {
+      "lat": 47.61,
+      "lon": -122.2
+    },
+    "projectType": "park",
+    "sizeAcres": 3.5,
+    "status": "constructed",
+    "completed": "2019-07",
+    "plantList": [
+      {
+        "plant": {
+          "ref": "plant/acer-circinatum"
+        },
+        "quantity": 15,
+        "size": "#15 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/acer-circinatum"
+        },
+        "quantity": 4,
+        "size": "8 ft B&B",
+        "note": "Multi-stem"
+      },
+      {
+        "plant": {
+          "ref": "plant/mahonia-nervosa"
+        },
+        "quantity": 120,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/gaultheria-shallon"
+        },
+        "quantity": 100,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/polystichum-munitum"
+        },
+        "quantity": 140,
+        "size": "#1 container"
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-19",
+    "revisedAt": "2026-11-19",
+    "method": "manual",
+    "fixture": true
+  }
+}

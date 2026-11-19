@@ -2,6 +2,8 @@
  * Everything the site and the index need, computed once from the content:
  * derived values, back-references, facets, and index records. Node only.
  */
+import { existsSync } from 'node:fs';
+import { join } from 'node:path';
 import { loadLibrary, type Library } from './library';
 import { derivePlant } from './derive';
 import { nameSegments, fullName } from './names';
@@ -85,6 +87,15 @@ let cache: BuildData | undefined;
  * Build once per process. Pass `dataRoot` (tests do) to build from another
  * library folder; that result is not cached.
  */
+/**
+ * Whether the site builds pages for a type: it has `site/src/pages/<type>/[id].astro`.
+ * Only those types are in the index, so the list view never links an
+ * unbuilt page (D35, as the top bar lists only built sections, D10).
+ */
+export function hasPages(root: string, type: string): boolean {
+  return existsSync(join(root, 'site', 'src', 'pages', type, '[id].astro'));
+}
+
 export function buildData(opts: { dataRoot?: string } = {}): BuildData {
   if (cache && !opts.dataRoot) return cache;
   const library = opts.dataRoot ? loadLibrary(undefined, opts.dataRoot) : loadLibrary();
@@ -99,7 +110,8 @@ export function buildData(opts: { dataRoot?: string } = {}): BuildData {
   for (const e of entries) for (const r of e.refs) byKey.get(r)?.refBy.push(e.key);
   for (const e of entries) e.refBy.sort();
 
-  const subjects = entries.map((b) => ({
+  const listed = new Set(Object.keys(config.types).filter((t) => hasPages(config.root, t)));
+  const subjects = entries.filter((b) => listed.has(b.entry.type)).map((b) => ({
     b,
     type: b.entry.type,
     tags: tagArrays(b.entry.tags),

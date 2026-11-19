@@ -1,0 +1,44 @@
+{
+  "type": "project",
+  "id": "umatilla-bank-restoration",
+  "name": "Umatilla Bank Restoration",
+  "summary": "A made-up restoration on the Oregon side of the Washington–Oregon line.",
+  "data": {
+    "landscapeArchitect": "Northfork Design Collective",
+    "location": {
+      "lat": 46.00022,
+      "lon": -118.39968
+    },
+    "projectType": "restoration",
+    "sizeAcres": 9,
+    "status": "constructed",
+    "completed": "2020-10",
+    "plantList": [
+      {
+        "plant": {
+          "ref": "plant/achillea-millefolium"
+        },
+        "quantity": 400,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/camassia-quamash"
+        },
+        "quantity": 800,
+        "size": "Bulb"
+      },
+      {
+        "plant": "Elymus glaucus",
+        "quantity": 1000,
+        "size": "Plug"
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-19",
+    "revisedAt": "2026-11-19",
+    "method": "manual",
+    "fixture": true
+  }
+}

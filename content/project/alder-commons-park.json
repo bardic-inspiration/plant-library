@@ -1,0 +1,79 @@
+{
+  "type": "project",
+  "id": "alder-commons-park",
+  "name": "Alder Commons Park",
+  "summary": "A made-up neighborhood park in Portland with an oak savanna planting.",
+  "data": {
+    "landscapeArchitect": "Example Studio",
+    "location": {
+      "lat": 45.52345,
+      "lon": -122.67621
+    },
+    "projectType": "park",
+    "sizeAcres": 6.4,
+    "status": "constructed",
+    "completed": "2021",
+    "plantList": [
+      {
+        "plant": {
+          "ref": "plant/quercus-garryana"
+        },
+        "quantity": 15,
+        "size": "2 in cal. B&B"
+      },
+      {
+        "plant": {
+          "ref": "plant/acer-circinatum"
+        },
+        "quantity": 30,
+        "size": "#15 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/mahonia-aquifolium"
+        },
+        "quantity": 120,
+        "size": "#2 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/symphoricarpos-albus"
+        },
+        "quantity": 110,
+        "size": "#2 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/camassia-quamash"
+        },
+        "quantity": 1500,
+        "size": "Bulb"
+      },
+      {
+        "plant": {
+          "ref": "plant/festuca-roemeri"
+        },
+        "quantity": 900,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/eriophyllum-lanatum"
+        },
+        "quantity": 300,
+        "size": "4 in pot"
+      },
+      {
+        "plant": "Elymus glaucus",
+        "quantity": 500,
+        "size": "Plug"
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-19",
+    "revisedAt": "2026-11-19",
+    "method": "manual",
+    "fixture": true
+  }
+}

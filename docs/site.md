@@ -26,7 +26,9 @@ Contribute join as they are built.
 that has values, plus one per tag key, values in vocabulary order) and one
 lean record per entry: key, name and styled name parts, summary, URL,
 thumbnail (the pinned image), facet values, tags, refs, back-refs, sort
-keys, search text, and card fields. Full entries are at
+keys, search text, and card fields. Only types the site builds pages for
+are indexed (`hasPages`; projects join with their pages, D35). Full entries
+of every type are at
 `site/public/data/<type>/<id>.json`, for later exports and the workspace.
 
 ### List view
@@ -80,7 +82,8 @@ access date, and its citation; further reading; and field notes.
 `tests/fixtures/library/` holds 14 made-up plant entries and generated
 images covering the data model's cases (a variety, a cultivar, a hybrid
 cultivar with a trade name, synonyms, a wrapping bloom, a non-native, a
-staff observation, two citations of one trait). The tests use it.
+staff observation, two citations of one trait), and 7 fictional projects
+([sources.md](sources.md#fixture-projects)). The tests use it.
 `npm run build:fixtures` and `npm run dev:fixtures` build the site from it
 (`PLANT_LIBRARY_DATA`), and every page then carries a banner saying its
 values haven't been checked against the sources they cite.

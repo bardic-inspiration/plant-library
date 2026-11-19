@@ -1,0 +1,73 @@
+{
+  "type": "project",
+  "id": "walla-walla-riparian-restoration",
+  "name": "Walla Walla Riparian Restoration",
+  "summary": "A made-up riparian restoration on the Oregon side of the state line, a few hundred feet from the campus to its north.",
+  "data": {
+    "landscapeArchitect": "Northfork Design Collective",
+    "location": {
+      "lat": 46.00022,
+      "lon": -118.39968
+    },
+    "projectType": "restoration",
+    "sizeAcres": 14.5,
+    "status": "constructed",
+    "completed": "2021-04",
+    "plantList": [
+      {
+        "plant": {
+          "ref": "plant/populus-balsamifera"
+        },
+        "quantity": 120,
+        "size": "Live stake"
+      },
+      {
+        "plant": {
+          "ref": "plant/salix-exigua-var-columbiana"
+        },
+        "quantity": 900,
+        "size": "Live stake"
+      },
+      {
+        "plant": {
+          "ref": "plant/cornus-sericea"
+        },
+        "quantity": 400,
+        "size": "Live stake"
+      },
+      {
+        "plant": {
+          "ref": "plant/cornus-sericea"
+        },
+        "quantity": 60,
+        "size": "#1 container",
+        "note": "Upper bank"
+      },
+      {
+        "plant": {
+          "ref": "plant/rosa-nutkana"
+        },
+        "quantity": 150,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/symphoricarpos-albus"
+        },
+        "quantity": 150,
+        "size": "#1 container"
+      },
+      {
+        "plant": "Elymus glaucus",
+        "quantity": 2000,
+        "size": "Plug"
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-19",
+    "revisedAt": "2026-11-19",
+    "method": "manual",
+    "fixture": true
+  }
+}
