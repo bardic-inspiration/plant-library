@@ -3,8 +3,8 @@
 ## Purpose
 
 What an entry holds, what is derived from it, and what validation enforces
-(P2, P3, P5). Plants, projects, and palettes are built; the derived values
-still to add (a plant's companions, a project's hardiness zone) are in
+(P2, P3, P5). Plants, projects, and palettes are built; the derived value
+still to add (a project's hardiness zone) is in
 [`spec/v1/data-model.md`](../spec/v1/data-model.md).
 
 ## Behavior
@@ -166,6 +166,32 @@ until `geo.hardinessZone` exists (D33). `lib/build-data.ts` attaches it to
 each plant as `derived.use`, which the *Used in* facets and the plant page's
 "Used on" read.
 
+A plant's companions, from `companions` over the same projects: the other
+plants its lists share, by ref, on at least two projects
+(`COMPANION_MIN`), each with the number of shared projects, most first and
+ties by key. A plant at several sizes counts its project once. Passing a
+region's projects gives its companions there, so a region with one project
+has none. The build attaches them as `derived.companions`.
+
+### Distribution analysis
+
+`lib/analysis.ts` holds the figures the M8 pages and overlays read, as pure
+functions over projects (key, data, and `deriveGeo` of the location). Each
+figure carries `projects`, the number of projects behind it, so a page can
+show its sample size; as for a plant's use, only refs count, never
+unsourced text.
+
+| Function | Gives |
+|---|---|
+| `plantDistribution(plant, projects, data?)` | The plant's projects and quantity in total, `byState`, `byCounty`, `byEcoregion`, `byZone` (empty until D33), and `byYear` by completion year, with projects with no date `undated`; `outsideNativeRange`, the states it is used in that its `nativeRange` leaves out (empty when the range is unknown) |
+| `projectsIn(projects, regions)` | The projects in any of the selected states, counties, ecoregions, or zones: a union, as values within a region facet are ORed |
+| `regionSummary(projects, plants)` | For those projects: `plants`, ranked by projects, then quantity, then key; `taxa` and `unsourced` counts with the projects listing any; `nativeShare`, quantity native to each plant's own project's state over the quantity with a known range, with that quantity and its projects; `byForm`, quantity and projects per form, unsourced lines under `unknown` |
+| `rankPlants(plants, by)` | The same table ranked by quantity instead, projects breaking ties |
+
+Counts follow `deriveProject`: a line with no quantity adds nothing to a
+quantity but still counts its project, and a plant at several sizes counts
+its project once.
+
 A palette's, from `derivePalette` (its list, the plants it refs, and
 `deriveGeo(site.location)` when it has one), attached by the build as its
 `derived`:
@@ -280,10 +306,11 @@ unsourced plant in a plant list.
 
 `schemas/` (shapes), `config/vocab.json` (values and thresholds),
 `lib/validate.ts` (cross-entry rules), `lib/derive.ts`, `lib/names.ts`,
-`lib/zones.ts`, `lib/compat.ts`. Each rule has a passing and a failing case in
+`lib/zones.ts`, `lib/compat.ts`, `lib/analysis.ts`. Each rule has a passing and a failing case in
 `tests/validate.test.ts` (plants), `tests/project.test.ts` (projects and
 plant lists), and `tests/palette.test.ts` (palettes, their derived values,
-and the fixture palettes); compatibility is tested in `tests/compat.test.ts`.
+and the fixture palettes); compatibility is tested in `tests/compat.test.ts`, and the distribution
+analysis and companions in `tests/analysis.test.ts`.
 
 ## Extending
 

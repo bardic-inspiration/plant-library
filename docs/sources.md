@@ -121,7 +121,9 @@ unsourced names; a pair of points either side of the WA–OR state line
 Multnomah–Washington, OR–CA, and Los Angeles–Orange lines; an
 unincorporated point (no place); a proposed project with no completion
 date; plants shared across projects, with pairs on two or more lists for
-companions; and a streetscape in King County using trees, beside tree
+companions; a plant used in two states and native to one
+(`garrya-elliptica`, native to OR and CA, on a CA project and, in the test
+library, the Bothell streetscape); and a streetscape in King County using trees, beside tree
 lists that aren't one (a park in King County, a streetscape in Snohomish
 County) for the cross-type filter test.
 

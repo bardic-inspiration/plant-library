@@ -16,7 +16,7 @@ analysis built on them (P2, P3, P5, P6).
 The envelope, the `plant` type, the `project` schema with its plant list,
 and the `palette` type with its derived values are built; see
 [docs/content-model.md](../../docs/content-model.md). What remains is a
-plant's companions and a project's hardiness zone.
+project's hardiness zone.
 
 ### Project
 
@@ -37,14 +37,13 @@ projects and palettes whose lists include it
 ### Derived values
 
 Computed at build by `lib/derive.ts` and never stored (P3). Each is a facet
-or a detail-page line. The plant's, project's, and palette's derived values
+or a detail-page line. The plant's (companions included), project's, and palette's derived values
 are built, and so is `deriveGeo`, a point's state, county, place, and
 ecoregion ([docs/geography.md](../../docs/geography.md#derivation)); see
 [docs/content-model.md](../../docs/content-model.md#derived-values).
 
 | On | Derived | From |
 |---|---|---|
-| Plant | `companions` | The plants it most often shares a project list with ([map.md](map.md#distribution-analysis)) |
 | Project | `geo.hardinessZone` | From the zone layer once it is added ([map.md](map.md#boundary-data)); `use.zones` waits on it |
 
 ## Done when

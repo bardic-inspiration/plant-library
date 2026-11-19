@@ -2,7 +2,7 @@
   "type": "project",
   "id": "bothell-main-street",
   "name": "Bothell Main Street",
-  "summary": "A made-up streetscape just over the county line, in Snohomish County.",
+  "summary": "A made-up streetscape just over the county line, in Snohomish County, with a shrub planted north of its native range.",
   "data": {
     "landscapeArchitect": "Fern & Field Landscape Architects",
     "location": {
@@ -34,6 +34,13 @@
         },
         "quantity": 40,
         "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/garrya-elliptica"
+        },
+        "quantity": 12,
+        "size": "#5 container"
       }
     ]
   },
