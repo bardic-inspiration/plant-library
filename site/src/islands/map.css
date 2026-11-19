@@ -122,4 +122,55 @@
   .map-view .map-popup .map-popup-quantity {
     margin-block-start: var(--space-xs);
   }
+
+  /* Region filters: the box tool and its drag layer. */
+  .map-draw {
+    position: absolute;
+    inset: 0;
+    block-size: var(--map-height);
+    cursor: crosshair;
+    touch-action: none;
+  }
+
+  .map-draw-box {
+    position: absolute;
+    border: var(--map-line-overlay-strong) dashed var(--map-selection);
+    background: color-mix(in srgb, var(--map-selection) 20%, transparent);
+  }
+
+  .map-tools {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xxs);
+  }
+
+  .map-tool-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-xs);
+  }
+
+  .map-tool {
+    min-block-size: var(--hit-size);
+    padding-inline: var(--space-sm);
+    border: var(--border);
+    background: var(--bg);
+    cursor: pointer;
+  }
+
+  .map-tool[aria-pressed='true'] {
+    background: var(--bg-selected);
+  }
+
+  .map-hint {
+    margin: var(--none);
+    color: var(--text-muted);
+  }
+
+  .map-view .map-pick ul {
+    margin: var(--none);
+    padding: var(--none);
+    list-style: none;
+  }
 }

@@ -53,12 +53,39 @@ export const OVERLAYS_KEY = 'plant-library:overlays';
 export const PALETTE_PROP = 'pi';
 
 export const overlaySource = (id: string) => `overlay-${id}`;
+/** A selectable overlay's hit layer: an unseen fill the map queries for a pick, so line overlays can be picked inside their regions. */
+export const pickLayer = (id: string) => `${overlaySource(id)}-pick`;
+/** A selectable overlay's layers drawing the picked regions; their filter is set to the picked ids (`pickedFilter`). */
+export const pickedLayers = (id: string) => [`${overlaySource(id)}-picked-fill`, `${overlaySource(id)}-picked-line`];
 
-/** The layers an overlay draws, from its token names. Their source is `overlaySource(id)`, added with the data. */
+/** The filter that draws these regions as picked. */
+export function pickedFilter(ids: string[]): ExpressionSpecification {
+  return ['in', ['get', 'id'], ['literal', ids]] as unknown as ExpressionSpecification;
+}
+
+/**
+ * The layers an overlay draws, from its token names. Their source is
+ * `overlaySource(id)`, added with the data. A selectable boundary overlay
+ * also gets the layers a region filter needs: the picked regions, drawn over
+ * it, and an unseen fill to pick by, so a line overlay can be picked inside
+ * its regions (spec map.md, region filters).
+ */
 export function overlayLayers(t: MapTokens, def: OverlayDef): LayerSpecification[] {
   if (def.data === 'library') return [];
-  const s = def.style ?? {};
   const source = overlaySource(def.id);
+  const pick: LayerSpecification[] =
+    def.selectable && (def.kind === 'fill' || def.kind === 'line')
+      ? [
+          { id: pickedLayers(def.id)[0], type: 'fill', source, filter: pickedFilter([]), paint: { 'fill-color': t.color('--map-selection'), 'fill-opacity': t.num('--map-selection-opacity') } },
+          { id: pickedLayers(def.id)[1], type: 'line', source, filter: pickedFilter([]), paint: { 'line-color': t.color('--map-selection'), 'line-width': t.num('--map-line-overlay-strong') } },
+          { id: pickLayer(def.id), type: 'fill', source, paint: { 'fill-color': t.color('--map-selection'), 'fill-opacity': 0 } },
+        ]
+      : [];
+  return [...drawnLayers(t, def, source), ...pick];
+}
+
+function drawnLayers(t: MapTokens, def: OverlayDef, source: string): LayerSpecification[] {
+  const s = def.style ?? {};
   const id = (part: string) => `${source}-${part}`;
   const color = (): string | ExpressionSpecification =>
     s.palette

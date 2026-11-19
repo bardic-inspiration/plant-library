@@ -12,12 +12,17 @@ export interface Query {
   /** facet key → selected values. Values within a facet are OR; facets are AND. */
   filters: Record<string, string[]>;
   sort: string;
-  /** Parameters the list doesn't use (the map's center, zoom, bbox), kept as they are. */
+  /** The box-select filter, [west, south, east, north], held in the URL as `bbox`. */
+  bbox?: Bounds;
+  /** Parameters the list doesn't use (the map's center and zoom), kept as they are. */
   extra: Record<string, string>;
 }
 
+/** [west, south, east, north], in degrees. */
+export type Bounds = [number, number, number, number];
+
 /** `view` named the view before the map had its own page; it is dropped. */
-const RESERVED = new Set(['q', 'sort', 'view']);
+const RESERVED = new Set(['q', 'sort', 'view', 'bbox']);
 
 export const DEFAULT_SORT = 'name';
 
@@ -37,6 +42,7 @@ export function parseQuery(search: string | URLSearchParams): Query {
     if (k === 'q') out.q = v;
     else if (k === 'sort') out.sort = v || DEFAULT_SORT;
     else if (k === 'view') continue;
+    else if (k === 'bbox') out.bbox = parseBbox(v);
     else if (isFilterKey(k)) {
       if (!v) continue;
       const list = (out.filters[k] ??= []);
@@ -53,6 +59,7 @@ export function serializeQuery(query: Query): string {
   for (const k of Object.keys(query.filters).sort()) {
     for (const v of [...query.filters[k]].sort()) p.append(k, v);
   }
+  if (query.bbox) p.set('bbox', bboxText(query.bbox));
   if (query.sort && query.sort !== DEFAULT_SORT) p.set('sort', query.sort);
   for (const k of Object.keys(query.extra).sort()) if (!RESERVED.has(k)) p.set(k, query.extra[k]);
   const s = p.toString();
@@ -86,6 +93,81 @@ export function withMapPosition(query: Query, pos: MapPosition): Query {
   return { ...query, extra: { ...query.extra, center: `${r(pos.center[0], 4)},${r(pos.center[1], 4)}`, zoom: r(pos.zoom, 2) } };
 }
 
+/** A `bbox` value, `west,south,east,north`, if it is a valid box: in range, with west < east and south < north. */
+export function parseBbox(v: string): Bounds | undefined {
+  const n = v.split(',').map((x) => (x.trim() === '' ? NaN : Number(x)));
+  if (n.length !== 4 || !n.every(Number.isFinite)) return undefined;
+  const [w, s, e, nn] = n;
+  if (w < -180 || e > 180 || s < -90 || nn > 90 || w >= e || s >= nn) return undefined;
+  return [w, s, e, nn];
+}
+
+/** A box as the URL holds it, rounded to about 10 m. */
+function bboxText(b: Bounds): string {
+  return b.map((x) => String(Number(x.toFixed(4)))).join(',');
+}
+
+/**
+ * The query filtered to a box (the map's box-select tool), or with no box.
+ * The corners may come in any order, as a drag gives them; the box is
+ * rounded as the URL holds it, so the state is the same before and after a
+ * reload.
+ */
+export function withBbox(query: Query, box: Bounds | undefined): Query {
+  const next = { ...query };
+  if (!box) {
+    delete next.bbox;
+    return next;
+  }
+  const [x1, y1, x2, y2] = box;
+  const parsed = parseBbox(bboxText([Math.max(-180, Math.min(x1, x2)), Math.max(-90, Math.min(y1, y2)), Math.min(180, Math.max(x1, x2)), Math.min(90, Math.max(y1, y2))]));
+  if (parsed) next.bbox = parsed;
+  else delete next.bbox;
+  return next;
+}
+
+/** Whether a point ([lon, lat]) is inside a box, edges included. */
+export function inBox(loc: [number, number], [w, s, e, n]: Bounds): boolean {
+  return loc[0] >= w && loc[0] <= e && loc[1] >= s && loc[1] <= n;
+}
+
+/** Whether a record's own location (a project's point, D40) is inside the box; false for a record with none. */
+export function locatedIn(r: IndexRecord, box: Bounds): boolean {
+  const loc = r.card.location as [number, number] | undefined;
+  return Boolean(loc && inBox(loc, box));
+}
+
+/**
+ * What picking a region on the map does: the facets a selectable overlay
+ * sets (`facets` in config/overlays.json, by type) and the feature's id.
+ * A region already selected under any of those facets is unpicked; otherwise
+ * the first facet listed that offers the value is toggled, exactly as
+ * checking that value in the tree. A region no facet offers (no entry is
+ * there) leaves the query as it is.
+ */
+export function pickRegion(query: Query, overlayFacets: Record<string, string>, id: string, facets: IndexFacet[]): Query {
+  const keys = regionKeys(overlayFacets);
+  const on = keys.filter((k) => query.filters[k]?.includes(id));
+  if (on.length) return on.reduce((q, k) => toggleValue(q, k, id), query);
+  const key = regionFacet(overlayFacets, id, facets);
+  return key ? toggleValue(query, key, id) : query;
+}
+
+/** The facet keys a selectable overlay sets, in its order: `{ project: 'county' }` → `project.county`. */
+export function regionKeys(overlayFacets: Record<string, string>): string[] {
+  return Object.entries(overlayFacets).map(([t, f]) => `${t}.${f}`);
+}
+
+/** The facet a pick of this region would set: the first of the overlay's facets that offers the value; none when none does. */
+export function regionFacet(overlayFacets: Record<string, string>, id: string, facets: IndexFacet[]): string | undefined {
+  return regionKeys(overlayFacets).find((k) => facets.find((f) => f.key === k)?.values.some((v) => v.id === id));
+}
+
+/** The regions of an overlay the query has selected, under any of its facets: what the map highlights. */
+export function pickedRegions(query: Pick<Query, 'filters'>, overlayFacets: Record<string, string>): string[] {
+  return [...new Set(regionKeys(overlayFacets).flatMap((k) => query.filters[k] ?? []))];
+}
+
 /** The same query on another view's page: `/` for the list, `/map/` for the map. The map position travels in the query string either way. */
 export function viewUrl(query: Query, view: 'list' | 'map'): string {
   return url(view === 'map' ? 'map/' : '') + serializeQuery(query);
@@ -100,8 +182,9 @@ export function toggleValue(query: Query, key: string, value: string): Query {
   return { ...query, filters };
 }
 
+/** Clear every filter (the box too), or one facet's values. */
 export function clearFilters(query: Query, key?: string): Query {
-  if (!key) return { ...query, filters: {} };
+  if (!key) return withBbox({ ...query, filters: {} }, undefined);
   const filters = { ...query.filters };
   delete filters[key];
   return { ...query, filters };
@@ -160,10 +243,17 @@ function split(r: IndexRecord, filters: Record<string, string[]>, except: string
  * Whether a record meets the filters. Pass `byKey` (every record by key) for
  * cross-type filters: without it a record must hold every filtered value itself.
  */
-export function matches(r: IndexRecord, filters: Record<string, string[]>, except?: string, byKey?: ReadonlyMap<string, IndexRecord>): boolean {
+export function matches(r: IndexRecord, filters: Record<string, string[]>, except?: string, byKey?: ReadonlyMap<string, IndexRecord>, box?: Bounds): boolean {
   const { own, cross } = split(r, filters, except, byKey);
   if (!meetsAll(r, own)) return false;
   for (const [t, list] of cross) if (!linked(r, t, byKey!).some((p) => meetsAll(p, list))) return false;
+  if (box && !locatedIn(r, box)) {
+    // A record with no place of its own (a plant) is in the box where an
+    // entry it links to is, one that also meets that type's filters (D39).
+    if (!byKey || !r.links) return false;
+    const reached = Object.keys(r.links).some((t) => linked(r, t, byKey).some((p) => locatedIn(p, box) && meetsAll(p, cross.get(t) ?? [])));
+    if (!reached) return false;
+  }
   return true;
 }
 
@@ -186,7 +276,7 @@ export function applyQuery(records: IndexRecord[], query: Query, searchHits: str
     const set = new Set(searchHits);
     pool = pool.filter((r) => set.has(r.key));
   }
-  return pool.filter((r) => matches(r, query.filters, undefined, byKey));
+  return pool.filter((r) => matches(r, query.filters, undefined, byKey, query.bbox));
 }
 
 /**
@@ -213,14 +303,16 @@ export function facetCounts(
     for (const r of pool) {
       if (t && t !== r.type && r.links?.[t]) {
         // Every filter not on type t, then the linked entries that meet t's other filters.
+        // The box is met through the same linked entries.
         const rest = Object.fromEntries(Object.entries(query.filters).filter(([k]) => keyType(k) !== t));
         if (!matches(r, rest, undefined, byKey)) continue;
         const others: Wanted = Object.entries(query.filters).filter(([k, w]) => keyType(k) === t && k !== f.key && w.length > 0);
-        const vals = new Set(linked(r, t, byKey).filter((p) => meetsAll(p, others)).flatMap((p) => recordValues(p, f.key)));
+        const box = query.bbox;
+        const vals = new Set(linked(r, t, byKey).filter((p) => meetsAll(p, others) && (!box || locatedIn(p, box))).flatMap((p) => recordValues(p, f.key)));
         for (const v of vals) if (v in counts) counts[v]++;
         continue;
       }
-      if (!matches(r, query.filters, f.key, byKey)) continue;
+      if (!matches(r, query.filters, f.key, byKey, query.bbox)) continue;
       for (const v of recordValues(r, f.key)) if (v in counts) counts[v]++;
     }
     out[f.key] = counts;

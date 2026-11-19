@@ -8,9 +8,10 @@ import type { ComponentType } from 'preact';
 import { useEffect, useMemo, useRef, useState } from 'preact/hooks';
 import MiniSearch from 'minisearch';
 import { TYPES } from '../../../lib/registry';
-import { applyQuery, clearFilters, facetCounts, mapPosition, parseQuery, serializeQuery, sortOptions, sortRecords, toggleValue, viewUrl, withMapPosition, type MapPosition, type Query } from '../../../lib/filter';
+import { applyQuery, clearFilters, facetCounts, mapPosition, parseQuery, pickRegion, regionKeys, serializeQuery, sortOptions, sortRecords, toggleValue, viewUrl, withBbox, withMapPosition, type MapPosition, type Query } from '../../../lib/filter';
 import { inView, mapResults, projectFeatures, unplaced, type Bounds } from '../../../lib/map-data';
 import type { IndexFacet, IndexRecord, LibraryIndex } from '../../../lib/types';
+import type { OverlayMeta } from '../../../lib/overlays';
 import type { MapViewProps } from './MapView';
 import { webglAvailable } from '../lib/webgl';
 import { url } from '../../../lib/site';
@@ -105,13 +106,13 @@ function useMapView(enabled: boolean): ComponentType<MapViewProps> | undefined {
  * those that list a plant in them, and a panel of the results in view that
  * follows the map. On narrow screens the panel is a sheet over the map.
  */
-function MapResultsView({ index, query, results, onMove }: { index: LibraryIndex; query: Query; results: IndexRecord[]; onMove: (pos: MapPosition) => void }) {
+function MapResultsView({ index, query, results, onMove, onPick, onBox }: { index: LibraryIndex; query: Query; results: IndexRecord[]; onMove: (pos: MapPosition) => void; onPick: (overlay: OverlayMeta, id: string) => void; onBox: (box: Bounds | undefined) => void }) {
   const MapView = useMapView(true);
   const [bounds, setBounds] = useState<Bounds | undefined>(undefined);
   const [sheetOpen, setSheetOpen] = useState(false);
   const opened = useRef(false);
   const [position] = useState(() => mapPosition(query));
-  const drawn = useMemo(() => mapResults(results, index.records, query.filters), [results, index, query.filters]);
+  const drawn = useMemo(() => mapResults(results, index.records, query.filters, query.bbox), [results, index, query.filters, query.bbox]);
   const features = useMemo(() => projectFeatures(index.records, drawn), [index, drawn]);
   const visible = useMemo(() => (bounds ? inView(results, index.records, drawn, bounds) : []), [results, index, drawn, bounds]);
   const away = useMemo(() => unplaced(results, drawn), [results, drawn]);
@@ -127,6 +128,11 @@ function MapResultsView({ index, query, results, onMove }: { index: LibraryIndex
             features={features}
             nativeStates={drawn.nativeStates}
             position={position}
+            filters={query.filters}
+            onPick={onPick}
+            regionLabel={(o, id) => regionKeys(o.facets).map((k) => index.facets.find((f) => f.key === k)?.values.find((v) => v.id === id)?.label).find(Boolean)}
+            box={query.bbox}
+            onBox={onBox}
             onMove={(pos, b) => {
               setBounds(b);
               // The first report is the opening view; only a move the reader makes goes into the URL.
@@ -155,7 +161,13 @@ function MapResultsView({ index, query, results, onMove }: { index: LibraryIndex
               <a href={viewUrl(query, 'list')}>The list view</a> shows every result.
             </p>
           )}
-          {visible.length > 0 ? <CardList records={visible} /> : <p class="map-results-note">Nothing in the results is in view. Zoom out or move the map.</p>}
+          {results.length === 0 ? (
+            <p class="map-results-note">Nothing matches. Remove a filter or change the search.</p>
+          ) : visible.length > 0 ? (
+            <CardList records={visible} />
+          ) : (
+            <p class="map-results-note">Nothing in the results is in view. Zoom out or move the map.</p>
+          )}
         </div>
       </section>
     </div>
@@ -227,12 +239,36 @@ function FacetGroup({ group, query, counts, onToggle }: { group: NonNullable<Fac
   );
 }
 
-function FilterTree({ index, query, counts, onToggle }: { index: LibraryIndex; query: Query; counts: Record<string, Record<string, number>>; onToggle: (k: string, v: string) => void }) {
+/** The box filter's corners, for reading: "47.1°N 122.5°W to 47.8°N 121.9°W". */
+function boxText([w, s, e, n]: [number, number, number, number]): string {
+  const lat = (v: number) => `${Math.abs(v).toFixed(2)}°${v < 0 ? 'S' : 'N'}`;
+  const lon = (v: number) => `${Math.abs(v).toFixed(2)}°${v < 0 ? 'W' : 'E'}`;
+  return `${lat(s)} ${lon(w)} to ${lat(n)} ${lon(e)}`;
+}
+
+/** The box filter in the tree: what it holds, and a way to clear it. The map draws it; the list keeps it. */
+function BoxFilter({ query, onClear }: { query: Query; onClear: () => void }) {
+  if (!query.bbox) return null;
+  return (
+    <div class="facet box-filter">
+      <p class="box-filter-title">Map area</p>
+      <p class="box-filter-text">
+        Projects inside the box drawn on the map, and plants used on them: {boxText(query.bbox)}.
+      </p>
+      <button type="button" class="link-button" onClick={onClear}>
+        Clear the box
+      </button>
+    </div>
+  );
+}
+
+function FilterTree({ index, query, counts, onToggle, onClearBox }: { index: LibraryIndex; query: Query; counts: Record<string, Record<string, number>>; onToggle: (k: string, v: string) => void; onClearBox: () => void }) {
   const typeFacet = index.facets.find((f) => f.key === 'type');
   const typeIds = typeFacet?.values.map((v) => v.id) ?? [];
   const tagFacets = index.facets.filter((f) => f.key.startsWith('tag.'));
   return (
     <div class="filter-tree">
+      <BoxFilter query={query} onClear={onClearBox} />
       {typeFacet && typeIds.length > 1 && <FacetValues facet={typeFacet} query={query} counts={counts.type} onToggle={onToggle} />}
       {typeIds.map((t) => (
         <details class="facet-type" open>
@@ -258,7 +294,7 @@ function FilterTree({ index, query, counts, onToggle }: { index: LibraryIndex; q
   );
 }
 
-function ActiveFilters({ index, query, onToggle, onClear }: { index: LibraryIndex; query: Query; onToggle: (k: string, v: string) => void; onClear: () => void }) {
+function ActiveFilters({ index, query, onToggle, onClear, onClearBox }: { index: LibraryIndex; query: Query; onToggle: (k: string, v: string) => void; onClear: () => void; onClearBox: () => void }) {
   const multiType = (index.facets.find((x) => x.key === 'type')?.values.length ?? 0) > 1;
   const chips = Object.entries(query.filters).flatMap(([key, vals]) => {
     const f = index.facets.find((x) => x.key === key);
@@ -266,7 +302,7 @@ function ActiveFilters({ index, query, onToggle, onClear }: { index: LibraryInde
     const typed = f && f.type !== '*' && multiType ? `${types[f.type]?.label ?? f.type} ${f.label.toLowerCase()}` : f?.label ?? key;
     return vals.map((v) => ({ key, v, text: `${typed}: ${f?.values.find((x) => x.id === v)?.label ?? v}` }));
   });
-  if (!chips.length) return null;
+  if (!chips.length && !query.bbox) return null;
   return (
     <div class="active-filters">
       <ul role="list" aria-label="Active filters">
@@ -277,6 +313,13 @@ function ActiveFilters({ index, query, onToggle, onClear }: { index: LibraryInde
             </button>
           </li>
         ))}
+        {query.bbox && (
+          <li>
+            <button type="button" class="chip" onClick={onClearBox} aria-label="Remove filter Map area: the box drawn on the map">
+              Map area: box <Icon name="close" />
+            </button>
+          </li>
+        )}
       </ul>
       <button type="button" class="link-button" onClick={onClear}>
         Clear all filters
@@ -323,9 +366,9 @@ export default function Library({ view: page = 'list' }: { view?: View }) {
     if (!index) return [];
     const sortId = query.sort === 'relevance' && !hits ? 'name' : query.sort;
     return sortRecords(applyQuery(index.records, query, hits), sortId, SORTS, hits);
-  }, [index, query.filters, query.sort, hits]);
+  }, [index, query.filters, query.bbox, query.sort, hits]);
 
-  const counts = useMemo(() => (index ? facetCounts(index.records, index.facets, query, hits) : {}), [index, query.filters, hits]);
+  const counts = useMemo(() => (index ? facetCounts(index.records, index.facets, query, hits) : {}), [index, query.filters, query.bbox, hits]);
 
   const toggle = (key: string, value: string) => {
     pushNext.current = true;
@@ -335,11 +378,20 @@ export default function Library({ view: page = 'list' }: { view?: View }) {
     pushNext.current = true;
     setQuery((q) => clearFilters(q));
   };
+  const setBox = (box: [number, number, number, number] | undefined) => {
+    pushNext.current = true;
+    setQuery((q) => withBbox(q, box));
+  };
+  // A region picked on the map is a filter value, as the tree sets it (lib/filter.ts pickRegion).
+  const pick = (overlay: OverlayMeta, id: string) => {
+    pushNext.current = true;
+    setQuery((q) => pickRegion(q, overlay.facets, id, index?.facets ?? []));
+  };
 
   if (error) return <p class="library-message">{error} The list below still shows every entry.</p>;
   if (!index) return <p class="library-message" aria-live="polite">Loading the library…</p>;
 
-  const nFilters = Object.values(query.filters).reduce((a, v) => a + v.length, 0);
+  const nFilters = Object.values(query.filters).reduce((a, v) => a + v.length, 0) + (query.bbox ? 1 : 0);
 
   return (
     <div class={view === 'map' ? 'library library-map' : 'library'}>
@@ -367,7 +419,7 @@ export default function Library({ view: page = 'list' }: { view?: View }) {
           </button>
           <div id="filter-panel" class="filter-panel">
             <h2 class="label filter-heading">Filters</h2>
-            <FilterTree index={index} query={query} counts={counts} onToggle={toggle} />
+            <FilterTree index={index} query={query} counts={counts} onToggle={toggle} onClearBox={() => setBox(undefined)} />
           </div>
         </aside>
         <section class="library-results" aria-labelledby="results-heading">
@@ -392,16 +444,19 @@ export default function Library({ view: page = 'list' }: { view?: View }) {
               </select>
             </label>
           </div>
-          <ActiveFilters index={index} query={query} onToggle={toggle} onClear={clear} />
-          {results.length === 0 ? (
-            <p class="library-message">Nothing matches. Remove a filter or change the search.</p>
-          ) : view === 'map' ? (
+          <ActiveFilters index={index} query={query} onToggle={toggle} onClear={clear} onClearBox={() => setBox(undefined)} />
+          {view === 'map' ? (
+            // The map stays with no results, so a region or box picked on it can be unpicked there.
             <MapResultsView
               index={index}
               query={query}
               results={results}
               onMove={(pos) => setQuery((q) => withMapPosition(q, pos))}
+              onPick={pick}
+              onBox={setBox}
             />
+          ) : results.length === 0 ? (
+            <p class="library-message">Nothing matches. Remove a filter or change the search.</p>
           ) : (
             <CardList records={results} />
           )}

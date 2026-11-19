@@ -58,6 +58,10 @@ export const PROJECT_LAYERS = ['project-clusters', 'project-cluster-count', 'pro
 export const NATIVE_SOURCE = 'native-range';
 export const NATIVE_LAYERS = ['native-range-fill', 'native-range-line'] as const;
 
+/** The box-select filter's box, drawn over the overlays. */
+export const BOX_SOURCE = 'bbox';
+export const BOX_LAYERS = ['bbox-fill', 'bbox-line'] as const;
+
 /** Style metadata key holding the opening view's bounds. */
 export const BOUNDS_KEY = 'plant-library:bounds';
 
@@ -144,6 +148,11 @@ export function buildMapStyle(t: MapTokens, o: MapStyleOptions): StyleSpecificat
     { id: NATIVE_LAYERS[0], type: 'fill', source: NATIVE_SOURCE, paint: { 'fill-color': t.color('--map-native-range'), 'fill-opacity': t.num('--map-native-range-opacity') } },
     { id: NATIVE_LAYERS[1], type: 'line', source: NATIVE_SOURCE, paint: { 'line-color': t.color('--map-native-range-outline'), 'line-width': t.num('--map-line-overlay-strong') } },
   ];
+  // The box filter, over the basemap and overlays, under the projects.
+  const box: LayerSpecification[] = [
+    { id: BOX_LAYERS[0], type: 'fill', source: BOX_SOURCE, paint: { 'fill-color': t.color('--map-selection'), 'fill-opacity': t.num('--map-selection-opacity') } },
+    { id: BOX_LAYERS[1], type: 'line', source: BOX_SOURCE, paint: { 'line-color': t.color('--map-selection'), 'line-width': t.num('--map-line-overlay-strong'), 'line-dasharray': [2, 1] } },
+  ];
   const [earth, ...rest] = basemap;
 
   return {
@@ -154,8 +163,9 @@ export function buildMapStyle(t: MapTokens, o: MapStyleOptions): StyleSpecificat
     sources: {
       ...(o.basemap ? { [BASEMAP_SOURCE]: { type: 'vector' as const, url: `pmtiles://${o.base}${o.basemap}`, attribution: BASEMAP_ATTRIBUTION } } : {}),
       [NATIVE_SOURCE]: { type: 'geojson', data: { type: 'FeatureCollection', features: [] } },
+      [BOX_SOURCE]: { type: 'geojson', data: { type: 'FeatureCollection', features: [] } },
       [PROJECT_SOURCE]: { type: 'geojson', data: { type: 'FeatureCollection', features: [] }, cluster: true, clusterRadius: o.cluster.radius, clusterMaxZoom: o.cluster.maxZoom },
     },
-    layers: [{ id: 'background', type: 'background', paint: { 'background-color': t.color('--map-land') } }, ...(earth ? [earth] : []), ...native, ...rest, ...projects],
+    layers: [{ id: 'background', type: 'background', paint: { 'background-color': t.color('--map-land') } }, ...(earth ? [earth] : []), ...native, ...rest, ...box, ...projects],
   };
 }

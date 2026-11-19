@@ -9,7 +9,7 @@ import site from '../config/site.json' with { type: 'json' };
 import { contrast } from '../lib/contrast';
 import { OVERLAY_BEFORE } from '../lib/map-style';
 import { loadTokens, mapBuildFor, mapStyleFor, mapTokens } from '../lib/map-style-load';
-import { beforeLayer, layerList, overlaySource, PALETTE_PROP, type OverlayMeta } from '../lib/overlays';
+import { beforeLayer, layerList, overlaySource, PALETTE_PROP, pickedFilter, pickedLayers, pickLayer, type OverlayMeta } from '../lib/overlays';
 import { colorFeatures, loadOverlays } from '../lib/overlays-load';
 import { overlayProblems } from '../lib/validate';
 import { clone, ROOT, setup } from './helpers';
@@ -94,6 +94,21 @@ describe('overlays in the style', () => {
     const eco = traced.find((o) => o.id === 'ecoregions')!;
     expect(JSON.stringify(eco.layers)).toContain('token(--map-overlay-7)');
     for (const o of traced) for (const item of o.legend) expect(item.color).toMatch(/^token\(--map-/);
+  });
+
+  it('selectable overlays get the region filter’s layers: picked regions over them, and an unseen fill to pick by, colored from tokens', () => {
+    const sentinel = { color: (n: string) => `token(${n})`, num: t.num };
+    const traced = layerList(mapStyleFor(ROOT, { ...opts, tokens: sentinel }));
+    for (const o of traced.filter((x) => x.selectable)) {
+      const ids = o.layers.map((l) => l.id);
+      expect(ids).toEqual(expect.arrayContaining([...pickedLayers(o.id), pickLayer(o.id)]));
+      expect(ids.at(-1)).toBe(pickLayer(o.id));
+      const hit = o.layers.find((l) => l.id === pickLayer(o.id))!;
+      expect(hit).toMatchObject({ type: 'fill', paint: { 'fill-color': 'token(--map-selection)', 'fill-opacity': 0 } });
+      for (const id of pickedLayers(o.id)) expect(o.layers.find((l) => l.id === id)).toMatchObject({ filter: pickedFilter([]) });
+      for (const m of JSON.stringify(o.layers).matchAll(/"(?:fill|line)-color":"([^"]*)"/g)) expect(m[1]).toMatch(/^token\(--map-/);
+    }
+    expect(traced.find((o) => o.id === 'projects')!.layers).toEqual([]);
   });
 
   it('the ecoregion and state overlays each have a legend; ecoregions list every region by name', () => {

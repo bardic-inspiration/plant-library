@@ -33,6 +33,10 @@
     --map-native-range-outline: var(--p-green);
     --map-native-range-opacity: 0.8;
 
+    /* Region filters: regions picked on the map, and the box filter. */
+    --map-selection: var(--site-accent);
+    --map-selection-opacity: 0.2;
+
     --map-line-coast: 1px;
     --map-line-boundary: 1px;
     --map-line-road: 0.5px;

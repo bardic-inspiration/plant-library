@@ -149,6 +149,14 @@ order of clicks; switching it off hides its layers. A page can open a map
 with overlays on and the layer list hidden (`overlays` and `layerList` on
 `MapView`).
 
+A selectable `fill` or `line` overlay also gets two layers drawing its
+picked regions (`pickedLayers`, filtered to the picked ids by
+`pickedFilter`) and an unseen fill to pick by (`pickLayer`), so a line
+overlay can be picked anywhere inside its regions. They take
+`--map-selection` and `--map-selection-opacity`, as does the box filter's
+own source and layers (`bbox`, `BOX_LAYERS`, over the overlays and under
+the projects). What a pick does is in [site.md](site.md#map-view).
+
 Overlay colors are the `--map-overlay-*` tokens: seven pale tints of the
 accent hues for region fills, on which map labels hold 4.5:1, and the
 outline, county, and state line colors and widths.
@@ -169,14 +177,17 @@ the tokens), `config/overlays.json`, `lib/overlays.ts` and
 checks that fifty generated projects cluster at statewide zooms with no two
 marks overlapping, and `tests/overlays.test.ts`, which checks the registry,
 that a fixture overlay (`tests/fixtures/overlays/`) reaches the layer list
-with no code change, that overlay colors are tokens, and that neighboring
-ecoregions differ.
+with no code change, that overlay colors are tokens, that selectable
+overlays carry the pick layers, and that neighboring ecoregions differ.
+`tests/region-filters.test.ts` checks that picking and the box give the
+same URL state as the tree.
 
 ## Extending
 
 A new map color or size is a `--map-*` token in `map.css`, read by
 `buildMapStyle`. A new overlay is a TopoJSON file (with `id` and `name` on
-each feature) and an entry in `config/overlays.json`; a longer palette is
+each feature) and an entry in `config/overlays.json`; with `selectable` and
+`facets` its regions can be picked as filters, with no code; a longer palette is
 more tokens in its `palette`. A new basemap layer is a layer in
 `buildMapStyle` over the Protomaps schema's source layers. A label weight
 needs a name in `WEIGHT_NAMES`; `build:map` then writes its glyphs. A

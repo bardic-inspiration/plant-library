@@ -121,6 +121,26 @@ on this page.
   (plants on no drawn project) are counted under it, with a link to the list
   view. Below 64rem the panel is a sheet fixed to the bottom of the screen
   that pulls up over the map.
+- **Region filters:** with a selectable overlay on (ecoregions, counties,
+  states), clicking a region toggles it as a filter value, exactly as the
+  tree would, and the regions the filters hold are drawn in the selection
+  color. The value goes on the first of the overlay's `facets` that offers
+  it, the project facet in the registry, which also reaches plants through
+  their projects (D39); a second click, or the chip, removes it, whichever
+  facet set it. Several can be picked; they are ORed like any tree values.
+  With more than one selectable overlay on, a click asks which region it
+  meant. A region no entry is in does nothing (D50; `pickRegion` in
+  `lib/filter.ts`).
+- **Box filter:** *Draw a box* lets the reader drag a box over the map
+  (Escape cancels), and *Use this view* takes the map's bounds as one, for
+  keyboard use. The box is held in the URL as `bbox=west,south,east,north`
+  (rounded to four decimals), drawn on the map, and listed at the top of the
+  tree and as a chip, each with a way to clear it. Projects meet it by their
+  point; a plant meets it through a project inside it that also meets the
+  query's project filters, and the map draws only those projects (D51;
+  `withBbox`, `matches`).
+- Both carry over to the list view in the query string. With no results the
+  map stays, so a pick can be undone on it.
 - **Position:** the map opens on the three states, or at `center=lon,lat`
   and `zoom` from the URL; a move the reader makes writes them back
   (`mapPosition`, `withMapPosition`).

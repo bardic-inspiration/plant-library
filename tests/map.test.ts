@@ -10,7 +10,7 @@ import { loadGeo, statesBbox } from '../lib/geo-load';
 import { glyphRanges, loadGlyphFont } from '../lib/glyph-fonts';
 import { decodeRange, GLYPH_BUFFER } from '../lib/glyphs';
 import { projectFeatures } from '../lib/map-data';
-import { CLUSTER, NATIVE_SOURCE, PROJECT_SOURCE } from '../lib/map-style';
+import { BOX_SOURCE, CLUSTER, NATIVE_SOURCE, PROJECT_SOURCE } from '../lib/map-style';
 import { loadTokens, mapFonts, mapStyleFor, mapTokens, projectTypeTokens } from '../lib/map-style-load';
 import { FIXTURES, ROOT } from './helpers';
 
@@ -74,8 +74,9 @@ describe('the map style', () => {
   it('includes the basemap only when the extract is published', () => {
     expect(Object.keys(mapStyleFor(ROOT, opts).sources)).toContain('basemap');
     const bare = mapStyleFor(ROOT, { ...opts, publicDir: '/nonexistent' });
-    expect(Object.keys(bare.sources).sort()).toEqual([NATIVE_SOURCE, PROJECT_SOURCE].sort());
-    expect(bare.layers.every((l) => !('source' in l) || l.source === PROJECT_SOURCE || l.source === NATIVE_SOURCE)).toBe(true);
+    const own = [BOX_SOURCE, NATIVE_SOURCE, PROJECT_SOURCE];
+    expect(Object.keys(bare.sources).sort()).toEqual(own.sort());
+    expect(bare.layers.every((l) => !('source' in l) || own.includes(l.source))).toBe(true);
   });
 
   it('credits OpenStreetMap on the basemap source', () => {

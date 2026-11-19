@@ -1,5 +1,5 @@
 /** What the map draws, from the index records. Client-safe. */
-import { matches } from './filter';
+import { inBox, locatedIn, matches, type Bounds } from './filter';
 import type { IndexRecord } from './types';
 
 export interface ProjectFeature {
@@ -40,9 +40,10 @@ function quantities(r: IndexRecord): Record<string, number> {
  * drawn, each sized by the quantity of every matching plant it lists, but
  * only projects that meet the query's project filters (a plant meets them
  * through such a project, D39, so the map shows that one, not every project
- * that lists the plant).
+ * that lists the plant). With a box, only the projects inside it, for the
+ * same reason.
  */
-export function mapResults(results: IndexRecord[], records: IndexRecord[], filters: Record<string, string[]>): MapResults {
+export function mapResults(results: IndexRecord[], records: IndexRecord[], filters: Record<string, string[]>, box?: Bounds): MapResults {
   const byKey = new Map(records.map((r) => [r.key, r]));
   const projectFilters = Object.fromEntries(Object.entries(filters).filter(([k]) => k.startsWith('project.')));
   const projects = new Map<string, { quantity?: number }>();
@@ -53,7 +54,7 @@ export function mapResults(results: IndexRecord[], records: IndexRecord[], filte
     const on: string[] = [];
     for (const k of plant.links?.project ?? []) {
       const p = byKey.get(k);
-      if (!p?.card.location || !matches(p, projectFilters)) continue;
+      if (!p?.card.location || !matches(p, projectFilters) || (box && !locatedIn(p, box))) continue;
       const q = quantities(p)[plant.key] ?? 0;
       const cur = projects.get(k) ?? {};
       projects.set(k, { quantity: (cur.quantity ?? 0) + q });
@@ -89,12 +90,7 @@ export function projectFeatures(records: IndexRecord[], drawn?: MapResults): { t
   return { type: 'FeatureCollection', features };
 }
 
-/** [west, south, east, north] */
-export type Bounds = [number, number, number, number];
-
-function within(loc: [number, number], [w, s, e, n]: Bounds): boolean {
-  return loc[0] >= w && loc[0] <= e && loc[1] >= s && loc[1] <= n;
-}
+export type { Bounds };
 
 /**
  * The results in view, in their order: projects drawn inside the bounds,
@@ -104,7 +100,7 @@ export function inView(results: IndexRecord[], records: IndexRecord[], drawn: Ma
   const byKey = new Map(records.map((r) => [r.key, r]));
   const seen = (k: string) => {
     const loc = byKey.get(k)?.card.location as [number, number] | undefined;
-    return Boolean(loc && within(loc, bounds));
+    return Boolean(loc && inBox(loc, bounds));
   };
   return results.filter((r) => {
     if (r.type === 'project') return drawn.projects.has(r.key) && seen(r.key);

@@ -17,7 +17,7 @@ fast, fully restylable, open source, and able to take many custom overlays
 The engine (MapLibre GL JS with PMTiles), the basemap extract, the style
 built from the tokens, glyphs, project clustering, the overlay registry
 with the project, state, county, and ecoregion overlays and the layer list,
-and the `/map/` view are built; see [docs/map.md](../../docs/map.md) and
+the `/map/` view, and the region filters (picking regions and the box) are built; see [docs/map.md](../../docs/map.md) and
 [docs/site.md](../../docs/site.md#map-view). What remains is below.
 
 ### Boundary data
@@ -41,7 +41,8 @@ committed layers as they are; places stay derivation-only.
 The registry (`config/overlays.json`) and the project, state, county, and
 ecoregion overlays are built ([docs/map.md](../../docs/map.md#overlays)).
 Still to register: the hardiness zone overlay, once its layer is in `geo/`
-(a palette fill with a legend per zone, selectable on the zone facets),
+(a palette fill with a legend per zone, selectable on the zone facets,
+which makes zones pickable as region filters with no code),
 and the two analysis overlays below (M8). Later overlays the registry is
 meant to take without code: native range polygons, precipitation, watershed
 boundaries, city limits.
@@ -57,18 +58,6 @@ to come:
 
 Small maps on detail pages (a project's location, a plant's projects) use
 the same component with controls reduced.
-
-### Region filters
-
-- **Pick regions.** With a selectable overlay active, clicking a state,
-  county, ecoregion, or hardiness zone toggles it as a filter value, exactly
-  as checking it in the tree would. Several can be picked.
-- **Draw a box.** A box-select tool filters to a bounding box, held in the
-  URL as `bbox`.
-- Both apply to projects by location and to plants by where they are used,
-  and both carry over to the list view.
-
-Freehand and polygon selection are out of scope for v1.
 
 ### Distribution analysis
 
@@ -96,8 +85,6 @@ entered, not the region's planting as a whole.
 ## Cases
 
 - A plant used on projects in two states and native to one.
-- A county picked on the map shows checked in the tree after switching to
-  the list view.
 - A region with one project: the analysis shows its figures with the sample
   size, and companions are empty.
 - The ecoregion and hardiness overlays on together, with a legend for each.
@@ -106,8 +93,6 @@ entered, not the region's planting as a whole.
 
 - The hardiness zone layer has derivation tests on points near zone lines,
   as the other layers do.
-- Region picking and the box filter produce the same URL state the tree
-  does, covered by unit tests on the filter logic.
 - The analysis functions have tests over the fixture projects.
 
 Map rendering quality and performance on real devices are manual checks for
