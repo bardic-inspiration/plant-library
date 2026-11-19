@@ -1,8 +1,8 @@
 name: deploy
 
 # On every merge to main: build the site and keep it as a workflow artifact,
-# and publish the draft to GitHub Pages. Until the real fixture set exists,
-# Pages shows the fixture build, whose pages carry a banner. The company copy
+# and publish the draft to GitHub Pages: the library's own content, whose
+# prototype plants are fixtures, so its pages carry a banner. The company copy
 # publishes the real build to its internal web server (docs/workflow.md).
 
 on:
@@ -60,7 +60,7 @@ jobs:
 
       - run: npm ci
 
-      - run: npm run build:fixtures
+      - run: npm run build
 
       - name: Check the built site's links
         run: npm run links
