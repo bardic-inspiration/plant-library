@@ -1,0 +1,299 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "overlays.schema.json",
+  "title": "Map overlays (config/overlays.json)",
+  "description": "Each overlay the map can draw, bottom to top. A new overlay is a data file and an entry here (P4).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "overlays"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "overlays": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/overlay"
+      }
+    }
+  },
+  "$defs": {
+    "token": {
+      "type": "string",
+      "pattern": "^--map-[a-z0-9-]+$"
+    },
+    "overlay": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "label",
+        "data",
+        "kind",
+        "legend",
+        "selectable"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$"
+        },
+        "label": {
+          "type": "string",
+          "minLength": 1
+        },
+        "data": {
+          "description": "`library` for the projects in the built index, or a TopoJSON file's path from the repo root.",
+          "type": "string",
+          "pattern": "^(library|[A-Za-z0-9._/-]+\\.topojson)$"
+        },
+        "kind": {
+          "enum": [
+            "fill",
+            "line",
+            "point",
+            "heat"
+          ]
+        },
+        "style": {
+          "description": "Token names (`--map-*`): `color` or a `palette` (neighbors differ) for fills, lines, and points; `outline` and `width` for lines and fill edges; `opacity`; `radius` for points; `ramp` for a heat overlay, low to high.",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "color": {
+              "$ref": "#/$defs/token"
+            },
+            "palette": {
+              "type": "array",
+              "minItems": 2,
+              "items": {
+                "$ref": "#/$defs/token"
+              }
+            },
+            "outline": {
+              "$ref": "#/$defs/token"
+            },
+            "width": {
+              "$ref": "#/$defs/token"
+            },
+            "opacity": {
+              "$ref": "#/$defs/token"
+            },
+            "radius": {
+              "$ref": "#/$defs/token"
+            },
+            "ramp": {
+              "type": "array",
+              "minItems": 2,
+              "items": {
+                "$ref": "#/$defs/token"
+              }
+            }
+          }
+        },
+        "legend": {
+          "description": "`single`: one swatch with the label; `features`: a swatch per feature, by name; `none`.",
+          "enum": [
+            "single",
+            "features",
+            "none"
+          ]
+        },
+        "alwaysOn": {
+          "type": "boolean"
+        },
+        "selectable": {
+          "description": "Whether a feature can be picked as a region filter.",
+          "type": "boolean"
+        },
+        "facets": {
+          "description": "The facet a selection sets, by type: a facet id in config/types.json whose values are the features' ids.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "data": {
+                "const": "library"
+              }
+            },
+            "type": "object"
+          },
+          "then": {
+            "properties": {
+              "alwaysOn": {
+                "const": true
+              }
+            },
+            "required": [
+              "alwaysOn"
+            ],
+            "type": "object"
+          },
+          "else": {
+            "required": [
+              "style"
+            ],
+            "type": "object"
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "data": {
+                "not": {
+                  "const": "library"
+                }
+              },
+              "kind": {
+                "const": "fill"
+              }
+            },
+            "type": "object"
+          },
+          "then": {
+            "properties": {
+              "style": {
+                "anyOf": [
+                  {
+                    "required": [
+                      "color"
+                    ],
+                    "type": "object"
+                  },
+                  {
+                    "required": [
+                      "palette"
+                    ],
+                    "type": "object"
+                  }
+                ]
+              }
+            },
+            "type": "object"
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "data": {
+                "not": {
+                  "const": "library"
+                }
+              },
+              "kind": {
+                "const": "line"
+              }
+            },
+            "type": "object"
+          },
+          "then": {
+            "properties": {
+              "style": {
+                "required": [
+                  "color",
+                  "width"
+                ],
+                "type": "object"
+              }
+            },
+            "type": "object"
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "data": {
+                "not": {
+                  "const": "library"
+                }
+              },
+              "kind": {
+                "const": "point"
+              }
+            },
+            "type": "object"
+          },
+          "then": {
+            "properties": {
+              "style": {
+                "required": [
+                  "color",
+                  "radius"
+                ],
+                "type": "object"
+              }
+            },
+            "type": "object"
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "heat"
+              }
+            },
+            "type": "object"
+          },
+          "then": {
+            "properties": {
+              "style": {
+                "required": [
+                  "ramp"
+                ],
+                "type": "object"
+              }
+            },
+            "type": "object"
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "legend": {
+                "const": "features"
+              }
+            },
+            "type": "object"
+          },
+          "then": {
+            "properties": {
+              "style": {
+                "required": [
+                  "palette"
+                ],
+                "type": "object"
+              }
+            },
+            "type": "object"
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "selectable": {
+                "const": true
+              }
+            },
+            "type": "object"
+          },
+          "then": {
+            "required": [
+              "facets"
+            ],
+            "type": "object"
+          }
+        }
+      ]
+    }
+  }
+}

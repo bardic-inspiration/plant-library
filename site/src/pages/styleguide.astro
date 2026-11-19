@@ -11,10 +11,12 @@ import { Icon } from '../components/ui/Icon';
 import { vocabList } from '../lib/vocab';
 import { nameSegments } from '../../../lib/names';
 import type { IndexRecord } from '../../../lib/types';
+import overlayConfig from '../../../config/overlays.json';
 
 const forms = vocabList('form');
 const projectTypes = vocabList('projectType');
 const blooms = vocabList('bloomColor');
+const overlays = overlayConfig.overlays.filter((o) => !o.alwaysOn);
 const sample = (over: Partial<IndexRecord> & { card?: Record<string, unknown> }): IndexRecord => ({
   key: 'plant/sample', type: 'plant', id: 'sample', name: 'Sample', summary: 'A sample.', url: '#', facets: {}, tags: {}, refs: [], refBy: [], sort: {}, search: {}, createdAt: '2026-01-01',
   ...over,
@@ -117,6 +119,14 @@ const other = { ...sample({}), type: 'project', name: 'A made-up project', summa
         <li><span class="map-mark map-mark-cluster" aria-hidden="true"></span>A cluster of projects</li>
       </ul>
       <MapView client:only="preact" label="Map of the library's projects" />
+      <h3>Overlays</h3>
+      <p class="muted">Registered in <code>config/overlays.json</code> and drawn under the basemap's water. Each map below opens with one overlay on.</p>
+      {overlays.map((o) => (
+        <figure class="guide-map">
+          <figcaption>{o.label}</figcaption>
+          <MapView client:only="preact" overlays={[o.id]} layerList={false} label={`Map with the ${o.label.toLowerCase()} overlay`} />
+        </figure>
+      ))}
     </section>
   </div>
 </Base>
@@ -146,6 +156,15 @@ const other = { ...sample({}), type: 'project', name: 'A made-up project', summa
   .map-mark-cluster {
     background: var(--map-cluster);
     border-color: var(--map-cluster);
+  }
+
+  .guide-map {
+    margin: var(--none);
+  }
+
+  .guide-map figcaption {
+    font-weight: var(--weight-strong);
+    margin-block-end: var(--space-xxs);
   }
 
   .guide {

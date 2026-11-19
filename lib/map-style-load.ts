@@ -4,6 +4,7 @@ import { join } from 'node:path';
 import { statesBbox } from './geo-load';
 import { dataRules, resolveColor, rootTokens } from './contrast';
 import { buildMapStyle, CLUSTER, WEIGHT_NAMES, type MapTokens } from './map-style';
+import { loadOverlays, OVERLAYS_FILE, prepareOverlays } from './overlays-load';
 import type { StyleSpecification } from 'maplibre-gl';
 
 export const TOKEN_FILES = ['primitives.css', 'semantic.css', 'components.css', 'content.css', 'map.css'];
@@ -55,19 +56,33 @@ export function mapFonts(tokens: Map<string, string>): { family: string; regular
 }
 
 /**
- * The style for this repo. `basemap` is the extract's path under the site
- * (config/site.json), kept only when the file is in `publicDir`.
+ * The style for this repo, and the overlay data files to publish beside it.
+ * `basemap` is the extract's path under the site (config/site.json), kept
+ * only when the file is in `publicDir`; `overlays` is the registry's path
+ * from the root (a test passes a fixture registry).
  */
-export function mapStyleFor(root: string, opts: { base: string; basemap: string; publicDir?: string; tokens?: MapTokens }): StyleSpecification {
+export function mapBuildFor(
+  root: string,
+  opts: { base: string; basemap: string; publicDir?: string; tokens?: MapTokens; overlays?: string },
+): { style: StyleSpecification; files: Map<string, string> } {
   const tokens = loadTokens(root);
   const fonts = mapFonts(tokens);
+  const t = opts.tokens ?? mapTokens(tokens);
   const present = opts.publicDir ? existsSync(join(opts.publicDir, opts.basemap)) : true;
-  return buildMapStyle(opts.tokens ?? mapTokens(tokens), {
+  const overlays = prepareOverlays(root, loadOverlays(root, opts.overlays ?? OVERLAYS_FILE), t, opts.base);
+  const style = buildMapStyle(t, {
     base: opts.base,
     basemap: present ? opts.basemap : null,
     projectTypes: projectTypeTokens(root),
     fonts: { regular: fonts.regular, strong: fonts.strong },
     cluster: CLUSTER,
     bounds: statesBbox(root, 0),
+    overlays: overlays.meta,
   });
+  return { style, files: overlays.files };
+}
+
+/** The style alone. */
+export function mapStyleFor(root: string, opts: Parameters<typeof mapBuildFor>[1]): StyleSpecification {
+  return mapBuildFor(root, opts).style;
 }

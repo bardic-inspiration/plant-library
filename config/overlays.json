@@ -1,0 +1,44 @@
+{
+  "$schema": "../schemas/overlays.schema.json",
+  "overlays": [
+    {
+      "id": "projects",
+      "label": "Projects",
+      "data": "library",
+      "kind": "point",
+      "legend": "none",
+      "alwaysOn": true,
+      "selectable": false
+    },
+    {
+      "id": "ecoregions",
+      "label": "Ecoregions",
+      "data": "geo/ecoregions.topojson",
+      "kind": "fill",
+      "style": { "palette": ["--map-overlay-1", "--map-overlay-2", "--map-overlay-3", "--map-overlay-4", "--map-overlay-5", "--map-overlay-6", "--map-overlay-7"], "outline": "--map-overlay-outline", "width": "--map-line-overlay" },
+      "legend": "features",
+      "selectable": true,
+      "facets": { "project": "ecoregion", "plant": "usedInEcoregion" }
+    },
+    {
+      "id": "counties",
+      "label": "Counties",
+      "data": "geo/counties.topojson",
+      "kind": "line",
+      "style": { "color": "--map-overlay-county", "width": "--map-line-overlay" },
+      "legend": "single",
+      "selectable": true,
+      "facets": { "project": "county", "plant": "usedInCounty" }
+    },
+    {
+      "id": "states",
+      "label": "States",
+      "data": "geo/states.topojson",
+      "kind": "line",
+      "style": { "color": "--map-overlay-state", "width": "--map-line-overlay-strong" },
+      "legend": "single",
+      "selectable": true,
+      "facets": { "project": "state", "plant": "usedInState" }
+    }
+  ]
+}

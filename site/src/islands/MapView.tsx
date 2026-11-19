@@ -4,10 +4,16 @@
  * imported only when the map scrolls into view, so pages without a map, and
  * a map page before the map is shown, never load it (P10). The map view
  * (#30) and the small maps on detail pages (#32) build on this.
+ *
+ * Overlays come from the registry (config/overlays.json), carried in the
+ * style's metadata: the layer list shows each one, and an overlay's data is
+ * fetched and its layers added only when it is first switched on.
  */
 import { useEffect, useRef, useState } from 'preact/hooks';
-import { BOUNDS_KEY, PROJECT_LAYERS, PROJECT_SOURCE } from '../../../lib/map-style';
+import type { GeoJSONSourceSpecification, Map as MapLibreMap } from 'maplibre-gl';
+import { BOUNDS_KEY, OVERLAY_BEFORE, PROJECT_LAYERS, PROJECT_SOURCE } from '../../../lib/map-style';
 import { projectFeatures } from '../../../lib/map-data';
+import { beforeLayer, layerList, overlaySource, type LegendItem, type OverlayMeta } from '../../../lib/overlays';
 import type { LibraryIndex } from '../../../lib/types';
 import { url } from '../../../lib/site';
 import './map.css';
@@ -39,10 +45,33 @@ function addStylesheet(href: string): Promise<void> {
   });
 }
 
-export default function MapView({ label = 'Map of projects' }: { label?: string }) {
+/** An overlay's TopoJSON as GeoJSON for MapLibre; topojson-client loads with the first overlay. */
+async function overlayData(href: string): Promise<GeoJSONSourceSpecification['data']> {
+  const [{ feature }, topology] = await Promise.all([import('topojson-client'), fetch(href).then((r) => r.json())]);
+  const [name] = Object.keys(topology.objects);
+  return feature(topology, topology.objects[name]) as unknown as GeoJSONSourceSpecification['data'];
+}
+
+function Swatch({ item }: { item: LegendItem }) {
+  return <span class={`map-swatch map-swatch-${item.mark}`} style={{ '--swatch': item.color }} aria-hidden="true" />;
+}
+
+export interface MapViewProps {
+  label?: string;
+  /** Overlays switched on when the map opens, by id. */
+  overlays?: string[];
+  /** Whether to show the layer list; legends of the overlays that are on show either way. */
+  layerList?: boolean;
+}
+
+export default function MapView({ label = 'Map of projects', overlays: initial = [], layerList: showList = true }: MapViewProps) {
   const box = useRef<HTMLDivElement>(null);
+  const mapRef = useRef<MapLibreMap | undefined>(undefined);
+  const added = useRef(new Map<string, Promise<void>>());
   const [status, setStatus] = useState<Status>('waiting');
   const [message, setMessage] = useState('');
+  const [registry, setRegistry] = useState<OverlayMeta[]>([]);
+  const [on, setOn] = useState<string[]>(initial);
 
   useEffect(() => {
     const el = box.current;
@@ -63,6 +92,7 @@ export default function MapView({ label = 'Map of projects' }: { label?: string 
           import('maplibre-gl/dist/maplibre-gl.css?url').then(({ default: href }) => addStylesheet(href)),
         ]);
         if (cancelled) return;
+        setRegistry(layerList(style));
         // The worker is a file of its own; the bundler emits it as an asset.
         maplibregl.setWorkerUrl(absolute(workerUrl));
         const protocol = new Protocol();
@@ -81,6 +111,7 @@ export default function MapView({ label = 'Map of projects' }: { label?: string 
           cooperativeGestures: false,
         });
         map = m;
+        mapRef.current = m;
         m.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-right');
         m.on('load', () => !cancelled && setStatus('ready'));
         m.on('error', (e) => console.warn('map:', e.error?.message ?? e));
@@ -129,14 +160,75 @@ export default function MapView({ label = 'Map of projects' }: { label?: string 
       cancelled = true;
       io.disconnect();
       map?.remove();
+      mapRef.current = undefined;
     };
   }, []);
+
+  // Show the overlays that are on, adding each one's source and layers the first time.
+  useEffect(() => {
+    const m = mapRef.current;
+    if (status !== 'ready' || !m) return;
+    for (const o of registry) {
+      if (o.alwaysOn || !o.url) continue;
+      const visible = on.includes(o.id);
+      const show = () => {
+        if (mapRef.current !== m) return;
+        for (const l of o.layers) m.setLayoutProperty(l.id, 'visibility', on.includes(o.id) ? 'visible' : 'none');
+      };
+      let ready = added.current.get(o.id);
+      if (!ready && visible) {
+        const href = absolute(o.url);
+        ready = overlayData(href).then((data) => {
+          if (mapRef.current !== m) return;
+          m.addSource(overlaySource(o.id), { type: 'geojson', data });
+          const fallback = m.getLayer(OVERLAY_BEFORE) ? OVERLAY_BEFORE : PROJECT_LAYERS[0];
+          const before = beforeLayer(registry, o.id, (id) => Boolean(m.getLayer(id)), fallback);
+          for (const l of o.layers) m.addLayer(l, before);
+        });
+        ready.catch((e) => console.warn(`map: overlay ${o.id}:`, e));
+        added.current.set(o.id, ready);
+      }
+      void ready?.then(show, () => {});
+    }
+  }, [status, registry, on]);
+
+  const toggle = (id: string, checked: boolean) => setOn((cur) => (checked ? [...cur.filter((x) => x !== id), id] : cur.filter((x) => x !== id)));
+  const legends = registry.filter((o) => o.legend.length && (o.alwaysOn || on.includes(o.id)));
 
   return (
     <div class="map-view" data-status={status}>
       <div ref={box} class="map-canvas" role="region" aria-label={label} />
       {status === 'unsupported' && <p class="map-note">This browser can't draw the map (it needs WebGL). The list view shows the same entries.</p>}
       {status === 'error' && <p class="map-note">The map didn't load: {message}</p>}
+      {(showList || legends.length > 0) && registry.length > 0 && (
+        <div class="map-panel">
+          {showList && (
+            <fieldset class="map-layers">
+              <legend>Layers</legend>
+              {registry.map((o) => (
+                <label key={o.id}>
+                  <input type="checkbox" checked={o.alwaysOn || on.includes(o.id)} disabled={o.alwaysOn} onChange={(e) => toggle(o.id, (e.currentTarget as HTMLInputElement).checked)} />
+                  {o.label}
+                  {o.alwaysOn && <span class="muted"> (always on)</span>}
+                </label>
+              ))}
+            </fieldset>
+          )}
+          {legends.map((o) => (
+            <div class="map-legend-block" key={o.id}>
+              <p class="map-legend-title">{o.label}</p>
+              <ul role="list" class="map-legend-items">
+                {o.legend.map((item) => (
+                  <li key={item.label}>
+                    <Swatch item={item} />
+                    {item.label}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

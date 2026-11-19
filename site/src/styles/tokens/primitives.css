@@ -27,6 +27,15 @@
     --p-vermillion-300: #e98551;
     --p-vermillion-400: #dc6421;
 
+    /* Pale tints of the accent hues, for map overlay fills behind labels. */
+    --p-green-100: #cee5d4;
+    --p-teal-100: #c7e3e5;
+    --p-blue-100: #cedff5;
+    --p-purple-100: #e5d5ef;
+    --p-magenta-100: #f2d0e2;
+    --p-ochre-100: #ebe0c7;
+    --p-olive-100: #dfe4c7;
+
     /* Bloom swatches: the color of the flower, always drawn inside a black frame. */
     --p-bloom-white: #ffffff;
     --p-bloom-cream: #f3e9c6;

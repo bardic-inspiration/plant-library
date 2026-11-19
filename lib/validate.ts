@@ -120,6 +120,32 @@ function refObjects(v: unknown, out: string[] = []): string[] {
   return out;
 }
 
+/**
+ * The overlay registry: its schema, unique ids, one projects overlay, data
+ * files that exist, and selection facets that name a type's facet. Token
+ * names are checked when the style is built (an unknown token fails the build).
+ */
+export function overlayProblems(config: Config, schemas: Schemas, file = 'config/overlays.json'): Issue[] {
+  const errors: Issue[] = [];
+  const err = (message: string) => errors.push({ file, message });
+  if (!schemas.overlays({ overlays: config.overlays })) {
+    for (const m of formatErrors(schemas.overlays.errors)) err(`overlays ${m}`);
+    return errors;
+  }
+  const ids = config.overlays.map((o) => o.id);
+  const dup = ids.find((k, i) => ids.indexOf(k) !== i);
+  if (dup) err(`duplicate overlay ${dup}`);
+  if (config.overlays.filter((o) => o.data === 'library').length !== 1) err('exactly one overlay draws the library\'s projects (data "library")');
+  for (const o of config.overlays) {
+    if (o.data !== 'library' && !existsSync(join(config.root, o.data))) err(`${o.id}: no data file ${o.data}`);
+    for (const [type, facet] of Object.entries(o.facets ?? {})) {
+      if (!config.types[type]) err(`${o.id}: unknown type "${type}" in facets`);
+      else if (!flatFacets(config.types, type).some((f) => f.id === facet)) err(`${o.id}: ${type} has no facet "${facet}"`);
+    }
+  }
+  return errors;
+}
+
 export function validateConfig(config: Config, schemas: Schemas): Report {
   const errors: Issue[] = [];
   const check = (file: string, fn: (d: unknown) => boolean, data: unknown, name: string) => {
@@ -141,6 +167,7 @@ export function validateConfig(config: Config, schemas: Schemas): Report {
     const dup = keys.find((k, i) => keys.indexOf(k) !== i);
     if (dup) errors.push({ file: 'config/types.json', message: `duplicate facet ${dup}` });
   }
+  errors.push(...overlayProblems(config, schemas));
   return { errors, warnings: [] };
 }
 

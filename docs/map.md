@@ -3,8 +3,9 @@
 ## Purpose
 
 The map component that the map view and detail pages draw with: fast,
-restyled entirely from the site's tokens, open source, and served as static
-files with no tile service (P4, P9, P10).
+restyled entirely from the site's tokens, open source, served as static
+files with no tile service, and taking new overlays as configuration (P4,
+P9, P10).
 
 ## Behavior
 
@@ -87,20 +88,85 @@ and its place.
 
 The style guide shows the map with the library's projects and a legend.
 
+### Overlays
+
+`config/overlays.json` registers every overlay, bottom to top (schema
+`schemas/overlays.schema.json`). A new overlay is a data file and an entry
+there, with no code change (P4):
+
+| Key | Holds |
+|---|---|
+| `id`, `label` | The overlay's id, and its name in the layer list and legend |
+| `data` | A TopoJSON file's path from the repo root, or `library` for the projects in the index |
+| `kind` | `fill`, `line`, `point`, or `heat` |
+| `style` | `--map-*` token names: `color`, or a `palette` for regions; `outline` and `width` for lines and fill edges; `opacity`; `radius` for points; `ramp` for heat, low to high |
+| `legend` | `single` (one swatch with the label), `features` (a swatch per feature, by name), or `none` |
+| `alwaysOn` | Shown and not switchable: the projects |
+| `selectable`, `facets` | Whether a feature can be picked as a region filter, and the facet a pick sets, by type (a facet id in `config/types.json` whose values are the features' ids) |
+
+The registered overlays:
+
+| Overlay | Data | Draws | Legend | A pick sets |
+|---|---|---|---|---|
+| Projects | `library` | The project layers above, always on | (the project legend) | — |
+| Ecoregions | `geo/ecoregions.topojson` | Pale fills from a seven-color palette, edged in gray | Each ecoregion by name | `project.ecoregion`, `plant.usedInEcoregion` |
+| Counties | `geo/counties.topojson` | Thin gray lines | One line | `project.county`, `plant.usedInCounty` |
+| States | `geo/states.topojson` | Heavy black lines | One line | `project.state`, `plant.usedInState` |
+
+The boundary overlays draw the same committed `geo/` files the build
+derives geography from (P3, D41). Places stay derivation-only. Hardiness
+zones join the registry once their data's terms are read
+([spec](../spec/v1/map.md#open-questions)).
+
+`build:map` turns the registry into the style: `prepareOverlays`
+(`lib/overlays-load.ts`) builds each overlay's MapLibre layers and legend
+from its tokens (`overlayLayers` and `overlayLegend` in `lib/overlays.ts`)
+and writes them into the style's metadata (`plant-library:overlays`), and
+writes each overlay's data to `site/public/map/overlays/<id>.json`, still
+TopoJSON, keeping only each feature's `id` and `name`. A palette overlay's
+features also get a color index (`pi`), chosen by greedy coloring over
+shared arcs so no two neighbors match; the build fails if the palette is too
+short for that. An unknown token name fails the build too.
+
+The style itself names no overlay source, so nothing is fetched until an
+overlay is switched on (P10). The map component shows a layer list (a
+checkbox per overlay; the projects are checked and disabled) and a legend
+for each overlay that is on. Switching an overlay on the first time fetches
+its file, decodes it with `topojson-client` (loaded then too), and adds its
+source and layers under the basemap's water, below any overlay higher in
+the registry that is already on, so the registry's order holds whatever the
+order of clicks; switching it off hides its layers. A page can open a map
+with overlays on and the layer list hidden (`overlays` and `layerList` on
+`MapView`).
+
+Overlay colors are the `--map-overlay-*` tokens: seven pale tints of the
+accent hues for region fills, on which map labels hold 4.5:1, and the
+outline, county, and state line colors and widths.
+
+The style guide shows the map with the layer list, and a map with each
+overlay on, with its legend.
+
 ## Where the rules live
 
 `lib/map-style.ts` (the style, client-safe), `lib/map-style-load.ts` (reads
-the tokens), `lib/glyphs.ts` and `lib/glyph-fonts.ts`, `lib/map-data.ts`,
+the tokens), `config/overlays.json`, `lib/overlays.ts` and
+`lib/overlays-load.ts` (the overlays), the overlay checks in
+`lib/validate.ts`, `lib/glyphs.ts` and `lib/glyph-fonts.ts`, `lib/map-data.ts`,
 `scripts/build-map.ts`, `scripts/basemap.ts`,
 `site/src/islands/MapView.tsx`, `site/src/styles/tokens/map.css`, and
 `tests/map.test.ts`, which fails if a color in the style isn't a token, and
 checks that fifty generated projects cluster at statewide zooms with no two
-marks overlapping.
+marks overlapping, and `tests/overlays.test.ts`, which checks the registry,
+that a fixture overlay (`tests/fixtures/overlays/`) reaches the layer list
+with no code change, that overlay colors are tokens, and that neighboring
+ecoregions differ.
 
 ## Extending
 
 A new map color or size is a `--map-*` token in `map.css`, read by
-`buildMapStyle`. A new basemap layer is a layer in `buildMapStyle` over the
-Protomaps schema's source layers. A label weight needs a name in
-`WEIGHT_NAMES`; `build:map` then writes its glyphs. A street-level map is a
-higher `basemap.maxZoom`.
+`buildMapStyle`. A new overlay is a TopoJSON file (with `id` and `name` on
+each feature) and an entry in `config/overlays.json`; a longer palette is
+more tokens in its `palette`. A new basemap layer is a layer in
+`buildMapStyle` over the Protomaps schema's source layers. A label weight
+needs a name in `WEIGHT_NAMES`; `build:map` then writes its glyphs. A
+street-level map is a higher `basemap.maxZoom`.

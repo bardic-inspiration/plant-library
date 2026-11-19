@@ -6,11 +6,13 @@
  *
  * The basemap is the Protomaps basemap schema (OpenStreetMap data, ODbL),
  * read from a PMTiles extract published with the site (scripts/basemap.ts).
- * Overlays (#29) insert their layers before `OVERLAY_BEFORE`, under the
- * basemap's water, so state and county polygons that run out to the state
- * line over water are hidden by the coastline without clipped copies (D41).
+ * Overlays (config/overlays.json, lib/overlays.ts) ride in the metadata and
+ * are added when switched on, before `OVERLAY_BEFORE`, under the basemap's
+ * water, so state and county polygons that run out to the state line over
+ * water are hidden by the coastline without clipped copies (D41).
  */
 import type { StyleSpecification, LayerSpecification, ExpressionSpecification } from 'maplibre-gl';
+import { OVERLAYS_KEY, type OverlayMeta } from './overlays';
 
 export interface MapTokens {
   /** A color token's value: `color('--map-land')`. */
@@ -32,6 +34,8 @@ export interface MapStyleOptions {
   cluster: ClusterOptions;
   /** The view the map opens on, [west, south, east, north]: the three states. */
   bounds: [number, number, number, number];
+  /** The registry's overlays, bottom to top, with their layers and legends built from the tokens. */
+  overlays?: OverlayMeta[];
 }
 
 export interface ClusterOptions {
@@ -134,7 +138,7 @@ export function buildMapStyle(t: MapTokens, o: MapStyleOptions): StyleSpecificat
   return {
     version: 8,
     name: 'Plant Library',
-    metadata: { [BOUNDS_KEY]: o.bounds },
+    metadata: { [BOUNDS_KEY]: o.bounds, [OVERLAYS_KEY]: o.overlays ?? [] },
     glyphs: `${o.base}map/glyphs/{fontstack}/{range}.pbf`,
     sources: {
       ...(o.basemap ? { [BASEMAP_SOURCE]: { type: 'vector' as const, url: `pmtiles://${o.base}${o.basemap}`, attribution: BASEMAP_ATTRIBUTION } } : {}),
