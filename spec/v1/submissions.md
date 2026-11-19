@@ -181,21 +181,18 @@ A colleague's judgment is valuable and is not the same thing as a published
 fact, so the library keeps both and never lets one silently replace the
 other (P5).
 
-- **Field notes.** A plant has `fieldNotes`: short attributed observations,
-  each with a `topic` (`performance`, `establishment`, `maintenance`,
-  `availability`, `design`, `caution`), the author's name and role, a date,
-  and optionally the region or project it comes from. They show on the
-  plant page under "Field notes". Projects and palettes take them too.
+- **Field notes, observations that fill a gap, and credit to contributors**
+  are built: `fieldNotes` on every type, the `staff-observation` source,
+  `meta.submissions`, and the pages and About list that show them
+  ([docs/submissions.md](../../docs/submissions.md#professional-opinion)).
+  What remains is the routine's part, below.
 - **An observation that fills a gap.** When no registered source gives a
-  trait, an observation may set it, cited to the registry's
-  `staff-observation` source (kind `professional`) with the contributor and
-  date. The page marks such a value as the organization's own.
+  trait, the routine sets it from the observation, cited to
+  `staff-observation` with the contributor and date.
 - **An observation that disagrees with a source.** The sourced value stays,
   and the observation becomes a field note attached to that trait ("Height:
   8–15 ft. Field note: reaches 25 ft in irrigated beds in Seattle"). The
   owner can still decide in review that the observation should win.
-- **Entries credit contributors.** `meta.submissions` lists the submission
-  ids an entry drew on, and the About page lists contributors by name.
 
 ### In the prototype
 
@@ -245,8 +242,6 @@ other (P5).
   and `inbox import`, with hashes intact.
 - `inbox check` has a passing and a failing fixture for each remaining
   mechanical check.
-- The plant schema takes `fieldNotes`, and the registry the
-  `staff-observation` source, with validation tests.
 - The skill exists, and a fixture inbox holding the cases above documents
   the expected result of each, so a run of the skill can be compared against
   it. What a routine run actually decides is a manual check for the Testing

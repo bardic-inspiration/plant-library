@@ -1,0 +1,53 @@
+---
+/**
+ * The "Field notes" section of a plant, project, or palette page: colleagues'
+ * attributed observations, kept beside the published facts (docs/submissions.md).
+ */
+import { renderMarkdown } from '../../../lib/markdown';
+import { url } from '../../../lib/site';
+import { label } from '../lib/vocab';
+import { traitLabel } from '../lib/traits';
+import type { BuildData } from '../../../lib/build-data';
+import type { FieldNote } from '../../../lib/types';
+
+interface Props {
+  notes: FieldNote[];
+  data: BuildData;
+}
+
+const { notes, data } = Astro.props;
+const resolve = (k: string) => {
+  const t = data.byKey.get(k);
+  return t ? { name: t.name, url: url(`${k}/`) } : undefined;
+};
+---
+
+{notes.length > 0 && (
+  <section aria-labelledby="notes-heading">
+    <h2 id="notes-heading">Field notes</h2>
+    <ul class="notes" role="list">
+      {notes.map((n) => {
+        const project = n.project && resolve(n.project.ref);
+        return (
+          <li>
+            <p class="label">{label('fieldNoteTopic', n.topic)}{n.trait ? ` · ${traitLabel(n.trait)}` : ''}</p>
+            <div class="prose" set:html={renderMarkdown(n.note, resolve)} />
+            <p class="muted">
+              {n.author.name}, {n.author.role}, {n.date}
+              {n.region ? ` · ${label('state', n.region)}` : ''}
+              {project && <> · on <a href={project.url}>{project.name}</a></>}
+            </p>
+          </li>
+        );
+      })}
+    </ul>
+  </section>
+)}
+
+<style>
+  .notes {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+</style>

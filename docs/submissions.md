@@ -5,8 +5,8 @@
 A contribution reaches the library as a **submission**: one JSON document and
 its files, written once and never edited, that a routine checks and turns
 into a pull request (P1, P5, P8). This file covers what is built: the
-submission format, the edit differences a form submits, and the inbox's
-mechanical checks so far. The forms, the stores, the remaining checks, and
+submission format, the edit differences a form submits, the inbox's
+mechanical checks so far, and professional opinion on entries. The forms, the stores, the remaining checks, and
 the `integrate` skill are still in
 [`spec/v1/submissions.md`](../spec/v1/submissions.md).
 
@@ -106,12 +106,41 @@ through the entry file's git history for the version whose hash is
 `basedOn` and compares it with the current entry; two paths touch when one
 is the other or inside it.
 
+### Professional opinion
+
+A colleague's judgment sits beside the published facts, never silently over
+them (P5).
+
+- **Field notes.** Plants, projects, and palettes take `fieldNotes`: each a
+  `topic` from the `fieldNoteTopic` vocabulary (`performance`,
+  `establishment`, `maintenance`, `availability`, `design`, `caution`), a
+  markdown `note`, the `author`'s name and role, a `date`, and optionally a
+  `region` (a state), a `project` (a ref to a project), and the
+  `submission` it came from. Only a plant's note may name a `trait` (a data
+  path such as `height` or `soil.drainage`), and the plant page then shows
+  it beside that trait as well. Every page with notes ends with a "Field
+  notes" section ([site.md](site.md#plant-page)).
+- **An observation that fills a gap** is cited to the registry's
+  `staff-observation` source (kind `professional`, D8), with its
+  `contributor`, and only for a trait no other source gives
+  ([sources.md](sources.md#registry)). The plant page marks such
+  a value "(our staff's observation)".
+- **Credit.** `meta.submissions` lists the submission ids an entry drew on;
+  a field note's `submission` must be one of them. The About page and
+  `ATTRIBUTION.md` list contributors by name: the authors of field notes and
+  the contributors of `staff-observation` citations (`lib/attribution.ts`).
+
+An observation that disagrees with a sourced value stays a field note on that
+trait; the `integrate` skill, when it is built, makes that call.
+
 ## Where the rules live
 
-`schemas/submission.schema.json`; `lib/submission.ts` (client-safe: edit
+`schemas/submission.schema.json`; `schemas/common.schema.json` (`fieldNote`)
+and `schemas/envelope.schema.json` (`fieldNotes`, `meta.submissions`); the
+field-note rules in `lib/validate.ts`; `lib/submission.ts` (client-safe: edit
 differences, applying them, `entryHash`); `lib/inbox.ts` (the checks, file
 sniffing); `scripts/inbox/index.ts`; `config/site.json` (`submissions`);
-tests in `tests/submission.test.ts`.
+tests in `tests/submission.test.ts`, field notes in `tests/validate.test.ts`.
 
 ## Extending
 

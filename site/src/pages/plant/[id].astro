@@ -1,5 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
+import FieldNotes from '../../components/FieldNotes.astro';
 import { PlantName } from '../../components/ui/PlantName';
 import { BloomStrip, Swatch } from '../../components/ui/BloomStrip';
 import { Conditions } from '../../components/ui/Conditions';
@@ -302,20 +303,7 @@ const bloomLabel = dv.bloomMonthList ? `Bloom calendar: ${formatMonths(d.bloom?.
       ) : null}
     </section>
 
-    {(b.entry.fieldNotes ?? []).length > 0 && (
-      <section aria-labelledby="notes-heading">
-        <h2 id="notes-heading">Field notes</h2>
-        <ul class="notes" role="list">
-          {b.entry.fieldNotes!.map((n) => (
-            <li>
-              <p class="label">{label('fieldNoteTopic', n.topic)}{n.trait ? ` · ${traitLabel(n.trait)}` : ''}</p>
-              <div class="prose" set:html={renderMarkdown(n.note, resolve)} />
-              <p class="muted">{n.author.name}, {n.author.role}, {n.date}{n.region ? ` · ${label('state', n.region)}` : ''}</p>
-            </li>
-          ))}
-        </ul>
-      </section>
-    )}
+    <FieldNotes notes={b.entry.fieldNotes ?? []} data={data} />
   </article>
 </Base>
 
@@ -437,8 +425,7 @@ const bloomLabel = dv.bloomMonthList ? `Bloom calendar: ${formatMonths(d.bloom?.
     margin-block-start: var(--space-xxs);
   }
 
-  .sources,
-  .notes {
+  .sources {
     display: flex;
     flex-direction: column;
     gap: var(--space-md);

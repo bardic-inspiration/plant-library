@@ -52,6 +52,17 @@
       }
     ]
   },
+  "fieldNotes": [
+    {
+      "topic": "maintenance",
+      "note": "Test fixture note: the salal bank needed hand weeding for two seasons before it closed over.",
+      "author": {
+        "name": "Test Contributor",
+        "role": "Landscape architect"
+      },
+      "date": "2026-11-19"
+    }
+  ],
   "meta": {
     "createdAt": "2026-11-19",
     "revisedAt": "2026-11-19",

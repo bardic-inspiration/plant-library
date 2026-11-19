@@ -16,7 +16,7 @@ describe('attribution', () => {
     const a = attribution(buildData({ dataRoot: FIXTURES }));
     expect(a.sources.map((s) => s.id)).toEqual(['staff-observation', 'usda-plants']);
     expect(a.images.length).toBeGreaterThan(10);
-    expect(a.contributors).toEqual(['Test Contributor']);
+    expect(a.contributors).toEqual(['Second Contributor', 'Test Contributor']);
   });
 });
 

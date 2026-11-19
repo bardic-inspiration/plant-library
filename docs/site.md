@@ -189,6 +189,11 @@ filter on the map; In palettes, the palettes whose lists ref it, by name;
 related plants (the same species and its cultivars and varieties); sources, each with its link, the fields it supports, the
 access date, and its citation; further reading; and field notes.
 
+Field notes close a plant, project, or palette page alike (`FieldNotes.astro`
+in `site/src/components/`): each with its topic (and trait, on a plant), the
+note, the author's name and role, the date, and the state and project it
+comes from, the project linked to its page.
+
 ### Project page
 
 Name, place and state ("Portland, OR": the place, else the county, named from
