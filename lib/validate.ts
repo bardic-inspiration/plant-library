@@ -365,21 +365,31 @@ export function validateLibrary(config: Config, schemas: Schemas, loaded: Loaded
     if (dup) err(file, `image ${dup} is listed twice`);
   }
 
-  // Projects.
-  const projects = valid.filter((le) => le.entry.type === 'project');
+  // Locations: a project's, and a palette's site, to 5 places and inside the three states.
   let geo = opts.geo;
   const scope = new Set((config.vocab.state as VocabValue[]).map((v) => v.id));
-  for (const { file, entry } of projects) {
-    const d = entry.data as { location: LatLon; status: string; completed?: string };
-    const { lat, lon } = d.location;
-    if (decimals(lat) > LOCATION_DECIMALS || decimals(lon) > LOCATION_DECIMALS) err(file, `data.location: give lat and lon to at most ${LOCATION_DECIMALS} decimal places`);
+  const checkLocation = (file: string, where: string, location: LatLon) => {
+    const { lat, lon } = location;
+    if (decimals(lat) > LOCATION_DECIMALS || decimals(lon) > LOCATION_DECIMALS) err(file, `${where}: give lat and lon to at most ${LOCATION_DECIMALS} decimal places`);
     geo ??= loadGeo(config.root);
-    const state = deriveGeo(d.location, geo).state;
-    if (!state || !scope.has(state)) err(file, `data.location: ${lat}, ${lon} is outside ${[...scope].join(', ')}`);
+    const state = deriveGeo(location, geo).state;
+    if (!state || !scope.has(state)) err(file, `${where}: ${lat}, ${lon} is outside ${[...scope].join(', ')}`);
+  };
+
+  // Projects.
+  for (const { file, entry } of valid.filter((le) => le.entry.type === 'project')) {
+    const d = entry.data as { location: LatLon; status: string; completed?: string };
+    checkLocation(file, 'data.location', d.location);
     if (d.status === 'constructed' && !d.completed) err(file, 'data.completed is required when status is constructed');
   }
 
-  // Plant lists (projects, and palettes once built). Text matching a plant's
+  // Palettes.
+  for (const { file, entry } of valid.filter((le) => le.entry.type === 'palette')) {
+    const location = (entry.data as { site?: { location?: LatLon } }).site?.location;
+    if (location) checkLocation(file, 'data.site.location', location);
+  }
+
+  // Plant lists (projects and palettes). Text matching a plant's
   // name, synonym, or name with its trade name must be a ref instead.
   const textOwner = new Map(nameOwner);
   for (const { entry } of plants) textOwner.set(normalizeName(fullName(entry.data)), `plant/${entry.id}`);

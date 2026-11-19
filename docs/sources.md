@@ -127,6 +127,25 @@ County) for the cross-type filter test.
 
 The site lists them with their pages ([site.md](site.md#project-page)).
 
+### Fixture palettes
+
+Every palette in this repo is fictional too: `meta.fixture: true`, with
+plant lists written for the purpose. Each library holds three, checked in
+`tests/palette.test.ts`:
+
+- **Site conditions and no location:** *Dry shade under conifers* in
+  `content/palette/` (sun and moisture), *Dry shade understory* in
+  `tests/fixtures/library/content/palette/` (with a zone too); each also
+  has an unsourced text name.
+- **A location, and the wet-soil conflict:** *Rain garden cell* (Portland)
+  and *Bioswale bottom* (Bellevue): a wet site, with one dry-ground plant
+  that shares no moisture with the rest and fails the site.
+- **No site and no quantities:** *Sunny meadow standard* and *Sunny street
+  standard*, firm standards.
+
+The site has no palette pages yet
+([`spec/v1/library.md`](../spec/v1/library.md)).
+
 ### Licensing rules
 
 - In production, a source is registered only when its terms allow reuse in

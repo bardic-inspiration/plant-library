@@ -6,7 +6,8 @@ import vocabJson from '../config/vocab.json' with { type: 'json' };
 import { featureAt, type GeoLayers } from './geo';
 import { botanicalName, sortName } from './names';
 import { expandZones, zoneIndex } from './zones';
-import type { GeoDerived, LatLon, PlantData, PlantDerived, PlantUse, ProjectData, ProjectDerived, Vocab } from './types';
+import { compatibility, type CompatSite } from './compat';
+import type { GeoDerived, LatLon, PaletteData, PaletteDerived, PlantData, PlantDerived, PlantUse, ProjectData, ProjectDerived, Vocab } from './types';
 
 const defaultVocab = vocabJson as unknown as Vocab;
 
@@ -118,6 +119,30 @@ export function deriveProject(
   const out: ProjectDerived = { geo, plants, usesPlant: [...taxa].sort() };
   if (d.constructionBudget !== undefined && d.sizeAcres > 0) out.costPerAcre = Math.round(d.constructionBudget / d.sizeAcres);
   if (d.completed) out.completedYear = Number(d.completed.slice(0, 4));
+  return out;
+}
+
+/**
+ * A palette's values: `compatibility` over its list and its site's
+ * conditions, and `geo` from `site.location` (pass `deriveGeo` of it, or
+ * undefined without one). The site's zone is the one it states, or else the
+ * location's, which waits on the zone layer (D33). Without a `site` there is
+ * no site fit.
+ */
+export function derivePalette(
+  d: PaletteData,
+  plantsByKey: ReadonlyMap<string, PlantData>,
+  geo?: GeoDerived,
+  vocab: Vocab = defaultVocab,
+): PaletteDerived {
+  let site: CompatSite | undefined;
+  if (d.site) {
+    const { sun, moisture, soil } = d.site;
+    const hardinessZone = d.site.hardinessZone ?? geo?.hardinessZone;
+    site = { sun, moisture, soil, hardinessZone };
+  }
+  const out: PaletteDerived = { compatibility: compatibility(d.plantList, plantsByKey, site, vocab) };
+  if (geo) out.geo = geo;
   return out;
 }
 

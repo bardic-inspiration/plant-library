@@ -3,8 +3,8 @@
 ## Purpose
 
 What an entry holds, what is derived from it, and what validation enforces
-(P2, P3, P5). Plants and the project schema are built; project derived
-values and palettes are still in
+(P2, P3, P5). Plants, projects, and palettes are built; the derived values
+still to add (a plant's companions, a project's hardiness zone) are in
 [`spec/v1/data-model.md`](../spec/v1/data-model.md).
 
 ## Behavior
@@ -105,6 +105,28 @@ are optional short text, as written on the schedule. `plant` is `RefOrText`
 (below): a ref to a plant, or the name as the schedule wrote it when the
 library doesn't hold the plant yet. A plant appears once per distinct `size`.
 
+### Palette
+
+A saved plant list that isn't a built project: a design mock-up, a firm
+standard, or a list for a planting condition ("dry shade under conifers")
+(`schemas/palette.schema.json`). The entry states its `name`.
+
+| Field | Shape | Notes |
+|---|---|---|
+| `site` | optional object | The conditions the palette is for; at least one of the keys below |
+| `site.sun`, `site.moisture`, `site.soil.drainage` | lists from the `sun`, `moisture`, `soilDrainage` vocabularies | Each may state several values (a part-sun, part-shade site) |
+| `site.hardinessZone` | a USDA zone, `8` or `8b` | A whole zone stands for both halves |
+| `site.location` | `{ lat, lon }` | As a project's `location`: at most 5 decimal places, inside WA, OR, or CA |
+| `plantList` | array | `paletteListItem` in `schemas/common.schema.json`: a project's item shape with `quantity` optional |
+
+The type has `fixtureRules` with no proprietary fields, so with
+`fixturesOnly` on every palette must be a fixture. The plant-list rules and
+`RefOrText` apply to its list as to a project's. Palettes are made in the
+site's workspace and become entries by being submitted and merged; both are
+still in [`spec/v1/library.md`](../spec/v1/library.md) and
+[`spec/v1/submissions.md`](../spec/v1/submissions.md). The site has no
+palette pages yet, so palettes aren't in the index (D35).
+
 ### Derived values
 
 `lib/derive.ts`, never stored:
@@ -142,7 +164,21 @@ until `geo.hardinessZone` exists (D33). `lib/build-data.ts` attaches it to
 each plant as `derived.use`, which the *Used in* facets and the plant page's
 "Used on" read.
 
-The build also computes each entry's `refs` and `refBy` (back-references).
+A palette's, from `derivePalette` (its list, the plants it refs, and
+`deriveGeo(site.location)` when it has one), attached by the build as its
+`derived`:
+
+| Derived | From |
+|---|---|
+| `compatibility` | `compatibility` over the list and the site's `sun`, `moisture`, `soil.drainage`, and zone ([Compatibility](#compatibility)); with no `site`, no axis has a `siteFit` |
+| `geo` | `deriveGeo(site.location)`; absent without a location |
+
+The site's zone is `site.hardinessZone`, or else the location's
+`geo.hardinessZone`, which waits on the zone layer (D33), so for now a
+palette with only a location has an unknown hardiness fit.
+
+The build also computes each entry's `refs` and `refBy` (back-references);
+a plant's `refBy` lists the projects and palettes whose lists include it.
 
 ### Compatibility
 
@@ -221,10 +257,11 @@ zone layer (D33).
   outside the markdown subset, a field note on an unknown trait;
 - with `fixturesOnly` on, an entry of a type with `fixtureRules` that isn't
   a fixture or fills a proprietary field;
-- a project `location` outside WA, OR, and CA (by `deriveGeo` over the
-  boundary layers), or with more than 5 decimal places in `lat` or `lon`;
+- a project `location` or palette `site.location` outside WA, OR, and CA
+  (by `deriveGeo` over the boundary layers), or with more than 5 decimal
+  places in `lat` or `lon`;
   `completed` missing when `status` is `constructed`;
-- in a plant list: a ref to something other than a plant; the same plant
+- in a plant list (a project's or a palette's): a ref to something other than a plant; the same plant
   twice with the same `size` (no size counts as one size; text names are
   compared normalized); an unsourced name that matches a plant's name,
   synonym, or name with trade name.
@@ -238,8 +275,9 @@ unsourced plant in a plant list.
 `schemas/` (shapes), `config/vocab.json` (values and thresholds),
 `lib/validate.ts` (cross-entry rules), `lib/derive.ts`, `lib/names.ts`,
 `lib/zones.ts`, `lib/compat.ts`. Each rule has a passing and a failing case in
-`tests/validate.test.ts` (plants) and `tests/project.test.ts` (projects and
-plant lists); compatibility is tested in `tests/compat.test.ts`.
+`tests/validate.test.ts` (plants), `tests/project.test.ts` (projects and
+plant lists), and `tests/palette.test.ts` (palettes, their derived values,
+and the fixture palettes); compatibility is tested in `tests/compat.test.ts`.
 
 ## Extending
 

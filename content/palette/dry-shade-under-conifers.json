@@ -1,0 +1,54 @@
+{
+  "type": "palette",
+  "id": "dry-shade-under-conifers",
+  "name": "Dry shade under conifers",
+  "summary": "A made-up list for the dry, shaded ground under established conifers, with site conditions and no location.",
+  "data": {
+    "site": {
+      "sun": [
+        "part-shade",
+        "shade"
+      ],
+      "moisture": [
+        "dry"
+      ]
+    },
+    "plantList": [
+      {
+        "plant": {
+          "ref": "plant/berberis-nervosa"
+        }
+      },
+      {
+        "plant": {
+          "ref": "plant/gaultheria-shallon"
+        }
+      },
+      {
+        "plant": {
+          "ref": "plant/polystichum-munitum"
+        }
+      },
+      {
+        "plant": {
+          "ref": "plant/oxalis-oregana"
+        }
+      },
+      {
+        "plant": {
+          "ref": "plant/vancouveria-hexandra"
+        }
+      },
+      {
+        "plant": "Sarcococca ruscifolia",
+        "note": "Under the drip line"
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-19",
+    "revisedAt": "2026-11-19",
+    "method": "manual",
+    "fixture": true
+  }
+}

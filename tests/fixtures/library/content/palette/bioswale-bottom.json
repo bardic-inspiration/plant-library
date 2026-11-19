@@ -1,0 +1,60 @@
+{
+  "type": "palette",
+  "id": "bioswale-bottom",
+  "name": "Bioswale bottom",
+  "summary": "A made-up mock-up of a Bellevue bioswale bottom, with a location and one dry-ground plant that conflicts with the wet soil.",
+  "data": {
+    "site": {
+      "moisture": [
+        "wet"
+      ],
+      "soil": {
+        "drainage": [
+          "poor"
+        ]
+      },
+      "location": {
+        "lat": 47.6101,
+        "lon": -122.2015
+      }
+    },
+    "plantList": [
+      {
+        "plant": {
+          "ref": "plant/carex-obnupta"
+        },
+        "quantity": 200,
+        "size": "#1 container",
+        "spacing": "18 in o.c."
+      },
+      {
+        "plant": {
+          "ref": "plant/camassia-quamash"
+        },
+        "quantity": 300,
+        "size": "Bulb"
+      },
+      {
+        "plant": {
+          "ref": "plant/thuja-plicata"
+        },
+        "quantity": 3,
+        "size": "6 ft B&B"
+      },
+      {
+        "plant": {
+          "ref": "plant/arctostaphylos-uva-ursi"
+        },
+        "quantity": 40,
+        "size": "#1 container",
+        "note": "Swale edge"
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-19",
+    "revisedAt": "2026-11-19",
+    "method": "manual",
+    "fixture": true
+  }
+}
