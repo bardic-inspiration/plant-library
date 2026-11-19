@@ -122,7 +122,8 @@ function refObjects(v: unknown, out: string[] = []): string[] {
 
 /**
  * The overlay registry: its schema, unique ids, one projects overlay, data
- * files that exist, and selection facets that name a type's facet. Token
+ * files that exist, selection facets that name a type's facet, and a
+ * choropleth's regions: overlays below it that draw regions from a file. Token
  * names are checked when the style is built (an unknown token fails the build).
  */
 export function overlayProblems(config: Config, schemas: Schemas, file = 'config/overlays.json'): Issue[] {
@@ -137,7 +138,14 @@ export function overlayProblems(config: Config, schemas: Schemas, file = 'config
   if (dup) err(`duplicate overlay ${dup}`);
   if (config.overlays.filter((o) => o.data === 'library').length !== 1) err('exactly one overlay draws the library\'s projects (data "library")');
   for (const o of config.overlays) {
-    if (o.data !== 'library' && !existsSync(join(config.root, o.data))) err(`${o.id}: no data file ${o.data}`);
+    if (o.data !== 'library' && o.data !== 'analysis' && !existsSync(join(config.root, o.data))) err(`${o.id}: no data file ${o.data}`);
+    for (const r of o.regions ?? []) {
+      const at = ids.indexOf(r);
+      const region = config.overlays[at];
+      if (!region) err(`${o.id}: unknown region overlay "${r}"`);
+      else if (!region.data.endsWith('.topojson') || (region.kind !== 'fill' && region.kind !== 'line')) err(`${o.id}: region overlay "${r}" draws no regions from a file`);
+      else if (at > ids.indexOf(o.id)) err(`${o.id}: region overlay "${r}" must come before it in the registry, so the choropleth draws over it`);
+    }
     for (const [type, facet] of Object.entries(o.facets ?? {})) {
       if (!config.types[type]) err(`${o.id}: unknown type "${type}" in facets`);
       else if (!flatFacets(config.types, type).some((f) => f.id === facet)) err(`${o.id}: ${type} has no facet "${facet}"`);

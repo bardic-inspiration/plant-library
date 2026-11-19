@@ -190,6 +190,15 @@ unsourced text.
 | `regionSummary(projects, plants)` | For those projects: `plants`, ranked by projects, then quantity, then key; `taxa` and `unsourced` counts with the projects listing any; `nativeShare`, quantity native to each plant's own project's state over the quantity with a known range, with that quantity and its projects; `byForm`, quantity and projects per form, unsourced lines under `unknown` |
 | `rankPlants(plants, by)` | The same table ranked by quantity instead, projects breaking ties |
 
+`build:index` also writes `site/public/analysis.json` (`analysisFile` in
+`lib/analysis-data.ts`): each project's region ids and plant list (plant
+and quantity only), each plant's form and native states, and the region
+levels the selectable overlays filter by, with the facet keys that select
+each (`selectedRegions` reads a query's filters with them). The map view's
+per-region view runs `projectsIn` and `regionSummary` on it, which take any
+project with a list and geography (`RegionProject`), so the browser and the
+build give the same figures (P3).
+
 Counts follow `deriveProject`: a line with no quantity adds nothing to a
 quantity but still counts its project, and a plant at several sizes counts
 its project once.

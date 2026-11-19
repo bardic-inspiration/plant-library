@@ -33,6 +33,15 @@
     --map-overlay-county: var(--p-gray-600);
     --map-overlay-state: var(--p-black);
 
+    /* The plant-use choropleth: the content scale's first three steps, low
+       to high, with a darker edge. The deeper steps would put map labels
+       under 4.5:1, so the ramp stops at three. */
+    --map-choropleth-1: var(--scale-1);
+    --map-choropleth-2: var(--scale-2);
+    --map-choropleth-3: var(--scale-3);
+    --map-choropleth-outline: var(--p-vermillion-400);
+    --map-choropleth-opacity: 0.85;
+
     /* A single plant's native range in the map view. */
     --map-native-range: var(--p-green-100);
     --map-native-range-outline: var(--p-green);

@@ -1,7 +1,8 @@
 /**
  * npm run build:index — validate, derive, resolve refs, and write the
  * site's data: site/public/library.json (the lean index), the full entries
- * under site/public/data/ (each with a plant list also as a CSV schedule), and the plant images under site/public/assets/.
+ * under site/public/data/ (each with a plant list also as a CSV schedule),
+ * site/public/analysis.json (what the map page's per-region view reads), and the plant images under site/public/assets/.
  * The output is sorted and has no timestamps, so two builds of the same
  * content are byte-identical.
  */
@@ -9,6 +10,7 @@ import { cpSync, existsSync, mkdirSync, rmSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { buildData } from '../lib/build-data';
 import { formatReport } from '../lib/library';
+import { ANALYSIS_FILE, analysisFile } from '../lib/analysis-data';
 import { scheduleCsv, schedulePlant, scheduleRows } from '../lib/export';
 import type { PlantData, PlantListItem } from '../lib/types';
 
@@ -23,6 +25,8 @@ if (report.errors.length) {
 const pub = join(config.root, 'site', 'public');
 mkdirSync(pub, { recursive: true });
 writeFileSync(join(pub, 'library.json'), JSON.stringify(data.index) + '\n');
+const plants = new Map(data.entries.filter((b) => b.entry.type === 'plant').map((b) => [b.key, b.entry.data as unknown as PlantData] as const));
+writeFileSync(join(pub, ANALYSIS_FILE), JSON.stringify(analysisFile(data.projects, plants, config.overlays)) + '\n');
 
 const dataDir = join(pub, 'data');
 rmSync(dataDir, { recursive: true, force: true });

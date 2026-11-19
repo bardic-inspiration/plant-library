@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { buildData } from '../lib/build-data';
 import { applyQuery, emptyQuery, mapPosition, mapUrl, parseQuery, serializeQuery, viewUrl, withMapPosition, type Query } from '../lib/filter';
-import { detailFeatures, featureBounds, inView, mapResults, projectFeatures, unplaced, type Bounds } from '../lib/map-data';
+import { detailFeatures, featureBounds, inView, mapResults, projectFeatures, regionUse, unplaced, type Bounds } from '../lib/map-data';
 import { BASE } from '../lib/site';
 import type { IndexRecord } from '../lib/types';
 import { FIXTURES } from './helpers';
@@ -180,5 +180,35 @@ describe('small maps on detail pages (#32)', () => {
     const filters = { 'project.county': ['41059'] };
     expect(mapUrl(filters)).toBe(viewUrl(parseQuery(serializeQuery({ ...emptyQuery(), filters })), 'map'));
     expect(mapUrl(filters)).toBe(`${BASE}map/?project.county=41059`);
+  });
+});
+
+describe('regionUse (the use choropleth)', () => {
+  it('counts the drawn projects listing a matching plant by region, with their quantity and the projects behind them', () => {
+    const one = mapResults(records.filter((r) => r.key === 'plant/garrya-elliptica'), records, {});
+    expect(regionUse(one, records, 'project.state')).toEqual({
+      regions: [
+        { id: 'CA', projects: 1, quantity: 6 },
+        { id: 'WA', projects: 1, quantity: 12 },
+      ],
+      projects: 2,
+    });
+    expect(regionUse(one, records, 'project.county').regions.map((r) => r.id)).toEqual(['06037', '53061']);
+    // Every shrub at once: a region's count is its projects, once each, whatever the number of matching plants on them.
+    const { drawn } = drawnFor({ 'plant.form': ['shrub'] });
+    const all = regionUse(drawn, records, 'project.state');
+    expect(all.projects).toBeGreaterThan(2);
+    expect(all.regions.reduce((n, r) => n + r.projects, 0)).toBe(all.projects);
+  });
+
+  it('has nothing to show without plants in the results', () => {
+    const { drawn } = drawnFor({ type: ['project'] });
+    expect(regionUse(drawn, records, 'project.state')).toEqual({ regions: [], projects: 0 });
+  });
+
+  it('a box narrows it to the projects inside', () => {
+    const plant = records.filter((r) => r.key === 'plant/garrya-elliptica');
+    const ca: Bounds = [-119, 33.5, -117.5, 34.5];
+    expect(regionUse(mapResults(plant, records, {}, ca), records, 'project.state')).toEqual({ regions: [{ id: 'CA', projects: 1, quantity: 6 }], projects: 1 });
   });
 });

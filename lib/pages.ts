@@ -5,7 +5,8 @@ import { encodeList, SHARE_PARAM } from './workspace';
 import { PRINT_SHEETS } from './export';
 
 export function samplePages(dist: string): string[] {
-  const pages = ['', 'map/', 'about/', 'styleguide/', '?plant.form=shrub&q=a'];
+  // The map view with plants and a selected region: the use choropleth and what gets planted there.
+  const pages = ['', 'map/', 'map/?plant.form=shrub&project.state=WA', 'about/', 'styleguide/', '?plant.form=shrub&q=a'];
   for (const type of ['plant', 'project', 'palette']) {
     const dir = join(dist, type);
     if (!existsSync(dir)) continue;

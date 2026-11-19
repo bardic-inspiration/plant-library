@@ -9,11 +9,12 @@ import { useEffect, useMemo, useRef, useState } from 'preact/hooks';
 import { buildSearch } from '../lib/search';
 import { TYPES } from '../../../lib/registry';
 import { applyQuery, clearFilters, facetCounts, mapPosition, parseQuery, pickRegion, regionKeys, serializeQuery, sortOptions, sortRecords, toggleValue, viewUrl, withBbox, withMapPosition, type MapPosition, type Query } from '../../../lib/filter';
-import { inView, mapResults, paletteFeatures, projectFeatures, unplaced, type Bounds } from '../../../lib/map-data';
+import { inView, mapResults, paletteFeatures, projectFeatures, regionUse, unplaced, type Bounds } from '../../../lib/map-data';
 import type { IndexFacet, IndexRecord, LibraryIndex } from '../../../lib/types';
 import type { OverlayMeta } from '../../../lib/overlays';
 import type { MapViewProps } from './MapView';
 import { webglAvailable } from '../lib/webgl';
+import RegionView from './RegionView';
 import { url } from '../../../lib/site';
 import { Card } from '../components/ui/PlantCard';
 import { AddToList } from '../components/ui/AddToList';
@@ -103,6 +104,11 @@ function MapResultsView({ index, query, results, onMove, onPick, onBox }: { inde
   const visible = useMemo(() => (bounds ? inView(results, index.records, drawn, bounds) : []), [results, index, drawn, bounds]);
   const away = useMemo(() => unplaced(results, drawn), [results, drawn]);
   const single = drawn.nativeStates !== undefined ? results.find((r) => r.type === 'plant') : undefined;
+  // The use choropleth's figures, by the region overlay it draws by: only with plants in the results.
+  const use = useMemo(
+    () => (o: OverlayMeta) => (drawn.plantProjects.size && o.facets.project ? regionUse(drawn, index.records, `project.${o.facets.project}`) : undefined),
+    [drawn, index],
+  );
 
   return (
     <div class="map-results-view">
@@ -120,6 +126,7 @@ function MapResultsView({ index, query, results, onMove, onPick, onBox }: { inde
             regionLabel={(o, id) => regionKeys(o.facets).map((k) => index.facets.find((f) => f.key === k)?.values.find((v) => v.id === id)?.label).find(Boolean)}
             box={query.bbox}
             onBox={onBox}
+            use={use}
             onMove={(pos, b) => {
               setBounds(b);
               // The first report is the opening view; only a move the reader makes goes into the URL.
@@ -133,6 +140,7 @@ function MapResultsView({ index, query, results, onMove, onPick, onBox }: { inde
           </p>
         )}
         {single && drawn.nativeStates?.length === 0 && <p class="map-results-note">No native range is recorded for {single.name}.</p>}
+        <RegionView index={index} filters={query.filters} />
       </div>
       <section class={sheetOpen ? 'map-results open' : 'map-results'} aria-labelledby="in-view-heading">
         <button type="button" class="sheet-toggle" aria-expanded={sheetOpen} aria-controls="in-view-list" onClick={() => setSheetOpen((o) => !o)}>

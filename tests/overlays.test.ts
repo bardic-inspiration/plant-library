@@ -9,7 +9,7 @@ import site from '../config/site.json' with { type: 'json' };
 import { contrast } from '../lib/contrast';
 import { OVERLAY_BEFORE } from '../lib/map-style';
 import { loadTokens, mapBuildFor, mapStyleFor, mapTokens } from '../lib/map-style-load';
-import { beforeLayer, layerList, overlaySource, PALETTE_PROP, pickedFilter, pickedLayers, pickLayer, type OverlayMeta } from '../lib/overlays';
+import { activeRegion, beforeLayer, choroplethLayers, choroplethPaint, choroplethSteps, layerList, overlaySource, PALETTE_PROP, pickedFilter, pickedLayers, pickLayer, stepFor, type OverlayMeta } from '../lib/overlays';
 import { colorFeatures, loadOverlays } from '../lib/overlays-load';
 import { overlayProblems } from '../lib/validate';
 import { clone, ROOT, setup } from './helpers';
@@ -22,8 +22,9 @@ const t = mapTokens(loadTokens(ROOT));
 function allOn(style: StyleSpecification): StyleSpecification {
   const s = structuredClone(style);
   for (const o of layerList(s)) {
-    if (!o.url) continue;
-    s.sources[overlaySource(o.id)] = { type: 'geojson', data: { type: 'FeatureCollection', features: [] } };
+    if (!o.url && o.kind !== 'choropleth') continue;
+    // A choropleth draws over its regions' sources, added above it.
+    if (o.url) s.sources[overlaySource(o.id)] = { type: 'geojson', data: { type: 'FeatureCollection', features: [] } };
     const at = s.layers.findIndex((l) => l.id === OVERLAY_BEFORE);
     s.layers.splice(at, 0, ...o.layers);
   }
@@ -37,13 +38,13 @@ describe('the overlay registry', () => {
     expect(overlayProblems(config, schemas)).toEqual([]);
   });
 
-  it('lists projects (always on), ecoregions, counties, and states, bottom to top', () => {
-    expect(config.overlays.map((o) => o.id)).toEqual(['projects', 'ecoregions', 'counties', 'states']);
+  it('lists projects (always on), ecoregions, counties, states, and the plant-use choropleth, bottom to top', () => {
+    expect(config.overlays.map((o) => o.id)).toEqual(['projects', 'ecoregions', 'counties', 'states', 'plant-use']);
     expect(config.overlays.find((o) => o.id === 'projects')?.alwaysOn).toBe(true);
   });
 
   it('draws the boundary overlays from the same geo/ files as derivation (P3)', () => {
-    for (const o of config.overlays.filter((x) => x.data !== 'library')) expect(o.data).toBe(`geo/${o.id}.topojson`);
+    for (const o of config.overlays.filter((x) => x.data !== 'library' && x.data !== 'analysis')) expect(o.data).toBe(`geo/${o.id}.topojson`);
   });
 
   const problems = (change: (c: typeof config) => void) => {
@@ -70,6 +71,18 @@ describe('the overlay registry', () => {
     expect(problems((c) => delete c.overlays[3].facets).join()).toContain("must have required property 'facets'");
     expect(problems((c) => delete c.overlays[1].style!.palette).length).toBeGreaterThan(0);
   });
+
+  it('a choropleth draws by region overlays below it that draw regions from a file, and is nothing else', () => {
+    const use = (c: typeof config) => c.overlays.find((o) => o.id === 'plant-use')!;
+    expect(problems((c) => (use(c).regions = ['nowhere']))).toEqual(['plant-use: unknown region overlay "nowhere"']);
+    expect(problems((c) => (use(c).regions = ['projects']))).toEqual(['plant-use: region overlay "projects" draws no regions from a file']);
+    expect(problems((c) => c.overlays.unshift(c.overlays.pop()!))).toContain('plant-use: region overlay "counties" must come before it in the registry, so the choropleth draws over it');
+    expect(problems((c) => delete use(c).regions).join()).toContain("must have required property 'regions'");
+    expect(problems((c) => delete use(c).style!.ramp).join()).toContain("must have required property 'ramp'");
+    expect(problems((c) => (use(c).data = 'geo/states.topojson')).join()).toContain('must be equal to constant');
+    expect(problems((c) => (c.overlays[3].kind = 'choropleth')).length).toBeGreaterThan(0);
+    expect(problems((c) => (c.overlays[3].regions = ['counties'])).length).toBeGreaterThan(0);
+  });
 });
 
 describe('overlays in the style', () => {
@@ -77,7 +90,7 @@ describe('overlays in the style', () => {
   const list = layerList(style);
 
   it('ride in the metadata, and the style stays valid with every overlay on, with and without a basemap', () => {
-    expect(list.map((o) => o.id)).toEqual(['projects', 'ecoregions', 'counties', 'states']);
+    expect(list.map((o) => o.id)).toEqual(['projects', 'ecoregions', 'counties', 'states', 'plant-use']);
     expect(validateStyleMin(allOn(style))).toEqual([]);
     const bare = mapStyleFor(ROOT, { ...opts, publicDir: '/nonexistent' });
     expect(validateStyleMin(allOn({ ...bare, layers: [...bare.layers.slice(0, 1), { id: OVERLAY_BEFORE, type: 'background' }, ...bare.layers.slice(1)] }))).toEqual([]);
@@ -118,7 +131,18 @@ describe('overlays in the style', () => {
     expect(list.find((o) => o.id === 'states')!.legend).toEqual([{ label: 'States', color: t.color('--map-overlay-state'), mark: 'line' }]);
   });
 
-  it('labels stay readable on every overlay fill', () => {
+  it('the choropleth has a fill and an edge over each of its regions’ sources, drawing nothing until the map sets its regions', () => {
+    const use = list.find((o) => o.id === 'plant-use')!;
+    expect(use).toMatchObject({ kind: 'choropleth', url: null, regions: ['counties', 'ecoregions', 'states'], legend: [], selectable: false });
+    expect(use.ramp).toEqual([1, 2, 3].map((n) => t.color(`--map-choropleth-${n}`)));
+    expect(use.layers.map((l) => l.id)).toEqual(['counties', 'ecoregions', 'states'].flatMap((r) => choroplethLayers('plant-use', r)));
+    for (const l of use.layers) expect(l).toMatchObject({ source: overlaySource(l.id.split('-')[3]), filter: pickedFilter([]) });
+  });
+
+  it('labels stay readable on every overlay fill and choropleth step', () => {
+    for (const n of [1, 2, 3]) {
+      for (const fg of ['--map-label', '--map-label-strong']) expect(contrast(t.color(fg), t.color(`--map-choropleth-${n}`)), `${fg} on --map-choropleth-${n}`).toBeGreaterThanOrEqual(4.5);
+    }
     for (const n of [1, 2, 3, 4, 5, 6, 7]) {
       for (const fg of ['--map-label', '--map-label-strong']) expect(contrast(t.color(fg), t.color(`--map-overlay-${n}`)), `${fg} on --map-overlay-${n}`).toBeGreaterThanOrEqual(4.5);
     }
@@ -188,5 +212,42 @@ describe('overlay order on the map', () => {
     expect(beforeLayer(list, 'a', (id) => id === 'overlay-c-fill', 'water')).toBe('overlay-c-fill');
     expect(beforeLayer(list, 'b', (id) => id !== 'overlay-b-fill', 'water')).toBe('overlay-c-fill');
     expect(beforeLayer(list, 'c', () => true, 'water')).toBe('water');
+  });
+});
+
+describe('the use choropleth', () => {
+  const ramp = ['c1', 'c2', 'c3', 'c4', 'c5'];
+
+  it('gives each count a step of its own while they fit, the darkest to the highest', () => {
+    expect(choroplethSteps(0, ramp)).toEqual([]);
+    expect(choroplethSteps(1, ramp)).toEqual([{ min: 1, max: 1, color: 'c5' }]);
+    expect(choroplethSteps(3, ramp)).toEqual([
+      { min: 1, max: 1, color: 'c3' },
+      { min: 2, max: 2, color: 'c4' },
+      { min: 3, max: 3, color: 'c5' },
+    ]);
+  });
+
+  it('groups counts in whole-number steps past the ramp', () => {
+    const steps = choroplethSteps(12, ramp);
+    expect(steps.map((s) => [s.min, s.max])).toEqual([[1, 3], [4, 6], [7, 9], [10, 12]]);
+    expect(steps.map((s) => s.color)).toEqual(['c2', 'c3', 'c4', 'c5']);
+    expect(stepFor(steps, 5)?.color).toBe('c3');
+    expect(choroplethSteps(11, ramp).at(-1)).toEqual({ min: 10, max: 11, color: 'c5' });
+  });
+
+  it('draws only regions with a count, each in its step', () => {
+    const steps = choroplethSteps(2, ramp);
+    const { filter, color } = choroplethPaint([{ id: 'WA', value: 2 }, { id: 'OR', value: 1 }, { id: 'CA', value: 0 }], steps);
+    expect(filter).toEqual(pickedFilter(['WA', 'OR']));
+    expect(color).toEqual(['match', ['get', 'id'], 'WA', 'c5', 'OR', 'c4', 'c4']);
+    expect(choroplethPaint([], []).filter).toEqual(pickedFilter([]));
+  });
+
+  it('draws by the first of its regions that is on, else the last', () => {
+    const def = { regions: ['counties', 'ecoregions', 'states'] };
+    expect(activeRegion(def, [])).toBe('states');
+    expect(activeRegion(def, ['states', 'ecoregions'])).toBe('ecoregions');
+    expect(activeRegion(def, ['ecoregions', 'counties'])).toBe('counties');
   });
 });
