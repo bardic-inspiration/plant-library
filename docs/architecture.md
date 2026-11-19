@@ -15,6 +15,7 @@ content/<type>/<id>.json           entries (plants so far)
 assets/images/plant/<id>/<n>.*     plant images
 schemas/                           JSON schemas: common, envelope, plant, sources, site, types
 config/                            site.json, types.json, vocab.json, sources.json
+geo/                               boundary layers (TopoJSON) the build derives geography from
 lib/                               code shared by scripts, the site, and tests
 scripts/                           the npm scripts' entry points
 site/                              the Astro project (src/, public/, astro.config.mjs)
@@ -29,7 +30,8 @@ spec/v1/                           the unbuilt part of the v1 design
 TypeScript on Node 22, npm with a committed lockfile, Astro 7 (static
 output) with Preact 11 islands, Ajv (JSON Schema 2020-12), MiniSearch,
 `marked` for the markdown subset, plain CSS with tokens and Stylelint,
-Montserrat through `@fontsource`, Lucide icons inlined, Vitest, and
+Montserrat through `@fontsource`, `topojson-client` for the boundary
+layers, Lucide icons inlined, Vitest, and
 Playwright with axe-core. Versions are pinned in `package-lock.json`;
 Dependabot proposes upgrades ([decisions.md](decisions.md)).
 
@@ -66,11 +68,12 @@ from `config/site.json`.
 | `lane`, `pr-summary` | CI helpers ([workflow.md](workflow.md)) |
 | `coverage` | Unsourced plant names and non-commercial dependencies ([sources.md](sources.md#coverage)) |
 | `attribution` | Regenerates `ATTRIBUTION.md`; `-- --check` fails when stale |
+| `geo` | Rebuilds the boundary layers in `geo/` from their sources; not part of the build ([geography.md](geography.md)) |
 
 ## Where the rules live
 
 `lib/` holds every rule; scripts are thin entry points. Client-safe modules
-(`names`, `derive`, `zones`, `facets`, `filter`, `format`, `markdown`,
+(`names`, `derive`, `geo`, `zones`, `facets`, `filter`, `format`, `markdown`,
 `site`, `registry`) have no Node imports, so the island uses them too.
 
 ## Extending

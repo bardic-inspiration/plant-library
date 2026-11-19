@@ -122,7 +122,7 @@ for it.
 | M1 | Skeleton | Built: tooling, lanes, CI, deploy, docs, the site ([docs/workflow.md](../../docs/workflow.md)) |
 | M2 | Plants | Built: the plant type, validation, the source registry, and a prototype fixture set of 473 plants from the King County guide and the Portland Plant List ([docs/sources.md](../../docs/sources.md#the-prototype-fixture-set)) |
 | M3 | Library | Built: list view, filter tree, search, plant pages, styling ([docs/site.md](../../docs/site.md)) |
-| M4 | Projects | `data-model.md` project type and geography derivation; `sources.md` fixture projects; project pages; plant and project links |
+| M4 | Projects | `data-model.md` project type and derived values (geography is built apart from hardiness zones: [docs/geography.md](../../docs/geography.md)); `sources.md` fixture projects; project pages; plant and project links |
 | M5 | Map | `map.md` map view, overlays, region filters |
 | M6 | Palettes | `data-model.md` palette type; `sources.md` fixture palettes; `library.md` workspace, compatibility, exports |
 | M7 | Contributions | `submissions.md`: forms, the browser store, the inbox script, field notes, the `integrate` skill |

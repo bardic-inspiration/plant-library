@@ -3,9 +3,10 @@
  * the index build, the detail pages, and the tests.
  */
 import vocabJson from '../config/vocab.json' with { type: 'json' };
+import { featureAt, type GeoLayers } from './geo';
 import { botanicalName, sortName } from './names';
 import { expandZones, zoneIndex } from './zones';
-import type { PlantData, PlantDerived, Vocab } from './types';
+import type { GeoDerived, LatLon, PlantData, PlantDerived, Vocab } from './types';
 
 const defaultVocab = vocabJson as unknown as Vocab;
 
@@ -53,5 +54,26 @@ export function derivePlant(d: PlantData, vocab: Vocab = defaultVocab): PlantDer
     out.hardinessZones = expandZones(d.hardiness);
     out.hardinessMin = zoneIndex(d.hardiness.min, 'min');
   }
+  return out;
+}
+
+/**
+ * A point's geography from the boundary layers in geo/ (P6): `state` (postal
+ * code, as in the `state` vocabulary), `county` (5-digit FIPS), `place` (7-digit
+ * Census place code, absent outside any incorporated place or CDP), and
+ * `ecoregion` (EPA Level III code). Every value is absent for a point outside
+ * the three states. The state is the county's, so the two always agree. Pass
+ * `loadGeo()` from lib/geo-load.ts. `hardinessZone` waits on the zone data's terms
+ * (spec/v1/map.md#open-questions).
+ */
+export function deriveGeo(location: LatLon, layers: GeoLayers): GeoDerived {
+  const { lat, lon } = location;
+  const county = featureAt(layers.counties, lon, lat);
+  if (!county) return {};
+  const out: GeoDerived = { state: county.props.state, county: county.id };
+  const place = featureAt(layers.places, lon, lat);
+  if (place) out.place = place.id;
+  const eco = featureAt(layers.ecoregions, lon, lat);
+  if (eco) out.ecoregion = eco.id;
   return out;
 }

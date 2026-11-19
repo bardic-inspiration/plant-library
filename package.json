@@ -25,7 +25,8 @@
     "lint:css": "stylelint \"site/src/**/*.{css,astro}\"",
     "attribution": "tsx scripts/attribution.ts",
     "dev:fixtures": "PLANT_LIBRARY_DATA=tests/fixtures/library npm run dev",
-    "build:fixtures": "PLANT_LIBRARY_DATA=tests/fixtures/library npm run build"
+    "build:fixtures": "PLANT_LIBRARY_DATA=tests/fixtures/library npm run build",
+    "geo": "tsx scripts/geo.ts"
   },
   "dependencies": {
     "@astrojs/preact": "^6.1.6",
@@ -39,11 +40,13 @@
     "@axe-core/playwright": "^4.14.0",
     "@playwright/test": "1.63.0",
     "@types/node": "^22.20.5",
+    "@types/topojson-client": "^3.1.5",
     "ajv": "^8.20.0",
     "ajv-formats": "^3.0.1",
     "lucide-static": "^1.74.0",
     "postcss-html": "^2.0.0",
     "stylelint": "^18.0.0",
+    "topojson-client": "^3.1.0",
     "tsx": "^4.23.15",
     "typescript": "^7.0.2",
     "vitest": "^5.1.0"

@@ -107,5 +107,43 @@
     "termsChecked": "2026-11-18",
     "termsSummary": "Not a source. It stands in for a required field (family or form) that no reference document gives, so a prototype fixture passes validation (D24). Its value is not a fact; npm run coverage lists every use, and each is replaced from a real source.",
     "citation": "Placeholder: no reference document gave this value."
+  },
+  "census-tiger": {
+    "name": "TIGER/Line Shapefiles",
+    "publisher": "U.S. Census Bureau, Geography Division",
+    "kind": "federal",
+    "url": "https://www2.census.gov/geo/tiger/TIGER2026/",
+    "hosts": [
+      "www2.census.gov",
+      "www.census.gov",
+      "census.gov"
+    ],
+    "provides": [
+      "boundaries"
+    ],
+    "license": "public-domain",
+    "termsUrl": "https://www2.census.gov/geo/tiger/TIGER2026/",
+    "termsChecked": "2026-11-19",
+    "termsSummary": "Read in the metadata shipped with each 2026 shapefile (census.gov itself couldn't be reached): the products are not copyrighted and are free to use, with acknowledgement of the U.S. Census Bureau as the source. TIGER/Line is a Census Bureau trademark, and its boundaries are statistical, not legal or jurisdictional determinations. Used for the state, county, and place layers in geo/.",
+    "citation": "U.S. Census Bureau. {year}. TIGER/Line Shapefiles (https://www2.census.gov/geo/tiger/, {accessed})."
+  },
+  "epa-ecoregions": {
+    "name": "Level III Ecoregions of the Conterminous United States",
+    "publisher": "U.S. Environmental Protection Agency, Office of Research and Development",
+    "kind": "federal",
+    "url": "https://dmap-prod-oms-edc.s3.us-east-1.amazonaws.com/ORD/Ecoregions/us/Eco_Level_III_US.html",
+    "hosts": [
+      "dmap-prod-oms-edc.s3.us-east-1.amazonaws.com",
+      "www.epa.gov",
+      "epa.gov"
+    ],
+    "provides": [
+      "boundaries"
+    ],
+    "license": "public-domain",
+    "termsUrl": "https://dmap-prod-oms-edc.s3.us-east-1.amazonaws.com/ORD/Ecoregions/us/Eco_Level_III_US.html",
+    "termsChecked": "2026-11-19",
+    "termsSummary": "The dataset's metadata states no access or use constraints and asks that the EPA be acknowledged; the data carries no warranty. Used for the ecoregion layer in geo/.",
+    "citation": "U.S. Environmental Protection Agency. {year}. Level III Ecoregions of the Conterminous United States (https://dmap-prod-oms-edc.s3.us-east-1.amazonaws.com/ORD/Ecoregions/us/Eco_Level_III_US.html, {accessed}). Corvallis, OR: U.S. EPA Office of Research and Development."
   }
 }

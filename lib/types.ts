@@ -159,6 +159,20 @@ export interface SiteConfig {
   basemap: { file: string; maxZoom: number };
 }
 
+/** A point: WGS 84, decimal degrees. */
+export interface LatLon {
+  lat: number;
+  lon: number;
+}
+
+/** Geography derived from a point (lib/derive.ts `deriveGeo`). Never stored (P6). */
+export interface GeoDerived {
+  state?: string;
+  county?: string;
+  place?: string;
+  ecoregion?: string;
+}
+
 /** Derived plant values (lib/derive.ts). Never stored. */
 export interface PlantDerived {
   name: string;
