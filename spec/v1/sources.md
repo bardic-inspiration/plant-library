@@ -23,7 +23,8 @@ sites (nursery catalogs included) are not used for it.
 The source registry, the licensing rules, attribution, and coverage are
 built; see [docs/sources.md](../../docs/sources.md). What remains is the
 survey of sources still to check, the production dataset, the fixture
-projects, and the import workflow.
+projects and palettes v1 runs on, and the import workflow (a later
+version).
 
 ### Source survey
 
@@ -121,18 +122,36 @@ quamash, Carex obnupta, Deschampsia cespitosa, Dicentra formosa, Fragaria
 chiloensis, Iris tenax, Juncus ensifolius, Polystichum munitum, Sisyrinchium
 idahoense, Struthiopteris spicant, Tellima grandiflora.
 
-### Fixture projects
+### Fixture projects and palettes
 
-About a dozen made-up projects and a few palettes, marked as fixtures,
-spread across the three states and the project types, so the project
-pages, the map, and the analysis have data before real projects arrive.
+v1's only project and palette data
+([README](README.md#v1-runs-on-fixtures)). Every one is fictional, marked
+`meta.fixture: true`, with `client` and `constructionBudget` blank.
+
+- **Where.** `content/project/` and `content/palette/` for the library's own
+  build, referencing the prototype fixture plants; `tests/fixtures/library/`
+  holds a smaller set referencing its own plants, for tests and
+  `build:fixtures`. Tests may also generate projects in memory where a case
+  needs volume (the map's fifty-project case).
+- **How many.** About a dozen projects and a few palettes in each library,
+  spread across the three states and every project type and status.
+- **What they exercise.** Between them they carry the Cases in
+  [data-model.md](data-model.md#cases), [library.md](library.md#cases), and
+  [map.md](map.md#cases): mixed refs and unsourced text names (made-up or
+  real species the library lacks, never a client's schedule), points on and
+  near state and county lines, an unincorporated point, a proposed project
+  with no completion date, plants shared across projects so companions have
+  data, and a palette with a wet-soil conflict.
+- **Who builds them.** M4 adds the projects (with the project type) and M6
+  the palettes (with the palette type).
 
 ### Import workflow
 
-The owner plans to fill the library from real projects' plant lists. In
-this repo only the species come across: the plants a real list names are
-sourced and added, while the project itself, and its PDF, stay out until the
-company copy. The steps that are already settled:
+A later version, outside v1, with real project data. The owner plans to
+fill the library from real projects' plant lists. In this repo only the
+species come across: the plants a real list names are sourced and added,
+while the project itself, and its PDF, stay out until the company copy.
+The steps that are already settled:
 
 1. A project entry is written from a plant list, with every plant the
    library holds as a ref and the rest as text
@@ -145,6 +164,8 @@ company copy. The steps that are already settled:
 
 ## Done when
 
+- Both libraries hold the fixture projects (M4) and palettes (M6) above,
+  passing validation with `fixturesOnly` on.
 - `npm run coverage` lists the unsourced names in the fixture projects
   (the listing itself is built; the fixture projects aren't).
 
@@ -161,9 +182,8 @@ company copy. The steps that are already settled:
 
 ## Out of scope
 
-The production dataset, in v1: a later stage
-([Production dataset](#production-dataset)).
-
+The production dataset and real project data, in v1: a later version
+([Production dataset](#production-dataset), [Import workflow](#import-workflow)).
 
 Scraping at build time, live API calls from the site, and any source that
 needs an account or a paid license.

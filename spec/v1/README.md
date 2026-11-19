@@ -62,6 +62,22 @@ Plant data is built in two stages
   is a later stage, outside the v1 milestones
   ([sources.md](sources.md#production-dataset)).
 
+### v1 runs on fixtures
+
+v1 is built, tested, and finished on fixture data only:
+
+- **Plants**: the prototype fixture set in `content/plant/` and the test
+  fixture library in `tests/fixtures/library/`.
+- **Projects and palettes**: fictional ones, marked `meta.fixture: true`
+  with the proprietary fields blank
+  ([sources.md](sources.md#fixture-projects-and-palettes)). M4 adds the
+  fixture projects and M6 the fixture palettes, in both libraries.
+
+Real project data, including filling the library from real projects' plant
+lists ([sources.md](sources.md#import-workflow)), is deferred to a later
+version, with the production dataset. No v1 milestone waits on it, and
+every v1 "Done when" is met with fixtures.
+
 ## Principles
 
 Carried from TL's `docs/decisions.md`, renumbered, with two that are new here
@@ -106,9 +122,9 @@ for it.
 | M1 | Skeleton | Built: tooling, lanes, CI, deploy, docs, the site ([docs/workflow.md](../../docs/workflow.md)) |
 | M2 | Plants | Built: the plant type, validation, the source registry, and a prototype fixture set of 473 plants from the King County guide and the Portland Plant List ([docs/sources.md](../../docs/sources.md#the-prototype-fixture-set)) |
 | M3 | Library | Built: list view, filter tree, search, plant pages, styling ([docs/site.md](../../docs/site.md)) |
-| M4 | Projects | `data-model.md` project type and geography derivation; project pages; plant and project links |
+| M4 | Projects | `data-model.md` project type and geography derivation; `sources.md` fixture projects; project pages; plant and project links |
 | M5 | Map | `map.md` map view, overlays, region filters |
-| M6 | Palettes | `data-model.md` palette type; `library.md` workspace, compatibility, exports |
+| M6 | Palettes | `data-model.md` palette type; `sources.md` fixture palettes; `library.md` workspace, compatibility, exports |
 | M7 | Contributions | `submissions.md`: forms, the browser store, the inbox script, field notes, the `integrate` skill |
 | M8 | Analysis | `map.md` distribution analysis |
 
@@ -140,7 +156,8 @@ listed here so the owner can overrule it in review.
 
 Collected from the area files; no part with an open question is built.
 
-1. The PDF plant-list import workflow. ([sources.md](sources.md#open-questions))
+1. The PDF plant-list import workflow; only M7's plant list attachment
+   depends on it. ([sources.md](sources.md#open-questions))
 2. Image sourcing. ([sources.md](sources.md#open-questions))
 3. At handover: how the browser writes to the server folder, and where the
    routine runs. ([submissions.md](submissions.md#open-questions))
