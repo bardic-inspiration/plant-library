@@ -107,9 +107,24 @@ describe('fixture projects in the library: spread', () => {
 });
 
 describe('the index', () => {
-  it('lists only types the site builds pages for, so no card links an unbuilt page', () => {
-    const { index, entries } = buildData({ dataRoot: FIXTURES });
-    expect(entries.some((e) => e.entry.type === 'project')).toBe(true);
-    expect(new Set(index.records.map((r) => r.type))).toEqual(new Set(['plant']));
+  it('lists the types the site builds pages for, projects with their card fields', () => {
+    const { index } = buildData({ dataRoot: FIXTURES });
+    expect(new Set(index.records.map((r) => r.type))).toEqual(new Set(['plant', 'project']));
+    const card = index.records.find((r) => r.key === 'project/bothell-main-street')!.card;
+    expect(card.place).toMatch(/^Bothell, WA$/);
+    expect(Object.keys(card).sort()).toEqual(['completed', 'place', 'plantCount', 'projectType', 'sizeAcres', 'status']);
+  });
+
+  it('counts the plants on a project card as taxa plus unsourced names', () => {
+    const { byKey, index } = buildData({ dataRoot: FIXTURES });
+    for (const r of index.records.filter((x) => x.type === 'project')) {
+      const p = (byKey.get(r.key)!.derived as { plants: { taxa: number; unsourced: number } }).plants;
+      expect(r.card.plantCount).toBe(p.taxa + p.unsourced);
+    }
+  });
+
+  it('names a project in a county, not a place, by its county', () => {
+    const { index } = buildData({ dataRoot: FIXTURES });
+    for (const r of index.records.filter((x) => x.type === 'project')) expect(r.card.place).toMatch(/, (WA|OR|CA)$/);
   });
 });

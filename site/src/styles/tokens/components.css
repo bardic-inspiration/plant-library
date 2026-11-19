@@ -4,6 +4,7 @@
 @layer tokens {
   :root {
     --card-min: 15rem;
+    --mix-min: 14rem;
     --card-image-ratio: 4 / 3;
     --grid-gap: var(--space-md);
     --sidebar-width: 17rem;

@@ -125,8 +125,7 @@ companions; and a streetscape in King County using trees, beside tree
 lists that aren't one (a park in King County, a streetscape in Snohomish
 County) for the cross-type filter test.
 
-The site doesn't list projects yet: the index holds only types with a page
-template, and project pages come with #25 (D35).
+The site lists them with their pages ([site.md](site.md#project-page)).
 
 ### Licensing rules
 

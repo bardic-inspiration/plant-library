@@ -34,8 +34,7 @@ set: switching between them keeps the query string.
 
 ### List view, still to add
 
-- **Cards.** A project card shows name, place and state, type, status,
-  completion year, size, and plant count. A palette card shows name, plant
+- **Cards.** The project card is built. A palette card shows name, plant
   count, and its site conditions. Every card has an "add to list" control
   for the workspace.
 - **The view switch** (List, Map) beside sort and the count.
@@ -58,16 +57,11 @@ After Traits: Used on (its projects with quantity and year, a small map of
 them, and totals by state), then Often planted with (derived companions).
 The page carries "Add photo", "Suggest an edit", and "Add field note".
 
-### Project page
+### Project page, still to add
 
-Name, place and state, a location map, and the facts table (architect,
-client, type, size, budget, cost per acre, status, completion). The plant
-list as a schedule table grouped by form: botanical name, common name,
-quantity, size, spacing, note; unsourced plants show as plain text. Then a
-summary of the list: taxa, total quantity, native share, mix by form and
-by life cycle, and
-its compatibility panel. Actions: export the schedule, open the list in the
-workspace.
+The project page is built ([docs/site.md](../../docs/site.md#project-page)).
+Still to come: the location map (M5), the compatibility panel, and the
+actions to export the schedule and open the list in the workspace (M6).
 
 ### Palette page
 
@@ -149,7 +143,7 @@ about design, spacing, or competition.
   filter case above.
 - `lib/compat.ts` has tests for shared ranges, minimal conflicts, unknowns,
   and site fit.
-- Project and palette pages build for every fixture entry, with every ref
+- Palette pages build for every fixture entry, with every ref
   and facet link resolving.
 - The workspace round-trips a list through local storage, a share URL, CSV,
   and a palette file that passes validation.

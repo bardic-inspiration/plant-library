@@ -5,12 +5,13 @@
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { loadLibrary, type Library } from './library';
-import { derivePlant } from './derive';
+import { derivePlant, deriveGeo, deriveProject } from './derive';
+import { loadGeo } from './geo-load';
 import { nameSegments, fullName } from './names';
 import { facetValues, flatFacets, getPath, indexFacets } from './facets';
 import { plainText } from './markdown';
 import { entryUrl, url } from './site';
-import type { Entry, IndexRecord, LibraryIndex, PlantData, PlantDerived } from './types';
+import type { Entry, IndexRecord, LibraryIndex, PlantData, PlantDerived, ProjectData, ProjectDerived } from './types';
 
 export interface BuiltEntry {
   key: string;
@@ -45,10 +46,24 @@ function tagArrays(tags: Entry['tags']): Record<string, string[]> {
   return out;
 }
 
-function deriveFor(entry: Entry): { name: string; derived: Record<string, unknown> } {
+/** "Portland, OR": the place, else the county, with the state; names come from the boundary layers (P6). */
+export function placeLabel(geo: ProjectDerived['geo'], layers = loadGeo()): string {
+  const named = (layer: 'places' | 'counties', id?: string) => (id ? layers[layer].find((f) => f.id === id)?.name : undefined);
+  const county = named('counties', geo.county);
+  const where = named('places', geo.place) ?? (county ? (/county$/i.test(county) ? county : `${county} County`) : undefined);
+  return [where, geo.state].filter(Boolean).join(', ');
+}
+
+function deriveFor(entry: Entry, plants: ReadonlyMap<string, PlantData>): { name: string; derived: Record<string, unknown> } {
   if (entry.type === 'plant') {
     const d = derivePlant(entry.data as unknown as PlantData);
     return { name: d.name, derived: d as unknown as Record<string, unknown> };
+  }
+  if (entry.type === 'project') {
+    const d = entry.data as unknown as ProjectData;
+    const name = entry.name ?? entry.id;
+    const dp = deriveProject(d, plants, deriveGeo(d.location, loadGeo()));
+    return { name, derived: { name, sortName: name.toLowerCase(), ...dp, placeName: placeLabel(dp.geo) } };
   }
   const name = entry.name ?? entry.id;
   return { name, derived: { name, sortName: name.toLowerCase() } };
@@ -69,6 +84,18 @@ function cardFor(b: BuiltEntry): Record<string, unknown> {
       bloomMonths: dv.bloomMonthList,
       bloomColors: d.bloom?.colors,
       nativeStatus: dv.nativeStatus,
+    };
+  }
+  if (b.entry.type === 'project') {
+    const d = b.entry.data as unknown as ProjectData;
+    const dv = b.derived as unknown as ProjectDerived & { placeName: string };
+    return {
+      place: dv.placeName,
+      projectType: d.projectType,
+      status: d.status,
+      completed: d.completed,
+      sizeAcres: d.sizeAcres,
+      plantCount: dv.plants.taxa + dv.plants.unsourced,
     };
   }
   return {};
@@ -100,9 +127,12 @@ export function buildData(opts: { dataRoot?: string } = {}): BuildData {
   if (cache && !opts.dataRoot) return cache;
   const library = opts.dataRoot ? loadLibrary(undefined, opts.dataRoot) : loadLibrary();
   const { config } = library;
+  const plants = new Map(
+    library.entries.filter((e) => e.entry.type === 'plant').map((e) => [`plant/${e.entry.id}`, e.entry.data as unknown as PlantData] as const),
+  );
   const entries: BuiltEntry[] = library.entries
     .map(({ file, entry }) => {
-      const { name, derived } = deriveFor(entry);
+      const { name, derived } = deriveFor(entry, plants);
       return { key: `${entry.type}/${entry.id}`, file, entry, name, derived, refs: [...refsOf(entry)].sort(), refBy: [] as string[] };
     })
     .sort((a, b) => a.key.localeCompare(b.key));

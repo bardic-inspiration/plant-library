@@ -1,0 +1,223 @@
+---
+import Base from '../../layouts/Base.astro';
+import { PlantName } from '../../components/ui/PlantName';
+import { buildData } from '../../../../lib/build-data';
+import { nameSegments } from '../../../../lib/names';
+import { renderMarkdown } from '../../../../lib/markdown';
+import { url } from '../../../../lib/site';
+import { label } from '../../lib/vocab';
+import type { PlantData, PlantListItem, ProjectData, ProjectDerived } from '../../../../lib/types';
+
+export function getStaticPaths() {
+  return buildData()
+    .entries.filter((e) => e.entry.type === 'project')
+    .map((b) => ({ params: { id: b.entry.id }, props: { key: b.key } }));
+}
+
+const { key } = Astro.props as { key: string };
+const data = buildData();
+const b = data.byKey.get(key)!;
+const d = b.entry.data as unknown as ProjectData;
+const dv = b.derived as unknown as ProjectDerived & { placeName: string };
+const resolve = (k: string) => {
+  const t = data.byKey.get(k);
+  return t ? { name: t.name, url: url(`${k}/`) } : undefined;
+};
+
+const money = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
+const number = new Intl.NumberFormat('en-US');
+const percent = (x: number) => `${Math.round(x * 100)}%`;
+
+const facts: [string, string | undefined][] = [
+  ['Landscape architect', d.landscapeArchitect],
+  ['Client', d.client],
+  ['Type', label('projectType', d.projectType)],
+  ['Size', `${number.format(d.sizeAcres)} acres`],
+  ['Construction budget', d.constructionBudget === undefined ? undefined : money.format(d.constructionBudget)],
+  ['Cost per acre', dv.costPerAcre === undefined ? undefined : money.format(dv.costPerAcre)],
+  ['Status', label('projectStatus', d.status)],
+  ['Completed', d.completed],
+];
+const shownFacts = facts.filter(([, v]) => v);
+
+// The schedule: lines grouped by the plant's form, unsourced names last, each group in list order.
+interface Line { item: PlantListItem; plant?: PlantData; key?: string; text: string }
+const lines: Line[] = d.plantList.map((item) => {
+  const k = typeof item.plant === 'string' ? undefined : item.plant.ref;
+  const target = k ? data.byKey.get(k) : undefined;
+  const plant = target ? (target.entry.data as unknown as PlantData) : undefined;
+  return { item, plant, key: plant ? k : undefined, text: typeof item.plant === 'string' ? item.plant : k ?? '' };
+});
+const forms = (data.library.config.vocab.form as { id: string }[]).map((f) => f.id);
+const groups = [...forms.map((f) => ({ id: f, title: label('form', f), lines: lines.filter((l) => l.plant?.form === f) })), { id: 'unsourced', title: 'Not in the library', lines: lines.filter((l) => !l.plant) }].filter((g) => g.lines.length);
+const hasCol = (k: 'size' | 'spacing' | 'note') => lines.some((l) => l.item[k]);
+
+const p = dv.plants;
+const mix = (rec: Record<string, number>, list: (id: string) => string) =>
+  Object.entries(rec).filter(([, q]) => q > 0).map(([id, q]) => ({ id, name: list(id), q }));
+const byForm = mix(p.byForm, (id) => (id === 'unknown' ? 'Not in the library' : label('form', id))).sort((x, y) => y.q - x.q);
+const byLife: Record<string, number> = {};
+for (const l of lines) {
+  const life = l.plant?.lifeCycle ?? 'unknown';
+  byLife[life] = (byLife[life] ?? 0) + (l.item.quantity ?? 0);
+}
+const byLifeRows = mix(byLife, (id) => (id === 'unknown' ? 'Not recorded' : label('lifeCycle', id))).sort((x, y) => y.q - x.q);
+---
+<Base title={b.name} description={b.entry.summary}>
+  <article class="project" data-type={d.projectType}>
+    <header class="project-head">
+      <p class="label kicker">Project</p>
+      <h1>{b.name}</h1>
+      <p class="place">{dv.placeName}</p>
+      <p class="summary">{b.entry.summary}</p>
+    </header>
+
+    {b.entry.description && <section class="prose" set:html={renderMarkdown(b.entry.description, resolve)} />}
+
+    <section aria-labelledby="facts-heading">
+      <h2 id="facts-heading">Facts</h2>
+      <div class="table-scroll" role="region" aria-label="Facts" tabindex="0">
+        <table class="facts">
+          <tbody>
+            {shownFacts.map(([k, v]) => (
+              <tr><th scope="row">{k}</th><td>{v}</td></tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section aria-labelledby="schedule-heading">
+      <h2 id="schedule-heading">Plant schedule</h2>
+      {lines.length === 0 && <p>This project has no plant list yet.</p>}
+      {groups.map((g) => (
+        <div class="schedule-group">
+          <h3>{g.title}</h3>
+          <div class="table-scroll" role="region" aria-label={`${g.title} schedule`} tabindex="0">
+            <table class="schedule">
+              <thead>
+                <tr>
+                  <th scope="col">Botanical name</th>
+                  <th scope="col">Common name</th>
+                  <th scope="col" class="num">Quantity</th>
+                  {hasCol('size') && <th scope="col">Size</th>}
+                  {hasCol('spacing') && <th scope="col">Spacing</th>}
+                  {hasCol('note') && <th scope="col">Note</th>}
+                </tr>
+              </thead>
+              <tbody>
+                {g.lines.map((l) => (
+                  <tr>
+                    <th scope="row">
+                      {l.key ? <a href={url(`${l.key}/`)}><PlantName parts={nameSegments(l.plant!)} /></a> : l.text}
+                    </th>
+                    <td>{l.plant?.commonNames[0]}</td>
+                    <td class="num">{l.item.quantity === undefined ? '' : number.format(l.item.quantity)}</td>
+                    {hasCol('size') && <td>{l.item.size}</td>}
+                    {hasCol('spacing') && <td>{l.item.spacing}</td>}
+                    {hasCol('note') && <td>{l.item.note}</td>}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      ))}
+    </section>
+
+    <section aria-labelledby="summary-heading">
+      <h2 id="summary-heading">List summary</h2>
+      <div class="table-scroll">
+        <table class="facts">
+          <tbody>
+            <tr><th scope="row">Taxa in the library</th><td>{p.taxa}</td></tr>
+            {p.unsourced > 0 && <tr><th scope="row">Names not in the library</th><td>{p.unsourced}</td></tr>}
+            <tr><th scope="row">Total quantity</th><td>{number.format(p.quantity)}</td></tr>
+            <tr>
+              <th scope="row">Native share</th>
+              <td>{p.nativeShare === undefined ? 'Unknown' : `${percent(p.nativeShare)} of plants with a known range, native to ${dv.geo.state}`}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="mixes">
+        <div>
+          <h3>Mix by form</h3>
+          <ul class="mix" role="list">{byForm.map((m) => <li><span>{m.name}</span> <span class="num">{number.format(m.q)}</span></li>)}</ul>
+        </div>
+        <div>
+          <h3>Mix by life cycle</h3>
+          <ul class="mix" role="list">{byLifeRows.map((m) => <li><span>{m.name}</span> <span class="num">{number.format(m.q)}</span></li>)}</ul>
+        </div>
+      </div>
+      <p class="muted">Quantities count every line, including names the library doesn't hold; those count as unknown in the native share.</p>
+    </section>
+  </article>
+</Base>
+
+<style>
+  .project {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xl);
+  }
+
+  .project-head {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    padding-block-end: var(--space-lg);
+    border-block-end: var(--line-focus) solid var(--accent);
+  }
+
+  .place {
+    font-size: var(--size-h3);
+    font-weight: var(--weight-strong);
+  }
+
+  h2 {
+    font-size: var(--size-h3);
+    padding-block-end: var(--space-xs);
+    border-block-end: var(--border);
+    margin-block-end: var(--space-md);
+  }
+
+  h3 {
+    font-size: var(--size-label);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    margin-block-end: var(--space-xs);
+  }
+
+  .schedule-group + .schedule-group {
+    margin-block-start: var(--space-lg);
+  }
+
+  .facts {
+    inline-size: var(--full);
+    max-inline-size: var(--measure);
+  }
+
+  .facts th {
+    inline-size: 35%;
+  }
+
+  .num {
+    text-align: end;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .mixes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-lg);
+    margin-block: var(--space-md);
+  }
+
+  .mix li {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-lg);
+    min-inline-size: var(--mix-min);
+  }
+</style>
