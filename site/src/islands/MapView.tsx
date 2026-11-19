@@ -9,14 +9,19 @@
  * Overlays come from the registry (config/overlays.json), carried in the
  * style's metadata: the layer list shows each one, and an overlay's data is
  * fetched and its layers added only when it is first switched on.
+ *
+ * Region filters: with `onPick`, clicking a region of a selectable overlay
+ * that is on picks it (the Library turns that into a filter value, as the
+ * tree would), and the regions the filters hold are drawn as picked. With
+ * `onBox`, the box tool draws a box to filter to, or takes the view as one.
  */
 import { useEffect, useRef, useState } from 'preact/hooks';
 import { render } from 'preact';
 import type { GeoJSONSource, GeoJSONSourceSpecification, Map as MapLibreMap } from 'maplibre-gl';
-import { BOUNDS_KEY, NATIVE_LAYERS, NATIVE_SOURCE, OVERLAY_BEFORE, PROJECT_LAYERS, PROJECT_SOURCE } from '../../../lib/map-style';
+import { BOUNDS_KEY, BOX_SOURCE, NATIVE_SOURCE, OVERLAY_BEFORE, PROJECT_LAYERS, PROJECT_SOURCE } from '../../../lib/map-style';
 import { projectFeatures, type Bounds } from '../../../lib/map-data';
-import type { MapPosition } from '../../../lib/filter';
-import { beforeLayer, layerList, overlaySource, type LegendItem, type OverlayMeta } from '../../../lib/overlays';
+import { pickedRegions, type MapPosition } from '../../../lib/filter';
+import { beforeLayer, layerList, overlaySource, pickedFilter, pickedLayers, pickLayer, type LegendItem, type OverlayMeta } from '../../../lib/overlays';
 import type { IndexRecord, LibraryIndex } from '../../../lib/types';
 import { url } from '../../../lib/site';
 import { Card } from '../components/ui/PlantCard';
@@ -69,6 +74,21 @@ export interface MapViewProps {
   position?: MapPosition;
   /** Called when the map settles after a move, and once it first loads. */
   onMove?: (pos: MapPosition, bounds: Bounds) => void;
+  /** The query's filters, for drawing the regions they hold as picked. */
+  filters?: Record<string, string[]>;
+  /** Called when a region of a selectable overlay is clicked; without it regions can't be picked. */
+  onPick?: (overlay: OverlayMeta, id: string) => void;
+  /** Labels for regions, by overlay and id (from the index facets); a feature's own name otherwise. */
+  regionLabel?: (overlay: OverlayMeta, id: string) => string | undefined;
+  /** The box filter, drawn on the map. */
+  box?: Bounds;
+  /** Called with a box drawn or taken from the view, or undefined to clear it; without it there is no box tool. */
+  onBox?: (box: Bounds | undefined) => void;
+}
+
+/** A box as a GeoJSON polygon, for drawing. */
+function boxFeature([w, s, e, n]: Bounds) {
+  return { type: 'FeatureCollection', features: [{ type: 'Feature', properties: {}, geometry: { type: 'Polygon', coordinates: [[[w, s], [e, s], [e, n], [w, n], [w, s]]] } }] };
 }
 
 /** The project in a popup: its card, as the list view draws it. */
@@ -88,7 +108,7 @@ function popupContent(rec: IndexRecord | undefined, p: { name: string; url: stri
   return body;
 }
 
-export default function MapView({ label = 'Map of projects', overlays: initial = [], layerList: showList = true, index: given, features, nativeStates, position, onMove }: MapViewProps) {
+export default function MapView({ label = 'Map of projects', overlays: initial = [], layerList: showList = true, index: given, features, nativeStates, position, onMove, filters, onPick, regionLabel, box: boxFilter, onBox }: MapViewProps) {
   const box = useRef<HTMLDivElement>(null);
   const mapRef = useRef<MapLibreMap | undefined>(undefined);
   const added = useRef(new Map<string, Promise<void>>());
@@ -101,6 +121,11 @@ export default function MapView({ label = 'Map of projects', overlays: initial =
   const [message, setMessage] = useState('');
   const [registry, setRegistry] = useState<OverlayMeta[]>([]);
   const [on, setOn] = useState<string[]>(initial);
+  const [drawing, setDrawing] = useState(false);
+  const [drag, setDrag] = useState<{ x0: number; y0: number; x1: number; y1: number } | undefined>(undefined);
+  // The click handler is set once, so it reads the current overlays and callbacks through a ref.
+  const live = useRef({ registry, on, onPick, regionLabel });
+  live.current = { registry, on, onPick, regionLabel };
 
   useEffect(() => {
     const el = box.current;
@@ -165,6 +190,45 @@ export default function MapView({ label = 'Map of projects', overlays: initial =
           const src = m.getSource<GeoJSONSource>(PROJECT_SOURCE)!;
           const zoom = await src.getClusterExpansionZoom(f.properties.cluster_id as number);
           m.easeTo({ center: (f.geometry as unknown as { coordinates: [number, number] }).coordinates, zoom });
+        });
+        // A click on a region of a selectable overlay that is on picks it; one on a project or cluster doesn't.
+        m.on('click', (e) => {
+          const { registry: reg, on: shown, onPick: pick, regionLabel: named } = live.current;
+          if (!pick) return;
+          const projectLayers = [PROJECT_LAYERS[0], PROJECT_LAYERS[2]].filter((l) => m.getLayer(l));
+          if (projectLayers.length && m.queryRenderedFeatures(e.point, { layers: projectLayers }).length) return;
+          const pickable = reg.filter((o) => o.selectable && shown.includes(o.id) && m.getLayer(pickLayer(o.id)));
+          if (!pickable.length) return;
+          const hits = m.queryRenderedFeatures(e.point, { layers: pickable.map((o) => pickLayer(o.id)) });
+          const found = new Map<string, { overlay: OverlayMeta; id: string; name: string }>();
+          for (const f of hits) {
+            const overlay = pickable.find((o) => pickLayer(o.id) === f.layer.id);
+            const id = String(f.properties?.id ?? '');
+            if (!overlay || !id || found.has(overlay.id)) continue;
+            found.set(overlay.id, { overlay, id, name: named?.(overlay, id) ?? String(f.properties?.name ?? id) });
+          }
+          const regions = pickable.flatMap((o) => found.get(o.id) ?? []).reverse();
+          if (regions.length === 1) return pick(regions[0].overlay, regions[0].id);
+          if (!regions.length) return;
+          // Several overlays on at once: ask which region the click meant.
+          const body = document.createElement('div');
+          body.className = 'map-popup map-pick';
+          const title = Object.assign(document.createElement('p'), { textContent: 'Filter by' });
+          const list = document.createElement('ul');
+          list.setAttribute('role', 'list');
+          const popup = new maplibregl.Popup({ closeButton: true, maxWidth: 'none' });
+          for (const r of regions) {
+            const li = document.createElement('li');
+            const b = Object.assign(document.createElement('button'), { type: 'button', className: 'link-button', textContent: `${r.name} (${r.overlay.label.toLowerCase()})` });
+            b.addEventListener('click', () => {
+              popup.remove();
+              pick(r.overlay, r.id);
+            });
+            li.append(b);
+            list.append(li);
+          }
+          body.append(title, list);
+          popup.setLngLat(e.lngLat).setDOMContent(body).addTo(m);
         });
         m.on('click', 'project-points', (e) => {
           const f = e.features?.[0];
@@ -235,6 +299,44 @@ export default function MapView({ label = 'Map of projects', overlays: initial =
     m.getSource<GeoJSONSource>(PROJECT_SOURCE)?.setData(features as GeoJSONSourceSpecification['data'] & object);
   }, [status, features]);
 
+  // Draw the regions the filters hold as picked, on each selectable overlay once its layers are added.
+  const filterKey = JSON.stringify(filters ?? {});
+  useEffect(() => {
+    const m = mapRef.current;
+    if (status !== 'ready' || !m) return;
+    for (const o of registry) {
+      if (!o.selectable) continue;
+      const ids = pickedRegions({ filters: filters ?? {} }, o.facets);
+      void added.current.get(o.id)?.then(() => {
+        if (mapRef.current !== m) return;
+        for (const l of pickedLayers(o.id)) if (m.getLayer(l)) m.setFilter(l, pickedFilter(ids));
+      }, () => {});
+    }
+    // filterKey stands for filters; `on` adds layers that need their filter set.
+  }, [status, registry, on, filterKey]);
+
+  // Draw the box filter.
+  const boxKey = boxFilter?.join(',') ?? '';
+  useEffect(() => {
+    const m = mapRef.current;
+    if (status !== 'ready' || !m) return;
+    m.getSource<GeoJSONSource>(BOX_SOURCE)?.setData((boxFilter ? boxFeature(boxFilter) : { type: 'FeatureCollection', features: [] }) as never);
+    // boxKey stands for boxFilter.
+  }, [status, boxKey]);
+
+  // Escape leaves the box tool.
+  useEffect(() => {
+    if (!drawing) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setDrawing(false);
+        setDrag(undefined);
+      }
+    };
+    addEventListener('keydown', onKey);
+    return () => removeEventListener('keydown', onKey);
+  }, [drawing]);
+
   // A single plant's native range: its states, from the states overlay's file.
   const nativeKey = (nativeStates ?? []).join(',');
   useEffect(() => {
@@ -259,17 +361,90 @@ export default function MapView({ label = 'Map of projects', overlays: initial =
     // nativeKey stands for nativeStates.
   }, [status, registry, nativeKey]);
 
+  // The box tool: a drag over the map, on a layer laid over the canvas while the tool is on, so the map doesn't pan.
+  const local = (e: PointerEvent) => {
+    const r = (e.currentTarget as HTMLElement).getBoundingClientRect();
+    return { x: e.clientX - r.left, y: e.clientY - r.top };
+  };
+  const drawStart = (e: PointerEvent) => {
+    const { x, y } = local(e);
+    (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
+    setDrag({ x0: x, y0: y, x1: x, y1: y });
+  };
+  const drawMove = (e: PointerEvent) => {
+    if (!drag) return;
+    const { x, y } = local(e);
+    setDrag({ ...drag, x1: x, y1: y });
+  };
+  const drawEnd = () => {
+    const m = mapRef.current;
+    const d = drag;
+    setDrag(undefined);
+    if (!m || !d) return;
+    // A click without a drag draws nothing; the tool stays on.
+    if (Math.abs(d.x1 - d.x0) < 4 || Math.abs(d.y1 - d.y0) < 4) return;
+    const a = m.unproject([d.x0, d.y0]);
+    const b = m.unproject([d.x1, d.y1]);
+    setDrawing(false);
+    onBox?.([a.lng, a.lat, b.lng, b.lat]);
+  };
+  const useView = () => {
+    const m = mapRef.current;
+    if (!m) return;
+    const b = m.getBounds();
+    onBox?.([b.getWest(), b.getSouth(), b.getEast(), b.getNorth()]);
+  };
+
   const toggle = (id: string, checked: boolean) => setOn((cur) => (checked ? [...cur.filter((x) => x !== id), id] : cur.filter((x) => x !== id)));
   const legends = registry.filter((o) => o.legend.length && (o.alwaysOn || on.includes(o.id)));
   const native = (nativeStates?.length ?? 0) > 0;
+  const pickable = onPick ? registry.filter((o) => o.selectable && on.includes(o.id)) : [];
+  const tools = Boolean(onBox) && status === 'ready';
 
   return (
     <div class="map-view" data-status={status} data-projects-rendered={rendered}>
       <div ref={box} class="map-canvas" role="region" aria-label={label} />
+      {drawing && (
+        <div class="map-draw" onPointerDown={drawStart} onPointerMove={drawMove} onPointerUp={drawEnd} onPointerCancel={() => setDrag(undefined)}>
+          {drag && (
+            <div
+              class="map-draw-box"
+              style={{ left: `${Math.min(drag.x0, drag.x1)}px`, top: `${Math.min(drag.y0, drag.y1)}px`, width: `${Math.abs(drag.x1 - drag.x0)}px`, height: `${Math.abs(drag.y1 - drag.y0)}px` }}
+            />
+          )}
+        </div>
+      )}
       {status === 'unsupported' && <p class="map-note">This browser can't draw the map (it needs WebGL). The list view shows the same entries.</p>}
       {status === 'error' && <p class="map-note">The map didn't load: {message}</p>}
-      {(showList || legends.length > 0 || native) && registry.length > 0 && (
+      {(showList || legends.length > 0 || native || tools) && registry.length > 0 && (
         <div class="map-panel">
+          {tools && (
+            <div class="map-tools" role="group" aria-labelledby="map-tools-title">
+              <p id="map-tools-title" class="map-legend-title">
+                Filter by area
+              </p>
+              <div class="map-tool-buttons">
+                <button type="button" class="map-tool" aria-pressed={drawing} onClick={() => setDrawing((d) => !d)}>
+                  {drawing ? 'Cancel box' : 'Draw a box'}
+                </button>
+                <button type="button" class="map-tool" onClick={useView}>
+                  Use this view
+                </button>
+                {boxFilter && (
+                  <button type="button" class="link-button" onClick={() => onBox?.(undefined)}>
+                    Clear the box
+                  </button>
+                )}
+              </div>
+              <p class="map-hint" aria-live="polite">
+                {drawing
+                  ? 'Drag across the map to draw the box. Escape cancels.'
+                  : pickable.length
+                    ? `Click a region on the ${pickable.map((o) => o.label.toLowerCase()).join(' or ')} layer to filter by it; click it again to remove it.`
+                    : 'Switch on a region layer to pick regions on the map.'}
+              </p>
+            </div>
+          )}
           {showList && (
             <fieldset class="map-layers">
               <legend>Layers</legend>

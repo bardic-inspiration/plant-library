@@ -190,6 +190,23 @@
     cursor: pointer;
   }
 
+  .box-filter {
+    padding-block: var(--space-xs);
+  }
+
+  .box-filter p {
+    margin: var(--none);
+  }
+
+  .box-filter-title {
+    font-weight: var(--weight-strong);
+  }
+
+  .box-filter-text {
+    font-size: var(--size-small);
+    color: var(--text-muted);
+  }
+
   .card-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(min(var(--card-min), var(--full)), 1fr));

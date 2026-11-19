@@ -36,9 +36,9 @@ each joining as it is built (Library, Map, and About are).
   count, and its site conditions. Every card has an "add to list" control
   for the workspace.
 - **Palette facets**: site conditions. (The project facets and the
-  cross-type filters are built: [docs/site.md](../../docs/site.md#list-view).)
-- **Region filters** set from the map ([map.md](map.md#region-filters)) show
-  in the tree as ordinary checked values and can be cleared there.
+  cross-type filters are built: [docs/site.md](../../docs/site.md#list-view);
+  so are region filters set from the map, which show in the tree as
+  ordinary checked values: [docs/site.md](../../docs/site.md#map-view).)
 
 ### Plant page, still to add
 
