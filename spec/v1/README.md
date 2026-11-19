@@ -1,6 +1,6 @@
 # v1 stage spec
 
-The design for Plant Library v1. M1, M3, M4, and M6 are built, M2 apart from
+The design for Plant Library v1. M1, M3, M4, and M6 are built, M7 apart from the `folder` store, M2 apart from
 its plant data, and M5's engine, basemap, token-built style, overlays, map view, region filters, and small maps on detail pages; what exists is described in [`docs/`](../../docs/README.md), and
 this folder holds the rest. It follows the stage-spec convention of
 `ttrpg-library` (TL below): it holds only unbuilt design, and the PR that
@@ -124,7 +124,7 @@ for it.
 | M4 | Projects | Built: the project schema, validation, derived values, and fixture projects ([docs/content-model.md](../../docs/content-model.md#project), [docs/sources.md](../../docs/sources.md#fixture-projects)); geography apart from hardiness zones ([docs/geography.md](../../docs/geography.md)); project pages, project facets, the cross-type filters, project search, and plant and project links ([docs/site.md](../../docs/site.md)) |
 | M5 | Map | Engine, basemap extract, style from tokens, glyphs, project clustering, the overlay registry with its boundary overlays, the `/map/` view, region filters, and small maps on detail pages built ([docs/map.md](../../docs/map.md), [docs/site.md](../../docs/site.md#map-view)); `map.md` hardiness zone overlay |
 | M6 | Palettes | The compatibility function, the palette type with its derived values, the fixture palettes, palette pages and cards, the palette facet, palette points on the map, the compatibility panel, the workspace, and the exports and print view: built ([docs/content-model.md](../../docs/content-model.md#palette), [docs/sources.md](../../docs/sources.md#fixture-palettes), [docs/site.md](../../docs/site.md#palette-page), [docs/site.md](../../docs/site.md#exports-and-print)) |
-| M7 | Contributions | The submission schema, edit differences, the inbox's `list`, `check` with all its mechanical checks, and `image` re-encoding, field notes with the `staff-observation` source and contributor credit, the contribution forms, and the `browser` store with bundles and `inbox import`: built ([docs/submissions.md](../../docs/submissions.md)). `submissions.md`: the `integrate` skill |
+| M7 | Contributions | The submission schema, edit differences, the inbox's `list`, `check` with all its mechanical checks, and `image` re-encoding, field notes with the `staff-observation` source and contributor credit, the contribution forms, the `browser` store with bundles and `inbox import`, results with `close` and `compare`, and the `integrate` skill with its fixture inbox: built ([docs/submissions.md](../../docs/submissions.md), [docs/routines.md](../../docs/routines.md)). `submissions.md`: the `folder` store, which waits on a handover question |
 | M8 | Analysis | `map.md` distribution analysis |
 
 Each milestone starts with a pilot on its hardest cases, which is expected to
@@ -146,7 +146,7 @@ listed here so the owner can overrule it in review.
 - **No dark theme** ([docs/styling.md](../../docs/styling.md)).
 - **Professional opinion is kept beside published facts, not over them**:
   field notes, and a `staff-observation` source for traits no source covers
-  ([submissions.md](submissions.md#professional-opinion)).
+  ([docs/submissions.md](../../docs/submissions.md#professional-opinion)).
 - **Sources with a non-commercial restriction may be used in the
   prototype, flagged**, so they can be found and cleared before commercial
   use ([docs/sources.md](../../docs/sources.md#licensing-rules)).

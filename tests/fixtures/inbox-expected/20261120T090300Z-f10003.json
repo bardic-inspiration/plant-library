@@ -1,0 +1,27 @@
+{
+  "case": "The same with a page that states no license: rejected, with the reason.",
+  "assume": {
+    "https://photos.example.org/dull-oregon-grape-77": "The page shows this photo and states no license or terms for it."
+  },
+  "mechanical": {
+    "rejected": false,
+    "checks": {
+      "schema": "pass",
+      "files": "pass",
+      "file-type": "pass",
+      "target": "pass",
+      "duplicate": "pass",
+      "urls": "warn"
+    }
+  },
+  "result": {
+    "status": "rejected",
+    "items": [
+      {
+        "item": "file:dull-oregon-grape.jpg",
+        "decision": "not-used",
+        "reason": "Its source page states no license for the photo, so the library can't use it, whatever license the form names. A photo you took yourself, or one whose page states an open license, can be submitted again."
+      }
+    ]
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "id": "20261120T090100Z-f10001",
+  "submittedAt": "2026-11-20T09:01:00Z",
+  "submitter": {
+    "name": "Pat Example",
+    "role": "Landscape architect"
+  },
+  "kind": "photo",
+  "target": "plant/acer-circinatum",
+  "files": [
+    {
+      "name": "vine-maple-fall.jpg",
+      "sha256": "d3bc95afb788d9cce1e7c09f1f8cd0196c9a6a5d65df4b1172b726df0520e7c1",
+      "bytes": 305,
+      "role": "image",
+      "rights": "own-work",
+      "license": "CC-BY-4.0",
+      "photographer": "Pat Example",
+      "takenAt": "2026-10-14",
+      "place": "Seattle, WA",
+      "shows": "foliage",
+      "alt": "Vine maple leaves turning orange and red in October"
+    }
+  ]
+}

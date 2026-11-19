@@ -1,0 +1,26 @@
+{
+  "case": "A photo declared own work, with full metadata: integrated, re-encoded, credited.",
+  "assume": {
+    "vine-maple-fall.jpg": "Shows vine maple foliage in fall color, sharp and well lit at card size; the entry has no fall-color photo."
+  },
+  "mechanical": {
+    "rejected": false,
+    "checks": {
+      "schema": "pass",
+      "files": "pass",
+      "file-type": "pass",
+      "target": "pass",
+      "duplicate": "pass"
+    }
+  },
+  "result": {
+    "status": "integrated",
+    "items": [
+      {
+        "item": "file:vine-maple-fall.jpg",
+        "decision": "accepted",
+        "reason": "Added to vine maple as its third image, re-encoded with its metadata removed, credited to Pat Example under CC BY 4.0."
+      }
+    ]
+  }
+}

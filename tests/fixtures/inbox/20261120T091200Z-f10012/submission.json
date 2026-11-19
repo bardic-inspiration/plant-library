@@ -1,0 +1,24 @@
+{
+  "schema": 1,
+  "id": "20261120T091200Z-f10012",
+  "submittedAt": "2026-11-20T09:12:00Z",
+  "submitter": {
+    "name": "Pat Example",
+    "role": "Landscape architect"
+  },
+  "kind": "photo",
+  "target": "plant/camassia-quamash",
+  "files": [
+    {
+      "name": "camas.jpg",
+      "sha256": "e86aa2d0be5b328857516d2d0d0e51a961fada6fe45f06b174f54908113d8a27",
+      "bytes": 38,
+      "role": "image",
+      "rights": "own-work",
+      "license": "CC-BY-4.0",
+      "photographer": "Pat Example",
+      "shows": "flower",
+      "alt": "Camas in flower"
+    }
+  ]
+}

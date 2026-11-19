@@ -1,0 +1,25 @@
+{
+  "schema": 1,
+  "id": "20261120T090300Z-f10003",
+  "submittedAt": "2026-11-20T09:03:00Z",
+  "submitter": {
+    "name": "Pat Example",
+    "role": "Landscape architect"
+  },
+  "kind": "photo",
+  "target": "plant/mahonia-nervosa",
+  "files": [
+    {
+      "name": "dull-oregon-grape.jpg",
+      "sha256": "c2b35e70d69cde604bbfa83561f4028936fb60dc6d993eb123655fbf430e38ef",
+      "bytes": 304,
+      "role": "image",
+      "rights": "third-party",
+      "license": "CC-BY-4.0",
+      "sourceUrl": "https://photos.example.org/dull-oregon-grape-77",
+      "photographer": "Unknown",
+      "shows": "foliage",
+      "alt": "Dull Oregon grape leaves under conifers"
+    }
+  ]
+}

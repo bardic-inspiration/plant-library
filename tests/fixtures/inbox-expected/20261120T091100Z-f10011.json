@@ -1,0 +1,21 @@
+{
+  "case": "A project with a pasted plant list in which three names match no plant: they enter as unsourced text.",
+  "mechanical": {
+    "rejected": false,
+    "checks": {
+      "schema": "pass",
+      "target": "pass",
+      "duplicate": "pass"
+    }
+  },
+  "result": {
+    "status": "integrated",
+    "items": [
+      {
+        "item": "entry",
+        "decision": "changed",
+        "reason": "Added as project/alder-creek-rain-garden, marked as a made-up fixture project. Slough sedge links to its plant; Juncus ensifolius, Iris tenax, and Sisyrinchium idahoense match no plant in the library and are kept as plain names until those plants are added."
+      }
+    ]
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "case": "A new plant that is a synonym of one the library holds: turned into an edit of that entry, or returned.",
+  "mechanical": {
+    "rejected": false,
+    "checks": {
+      "schema": "pass",
+      "target": "pass",
+      "duplicate": "warn"
+    }
+  },
+  "result": {
+    "status": "rejected",
+    "items": [
+      {
+        "item": "entry",
+        "decision": "not-used",
+        "reason": "Berberis aquifolium is a synonym of Mahonia aquifolium, which the library already holds, and your draft has nothing that entry lacks. To add to it, use Suggest an edit on Mahonia aquifolium."
+      }
+    ]
+  }
+}

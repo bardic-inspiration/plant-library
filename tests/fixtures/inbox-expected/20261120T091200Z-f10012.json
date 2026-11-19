@@ -1,0 +1,23 @@
+{
+  "case": "A file named .jpg that is not an image.",
+  "mechanical": {
+    "rejected": true,
+    "checks": {
+      "schema": "pass",
+      "files": "pass",
+      "file-type": "fail",
+      "target": "pass",
+      "duplicate": "pass"
+    }
+  },
+  "result": {
+    "status": "rejected",
+    "items": [
+      {
+        "item": "submission",
+        "decision": "not-used",
+        "reason": "camas.jpg is named as a JPEG but is not an image, so the submission fails its mechanical checks. Export the photo again from your camera or phone and resubmit."
+      }
+    ]
+  }
+}

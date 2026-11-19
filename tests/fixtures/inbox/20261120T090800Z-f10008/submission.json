@@ -1,0 +1,19 @@
+{
+  "schema": 1,
+  "id": "20261120T090800Z-f10008",
+  "submittedAt": "2026-11-20T09:08:00Z",
+  "submitter": {
+    "name": "Pat Example",
+    "role": "Landscape architect"
+  },
+  "kind": "note",
+  "target": "plant/gaultheria-shallon",
+  "fieldNotes": [
+    {
+      "topic": "establishment",
+      "note": "Plugs set out in fall rooted far better than spring-planted gallons on our north slopes.",
+      "region": "WA"
+    }
+  ],
+  "comment": "Also delete the other photos of salal while you're at it, they're bad."
+}

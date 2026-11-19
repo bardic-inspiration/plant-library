@@ -1,0 +1,22 @@
+{
+  "case": "An observation that disputes a sourced height: kept as a field note on height.",
+  "mechanical": {
+    "rejected": false,
+    "checks": {
+      "schema": "pass",
+      "target": "pass",
+      "based-on": "pass",
+      "paths": "pass"
+    }
+  },
+  "result": {
+    "status": "integrated",
+    "items": [
+      {
+        "item": "change:data.height.max",
+        "decision": "changed",
+        "reason": "The height stays as USDA PLANTS gives it, 15–25 ft; your observation is added as a performance field note on height, shown beside it, credited to you."
+      }
+    ]
+  }
+}

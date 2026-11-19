@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "id": "20261120T091000Z-f10010",
+  "submittedAt": "2026-11-20T09:10:00Z",
+  "submitter": {
+    "name": "Pat Example",
+    "role": "Landscape architect"
+  },
+  "kind": "edit",
+  "target": "plant/achillea-millefolium",
+  "basedOn": "061c98beda5b4641ec0b04b7b52db6593d3ffd37d8b2682d42b78e4f0ccfbe6c",
+  "changes": [
+    {
+      "path": "data.form",
+      "value": "forb",
+      "basis": "correction",
+      "note": "Yarrow is a forb; perennial is its life cycle, not its form."
+    },
+    {
+      "path": "summary",
+      "value": "A tough, long-flowering forb for meadows and dry, sunny ground.",
+      "basis": "correction",
+      "note": "Matches the form."
+    }
+  ]
+}

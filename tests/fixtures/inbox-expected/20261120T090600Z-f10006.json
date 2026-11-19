@@ -1,0 +1,25 @@
+{
+  "case": "An observation that a plant tolerates compaction, which no source covers: set, cited to staff-observation.",
+  "assume": {
+    "https://plants.usda.gov/plant-profile/POMU": "Gives no tolerances."
+  },
+  "mechanical": {
+    "rejected": false,
+    "checks": {
+      "schema": "pass",
+      "target": "pass",
+      "based-on": "pass",
+      "paths": "pass"
+    }
+  },
+  "result": {
+    "status": "integrated",
+    "items": [
+      {
+        "item": "change:data.tolerates",
+        "decision": "accepted",
+        "reason": "No registered source gives sword fern's tolerances, so your observation sets it, cited to you as a staff observation."
+      }
+    ]
+  }
+}
