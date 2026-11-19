@@ -1,0 +1,24 @@
+---
+import Base from '../layouts/Base.astro';
+import Contribute, { type TypeModel } from '../islands/Contribute.tsx';
+import { buildData } from '../../../lib/build-data';
+import { defFields, entryFields } from '../../../lib/form';
+import { rawSchemas } from '../../../lib/schemas';
+
+// The forms are generated here, at build, from the schemas, the vocabulary, and the facets (lib/form.ts).
+const { config } = buildData().library;
+const ctx = { schemas: rawSchemas(config.root), vocab: config.vocab };
+const types: TypeModel[] = Object.entries(config.types).map(([type, def]) => ({
+  type,
+  label: def.label,
+  fields: entryFields(type, def, ctx, config.site.fixturesOnly),
+}));
+const noteFields = defFields('fieldNote', ctx);
+---
+<Base current="contribute" title="Contribute" description="Add a photo, a plant, a project, or a palette, suggest an edit, or record a field note.">
+  <Contribute client:only="preact" types={types} noteFields={noteFields} maxBytes={config.site.submissions.maxBytes} fixturesOnly={config.site.fixturesOnly} />
+  <div id="contribute-fallback">
+    <h1>Contribute</h1>
+    <p>The contribution forms run in the browser and need JavaScript.</p>
+  </div>
+</Base>

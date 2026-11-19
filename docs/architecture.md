@@ -80,7 +80,7 @@ from `config/site.json`.
 
 `lib/` holds every rule; scripts are thin entry points. Client-safe modules
 (`names`, `derive`, `compat`, `geo`, `zones`, `facets`, `filter`, `format`, `markdown`,
-`site`, `registry`, `map-style`, `map-data`, `glyphs`, `overlays`, `workspace`, `export`, `cutsheet`, `submission`) have no Node imports, so the island uses them too.
+`site`, `registry`, `map-style`, `map-data`, `glyphs`, `overlays`, `workspace`, `export`, `cutsheet`, `submission`, `sniff`, `form`, `contribute`) have no Node imports, so the island uses them too.
 
 ## Extending
 

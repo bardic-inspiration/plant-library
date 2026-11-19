@@ -10,8 +10,8 @@
     "genus": { "type": "string", "pattern": "^[A-Z][a-z]+$" },
     "species": { "type": "string", "pattern": "^[a-z]+(-[a-z]+)?$" },
     "hybrid": { "type": "boolean" },
-    "infraRank": { "x-vocab": "infraRank" },
-    "infraEpithet": { "type": "string", "pattern": "^[a-z]+(-[a-z]+)?$" },
+    "infraRank": { "title": "Infraspecific rank", "x-vocab": "infraRank" },
+    "infraEpithet": { "title": "Infraspecific name", "type": "string", "pattern": "^[a-z]+(-[a-z]+)?$" },
     "cultivar": { "type": "string", "pattern": "^[A-Z0-9][^'\"‘’“”\\n]*$", "maxLength": 60 },
     "tradeName": { "type": "string", "pattern": "^[^'\"\\n]+$", "maxLength": 60 },
     "commonNames": {
@@ -25,7 +25,7 @@
       "items": { "type": "string", "pattern": "^[A-Z][a-z]+( [^\\n]+)?$", "maxLength": 120 }
     },
     "family": { "type": "string", "pattern": "^[A-Z][a-z]+aceae$" },
-    "usdaSymbol": { "type": "string", "pattern": "^[A-Z][A-Z0-9]{1,7}$" },
+    "usdaSymbol": { "title": "USDA symbol", "type": "string", "pattern": "^[A-Z][A-Z0-9]{1,7}$" },
 
     "form": { "x-vocab": "form" },
     "lifeCycle": { "description": "How long the plant lives: annual, biennial, or perennial. Independent of form, the habit.", "x-vocab": "lifeCycle" },
@@ -43,6 +43,7 @@
         "texture": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "x-vocab": "soilTexture" } },
         "drainage": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "x-vocab": "soilDrainage" } },
         "ph": {
+          "title": "pH",
           "type": "object",
           "additionalProperties": false,
           "required": ["min", "max"],
@@ -96,6 +97,8 @@
     },
 
     "images": {
+      "description": "Added through photo submissions, not edited as data.",
+      "readOnly": true,
       "type": "array",
       "items": {
         "type": "object",
@@ -113,6 +116,8 @@
       }
     },
     "sources": {
+      "description": "Citations the routine and maintainers write; a contribution states its basis instead.",
+      "readOnly": true,
       "type": "array",
       "minItems": 1,
       "items": {

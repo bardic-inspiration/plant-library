@@ -66,3 +66,14 @@ export function formatErrors(errors: ErrorObject[] | null | undefined, prefix = 
     return `${where}: ${e.message}`;
   });
 }
+
+/** Every schema file as written (`x-vocab` not replaced), by its `$id`: what the contribution forms are generated from (lib/form.ts). */
+export function rawSchemas(root: string): Record<string, Record<string, unknown>> {
+  const out: Record<string, Record<string, unknown>> = {};
+  for (const f of readdirSync(join(root, 'schemas')).sort()) {
+    if (!f.endsWith('.schema.json')) continue;
+    const s = readJson<Record<string, unknown>>(join(root, 'schemas', f));
+    out[(s.$id as string | undefined) ?? f] = s;
+  }
+  return out;
+}

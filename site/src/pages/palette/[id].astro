@@ -1,6 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import FieldNotes from '../../components/FieldNotes.astro';
+import ContributeLinks from '../../components/ContributeLinks.astro';
 import { Schedule } from '../../components/ui/Schedule';
 import { CompatPanel } from '../../components/ui/CompatPanel';
 import { buildData, compatPlants, scheduleLines } from '../../../../lib/build-data';
@@ -62,6 +63,7 @@ const site = d.site ? { sun: d.site.sun, moisture: d.site.moisture, soil: d.site
       <h1>{b.name}</h1>
       {dv.placeName && <p class="place">{dv.placeName}</p>}
       <p class="summary">{b.entry.summary}</p>
+      <ContributeLinks target={b.key} />
     </header>
 
     {b.entry.description && <section class="prose" set:html={renderMarkdown(b.entry.description, resolve)} />}

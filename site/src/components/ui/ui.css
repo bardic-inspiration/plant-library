@@ -285,8 +285,15 @@
     margin-block-end: var(--space-md);
   }
 
+  /* An unsourced name's link to the Add plant form, in a project's schedule. */
+  .schedule-add {
+    font-size: var(--size-small);
+    font-weight: var(--weight-body);
+  }
+
   @media print {
     .list-actions,
+    .schedule-add,
     .add-to-list {
       display: none;
     }

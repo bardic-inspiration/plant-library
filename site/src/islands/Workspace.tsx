@@ -25,6 +25,8 @@ import {
   roundPoint,
   sharedFromSearch,
   decodeList,
+  encodeList,
+  SHARE_PARAM,
   shareUrl,
   compatSite,
   updateLine,
@@ -32,6 +34,7 @@ import {
   type WorkspaceStore,
 } from '../../../lib/workspace';
 import { applyQuery, emptyQuery, libraryUrl } from '../../../lib/filter';
+import { contributeUrl } from '../../../lib/contribute';
 import { fileName, linesFromCsv, paletteEntry, paletteProblems, printListUrl, recordNameIndex, recordPlant, scheduleCsv, scheduleRows, today } from '../../../lib/export';
 import { decodeLayer, featureAt, type GeoLayer } from '../../../lib/geo';
 import { OVERLAY_DIR } from '../../../lib/overlays';
@@ -643,6 +646,11 @@ function Exports({ index, store, list, outside, onStore }: { index: LibraryIndex
         <button type="button" class="ws-button" onClick={json}>
           Palette file (JSON)
         </button>
+        {!empty && (
+          <a class="workspace-link" href={contributeUrl({ form: 'add', type: 'palette', [SHARE_PARAM]: encodeList(list) })}>
+            Submit to library
+          </a>
+        )}
         {!empty && (
           <>
             <a class="workspace-link" href={printListUrl(list)}>
