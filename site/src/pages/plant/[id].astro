@@ -16,6 +16,7 @@ import MapView from '../../islands/MapView.tsx';
 import { AddToList } from '../../components/ui/AddToList';
 import ContributeLinks from '../../components/ContributeLinks.astro';
 import { printPlantsUrl } from '../../../../lib/export';
+import { compareUrl } from '../../../../lib/compare';
 import { libraryUrl, mapUrl } from '../../../../lib/filter';
 import { detailFeatures, featureBounds } from '../../../../lib/map-data';
 import { label } from '../../lib/vocab';
@@ -284,6 +285,7 @@ const bloomLabel = dv.bloomMonthList ? `Bloom calendar: ${formatMonths(d.bloom?.
         <p class="sample muted">
           From {projectCount(dist.projects)} in the library. These figures reflect the projects entered, not the region's planting as a whole.
         </p>
+        <p><a href={compareUrl({ kind: 'plants', sides: [key, undefined] })}>Compare with another plant</a></p>
       </section>
     )}
 

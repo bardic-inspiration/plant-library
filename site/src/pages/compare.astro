@@ -1,0 +1,22 @@
+---
+import Base from '../layouts/Base.astro';
+import Compare from '../islands/Compare.tsx';
+---
+<Base title="Compare" description="Two plants, or two regions, side by side on the same figures from the projects in the library.">
+  <h1 class="page-title">Compare</h1>
+  <p class="intro">
+    Two plants, or two regions, side by side on the same figures, each with the number of projects behind it.
+  </p>
+  <Compare client:only="preact" />
+  <p id="compare-fallback">The comparison runs in the browser and needs JavaScript.</p>
+</Base>
+
+<style>
+  .page-title {
+    margin-block-end: var(--space-xs);
+  }
+
+  .intro {
+    margin-block-end: var(--space-lg);
+  }
+</style>

@@ -1,6 +1,6 @@
 # v1 stage spec
 
-The design for Plant Library v1. M1, M3, M4, and M6 are built, M7 apart from the `folder` store, M2 apart from
+The design for Plant Library v1. M1, M3, M4, M6, and M8 are built, M7 apart from the `folder` store, M2 apart from
 its plant data, and M5's engine, basemap, token-built style, overlays, map view, region filters, and small maps on detail pages; what exists is described in [`docs/`](../../docs/README.md), and
 this folder holds the rest. It follows the stage-spec convention of
 `ttrpg-library` (TL below): it holds only unbuilt design, and the PR that
@@ -125,7 +125,7 @@ for it.
 | M5 | Map | Engine, basemap extract, style from tokens, glyphs, project clustering, the overlay registry with its boundary overlays, the `/map/` view, region filters, and small maps on detail pages built ([docs/map.md](../../docs/map.md), [docs/site.md](../../docs/site.md#map-view)); `map.md` hardiness zone overlay |
 | M6 | Palettes | The compatibility function, the palette type with its derived values, the fixture palettes, palette pages and cards, the palette facet, palette points on the map, the compatibility panel, the workspace, and the exports and print view: built ([docs/content-model.md](../../docs/content-model.md#palette), [docs/sources.md](../../docs/sources.md#fixture-palettes), [docs/site.md](../../docs/site.md#palette-page), [docs/site.md](../../docs/site.md#exports-and-print)) |
 | M7 | Contributions | The submission schema, edit differences, the inbox's `list`, `check` with all its mechanical checks, and `image` re-encoding, field notes with the `staff-observation` source and contributor credit, the contribution forms, the `browser` store with bundles and `inbox import`, results with `close` and `compare`, and the `integrate` skill with its fixture inbox: built ([docs/submissions.md](../../docs/submissions.md), [docs/routines.md](../../docs/routines.md)). `submissions.md`: the `folder` store, which waits on a handover question |
-| M8 | Analysis | The analysis functions and companions, and the plant-page figures with companions in the workspace: built ([docs/content-model.md](../../docs/content-model.md#distribution-analysis), [docs/site.md](../../docs/site.md#plant-page)). The use choropleth and the per-region view: built ([docs/map.md](../../docs/map.md#the-use-choropleth), [docs/site.md](../../docs/site.md#map-view)). `map.md` distribution analysis: comparison |
+| M8 | Analysis | The analysis functions and companions, and the plant-page figures with companions in the workspace: built ([docs/content-model.md](../../docs/content-model.md#distribution-analysis), [docs/site.md](../../docs/site.md#plant-page)). The use choropleth and the per-region view: built ([docs/map.md](../../docs/map.md#the-use-choropleth), [docs/site.md](../../docs/site.md#map-view)). Comparison of two plants or two regions: built ([docs/site.md](../../docs/site.md#compare-page)) |
 
 Each milestone starts with a pilot on its hardest cases, which is expected to
 turn up amendments to this spec.

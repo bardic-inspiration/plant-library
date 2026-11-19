@@ -1,13 +1,14 @@
 /**
  * The per-region view's data: site/public/analysis.json, written by
  * build:index and fetched by the map page only when regions are selected
- * (P10). It holds what `projectsIn` and `regionSummary` read and nothing
- * more: each project's geography and plant list (plant and quantity), each
- * plant's form and native states, and the region levels the selectable
- * overlays filter by. The figures themselves are computed in the browser by
+ * (P10), and by the compare page. It holds what `projectsIn`,
+ * `regionSummary`, and `plantDistribution` read and nothing more: each
+ * project's geography, plant list (plant and quantity), and completion
+ * year, each plant's form and native states, and the region levels the
+ * selectable overlays filter by. The figures themselves are computed in the browser by
  * the same functions the build uses (P3). Client-safe.
  */
-import { REGION_LEVELS, type AnalysisProject, type RegionLevel, type RegionPlantData, type RegionProject } from './analysis';
+import { REGION_LEVELS, type AnalysisProject, type DistributionProject, type RegionLevel, type RegionPlantData } from './analysis';
 import type { OverlayDef } from './overlays';
 import type { PlantData } from './types';
 
@@ -23,7 +24,7 @@ export interface AnalysisRegion {
 
 export interface AnalysisFile {
   regions: AnalysisRegion[];
-  projects: RegionProject[];
+  projects: DistributionProject[];
   plants: Record<string, RegionPlantData>;
 }
 
@@ -57,7 +58,10 @@ export function analysisFile(projects: readonly AnalysisProject[], plants: Reado
       .map((p) => ({
         key: p.key,
         geo: geoOf(p),
-        data: { plantList: p.data.plantList.map((i) => (i.quantity === undefined ? { plant: i.plant } : { plant: i.plant, quantity: i.quantity })) },
+        data: {
+          plantList: p.data.plantList.map((i) => (i.quantity === undefined ? { plant: i.plant } : { plant: i.plant, quantity: i.quantity })),
+          ...(p.data.completed ? { completed: p.data.completed.slice(0, 4) } : {}),
+        },
       })),
     plants: Object.fromEntries(
       [...plants]

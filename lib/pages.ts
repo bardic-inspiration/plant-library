@@ -40,6 +40,16 @@ export function samplePages(dist: string): string[] {
       if (existsSync(join(dist, 'contribute'))) pages.push(`contribute/?form=add&type=palette&${SHARE_PARAM}=${list}`);
     }
   }
+  // The compare page, empty, with two plants used on projects, and with two regions holding projects.
+  const analysis = join(dist, 'analysis.json');
+  if (existsSync(join(dist, 'compare')) && existsSync(analysis)) {
+    pages.push('compare/');
+    const file = JSON.parse(readFileSync(analysis, 'utf8')) as { projects: { geo: { state?: string }; data: { plantList: { plant: string | { ref: string } }[] } }[] };
+    const used = [...new Set(file.projects.flatMap((p) => p.data.plantList.flatMap((i) => (typeof i.plant === 'string' ? [] : [i.plant.ref]))))].sort();
+    const states = [...new Set(file.projects.flatMap((p) => (p.geo.state ? [p.geo.state] : [])))].sort();
+    if (used.length >= 2) pages.push(`compare/?plants=${used.slice(0, 2).join(',')}`);
+    if (states.length >= 2) pages.push(`compare/?regions=state:${states[0]},state:${states[1]}`);
+  }
   // Every contribution form (spec: submissions.md, Done when: a11y passes on every form).
   if (existsSync(join(dist, 'contribute'))) {
     pages.push('contribute/', 'contribute/?form=add&type=plant', 'contribute/?form=add&type=project', 'contribute/?form=photo', 'contribute/?form=edit');
