@@ -88,25 +88,15 @@ account.
   ([submissions.md](submissions.md#forms)); it becomes an entry only when
   that submission's PR is merged (P1).
 
-### Compatibility
+### Compatibility panel
 
-One pure function, `lib/compat.ts`, used by the build (for projects and
-palettes) and the workspace, so both always agree (P3).
-
-For a plant list and optional site conditions it returns, per axis (sun,
-moisture, soil drainage, hardiness zone, water use):
-
-- **Shared range**: the values every plant accepts.
-- **Conflicts**: when no value is shared, the smallest set of plants whose
-  removal restores one, each with the values it needs.
-- **Site fit**, when a site is given: each plant passes, fails, or is
-  unknown for the axis.
-
-A plant with no data on an axis is reported as unknown and never counted as
-a conflict. The panel shows a plant-by-value grid per axis, with shared
-columns marked and conflicts named in words, so color is never the only
-signal. Compatibility is about growing conditions only; it makes no claim
-about design, spacing, or competition.
+The function, `compatibility` in `lib/compat.ts`, is built
+([docs/content-model.md](../../docs/content-model.md#compatibility)); the
+build runs it for projects and palettes, and the workspace in the browser.
+The panel shows its result as a plant-by-value grid per axis (its `values`
+and `plants`), with shared columns marked, unknowns shown as such, and
+conflicts named in words, so color is never the only signal. Where a
+conflict has tied alternatives, the panel names each.
 
 ### Exports
 
@@ -121,14 +111,10 @@ about design, spacing, or competition.
 
 - A project list with unsourced plants: the schedule shows them, the summary
   counts them as unknown, and compatibility ignores them.
-- A palette where one wet-soil plant conflicts with four dry-soil plants: the
-  conflict names the one.
 - A workspace list shared by URL opens with the same lines on another device.
 
 ## Done when
 
-- `lib/compat.ts` has tests for shared ranges, minimal conflicts, unknowns,
-  and site fit.
 - Palette pages build for every fixture entry, with every ref
   and facet link resolving.
 - The workspace round-trips a list through local storage, a share URL, CSV,

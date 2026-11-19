@@ -125,7 +125,7 @@ for it.
 | M3 | Library | Built: list view, filter tree, search, plant pages, styling ([docs/site.md](../../docs/site.md)) |
 | M4 | Projects | Built: the project schema, validation, derived values, and fixture projects ([docs/content-model.md](../../docs/content-model.md#project), [docs/sources.md](../../docs/sources.md#fixture-projects)); geography apart from hardiness zones ([docs/geography.md](../../docs/geography.md)); project pages, project facets, the cross-type filters, project search, and plant and project links ([docs/site.md](../../docs/site.md)) |
 | M5 | Map | Engine, basemap extract, style from tokens, glyphs, project clustering, the overlay registry with its boundary overlays, the `/map/` view, region filters, and small maps on detail pages built ([docs/map.md](../../docs/map.md), [docs/site.md](../../docs/site.md#map-view)); `map.md` hardiness zone overlay |
-| M6 | Palettes | `data-model.md` palette type; `sources.md` fixture palettes; `library.md` workspace, compatibility, exports |
+| M6 | Palettes | The compatibility function is built ([docs/content-model.md](../../docs/content-model.md#compatibility)); `data-model.md` palette type; `sources.md` fixture palettes; `library.md` workspace, compatibility panel, exports |
 | M7 | Contributions | `submissions.md`: forms, the browser store, the inbox script, field notes, the `integrate` skill |
 | M8 | Analysis | `map.md` distribution analysis |
 

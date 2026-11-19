@@ -62,7 +62,7 @@ point's state, county, place, and ecoregion
 |---|---|---|
 | Plant | `companions` | The plants it most often shares a project list with ([map.md](map.md#distribution-analysis)) |
 | Project | `geo.hardinessZone` | From the zone layer once it is added ([map.md](map.md#boundary-data)); `use.zones` waits on it |
-| Palette | `compatibility` | [library.md](library.md#compatibility) |
+| Palette | `compatibility` | `compatibility` over its list and `site` ([docs/content-model.md](../../docs/content-model.md#compatibility)) |
 | Palette | `geo.*` | `site.location`, when given |
 
 ### Validation
