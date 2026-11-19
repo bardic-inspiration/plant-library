@@ -10,7 +10,9 @@ import { formatZoneRange } from '../../../../lib/zones';
 import { renderMarkdown } from '../../../../lib/markdown';
 import { renderCitation } from '../../../../lib/citation';
 import { url } from '../../../../lib/site';
-import { libraryUrl } from '../../../../lib/filter';
+import MapView from '../../islands/MapView.tsx';
+import { libraryUrl, mapUrl } from '../../../../lib/filter';
+import { detailFeatures, featureBounds } from '../../../../lib/map-data';
 import { label } from '../../lib/vocab';
 import { traitLabel } from '../../lib/traits';
 import type { PlantData, PlantDerived, ProjectData, ProjectDerived } from '../../../../lib/types';
@@ -123,8 +125,11 @@ const usedOn = (dv.use?.projects ?? []).map((k) => {
 }).sort((x, y) => y.when.localeCompare(x.when) || x.name.localeCompare(y.name));
 const byState = (dv.use?.states ?? []).map((st) => {
   const mine = usedOn.filter((u) => u.state === st);
-  return { state: st, name: label('state', st), projects: mine.length, quantity: mine.reduce((n, u) => n + u.quantity, 0), href: libraryUrl({ 'plant.usedInState': [st] }) };
+  return { state: st, name: label('state', st), projects: mine.length, quantity: mine.reduce((n, u) => n + u.quantity, 0), href: libraryUrl({ 'plant.usedInState': [st] }), map: mapUrl({ 'plant.usedInState': [st] }) };
 });
+// A small map of the projects it is used on, each sized by the quantity listed.
+const usedFeatures = detailFeatures(key, data.index.records);
+const usedFit = featureBounds(usedFeatures);
 const bloomLabel = dv.bloomMonthList ? `Bloom calendar: ${formatMonths(d.bloom?.months)}` : '';
 ---
 <Base title={fullName(d)} description={b.entry.summary}>
@@ -227,10 +232,15 @@ const bloomLabel = dv.bloomMonthList ? `Bloom calendar: ${formatMonths(d.bloom?.
             </tbody>
           </table>
         </div>
+        {usedFit && (
+          <div class="used-map">
+            <MapView client:only="preact" compact features={usedFeatures} fit={usedFit} layerList={false} label={`Map of the projects using ${fullName(d)}`} />
+          </div>
+        )}
         <h3 class="used-totals-heading">By state</h3>
         <ul class="used-totals" role="list">
           {byState.map((t) => (
-            <li><a href={t.href}>{t.name}</a>: {t.projects === 1 ? '1 project' : `${t.projects} projects`}, {number.format(t.quantity)} plants</li>
+            <li><a href={t.href}>{t.name}</a> <a class="map-link" href={t.map} aria-label={`${t.name} on the map`}>on the map</a>: {t.projects === 1 ? '1 project' : `${t.projects} projects`}, {number.format(t.quantity)} plants</li>
           ))}
         </ul>
       </section>
@@ -377,6 +387,14 @@ const bloomLabel = dv.bloomMonthList ? `Bloom calendar: ${formatMonths(d.bloom?.
   .num {
     text-align: end;
     font-variant-numeric: tabular-nums;
+  }
+
+  .used-map {
+    margin-block-start: var(--space-md);
+  }
+
+  .map-link {
+    font-size: var(--size-small);
   }
 
   .used-totals-heading {

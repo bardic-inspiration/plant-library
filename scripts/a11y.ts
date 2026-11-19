@@ -2,9 +2,11 @@
  * npm run a11y — run axe through Playwright on the built site, at a wide and
  * a narrow width, and fail on serious or critical violations. Build first.
  *
- * On the map view it first waits for the map, fails if no project mark was
- * drawn, and opens the results sheet on narrow screens, so axe checks the
- * map's controls and the results panel as a reader sees them.
+ * On a page with a map (the map view, a project's location, a plant's Used
+ * on) it first scrolls the map into view and waits for it, fails if no
+ * project mark was drawn, and on the map view opens the results sheet on
+ * narrow screens, so axe checks the map's controls and the results panel as
+ * a reader sees them.
  */
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
@@ -20,9 +22,11 @@ if (!existsSync(dist)) {
   console.error('site/dist is missing. Run `npm run build` first.');
   process.exit(1);
 }
-/** The map view drew its project layer; on a narrow screen, its results sheet is opened. Returns the failures. */
+/** The page's (first) map drew its project layer; on a narrow screen, the map view's results sheet is opened. Returns the failures. */
 async function checkMap(page: import('@playwright/test').Page, width: number, path: string): Promise<number> {
-  const view = page.locator('.map-view[data-projects-rendered]');
+  // A map loads when it is first in view.
+  await page.locator('.map-view').first().scrollIntoViewIfNeeded();
+  const view = page.locator('.map-view[data-projects-rendered]').first();
   try {
     await view.waitFor({ timeout: 30000 });
   } catch {
@@ -50,7 +54,7 @@ try {
     for (const path of samplePages(dist)) {
       const page = await context.newPage();
       await page.goto(url + path, { waitUntil: 'networkidle' });
-      if (path.startsWith('map/')) failures += await checkMap(page, width, path);
+      if (path.startsWith('map/') || (await page.locator('.map-view').count()) > 0) failures += await checkMap(page, width, path);
       await page.waitForTimeout(150);
       const result = await new AxeBuilder({ page: page as never }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa']).analyze();
       const bad = result.violations.filter((v) => v.impact === 'serious' || v.impact === 'critical');

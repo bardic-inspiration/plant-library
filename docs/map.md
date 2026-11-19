@@ -98,6 +98,21 @@ is idle, which the built-site check reads.
 
 The style guide shows the map with the library's projects and a legend.
 
+### Small maps on detail pages
+
+A project page (its location) and a plant page's Used on (its projects)
+draw the same component, `compact`: `--map-height-compact` tall, with no
+layer list or filter tools, and with MapLibre's cooperative gestures, so a
+page scroll or a one-finger drag passes over the map and zooming takes a
+modifier key or two fingers. The page passes the features at build,
+`detailFeatures` in `lib/map-data.ts` (a project's own point, or the
+projects that list a plant, sized by the quantity of it each lists, as the
+map view draws that plant alone), and `fit`, the box around them
+(`featureBounds`), which the map opens on, padded, no closer than
+`DETAIL_ZOOM` (9) in `lib/map-style.ts`, so a single project shows its
+town around it. Like any map it loads MapLibre and the index only when it
+scrolls into view, and a click on a project opens its card (D52).
+
 ### Overlays
 
 `config/overlays.json` registers every overlay, bottom to top (schema
@@ -180,7 +195,8 @@ that a fixture overlay (`tests/fixtures/overlays/`) reaches the layer list
 with no code change, that overlay colors are tokens, that selectable
 overlays carry the pick layers, and that neighboring ecoregions differ.
 `tests/region-filters.test.ts` checks that picking and the box give the
-same URL state as the tree.
+same URL state as the tree. `tests/map-view.test.ts` also checks what the
+detail pages' small maps draw and open on, and their map links.
 
 ## Extending
 

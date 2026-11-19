@@ -5,7 +5,9 @@ import { buildData } from '../../../../lib/build-data';
 import { nameSegments } from '../../../../lib/names';
 import { renderMarkdown } from '../../../../lib/markdown';
 import { url } from '../../../../lib/site';
-import { libraryUrl } from '../../../../lib/filter';
+import MapView from '../../islands/MapView.tsx';
+import { libraryUrl, mapUrl } from '../../../../lib/filter';
+import { detailFeatures, featureBounds } from '../../../../lib/map-data';
 import { label } from '../../lib/vocab';
 import type { PlantData, PlantListItem, ProjectData, ProjectDerived } from '../../../../lib/types';
 
@@ -32,8 +34,10 @@ const percent = (x: number) => `${Math.round(x * 100)}%`;
 // Facet values link to the Library filtered by them, taken from this project's index record so each names a value the index offers.
 const record = data.index.records.find((r) => r.key === key)!;
 const facetLabel = (facet: string, id: string) => data.index.facets.find((f) => f.key === `project.${facet}`)?.values.find((v) => v.id === id)?.label ?? id;
-const links = (facet: string) => (record.facets[`project.${facet}`] ?? []).map((id) => ({ text: facetLabel(facet, id), href: libraryUrl({ [`project.${facet}`]: [id] }) }));
-type Fact = { label: string; text?: string; links?: { text: string; href: string }[] };
+// A region also offers the same filter on the map.
+const links = (facet: string, region = false) =>
+  (record.facets[`project.${facet}`] ?? []).map((id) => ({ text: facetLabel(facet, id), href: libraryUrl({ [`project.${facet}`]: [id] }), map: region ? mapUrl({ [`project.${facet}`]: [id] }) : undefined }));
+type Fact = { label: string; text?: string; links?: { text: string; href: string; map?: string }[] };
 const facts: Fact[] = [
   { label: 'Landscape architect', links: links('landscapeArchitect') },
   { label: 'Client', links: links('client') },
@@ -43,12 +47,16 @@ const facts: Fact[] = [
   { label: 'Cost per acre', text: dv.costPerAcre === undefined ? undefined : money.format(dv.costPerAcre) },
   { label: 'Status', links: links('status') },
   { label: 'Completed', text: d.completed },
-  { label: 'Place', links: links('place') },
-  { label: 'County', links: links('county') },
-  { label: 'State', links: links('state') },
-  { label: 'Ecoregion', links: links('ecoregion') },
+  { label: 'Place', links: links('place', true) },
+  { label: 'County', links: links('county', true) },
+  { label: 'State', links: links('state', true) },
+  { label: 'Ecoregion', links: links('ecoregion', true) },
 ];
 const shownFacts = facts.filter((f) => f.text || f.links?.length);
+
+// The location map: the project's own point.
+const located = detailFeatures(key, data.index.records);
+const fit = featureBounds(located);
 
 // The schedule: lines grouped by the plant's form, unsourced names last, each group in list order.
 interface Line { item: PlantListItem; plant?: PlantData; key?: string; text: string }
@@ -92,13 +100,20 @@ const byLifeRows = mix(byLife, (id) => (id === 'unknown' ? 'Not recorded' : labe
             {shownFacts.map((f) => (
               <tr>
                 <th scope="row">{f.label}</th>
-                <td>{f.text}{f.links?.map((l, i) => <>{i ? ', ' : ''}<a href={l.href}>{l.text}</a></>)}</td>
+                <td>{f.text}{f.links?.map((l, i) => <>{i ? ', ' : ''}<a href={l.href}>{l.text}</a>{l.map && <> <a class="map-link" href={l.map} aria-label={`${l.text} on the map`}>on the map</a></>}</>)}</td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
     </section>
+
+    {fit && (
+      <section aria-labelledby="location-heading">
+        <h2 id="location-heading">Location</h2>
+        <MapView client:only="preact" compact features={located} fit={fit} layerList={false} label={`Map of ${b.name}'s location`} />
+      </section>
+    )}
 
     <section aria-labelledby="schedule-heading">
       <h2 id="schedule-heading">Plant schedule</h2>
@@ -213,6 +228,10 @@ const byLifeRows = mix(byLife, (id) => (id === 'unknown' ? 'Not recorded' : labe
 
   .facts th {
     inline-size: 35%;
+  }
+
+  .map-link {
+    font-size: var(--size-small);
   }
 
   .num {

@@ -93,6 +93,32 @@ export function projectFeatures(records: IndexRecord[], drawn?: MapResults): { t
 export type { Bounds };
 
 /**
+ * What the small map on a detail page draws: a project's own point, or the
+ * projects that list a plant, sized by the quantity of it each lists, as
+ * the map view draws that plant alone. Anything else draws nothing.
+ */
+export function detailFeatures(key: string, records: IndexRecord[]): ReturnType<typeof projectFeatures> {
+  const rec = records.find((r) => r.key === key);
+  if (rec?.type === 'project') return projectFeatures([rec]);
+  if (rec?.type === 'plant') return projectFeatures(records, mapResults([rec], records, {}));
+  return { type: 'FeatureCollection', features: [] };
+}
+
+/** The box around the features' points, for a small map to open on; undefined with none. A single point is a box of no size. */
+export function featureBounds(fc: { features: { geometry: { coordinates: [number, number] } }[] }): Bounds | undefined {
+  if (!fc.features.length) return undefined;
+  let [w, s, e, n] = [Infinity, Infinity, -Infinity, -Infinity];
+  for (const f of fc.features) {
+    const [lon, lat] = f.geometry.coordinates;
+    w = Math.min(w, lon);
+    s = Math.min(s, lat);
+    e = Math.max(e, lon);
+    n = Math.max(n, lat);
+  }
+  return [w, s, e, n];
+}
+
+/**
  * The results in view, in their order: projects drawn inside the bounds,
  * and plants with at least one drawn project inside them.
  */
