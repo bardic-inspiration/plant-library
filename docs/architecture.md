@@ -44,7 +44,8 @@ Dependabot proposes upgrades ([decisions.md](decisions.md)).
    back-references, extracts facets, and builds the index records. It runs
    once per process; the site's pages and the scripts share it.
 3. `npm run build:index` writes `site/public/library.json` (the lean
-   index), every full entry to `site/public/data/<type>/<id>.json`, and
+   index), every full entry to `site/public/data/<type>/<id>.json` (and each
+   plant list as a CSV schedule, `<id>.csv`, beside it), and
    copies `assets/` to `site/public/assets/`. It stops on any validation
    error. The output is sorted and has no timestamps, so two builds of the
    same content are byte-identical.
@@ -78,7 +79,7 @@ from `config/site.json`.
 
 `lib/` holds every rule; scripts are thin entry points. Client-safe modules
 (`names`, `derive`, `compat`, `geo`, `zones`, `facets`, `filter`, `format`, `markdown`,
-`site`, `registry`, `map-style`, `map-data`, `glyphs`, `overlays`, `workspace`) have no Node imports, so the island uses them too.
+`site`, `registry`, `map-style`, `map-data`, `glyphs`, `overlays`, `workspace`, `export`, `cutsheet`) have no Node imports, so the island uses them too.
 
 ## Extending
 

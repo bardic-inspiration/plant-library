@@ -140,6 +140,10 @@
     margin-block-end: var(--space-md);
   }
 
+  .print-link {
+    font-size: var(--size-small);
+  }
+
   .results-count {
     font-size: var(--size-h3);
   }

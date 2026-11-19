@@ -17,6 +17,7 @@ follow links between entries (P4, P7, P10).
 | `/project/<id>/` | Project detail page |
 | `/palette/<id>/` | Palette detail page |
 | `/workspace/` | The palette workspace |
+| `/print/` | Print view: a plant schedule or plant cut sheets; not in navigation |
 | `/about/` | What the library is, the source registry, licenses, image credits, contributors |
 | `/styleguide/` | Every component state; not in navigation |
 | `/404.html` | Not found |
@@ -210,7 +211,7 @@ picked. Below the facts, a small map shows the project's location. After
 the summary comes the compatibility panel, over the list alone, since a
 project states no site conditions. *Open in workspace*, above the
 schedule, links the workspace's share URL for a copy of the list, with the
-project's location as the site's. The export action (M6) joins later. A project card shows name,
+project's location as the site's; beside it are the [exports](#exports-and-print) (*Schedule as CSV*, *Print schedule*, *Entry as JSON*). A project card shows name,
 place and state, type, status, completion year, size in acres, and plant
 count (taxa plus unsourced names, D37).
 
@@ -224,8 +225,9 @@ says it is checked only for whether its plants suit each other. A small map
 shows a located palette's point. The plant list is the project schedule
 (`Schedule` in `site/src/components/ui/`), with the quantity column only
 when a line has a quantity, with *Open in workspace* above it (the list and
-its site), and then the compatibility panel with the site's fit. A plant
-page has *Add to list* under its conditions.
+its site) and the same [exports](#exports-and-print) as a project page, and then the compatibility panel with the site's fit. A plant
+page has *Add to list* under its conditions, with *Print cut sheet* and
+*Entry as JSON*.
 
 ### Compatibility panel
 
@@ -294,8 +296,58 @@ them as they are.
   shown, each with an Add button, with a link to all of them in the
   Library.
 
+- **Export:** *Schedule as CSV*, *Palette file (JSON)*, *Print schedule*,
+  and *Print cut sheets* ([Exports and print](#exports-and-print)), with
+  any reason the palette file would fail validation listed beside them;
+  and *Import*, which opens a CSV plant schedule as a new list.
+
 `npm run a11y` checks the workspace empty and holding a fixture palette's
 list opened from its share link.
+
+### Exports and print
+
+`lib/export.ts` holds the export rules, shared by the build, the
+workspace, and the tests (D57).
+
+- **CSV plant schedule:** the columns *Botanical name* (without a trade
+  name, as a schedule writes it), *Common name*, *Quantity*, *Size*,
+  *Spacing*, *Note*, one row per line in list order, RFC 4180 quoting and
+  CRLF line ends. A name the library doesn't hold is written as it is,
+  with no common name. Text a spreadsheet would run as a formula gets a
+  leading apostrophe, which reading takes off. `npm run build:index`
+  writes each project's and palette's as `data/<type>/<id>.csv` beside its
+  stored entry; the workspace makes its own in the browser.
+- **Reading a CSV schedule** (`linesFromCsv`): the header names the
+  columns in any order and case, and only *Botanical name* is required. A
+  name the library holds (its botanical name, or with its trade name,
+  compared as validation compares them) becomes a ref, any other stays
+  text; values are cleaned as a share link's are. The workspace opens the
+  result as a new list.
+- **JSON:** an entry as stored is `data/<type>/<id>.json`, which every
+  detail page offers as *Entry as JSON*. A workspace list downloads as a
+  palette entry (`paletteEntry`): its id is the slug of its name, it is
+  dated today, text the library holds becomes a ref, an empty site is
+  left out, the summary is a placeholder to rewrite, and with
+  `fixturesOnly` on it is a fixture. `paletteProblems` names what would
+  still fail validation, which the workspace can know: the same plant
+  twice at one size, and a location outside the three states.
+- **Print view** (`/print/`, the `Print` island): `?list=…` (a share
+  link's list) prints its schedule, as a project page shows it, with its
+  site conditions and total; `?sheets=1&list=…` prints cut sheets of the
+  plants on the list; `?plants=plant/a,…` prints those plants' (a plant
+  page's *Print cut sheet*); and `?sheets=1` with the Library's query
+  prints the cut sheets of its results' plants, in its order (the
+  Library's *Print cut sheets*, shown in the list view when the results
+  hold a plant). A cut sheet (`lib/cutsheet.ts`) gives the names, family,
+  form, summary, the pinned image (else the first) with its credit and
+  license, the traits as text in the plant page's groups, and every
+  citation. At most `MAX_SHEETS` (100) are fetched; past that the page
+  says how many it left out. On paper the top bar, footer, and actions are
+  hidden and each cut sheet starts a page; the print tokens set the type
+  sizes.
+
+`npm run a11y` checks the print view of a fixture palette's schedule and
+of its cut sheets.
 
 ### The fixture library
 
@@ -316,7 +368,7 @@ a fixture (`meta.fixture: true`), as every prototype plant is
 ## Where the rules live
 
 `config/types.json` (facets, sorts, search fields), `lib/facets.ts`,
-`lib/filter.ts`, `lib/map-data.ts`, `lib/compat-text.ts`, `lib/workspace.ts`, `lib/build-data.ts`, `site/src/islands/Library.tsx`, `site/src/islands/Workspace.tsx`,
+`lib/filter.ts`, `lib/map-data.ts`, `lib/compat-text.ts`, `lib/workspace.ts`, `lib/export.ts`, `lib/cutsheet.ts`, `lib/build-data.ts`, `site/src/islands/Library.tsx`, `site/src/islands/Workspace.tsx`, `site/src/islands/Print.tsx`,
 `site/src/pages/`, and the shared components in
 `site/src/components/ui/`, which both the pages and the island render.
 

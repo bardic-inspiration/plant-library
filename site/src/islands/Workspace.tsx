@@ -5,7 +5,9 @@
  * shared as a URL that encodes it. Feedback (totals, native share, mixes,
  * bloom calendar, compatibility) is computed here from the plants' full
  * entries, fetched as each plant joins the list (P10), with the same
- * functions the build uses (P3).
+ * functions the build uses (P3). A list exports as a CSV schedule, a
+ * palette file, or a print view, and a CSV schedule imports as a new list
+ * (lib/export.ts).
  */
 import type { ComponentType } from 'preact';
 import { useEffect, useMemo, useRef, useState } from 'preact/hooks';
@@ -30,6 +32,7 @@ import {
   type WorkspaceStore,
 } from '../../../lib/workspace';
 import { applyQuery, emptyQuery, libraryUrl } from '../../../lib/filter';
+import { fileName, linesFromCsv, paletteEntry, paletteProblems, printListUrl, recordNameIndex, recordPlant, scheduleCsv, scheduleRows, today } from '../../../lib/export';
 import { decodeLayer, featureAt, type GeoLayer } from '../../../lib/geo';
 import { OVERLAY_DIR } from '../../../lib/overlays';
 import { projectFeatures } from '../../../lib/map-data';
@@ -590,6 +593,90 @@ function Fit({ index, list, filters, onList }: { index: LibraryIndex; list: Work
   );
 }
 
+/** Offer a file to save, made in the browser. */
+function download(text: string, name: string, type: string) {
+  const href = URL.createObjectURL(new Blob([text], { type }));
+  const a = Object.assign(document.createElement('a'), { href, download: name });
+  document.body.append(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(href), 1000);
+}
+
+/** Export the list (CSV schedule, palette file, print views) and import a CSV schedule as a new list. */
+function Exports({ index, store, list, outside, onStore }: { index: LibraryIndex; store: WorkspaceStore; list: WorkspaceList; outside: boolean; onStore: (s: WorkspaceStore) => void }) {
+  const [status, setStatus] = useState('');
+  const byKey = useMemo(() => new Map(index.records.map((r) => [r.key, r])), [index]);
+  const names = useMemo(() => recordNameIndex(index.records), [index]);
+  const nameOf = (l: PlantListItem) => (typeof l.plant === 'string' ? l.plant : (byKey.get(l.plant.ref)?.name ?? l.plant.ref));
+  const problems = paletteProblems(list, names, nameOf, outside);
+  const csv = () => {
+    const rows = scheduleRows(list.lines, (k) => {
+      const r = byKey.get(k);
+      return r?.type === 'plant' ? recordPlant(r) : undefined;
+    });
+    download(scheduleCsv(rows), fileName(list.name, 'csv'), 'text/csv;charset=utf-8');
+  };
+  const json = () => {
+    const entry = paletteEntry(list, today(), names);
+    download(JSON.stringify(entry, null, 2) + '\n', `${entry.id}.json`, 'application/json');
+  };
+  const importCsv = async (e: Event) => {
+    const input = e.currentTarget as HTMLInputElement;
+    const file = input.files?.[0];
+    input.value = '';
+    if (!file) return;
+    const read = linesFromCsv(await file.text(), names);
+    if (read.error) return setStatus(read.error);
+    const fresh = { ...emptyList(file.name.replace(/\.csv$/i, '').trim() || 'Imported list'), lines: read.lines };
+    onStore({ current: fresh.id, lists: [...store.lists, fresh] });
+    setStatus(`Imported “${fresh.name}” as a new list, with ${read.lines.length} ${read.lines.length === 1 ? 'line' : 'lines'}${read.skipped ? `; ${read.skipped} ${read.skipped === 1 ? 'row has' : 'rows have'} no botanical name and ${read.skipped === 1 ? 'was' : 'were'} left out` : ''}.`);
+  };
+  const empty = list.lines.length === 0;
+  return (
+    <>
+      <p>Save the list as a CSV plant schedule (botanical name, common name, quantity, size, spacing, note), or as a palette file that the library's validation accepts, ready to submit. A palette file is dated today, and its summary is a placeholder to rewrite.</p>
+      <div class="ws-row">
+        <button type="button" class="ws-button" disabled={empty} onClick={csv}>
+          Schedule as CSV
+        </button>
+        <button type="button" class="ws-button" onClick={json}>
+          Palette file (JSON)
+        </button>
+        {!empty && (
+          <>
+            <a class="workspace-link" href={printListUrl(list)}>
+              Print schedule
+            </a>
+            <a class="workspace-link" href={printListUrl(list, true)}>
+              Print cut sheets
+            </a>
+          </>
+        )}
+      </div>
+      {problems.length > 0 && (
+        <div class="ws-note">
+          <p>The palette file won't pass validation until these are fixed:</p>
+          <ul>
+            {problems.map((p) => (
+              <li>{p}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+      <h3>Import</h3>
+      <label class="ws-field">
+        <span>Open a CSV plant schedule as a new list</span>
+        <input type="file" accept=".csv,text/csv" onChange={importCsv} />
+      </label>
+      <p class="ws-hint">The file needs a “Botanical name” column; Quantity, Size, Spacing, and Note are read when present. Names the library holds become its plants.</p>
+      <p role="status" class="ws-status">
+        {status}
+      </p>
+    </>
+  );
+}
+
 export default function Workspace() {
   const { index, error } = useIndex();
   const [store, setStore] = useState<WorkspaceStore>(() => readStore());
@@ -689,6 +776,11 @@ export default function Workspace() {
       <section aria-labelledby="fit-heading">
         <h2 id="fit-heading">Plants that fit</h2>
         <Fit index={index} list={list} filters={filters} onList={setList} />
+      </section>
+
+      <section aria-labelledby="export-heading">
+        <h2 id="export-heading">Export</h2>
+        <Exports index={index} store={store} list={list} outside={Boolean(geo.outside)} onStore={commit} />
       </section>
     </div>
   );

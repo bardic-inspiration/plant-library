@@ -1,0 +1,8 @@
+---
+import Base from '../layouts/Base.astro';
+import Print from '../islands/Print.tsx';
+---
+<Base title="Print" description="Print a plant schedule, or plant cut sheets with image, traits, and sources.">
+  <Print client:only="preact" />
+  <p id="print-fallback">The print view runs in the browser and needs JavaScript.</p>
+</Base>

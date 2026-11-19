@@ -2,6 +2,7 @@
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { encodeList, SHARE_PARAM } from './workspace';
+import { PRINT_SHEETS } from './export';
 
 export function samplePages(dist: string): string[] {
   const pages = ['', 'map/', 'about/', 'styleguide/', '?plant.form=shrub&q=a'];
@@ -27,10 +28,13 @@ export function samplePages(dist: string): string[] {
   if (existsSync(join(dist, 'workspace'))) {
     pages.push('workspace/');
     const dataDir = join(dist, 'data', 'palette');
-    const first = existsSync(dataDir) ? readdirSync(dataDir).sort()[0] : undefined;
+    const first = existsSync(dataDir) ? readdirSync(dataDir).filter((f) => f.endsWith('.json')).sort()[0] : undefined;
     if (first) {
       const e = JSON.parse(readFileSync(join(dataDir, first), 'utf8')) as { name?: string; data: { site?: object; plantList: [] } };
-      pages.push(`workspace/?${SHARE_PARAM}=${encodeList({ name: e.name ?? first, site: e.data.site ?? {}, lines: e.data.plantList })}`);
+      const list = encodeList({ name: e.name ?? first, site: e.data.site ?? {}, lines: e.data.plantList });
+      pages.push(`workspace/?${SHARE_PARAM}=${list}`);
+      // The print view: that list's schedule, and its plants' cut sheets.
+      if (existsSync(join(dist, 'print'))) pages.push(`print/?${SHARE_PARAM}=${list}`, `print/?${PRINT_SHEETS}=1&${SHARE_PARAM}=${list}`);
     }
   }
   return pages;

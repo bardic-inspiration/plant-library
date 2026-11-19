@@ -18,6 +18,7 @@ import { url } from '../../../lib/site';
 import { Card } from '../components/ui/PlantCard';
 import { AddToList } from '../components/ui/AddToList';
 import { Icon } from '../components/ui/Icon';
+import { printResultsUrl } from '../../../lib/export';
 import './library.css';
 
 const types = TYPES;
@@ -429,6 +430,11 @@ export default function Library({ view: page = 'list' }: { view?: View }) {
                 ))}
               </select>
             </label>
+            {view === 'list' && results.some((r) => r.type === 'plant') && (
+              <a class="print-link" href={printResultsUrl(serializeQuery(query))}>
+                Print cut sheets
+              </a>
+            )}
           </div>
           <ActiveFilters index={index} query={query} onToggle={toggle} onClear={clear} onClearBox={() => setBox(undefined)} />
           {view === 'map' ? (
