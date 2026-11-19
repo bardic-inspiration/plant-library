@@ -323,10 +323,20 @@
             "kind": "value",
             "path": "derived.use.ecoregions",
             "labels": "ecoregions"
+          },
+          {
+            "id": "usedOn",
+            "label": "On a project",
+            "kind": "value",
+            "path": "derived.use.projects",
+            "labels": "entries"
           }
         ]
       }
     ],
+    "crossFilters": {
+      "project": "derived.use.projects"
+    },
     "sorts": [
       {
         "id": "name",

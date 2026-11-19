@@ -217,6 +217,10 @@ export function buildData(opts: { dataRoot?: string } = {}): BuildData {
       card: cardFor(b),
       createdAt: b.entry.meta.createdAt,
     };
+    for (const [other, path] of Object.entries(def.crossFilters ?? {})) {
+      const v = getPath(subject, path);
+      (rec.links ??= {})[other] = Array.isArray(v) ? [...new Set(v.map(String))].sort() : [];
+    }
     if (type === 'plant') rec.nameParts = nameSegments(b.entry.data as unknown as PlantData);
     const pinned = ((b.entry.data as { images?: { file: string; alt: string; pinned?: boolean }[] }).images ?? []).find((i) => i.pinned);
     if (pinned) rec.thumb = { src: url(pinned.file), alt: pinned.alt };

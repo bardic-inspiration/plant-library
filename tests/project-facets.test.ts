@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import MiniSearch from 'minisearch';
 import { buildData } from '../lib/build-data';
-import { applyQuery, emptyQuery, libraryUrl, parseQuery } from '../lib/filter';
+import { applyQuery, emptyQuery, facetCounts, libraryUrl, parseQuery } from '../lib/filter';
 import { facetValues } from '../lib/facets';
 import { BASE } from '../lib/site';
 import type { FacetDef, IndexRecord, LibraryIndex, PlantDerived } from '../lib/types';
@@ -13,6 +13,8 @@ const data = buildData({ dataRoot: FIXTURES });
 const index = data.index;
 const keys = (rs: IndexRecord[]) => rs.map((r) => r.key).sort();
 const filter = (filters: Record<string, string[]>) => keys(applyQuery(index.records, { ...emptyQuery(), filters }, null));
+/** Projects only: project filters also reach plants (D39). */
+const projects = (filters: Record<string, string[]>) => filter({ type: ['project'], ...filters });
 const facet = (key: string) => index.facets.find((f) => f.key === key);
 
 function search(ix: LibraryIndex, q: string): string[] {
@@ -53,7 +55,7 @@ describe('project facets', () => {
   });
 
   it('bucket the completion year, and leave a project with no date out', () => {
-    expect(filter({ 'project.completed': ['2015-2019'] })).toEqual(['project/bellevue-grove-park', 'project/stateline-orchard-campus']);
+    expect(projects({ 'project.completed': ['2015-2019'] })).toEqual(['project/bellevue-grove-park', 'project/stateline-orchard-campus']);
     expect(index.records.find((r) => r.key === 'project/ridge-meadow-swale')!.facets['project.completed']).toBeUndefined();
   });
 
@@ -66,17 +68,17 @@ describe('project facets', () => {
   });
 
   it('filter by architect and by location', () => {
-    expect(filter({ 'project.landscapeArchitect': ['Example Studio'] })).toEqual(['project/mirada-terraces', 'project/pine-street-trees']);
-    expect(filter({ 'project.county': ['53033'] })).toEqual(['project/bellevue-grove-park', 'project/pine-street-trees']);
-    expect(filter({ 'project.county': ['53033'], 'project.projectType': ['streetscape'] })).toEqual(['project/pine-street-trees']);
+    expect(projects({ 'project.landscapeArchitect': ['Example Studio'] })).toEqual(['project/mirada-terraces', 'project/pine-street-trees']);
+    expect(projects({ 'project.county': ['53033'] })).toEqual(['project/bellevue-grove-park', 'project/pine-street-trees']);
+    expect(projects({ 'project.county': ['53033'], 'project.projectType': ['streetscape'] })).toEqual(['project/pine-street-trees']);
   });
 });
 
 describe('cross-type filters', () => {
   it('Uses plant narrows projects to those whose lists include the chosen plants', () => {
-    expect(filter({ 'project.usesPlant': ['plant/thuja-plicata'] })).toEqual(['project/bothell-main-street', 'project/pine-street-trees']);
+    expect(projects({ 'project.usesPlant': ['plant/thuja-plicata'] })).toEqual(['project/bothell-main-street', 'project/pine-street-trees']);
     // Values in a facet combine as OR.
-    expect(filter({ 'project.usesPlant': ['plant/thuja-plicata', 'plant/carex-obnupta'] })).toEqual([
+    expect(projects({ 'project.usesPlant': ['plant/thuja-plicata', 'plant/carex-obnupta'] })).toEqual([
       'project/bothell-main-street',
       'project/pine-street-trees',
       'project/ridge-meadow-swale',
@@ -86,6 +88,52 @@ describe('cross-type filters', () => {
   it('Uses plant ignores unsourced text that names a plant', () => {
     // ridge-meadow-swale lists "Elymus glaucus" as text; no plant entry, so no value.
     expect(index.records.find((r) => r.key === 'project/ridge-meadow-swale')!.facets['project.usesPlant']).toEqual(['plant/carex-obnupta']);
+  });
+
+  it('the filter case: trees used on streetscape projects in King County', () => {
+    const q = { type: ['plant'], 'plant.form': ['tree'], 'project.projectType': ['streetscape'], 'project.county': ['53033'] };
+    // pine-street-trees is the one King County streetscape; acer-circinatum, a tree only on a King County park, stays out.
+    expect(filter(q)).toEqual(['plant/pinus-contorta-var-contorta', 'plant/thuja-plicata']);
+    // Checked per plant rather than per project, the park would let it in.
+    expect(filter({ type: ['plant'], 'plant.form': ['tree'], 'plant.usedInCounty': ['53033'] })).toContain('plant/acer-circinatum');
+  });
+
+  it('project filters reach a plant only through one project meeting all of them', () => {
+    // thuja-plicata is on a King County streetscape and a Snohomish one; the King County park lists neither tree.
+    expect(filter({ type: ['plant'], 'project.projectType': ['park'], 'project.county': ['53061'] })).toEqual([]);
+    expect(filter({ type: ['plant'], 'project.projectType': ['streetscape'], 'project.county': ['53061'] })).toEqual([
+      'plant/gaultheria-shallon',
+      'plant/polystichum-munitum',
+      'plant/thuja-plicata',
+    ]);
+    // A plant on no project never meets a project filter.
+    expect(filter({ 'project.status': ['constructed'] })).not.toContain('plant/rosa-radrazz');
+  });
+
+  it('without a type, a project filter shows the projects and the plants on them', () => {
+    expect(filter({ 'project.place': ['5363000'] })).toEqual([
+      'plant/mahonia-aquifolium',
+      'plant/pinus-contorta-var-contorta',
+      'plant/polystichum-munitum',
+      'plant/thuja-plicata',
+      'project/pine-street-trees',
+    ]);
+  });
+
+  it('On a project narrows plants to those on the chosen projects', () => {
+    expect(filter({ 'plant.usedOn': ['project/bothell-main-street'] })).toEqual(['plant/gaultheria-shallon', 'plant/polystichum-munitum', 'plant/thuja-plicata']);
+    expect(facet('plant.usedOn')!.values.find((v) => v.id === 'project/pine-street-trees')!.label).toBe('Pine Street Trees');
+  });
+
+  it('counts a project value by the plants it would leave, given the other filters', () => {
+    const q = { ...emptyQuery(), filters: { type: ['plant'], 'plant.form': ['tree'], 'project.county': ['53033'] } };
+    const c = facetCounts(index.records, index.facets, q, null);
+    // Trees on a King County streetscape: pinus and thuja; on the King County park: acer-circinatum.
+    expect(c['project.projectType'].streetscape).toBe(2);
+    expect(c['project.projectType'].streetscape).toBe(filter({ ...q.filters, 'project.projectType': ['streetscape'] }).length);
+    expect(c['project.projectType'].park).toBe(filter({ ...q.filters, 'project.projectType': ['park'] }).length);
+    // Projects are filtered out by type, so they count nowhere.
+    expect(c['project.projectType'].restoration).toBe(0);
   });
 
   it('Used in narrows plants to those on a project in the region', () => {
