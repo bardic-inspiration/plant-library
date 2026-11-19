@@ -25,6 +25,12 @@
         "properties": { "proprietary": { "type": "array", "items": { "type": "string" } } }
       },
       "facets": { "type": "array", "items": { "anyOf": [{ "$ref": "#/$defs/facet" }, { "$ref": "#/$defs/group" }] } },
+      "crossFilters": {
+        "description": "Another type's filters reach this type's entries through the entries listed at a path: type → path to a list of entry keys. An entry meets that type's filters when one entry it lists meets all of them.",
+        "type": "object",
+        "propertyNames": { "pattern": "^[a-z]+$" },
+        "additionalProperties": { "type": "string" }
+      },
       "sorts": {
         "type": "array",
         "items": {

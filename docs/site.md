@@ -48,7 +48,8 @@ JavaScript it is a full list; the island hides that list once it loads.
   groups them), then values with counts. Values in a facet combine as OR,
   facets as AND, and an entry missing a value never matches. A value's
   count is the result size with that value checked given the other facets'
-  selections. Active filters show as removable chips.
+  selections. Active filters show as removable chips; with more than one
+  type indexed, a type's facet names its type ("Project type: Streetscape").
 - **Facet kinds** (`lib/facets.ts`): `value` (a field's value or values),
   `range` (buckets; a range matches every bucket it overlaps, so a 3–10 ft
   shrub is in "3 to 6 ft", and a single figure, such as a project's acreage,
@@ -67,8 +68,19 @@ JavaScript it is a full list; the island hides that list once it loads.
   (blank in every fixture) and Hardiness zone (not derived, D33) don't show.
 - **Cross-type filters:** *Uses plant* (a project facet) narrows projects to
   those whose lists ref the chosen plants. *Used in* (a plant group: state,
-  county, ecoregion) narrows plants to those a project in the region lists by
-  ref. Unsourced text never counts.
+  county, ecoregion, and *On a project*, by project name) narrows plants to
+  those a project in the region, or a chosen project, lists by ref. And the
+  project facets reach plants through their projects (D39): a plant meets
+  the project filters when one project that lists it meets all of them, each
+  project checked as a whole. So "trees used on streetscape projects in King
+  County" is Type = Plants, Form = Tree, Project Type = Streetscape, County =
+  King County, WA, and a tree only on a King County park stays out. Without
+  a Type, a project filter shows the projects and the plants on them. A
+  project value's count is the results it would leave, plants counted
+  through their projects. Unsourced text never counts. `crossFilters` in
+  `config/types.json` sets which types reach which, and through what path
+  (plants: `{ "project": "derived.use.projects" }`); the index carries the
+  linked keys as each record's `links`.
 - **Sort:** every type's sorts from `config/types.json`; missing values go
   last; ties fall back to name.
 - **URL state:** `lib/filter.ts`. Search is `q`, a filter is its facet key

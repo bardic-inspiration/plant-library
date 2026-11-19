@@ -38,11 +38,8 @@ set: switching between them keeps the query string.
   count, and its site conditions. Every card has an "add to list" control
   for the workspace.
 - **The view switch** (List, Map) beside sort and the count.
-- **Palette facets**: site conditions. (The project facets, *Uses plant*,
-  and the plant *Used in* state, county, and ecoregion facets are built:
-  [docs/site.md](../../docs/site.md#list-view).)
-- **On a project**, the rest of the plant *Used in* group, narrows plants to
-  those used on the chosen projects. Open question below.
+- **Palette facets**: site conditions. (The project facets and the
+  cross-type filters are built: [docs/site.md](../../docs/site.md#list-view).)
 - **Region filters** set from the map ([map.md](map.md#region-filters)) show
   in the tree as ordinary checked values and can be cleared there.
 
@@ -126,7 +123,6 @@ about design, spacing, or competition.
 
 ## Cases
 
-- Filter: trees used on streetscape projects in King County.
 - A project list with unsourced plants: the schedule shows them, the summary
   counts them as unknown, and compatibility ignores them.
 - A palette where one wet-soil plant conflicts with four dry-soil plants: the
@@ -135,9 +131,6 @@ about design, spacing, or competition.
 
 ## Done when
 
-- The cross-type filters have unit tests over a fixture index, including the
-  filter case above. (*Uses plant* and *Used in* are tested; the case waits
-  on *on a project*.)
 - `lib/compat.ts` has tests for shared ranges, minimal conflicts, unknowns,
   and site fit.
 - Palette pages build for every fixture entry, with every ref
@@ -145,15 +138,6 @@ about design, spacing, or competition.
 - The workspace round-trips a list through local storage, a share URL, CSV,
   and a palette file that passes validation.
 - `npm run a11y` passes on project and palette pages and the workspace.
-
-## Open questions
-
-- **How *on a project* chooses its projects** (#26). Either the project
-  facets reach plants through their projects (a plant matches when one
-  project listing it matches every project filter, so the case is Form =
-  Tree, Project type = Streetscape, County = King), or it is a facet of
-  project names picked by hand. The case can't be met exactly by the
-  per-plant *Used in* facets alone.
 
 ## Out of scope
 

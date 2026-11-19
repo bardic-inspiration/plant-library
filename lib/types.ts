@@ -133,6 +133,8 @@ export interface TypeDef {
   namedBy?: 'derived' | 'entry';
   fixtureRules?: { proprietary: string[] };
   facets: (FacetDef | FacetGroupDef)[];
+  /** Another type's filters reach this type through the entry keys at a path (D39). */
+  crossFilters?: Record<string, string>;
   sorts: SortDef[];
   search: { boosted: string[]; fields: string[] };
 }
@@ -261,6 +263,8 @@ export interface IndexRecord {
   tags: Record<string, string[]>;
   refs: string[];
   refBy: string[];
+  /** For each type whose filters reach this entry (`crossFilters`), the entries of that type it reaches them through. */
+  links?: Record<string, string[]>;
   sort: Record<string, string | number | null>;
   search: Record<string, string>;
   card: Record<string, unknown>;

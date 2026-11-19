@@ -147,9 +147,12 @@ function FilterTree({ index, query, counts, onToggle }: { index: LibraryIndex; q
 }
 
 function ActiveFilters({ index, query, onToggle, onClear }: { index: LibraryIndex; query: Query; onToggle: (k: string, v: string) => void; onClear: () => void }) {
+  const multiType = (index.facets.find((x) => x.key === 'type')?.values.length ?? 0) > 1;
   const chips = Object.entries(query.filters).flatMap(([key, vals]) => {
     const f = index.facets.find((x) => x.key === key);
-    return vals.map((v) => ({ key, v, text: `${f?.label ?? key}: ${f?.values.find((x) => x.id === v)?.label ?? v}` }));
+    // With several types, a type's facet names its type, since project filters also narrow plants (D39): "Project type: Streetscape".
+    const typed = f && f.type !== '*' && multiType ? `${types[f.type]?.label ?? f.type} ${f.label.toLowerCase()}` : f?.label ?? key;
+    return vals.map((v) => ({ key, v, text: `${typed}: ${f?.values.find((x) => x.id === v)?.label ?? v}` }));
   });
   if (!chips.length) return null;
   return (

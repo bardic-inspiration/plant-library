@@ -87,33 +87,87 @@ export function recordValues(r: IndexRecord, key: string): string[] {
   return r.facets[key] ?? [];
 }
 
-export function matches(r: IndexRecord, filters: Record<string, string[]>, except?: string): boolean {
+/** The type a filter key belongs to: `plant.form` → `plant`; none for `type` and tags. */
+function keyType(key: string): string | undefined {
+  if (key === 'type' || key.startsWith('tag.')) return undefined;
+  const dot = key.indexOf('.');
+  return dot > 0 ? key.slice(0, dot) : undefined;
+}
+
+type Wanted = [string, string[]][];
+
+function meetsAll(r: IndexRecord, list: Wanted): boolean {
+  // An entry missing a value never matches a filter on it.
+  return list.every(([key, wanted]) => {
+    const have = recordValues(r, key);
+    return wanted.some((w) => have.includes(w));
+  });
+}
+
+/** The entries of type `t` that `r` reaches that type's filters through (`crossFilters`, D39). */
+function linked(r: IndexRecord, t: string, byKey: ReadonlyMap<string, IndexRecord>): IndexRecord[] {
+  return (r.links?.[t] ?? []).flatMap((k) => byKey.get(k) ?? []);
+}
+
+/**
+ * Split a record's filters into its own and, per linked type, the filters it
+ * meets through the entries it links to (a plant meets project filters when
+ * one project listing it meets all of them).
+ */
+function split(r: IndexRecord, filters: Record<string, string[]>, except: string | undefined, byKey: ReadonlyMap<string, IndexRecord> | undefined) {
+  const own: Wanted = [];
+  const cross = new Map<string, Wanted>();
   for (const [key, wanted] of Object.entries(filters)) {
     if (key === except || wanted.length === 0) continue;
-    const have = recordValues(r, key);
-    // An entry missing a value never matches a filter on it.
-    if (!wanted.some((w) => have.includes(w))) return false;
+    const t = keyType(key);
+    if (byKey && t && t !== r.type && r.links?.[t]) {
+      let list = cross.get(t);
+      if (!list) cross.set(t, (list = []));
+      list.push([key, wanted]);
+    } else own.push([key, wanted]);
   }
+  return { own, cross };
+}
+
+/**
+ * Whether a record meets the filters. Pass `byKey` (every record by key) for
+ * cross-type filters: without it a record must hold every filtered value itself.
+ */
+export function matches(r: IndexRecord, filters: Record<string, string[]>, except?: string, byKey?: ReadonlyMap<string, IndexRecord>): boolean {
+  const { own, cross } = split(r, filters, except, byKey);
+  if (!meetsAll(r, own)) return false;
+  for (const [t, list] of cross) if (!linked(r, t, byKey!).some((p) => meetsAll(p, list))) return false;
   return true;
+}
+
+const keyMaps = new WeakMap<IndexRecord[], Map<string, IndexRecord>>();
+function byKeyOf(records: IndexRecord[]): Map<string, IndexRecord> {
+  let m = keyMaps.get(records);
+  if (!m) keyMaps.set(records, (m = new Map(records.map((r) => [r.key, r]))));
+  return m;
 }
 
 /**
  * Apply the query. `searchHits` is the set of keys the text search matched,
- * in rank order, or null when there is no search text.
+ * in rank order, or null when there is no search text. Cross-type filters
+ * look linked entries up in all of `records`, whatever the search matched.
  */
 export function applyQuery(records: IndexRecord[], query: Query, searchHits: string[] | null): IndexRecord[] {
+  const byKey = byKeyOf(records);
   let pool = records;
   if (searchHits) {
     const set = new Set(searchHits);
     pool = pool.filter((r) => set.has(r.key));
   }
-  return pool.filter((r) => matches(r, query.filters));
+  return pool.filter((r) => matches(r, query.filters, undefined, byKey));
 }
 
 /**
  * Counts per facet value: how many results there would be with that value
  * checked, given every other facet's selection (so siblings in a facet keep
- * their counts as you tick them).
+ * their counts as you tick them). A record reaching a facet's type through
+ * linked entries counts once for each value one of those entries has while
+ * meeting that type's other filters.
  */
 export function facetCounts(
   records: IndexRecord[],
@@ -121,14 +175,25 @@ export function facetCounts(
   query: Query,
   searchHits: string[] | null,
 ): Record<string, Record<string, number>> {
+  const byKey = byKeyOf(records);
   const set = searchHits ? new Set(searchHits) : null;
   const pool = set ? records.filter((r) => set.has(r.key)) : records;
   const out: Record<string, Record<string, number>> = {};
   for (const f of facets) {
     const counts: Record<string, number> = {};
     for (const v of f.values) counts[v.id] = 0;
+    const t = keyType(f.key);
     for (const r of pool) {
-      if (!matches(r, query.filters, f.key)) continue;
+      if (t && t !== r.type && r.links?.[t]) {
+        // Every filter not on type t, then the linked entries that meet t's other filters.
+        const rest = Object.fromEntries(Object.entries(query.filters).filter(([k]) => keyType(k) !== t));
+        if (!matches(r, rest, undefined, byKey)) continue;
+        const others: Wanted = Object.entries(query.filters).filter(([k, w]) => keyType(k) === t && k !== f.key && w.length > 0);
+        const vals = new Set(linked(r, t, byKey).filter((p) => meetsAll(p, others)).flatMap((p) => recordValues(p, f.key)));
+        for (const v of vals) if (v in counts) counts[v]++;
+        continue;
+      }
+      if (!matches(r, query.filters, f.key, byKey)) continue;
       for (const v of recordValues(r, f.key)) if (v in counts) counts[v]++;
     }
     out[f.key] = counts;
