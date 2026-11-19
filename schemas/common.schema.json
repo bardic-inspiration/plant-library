@@ -50,6 +50,23 @@
       "required": ["ref"],
       "properties": { "ref": { "$ref": "#/$defs/key" } }
     },
+    "refOrText": {
+      "description": "A ref object, or plain text naming something the library doesn't hold yet (validation warns on the text).",
+      "oneOf": [{ "$ref": "#/$defs/ref" }, { "$ref": "#/$defs/shortText" }]
+    },
+    "plantListItem": {
+      "description": "One line of a plant schedule. A plant appears once per distinct size (lib/validate.ts).",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["plant", "quantity"],
+      "properties": {
+        "plant": { "$ref": "#/$defs/refOrText" },
+        "quantity": { "type": "integer", "minimum": 1 },
+        "size": { "$ref": "#/$defs/shortText" },
+        "spacing": { "$ref": "#/$defs/shortText" },
+        "note": { "$ref": "#/$defs/shortText" }
+      }
+    },
     "person": {
       "type": "object",
       "additionalProperties": false,

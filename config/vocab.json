@@ -651,6 +651,50 @@
       "label": "Submission"
     }
   ],
+  "projectType": [
+    {
+      "id": "park",
+      "label": "Park"
+    },
+    {
+      "id": "campus",
+      "label": "Campus"
+    },
+    {
+      "id": "streetscape",
+      "label": "Streetscape"
+    },
+    {
+      "id": "commercial",
+      "label": "Commercial"
+    },
+    {
+      "id": "civic",
+      "label": "Civic"
+    },
+    {
+      "id": "stormwater",
+      "label": "Stormwater"
+    },
+    {
+      "id": "restoration",
+      "label": "Restoration"
+    },
+    {
+      "id": "residential",
+      "label": "Residential"
+    }
+  ],
+  "projectStatus": [
+    {
+      "id": "proposed",
+      "label": "Proposed"
+    },
+    {
+      "id": "constructed",
+      "label": "Constructed"
+    }
+  ],
   "license": [
     {
       "id": "public-domain",

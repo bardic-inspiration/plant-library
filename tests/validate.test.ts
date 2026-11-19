@@ -230,7 +230,7 @@ describe('refs and markdown', () => {
 
 describe('fixtures only', () => {
   // The rule is generic: a type's fixtureRules name its proprietary fields.
-  // Projects use it (client, constructionBudget); here it is exercised on plants.
+  // Projects use it (client, constructionBudget; tests/project.test.ts); here it is exercised on plants.
   const withRule = (on: boolean) => ({
     config: (c: ReturnType<typeof setup>['config']) => {
       c.site.fixturesOnly = on;
