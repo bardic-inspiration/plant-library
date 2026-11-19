@@ -47,6 +47,9 @@ export interface ClusterOptions {
   largeAt: number;
 }
 
+/** The closest a small map on a detail page opens, so a single project shows its town around it. */
+export const DETAIL_ZOOM = 9;
+
 export const CLUSTER: ClusterOptions = { radius: 48, maxZoom: 11, largeAt: 10 };
 
 export const BASEMAP_SOURCE = 'basemap';

@@ -42,15 +42,15 @@ each joining as it is built (Library, Map, and About are).
 
 ### Plant page, still to add
 
-Used on is built ([docs/site.md](../../docs/site.md#plant-page)); it still
-needs a small map of its projects (M5). After it: Often planted with
-(derived companions).
+Used on, with its small map of the projects, is built
+([docs/site.md](../../docs/site.md#plant-page)). After it: Often planted
+with (derived companions).
 The page carries "Add photo", "Suggest an edit", and "Add field note".
 
 ### Project page, still to add
 
 The project page is built ([docs/site.md](../../docs/site.md#project-page)).
-Still to come: the location map (M5), the compatibility panel, and the
+Still to come: the compatibility panel, and the
 actions to export the schedule and open the list in the workspace (M6).
 
 ### Palette page
@@ -63,7 +63,6 @@ compatibility.
 - A plant page lists every palette that uses it (projects are built).
 - A facet value on a palette page links to the Library filtered by it, as
   a project page's do ([docs/site.md](../../docs/site.md#project-page)).
-- A region name also offers the same filter on the map.
 
 ### Palette workspace
 

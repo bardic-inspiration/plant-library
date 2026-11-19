@@ -71,6 +71,11 @@ export function libraryUrl(filters: Record<string, string[]>): string {
   return url() + serializeQuery({ ...emptyQuery(), filters });
 }
 
+/** The map view filtered by these values: what a region name on a detail page offers beside its Library link. */
+export function mapUrl(filters: Record<string, string[]>): string {
+  return url('map/') + serializeQuery({ ...emptyQuery(), filters });
+}
+
 /** The map's center ([lon, lat]) and zoom, held in the URL as `center=lon,lat` and `zoom`. */
 export interface MapPosition {
   center: [number, number];

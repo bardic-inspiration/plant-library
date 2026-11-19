@@ -10,6 +10,10 @@
     inline-size: var(--full);
   }
 
+  .map-view-compact .map-canvas {
+    block-size: var(--map-height-compact);
+  }
+
   .map-note {
     position: absolute;
     inset-block-start: var(--space-md);

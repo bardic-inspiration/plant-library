@@ -3,8 +3,10 @@
  * PMTiles basemap, with the library's projects clustered on top. MapLibre is
  * imported only when the map scrolls into view, so pages without a map, and
  * a map page before the map is shown, never load it (P10). The map view
- * (`Library` with `view="map"`) draws the results with it; the small maps
- * on detail pages (#32) will too.
+ * (`Library` with `view="map"`) draws the results with it, and the small
+ * maps on detail pages draw a project's location or a plant's projects with
+ * it, `compact`: shorter, with no layer list or filter tools, and a page
+ * scroll that passes over the map instead of zooming it.
  *
  * Overlays come from the registry (config/overlays.json), carried in the
  * style's metadata: the layer list shows each one, and an overlay's data is
@@ -14,11 +16,13 @@
  * that is on picks it (the Library turns that into a filter value, as the
  * tree would), and the regions the filters hold are drawn as picked. With
  * `onBox`, the box tool draws a box to filter to, or takes the view as one.
+ * A map opened with region filters switches on the overlays that hold them,
+ * so a region named on a detail page shows picked when its map link opens.
  */
 import { useEffect, useRef, useState } from 'preact/hooks';
 import { render } from 'preact';
 import type { GeoJSONSource, GeoJSONSourceSpecification, Map as MapLibreMap } from 'maplibre-gl';
-import { BOUNDS_KEY, BOX_SOURCE, NATIVE_SOURCE, OVERLAY_BEFORE, PROJECT_LAYERS, PROJECT_SOURCE } from '../../../lib/map-style';
+import { BOUNDS_KEY, BOX_SOURCE, DETAIL_ZOOM, NATIVE_SOURCE, OVERLAY_BEFORE, PROJECT_LAYERS, PROJECT_SOURCE } from '../../../lib/map-style';
 import { projectFeatures, type Bounds } from '../../../lib/map-data';
 import { pickedRegions, type MapPosition } from '../../../lib/filter';
 import { beforeLayer, layerList, overlaySource, pickedFilter, pickedLayers, pickLayer, type LegendItem, type OverlayMeta } from '../../../lib/overlays';
@@ -72,6 +76,10 @@ export interface MapViewProps {
   nativeStates?: string[];
   /** Where the map opens; the three states when absent. */
   position?: MapPosition;
+  /** A box to open on instead, zoomed in no closer than a detail map's zoom (a single point is a box of no size). */
+  fit?: Bounds;
+  /** A small map on a detail page: shorter, and it zooms with a modifier key or two fingers, so the page scrolls past it. */
+  compact?: boolean;
   /** Called when the map settles after a move, and once it first loads. */
   onMove?: (pos: MapPosition, bounds: Bounds) => void;
   /** The query's filters, for drawing the regions they hold as picked. */
@@ -108,7 +116,7 @@ function popupContent(rec: IndexRecord | undefined, p: { name: string; url: stri
   return body;
 }
 
-export default function MapView({ label = 'Map of projects', overlays: initial = [], layerList: showList = true, index: given, features, nativeStates, position, onMove, filters, onPick, regionLabel, box: boxFilter, onBox }: MapViewProps) {
+export default function MapView({ label = 'Map of projects', overlays: initial = [], layerList: showList = true, index: given, features, nativeStates, position, fit, compact = false, onMove, filters, onPick, regionLabel, box: boxFilter, onBox }: MapViewProps) {
   const box = useRef<HTMLDivElement>(null);
   const mapRef = useRef<MapLibreMap | undefined>(undefined);
   const added = useRef(new Map<string, Promise<void>>());
@@ -146,7 +154,11 @@ export default function MapView({ label = 'Map of projects', overlays: initial =
           import('maplibre-gl/dist/maplibre-gl.css?url').then(({ default: href }) => addStylesheet(href)),
         ]);
         if (cancelled) return;
-        setRegistry(layerList(style));
+        const reg = layerList(style);
+        setRegistry(reg);
+        // Regions the opening filters hold are drawn picked, so their overlays open switched on.
+        const holding = filters ? reg.filter((o) => o.selectable && pickedRegions({ filters }, o.facets).length).map((o) => o.id) : [];
+        if (holding.length) setOn((cur) => [...cur, ...holding.filter((id) => !cur.includes(id))]);
         // The worker is a file of its own; the bundler emits it as an asset.
         maplibregl.setWorkerUrl(absolute(workerUrl));
         const protocol = new Protocol();
@@ -160,9 +172,13 @@ export default function MapView({ label = 'Map of projects', overlays: initial =
         const m = new maplibregl.Map({
           container: el,
           style,
-          ...(position ? { center: position.center, zoom: position.zoom } : { bounds: style.metadata[BOUNDS_KEY], fitBoundsOptions: { padding: 16 } }),
+          ...(position
+            ? { center: position.center, zoom: position.zoom }
+            : fit
+              ? { bounds: fit, fitBoundsOptions: { padding: 48, maxZoom: DETAIL_ZOOM } }
+              : { bounds: style.metadata[BOUNDS_KEY], fitBoundsOptions: { padding: 16 } }),
           attributionControl: { compact: true },
-          cooperativeGestures: false,
+          cooperativeGestures: compact,
         });
         map = m;
         mapRef.current = m;
@@ -402,7 +418,7 @@ export default function MapView({ label = 'Map of projects', overlays: initial =
   const tools = Boolean(onBox) && status === 'ready';
 
   return (
-    <div class="map-view" data-status={status} data-projects-rendered={rendered}>
+    <div class={compact ? 'map-view map-view-compact' : 'map-view'} data-status={status} data-projects-rendered={rendered}>
       <div ref={box} class="map-canvas" role="region" aria-label={label} />
       {drawing && (
         <div class="map-draw" onPointerDown={drawStart} onPointerMove={drawMove} onPointerUp={drawEnd} onPointerCancel={() => setDrag(undefined)}>

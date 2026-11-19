@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { buildData } from '../lib/build-data';
-import { applyQuery, emptyQuery, mapPosition, parseQuery, serializeQuery, viewUrl, withMapPosition, type Query } from '../lib/filter';
-import { inView, mapResults, projectFeatures, unplaced, type Bounds } from '../lib/map-data';
+import { applyQuery, emptyQuery, mapPosition, mapUrl, parseQuery, serializeQuery, viewUrl, withMapPosition, type Query } from '../lib/filter';
+import { detailFeatures, featureBounds, inView, mapResults, projectFeatures, unplaced, type Bounds } from '../lib/map-data';
 import { BASE } from '../lib/site';
 import type { IndexRecord } from '../lib/types';
 import { FIXTURES } from './helpers';
@@ -142,5 +142,43 @@ describe('map position in the URL', () => {
 
   it('drops the old `view` parameter: the page is the view', () => {
     expect(serializeQuery(parseQuery('view=map&plant.form=tree'))).toBe('?plant.form=tree');
+  });
+});
+
+describe('small maps on detail pages (#32)', () => {
+  it('a project page draws its own point, unsized, and opens on it', () => {
+    const p = records.find((r) => r.key === 'project/umatilla-bank-restoration')!;
+    const fc = detailFeatures(p.key, records);
+    expect(fc.features.map((f) => f.properties.key)).toEqual([p.key]);
+    expect(fc.features[0].properties.quantity).toBeUndefined();
+    const [lon, lat] = p.card.location as [number, number];
+    expect(featureBounds(fc)).toEqual([lon, lat, lon, lat]);
+  });
+
+  it('a plant page draws the projects listing it, sized by the quantity of it each lists, as the map view draws it alone', () => {
+    const plant = records.find((r) => r.key === 'plant/camassia-quamash')!;
+    const fc = detailFeatures(plant.key, records);
+    expect(fc).toEqual(projectFeatures(records, mapResults([plant], records, {})));
+    expect(fc.features.map((f) => f.properties.key).sort()).toEqual([...(plant.links?.project ?? [])].sort());
+    expect(fc.features.find((f) => f.properties.key === 'project/umatilla-bank-restoration')!.properties.quantity).toBe(800);
+    expect(Math.max(...fc.features.map((f) => f.properties.size ?? 0))).toBe(1);
+  });
+
+  it('opens on the box around the points drawn, and on nothing without any', () => {
+    const fc = detailFeatures('plant/camassia-quamash', records);
+    const [w, s, e, n] = featureBounds(fc)!;
+    for (const f of fc.features) {
+      const [lon, lat] = f.geometry.coordinates;
+      expect(lon >= w && lon <= e && lat >= s && lat <= n).toBe(true);
+    }
+    const unused = records.find((r) => r.type === 'plant' && !(r.links?.project ?? []).length)!;
+    expect(detailFeatures(unused.key, records).features).toEqual([]);
+    expect(featureBounds(detailFeatures(unused.key, records))).toBeUndefined();
+  });
+
+  it('a region name links to the map view with the same filter as its Library link', () => {
+    const filters = { 'project.county': ['41059'] };
+    expect(mapUrl(filters)).toBe(viewUrl(parseQuery(serializeQuery({ ...emptyQuery(), filters })), 'map'));
+    expect(mapUrl(filters)).toBe(`${BASE}map/?project.county=41059`);
   });
 });

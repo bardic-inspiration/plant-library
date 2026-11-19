@@ -17,6 +17,8 @@
     --gallery-height: 22rem;
     --thumb-height: 6rem;
     --map-height: 32rem;
+    /* A small map on a detail page. */
+    --map-height-compact: 20rem;
     --map-view-height: 40rem;
     --results-panel-width: 22rem;
     /* The map view's results sheet on narrow screens: how far it pulls up, and its stacking over the map's controls. */

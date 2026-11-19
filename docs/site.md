@@ -140,7 +140,9 @@ on this page.
   query's project filters, and the map draws only those projects (D51;
   `withBbox`, `matches`).
 - Both carry over to the list view in the query string. With no results the
-  map stays, so a pick can be undone on it.
+  map stays, so a pick can be undone on it. A map view opened with region
+  filters (a detail page's *on the map* link, or a list view's) switches on
+  the overlays that hold them, so the regions show picked.
 - **Position:** the map opens on the three states, or at `center=lon,lat`
   and `zoom` from the URL; a move the reader makes writes them back
   (`mapPosition`, `withMapPosition`).
@@ -162,7 +164,9 @@ the trait they address; Used on, when a project lists it by ref (each
 project with its place, the quantity listed, and its completion year,
 "(proposed)" when proposed, most recent first, then totals of projects and
 plants by state, each state linked to the Library filtered by *Used in*);
-related plants (the same species and its cultivars
+a small map of those projects, each sized by the quantity listed, as the
+map view draws the plant alone, and each state also offering the same
+filter on the map; related plants (the same species and its cultivars
 and varieties); sources, each with its link, the fields it supports, the
 access date, and its citation; further reading; and field notes.
 
@@ -181,7 +185,10 @@ summary gives taxa, names not in the library, total quantity, native share
 unsourced lines under unknown. Architect, client, type, status, and the four
 location facts link to the Library filtered by that value; the links are
 built from the project's own index record (`libraryUrl` in `lib/filter.ts`),
-so each names a value the index offers. The location map (M5),
+so each names a value the index offers; place, county, state, and
+ecoregion also offer the same filter on the map (`mapUrl`), which opens
+with the overlay holding the region switched on and the region drawn
+picked. Below the facts, a small map shows the project's location. The
 compatibility panel, and export and workspace actions (M6) join later. A project card shows name,
 place and state, type, status, completion year, size in acres, and plant
 count (taxa plus unsourced names, D37).
