@@ -15,9 +15,10 @@ fast, fully restylable, open source, and able to take many custom overlays
 ## Design
 
 The engine (MapLibre GL JS with PMTiles), the basemap extract, the style
-built from the tokens, glyphs, project clustering, and the overlay registry
-with the project, state, county, and ecoregion overlays and the layer list
-are built; see [docs/map.md](../../docs/map.md). What remains is below.
+built from the tokens, glyphs, project clustering, the overlay registry
+with the project, state, county, and ecoregion overlays and the layer list,
+and the `/map/` view are built; see [docs/map.md](../../docs/map.md) and
+[docs/site.md](../../docs/site.md#map-view). What remains is below.
 
 ### Boundary data
 
@@ -45,26 +46,14 @@ and the two analysis overlays below (M8). Later overlays the registry is
 meant to take without code: native range polygons, precipitation, watershed
 boundaries, city limits.
 
-### Map view
+### Map view, still to add
 
-`/map/` is the Library with the results drawn instead of listed. The filter
-tree, search, and URL state are the list view's own
-([docs/site.md](../../docs/site.md#list-view)).
+The map view is built ([docs/site.md](../../docs/site.md#map-view)). Still
+to come:
 
-- **Projects** are points, clustered when zoomed out, colored by project
-  type, with status shown by a filled or hollow mark. A point opens a popup
-  with the project's card; the card links to its page.
-- **Plants** have no location of their own. When the results include plants,
-  the map shows where they are used: the projects whose lists include any
-  matching plant, each sized by the quantity of matching plants, and a
-  choropleth of that use by the active region overlay. With exactly one
-  plant in the results, its native range draws as well (states in v1).
-- **Palettes** with a site location show as points of their own kind.
-- A results panel beside the map lists what is in view, in the list view's
-  card form, and follows the map as it moves. On narrow screens it is a
-  sheet that pulls up over the map.
-- The map's center and zoom are in the URL.
-- Without JavaScript or WebGL, the page shows the list view with a note.
+- **The use choropleth** (M8): with plants in the results, their use by the
+  active region overlay, beside the sized project points.
+- **Palettes** with a site location show as points of their own kind (M6).
 
 Small maps on detail pages (a project's location, a plant's projects) use
 the same component with controls reduced.
@@ -120,9 +109,6 @@ entered, not the region's planting as a whole.
 - Region picking and the box filter produce the same URL state the tree
   does, covered by unit tests on the filter logic.
 - The analysis functions have tests over the fixture projects.
-- A Playwright check loads the map view on the built site, confirms the
-  project layer rendered, and runs axe on the controls and the results
-  panel.
 
 Map rendering quality and performance on real devices are manual checks for
 the Testing backlog.

@@ -28,6 +28,11 @@
     --map-overlay-county: var(--p-gray-600);
     --map-overlay-state: var(--p-black);
 
+    /* A single plant's native range in the map view. */
+    --map-native-range: var(--p-green-100);
+    --map-native-range-outline: var(--p-green);
+    --map-native-range-opacity: 0.8;
+
     --map-line-coast: 1px;
     --map-line-boundary: 1px;
     --map-line-road: 0.5px;
@@ -36,6 +41,7 @@
     --map-line-overlay-strong: 2px;
     --map-halo-width: 1.5px;
     --map-mark-radius: 6px;
+    --map-mark-radius-max: 16px;
     --map-cluster-radius: 12px;
     --map-cluster-radius-large: 18px;
     --map-label-size: 11px;

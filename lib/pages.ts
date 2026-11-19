@@ -3,7 +3,7 @@ import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
 export function samplePages(dist: string): string[] {
-  const pages = ['', 'about/', 'styleguide/', '?plant.form=shrub&q=a'];
+  const pages = ['', 'map/', 'about/', 'styleguide/', '?plant.form=shrub&q=a'];
   for (const type of ['plant', 'project', 'palette']) {
     const dir = join(dist, type);
     if (!existsSync(dir)) continue;

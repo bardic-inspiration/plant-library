@@ -108,4 +108,18 @@
   .map-swatch-point {
     border-radius: var(--full);
   }
+
+  .map-swatch-native {
+    background: var(--map-native-range);
+    outline: var(--map-line-overlay-strong) solid var(--map-native-range-outline);
+  }
+
+  .map-view .map-popup .card {
+    border: none;
+    padding: var(--none);
+  }
+
+  .map-view .map-popup .map-popup-quantity {
+    margin-block-start: var(--space-xs);
+  }
 }

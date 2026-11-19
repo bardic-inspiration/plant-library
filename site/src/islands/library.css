@@ -200,6 +200,82 @@
     padding-block: var(--space-lg);
   }
 
+  .view-switch {
+    display: inline-flex;
+    border: var(--border);
+  }
+
+  .view-switch a {
+    display: inline-flex;
+    align-items: center;
+    min-block-size: var(--hit-size);
+    padding-inline: var(--space-md);
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  .view-switch a + a {
+    border-inline-start: var(--border);
+  }
+
+  .view-switch a[aria-current='page'] {
+    background: var(--bg-selected);
+    font-weight: var(--weight-strong);
+  }
+
+  /* The map view: the map, then the results in view (a sheet over the map on narrow screens). */
+  .library-map {
+    padding-block-end: var(--hit-size);
+  }
+
+  .map-results-view {
+    display: grid;
+    gap: var(--space-md);
+  }
+
+  .library-map .map-canvas {
+    block-size: var(--map-view-height);
+  }
+
+  .map-results-note {
+    font-size: var(--size-small);
+    color: var(--text-muted);
+    margin-block: var(--space-xs);
+  }
+
+  .map-results {
+    position: fixed;
+    inset-inline: var(--none);
+    inset-block-end: var(--none);
+    z-index: var(--z-sheet);
+    background: var(--bg);
+    border-block-start: var(--border);
+  }
+
+  .sheet-toggle {
+    inline-size: var(--full);
+    min-block-size: var(--hit-size);
+    border: var(--none);
+    background: var(--bg);
+    font-weight: var(--weight-strong);
+    cursor: pointer;
+  }
+
+  .map-results-body {
+    display: none;
+    max-block-size: var(--sheet-max);
+    overflow-y: auto;
+    padding: var(--space-sm);
+  }
+
+  .map-results.open .map-results-body {
+    display: block;
+  }
+
+  .map-results .card-grid {
+    grid-template-columns: 1fr;
+  }
+
   @media (min-width: 64rem) {
     .library-body {
       grid-template-columns: var(--sidebar-width) 1fr;
@@ -212,6 +288,30 @@
     .filter-panel {
       display: block;
       margin-block-start: var(--none);
+    }
+
+    .library-map {
+      padding-block-end: var(--none);
+    }
+
+    .map-results-view {
+      grid-template-columns: 1fr var(--results-panel-width);
+      align-items: start;
+    }
+
+    .map-results {
+      position: static;
+      border-block-start: var(--none);
+    }
+
+    .sheet-toggle {
+      display: none;
+    }
+
+    .map-results-body {
+      display: block;
+      max-block-size: var(--map-view-height);
+      padding: var(--none);
     }
   }
 }

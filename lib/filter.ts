@@ -1,7 +1,8 @@
 /**
- * The Library's query: search, filters, sort, and view, held in the URL so
- * any view can be bookmarked and the list and map share it. Pure functions
- * over the index, used by the island and the tests.
+ * The Library's query: search, filters, and sort, held in the URL so any
+ * view can be bookmarked and the list (`/`) and the map (`/map/`) share it;
+ * the page is the view. Pure functions over the index, used by the island
+ * and the tests.
  */
 import { url } from './site';
 import type { IndexFacet, IndexRecord, TypeRegistry } from './types';
@@ -11,17 +12,17 @@ export interface Query {
   /** facet key → selected values. Values within a facet are OR; facets are AND. */
   filters: Record<string, string[]>;
   sort: string;
-  view: 'list' | 'map';
   /** Parameters the list doesn't use (the map's center, zoom, bbox), kept as they are. */
   extra: Record<string, string>;
 }
 
+/** `view` named the view before the map had its own page; it is dropped. */
 const RESERVED = new Set(['q', 'sort', 'view']);
 
 export const DEFAULT_SORT = 'name';
 
 export function emptyQuery(): Query {
-  return { q: '', filters: {}, sort: DEFAULT_SORT, view: 'list', extra: {} };
+  return { q: '', filters: {}, sort: DEFAULT_SORT, extra: {} };
 }
 
 /** A filter key is a facet key: `type`, `<type>.<facet>`, or `tag.<key>`. */
@@ -35,7 +36,7 @@ export function parseQuery(search: string | URLSearchParams): Query {
   for (const [k, v] of p) {
     if (k === 'q') out.q = v;
     else if (k === 'sort') out.sort = v || DEFAULT_SORT;
-    else if (k === 'view') out.view = v === 'map' ? 'map' : 'list';
+    else if (k === 'view') continue;
     else if (isFilterKey(k)) {
       if (!v) continue;
       const list = (out.filters[k] ??= []);
@@ -53,7 +54,6 @@ export function serializeQuery(query: Query): string {
     for (const v of [...query.filters[k]].sort()) p.append(k, v);
   }
   if (query.sort && query.sort !== DEFAULT_SORT) p.set('sort', query.sort);
-  if (query.view !== 'list') p.set('view', query.view);
   for (const k of Object.keys(query.extra).sort()) if (!RESERVED.has(k)) p.set(k, query.extra[k]);
   const s = p.toString();
   return s ? `?${s}` : '';
@@ -62,6 +62,33 @@ export function serializeQuery(query: Query): string {
 /** The Library filtered by these values: `libraryUrl({ 'project.county': ['53033'] })`. Detail pages link facet values this way. */
 export function libraryUrl(filters: Record<string, string[]>): string {
   return url() + serializeQuery({ ...emptyQuery(), filters });
+}
+
+/** The map's center ([lon, lat]) and zoom, held in the URL as `center=lon,lat` and `zoom`. */
+export interface MapPosition {
+  center: [number, number];
+  zoom: number;
+}
+
+/** The map position the query holds, if it holds a valid one. */
+export function mapPosition(query: Query): MapPosition | undefined {
+  const c = query.extra.center?.split(',').map(Number);
+  const zoom = Number(query.extra.zoom);
+  if (!c || c.length !== 2 || !c.every(Number.isFinite) || query.extra.zoom === undefined || !Number.isFinite(zoom)) return undefined;
+  const [lon, lat] = c;
+  if (lon < -180 || lon > 180 || lat < -90 || lat > 90 || zoom < 0 || zoom > 24) return undefined;
+  return { center: [lon, lat], zoom };
+}
+
+/** The query with the map at this position, rounded to what a URL needs (about 10 m, a hundredth of a zoom level). */
+export function withMapPosition(query: Query, pos: MapPosition): Query {
+  const r = (n: number, d: number) => String(Number(n.toFixed(d)));
+  return { ...query, extra: { ...query.extra, center: `${r(pos.center[0], 4)},${r(pos.center[1], 4)}`, zoom: r(pos.zoom, 2) } };
+}
+
+/** The same query on another view's page: `/` for the list, `/map/` for the map. The map position travels in the query string either way. */
+export function viewUrl(query: Query, view: 'list' | 'map'): string {
+  return url(view === 'map' ? 'map/' : '') + serializeQuery(query);
 }
 
 export function toggleValue(query: Query, key: string, value: string): Query {

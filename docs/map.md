@@ -58,7 +58,8 @@ map on the next build.
 | `boundaries` | State and national lines, thin black |
 | `places-region`, `places-locality` | State names (uppercase, letter-spaced, to zoom 7) and towns by their `min_zoom` |
 | `project-clusters`, `project-cluster-count` | Clusters: black discs with a white count, larger from ten projects |
-| `project-points` | Projects, colored by type; constructed is filled, proposed is a ring |
+| `native-range-fill`, `native-range-line` | A single plant's native states in the map view, a pale fill with a strong outline (`--map-native-range*`), under the water |
+| `project-points` | Projects, colored by type; constructed is filled, proposed is a ring; a mark with a `size` (0–1) grows from `--map-mark-radius` to `--map-mark-radius-max` |
 
 Overlays go under the water layer (`OVERLAY_BEFORE`), so state and county
 polygons that run out over water to the state line are hidden by the
@@ -80,11 +81,20 @@ is no sprite (D43).
 ### Projects
 
 A project is a point, its `location` (D40). The index carries it on the
-project's card, and `projectFeatures` in `lib/map-data.ts` turns the index
-into the map's GeoJSON. Points cluster up to zoom 11 with a 48 px radius
-(`CLUSTER` in `lib/map-style.ts`). Clicking a cluster zooms to where it
-splits; clicking a project opens a popup with its name, linking its page,
-and its place.
+project's card, with `quantities` (each plant it refs, by key, with the
+quantity listed), and `projectFeatures` in `lib/map-data.ts` turns the index
+into the map's GeoJSON: every project, or, in the map view, the projects
+`mapResults` draws for the results, with `quantity` and `size` (the square
+root of quantity over the largest drawn, D47). Points cluster up to zoom 11
+with a 48 px radius (`CLUSTER` in `lib/map-style.ts`). Clicking a cluster
+zooms to where it splits; clicking a project opens a popup with its card,
+and the matching plants' quantity when it has one.
+
+`MapView` takes the page's index, the features to draw (redrawn when they
+change), native states, an opening position, and an `onMove` callback with
+the center, zoom, and bounds each time the map settles. It sets
+`data-projects-rendered` to the number of project marks drawn once the map
+is idle, which the built-site check reads.
 
 The style guide shows the map with the library's projects and a legend.
 
@@ -148,10 +158,11 @@ overlay on, with its legend.
 
 ## Where the rules live
 
-`lib/map-style.ts` (the style, client-safe), `lib/map-style-load.ts` (reads
+`lib/map-style.ts` (the style, client-safe), `lib/map-data.ts` (what the
+map view draws and what is in view, tested in `tests/map-view.test.ts`), `lib/map-style-load.ts` (reads
 the tokens), `config/overlays.json`, `lib/overlays.ts` and
 `lib/overlays-load.ts` (the overlays), the overlay checks in
-`lib/validate.ts`, `lib/glyphs.ts` and `lib/glyph-fonts.ts`, `lib/map-data.ts`,
+`lib/validate.ts`, `lib/glyphs.ts` and `lib/glyph-fonts.ts`,
 `scripts/build-map.ts`, `scripts/basemap.ts`,
 `site/src/islands/MapView.tsx`, `site/src/styles/tokens/map.css`, and
 `tests/map.test.ts`, which fails if a color in the style isn't a token, and
