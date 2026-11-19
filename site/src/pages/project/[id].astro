@@ -1,5 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
+import FieldNotes from '../../components/FieldNotes.astro';
 import { Schedule } from '../../components/ui/Schedule';
 import { CompatPanel } from '../../components/ui/CompatPanel';
 import { buildData, compatPlants, scheduleLines } from '../../../../lib/build-data';
@@ -155,6 +156,8 @@ const byLifeRows = mix(byLife, (id) => (id === 'unknown' ? 'Not recorded' : labe
       <h2 id="compat-heading">Compatibility</h2>
       <CompatPanel compat={dv.compatibility} plants={compatPlants(dv.compatibility.plants, data.byKey)} />
     </section>
+
+    <FieldNotes notes={b.entry.fieldNotes ?? []} data={data} />
   </article>
 </Base>
 

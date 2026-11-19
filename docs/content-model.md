@@ -258,7 +258,9 @@ zone layer (D33).
 - a missing image file, one over 2 MB, a pinned count other than one, a
   license not on the allowed list, a file outside the plant's folder;
 - unresolved refs and ref tokens, ref tokens outside markdown fields, text
-  outside the markdown subset, a field note on an unknown trait;
+  outside the markdown subset, a field note on an unknown trait, a trait on
+  a project's or palette's field note, a field note's `project` that isn't
+  a project, a field note's `submission` missing from `meta.submissions`;
 - with `fixturesOnly` on, an entry of a type with `fixtureRules` that isn't
   a fixture or fills a proprietary field;
 - a project `location` or palette `site.location` outside WA, OR, and CA

@@ -1,5 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
+import FieldNotes from '../../components/FieldNotes.astro';
 import { Schedule } from '../../components/ui/Schedule';
 import { CompatPanel } from '../../components/ui/CompatPanel';
 import { buildData, compatPlants, scheduleLines } from '../../../../lib/build-data';
@@ -107,6 +108,8 @@ const site = d.site ? { sun: d.site.sun, moisture: d.site.moisture, soil: d.site
       <h2 id="compat-heading">Compatibility</h2>
       <CompatPanel compat={dv.compatibility} plants={compatPlants(dv.compatibility.plants, data.byKey)} site={site} />
     </section>
+
+    <FieldNotes notes={b.entry.fieldNotes ?? []} data={data} />
   </article>
 </Base>
 

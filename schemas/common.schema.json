@@ -104,7 +104,7 @@
           "description": "The trait this note speaks to, as a data path such as height or soil.drainage.",
           "type": "string", "pattern": "^[a-zA-Z]+(\\.[a-zA-Z]+)?$"
         },
-        "submission": { "type": "string" }
+        "submission": { "description": "The id of the submission the note came from; listed in the entry's meta.submissions.", "type": "string", "pattern": "^[0-9]{8}T[0-9]{6}Z-[0-9a-f]{6}$" }
       }
     }
   }

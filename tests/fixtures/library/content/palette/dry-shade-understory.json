@@ -34,10 +34,25 @@
       }
     ]
   },
+  "fieldNotes": [
+    {
+      "topic": "design",
+      "note": "Test fixture note: reads best with {ref:plant/gaultheria-shallon} massed at the front.",
+      "author": {
+        "name": "Second Contributor",
+        "role": "Horticulturist"
+      },
+      "date": "2026-11-19",
+      "submission": "20261119T090000Z-a1b2c3"
+    }
+  ],
   "meta": {
     "createdAt": "2026-11-19",
     "revisedAt": "2026-11-19",
-    "method": "manual",
-    "fixture": true
+    "method": "submission",
+    "fixture": true,
+    "submissions": [
+      "20261119T090000Z-a1b2c3"
+    ]
   }
 }

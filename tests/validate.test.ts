@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { entry, messages, setup, validateWith } from './helpers';
 import { validateConfig } from '../lib/validate';
-import type { Entry, PlantData } from '../lib/types';
+import type { Entry, FieldNote, PlantData } from '../lib/types';
 
 const plant = (es: Parameters<Parameters<typeof validateWith>[0]>[0], id: string) => entry(es, `plant/${id}`).entry as unknown as Entry<PlantData>;
 const expectError = (r: ReturnType<typeof validateWith>, pattern: RegExp) => expect(messages(r).some((m) => pattern.test(m)), messages(r).join('\n') || '(no errors)').toBe(true);
@@ -227,6 +227,28 @@ describe('refs and markdown', () => {
 
   it('a field note’s trait must be a trait', () => {
     expectError(validateWith((es) => (plant(es, 'gaultheria-shallon').fieldNotes![1].trait = 'colour')), /"colour" is not a trait/);
+  });
+
+  it('a field note’s topic comes from the vocabulary, and author and date are required', () => {
+    expectError(validateWith((es) => (plant(es, 'gaultheria-shallon').fieldNotes![0].topic = 'gossip')), /fieldNotes\/0\/topic: must be one of/);
+    expectError(validateWith((es) => delete (plant(es, 'gaultheria-shallon').fieldNotes![0] as Partial<FieldNote>).author), /fieldNotes\/0: missing "author"|must have required property 'author'/);
+    expectError(validateWith((es) => delete (plant(es, 'gaultheria-shallon').fieldNotes![0] as Partial<FieldNote>).date), /fieldNotes\/0: missing "date"|must have required property 'date'/);
+  });
+
+  it('projects and palettes take field notes, but only a plant’s attach to a trait', () => {
+    expect(messages(validateWith(() => {}))).toEqual([]);
+    expectError(validateWith((es) => (entry(es, 'project/bellevue-grove-park').entry.fieldNotes![0].trait = 'height')), /fieldNotes\[0\]\.trait: only a plant's field notes attach to a trait/);
+  });
+
+  it('a field note’s project is a project in the library', () => {
+    expectError(validateWith((es) => (plant(es, 'gaultheria-shallon').fieldNotes![0].project = { ref: 'project/nowhere-park' })), /ref project\/nowhere-park does not resolve/);
+    expectError(validateWith((es) => (plant(es, 'gaultheria-shallon').fieldNotes![0].project = { ref: 'plant/thuja-plicata' })), /fieldNotes\[0\]\.project: plant\/thuja-plicata is not a project/);
+  });
+
+  it('a field note’s submission is listed in meta.submissions, and ids have the submission form', () => {
+    expectError(validateWith((es) => (entry(es, 'palette/dry-shade-understory').entry.meta.submissions = [])), /fieldNotes\[0\]\.submission: 20261119T090000Z-a1b2c3 is not in meta\.submissions/);
+    expectError(validateWith((es) => (entry(es, 'palette/dry-shade-understory').entry.fieldNotes![0].submission = 'sub-1')), /fieldNotes\/0\/submission: must match pattern/);
+    expectError(validateWith((es) => (plant(es, 'gaultheria-shallon').meta.submissions = ['yesterday'])), /meta\/submissions\/0: must match pattern/);
   });
 });
 

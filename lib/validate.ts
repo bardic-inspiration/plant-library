@@ -419,7 +419,10 @@ export function validateLibrary(config: Config, schemas: Schemas, loaded: Loaded
   // Field notes.
   for (const { file, entry } of valid) {
     (entry.fieldNotes ?? []).forEach((n, i) => {
-      if (n.trait && !(n.trait in CITED_TRAITS) && !(n.trait in PARENTS)) err(file, `fieldNotes[${i}].trait: "${n.trait}" is not a trait`);
+      if (n.trait && entry.type !== 'plant') err(file, `fieldNotes[${i}].trait: only a plant's field notes attach to a trait`);
+      else if (n.trait && !(n.trait in CITED_TRAITS) && !(n.trait in PARENTS)) err(file, `fieldNotes[${i}].trait: "${n.trait}" is not a trait`);
+      if (n.project && keys.has(n.project.ref) && !n.project.ref.startsWith('project/')) err(file, `fieldNotes[${i}].project: ${n.project.ref} is not a project`);
+      if (n.submission && !(entry.meta.submissions ?? []).includes(n.submission)) err(file, `fieldNotes[${i}].submission: ${n.submission} is not in meta.submissions`);
     });
   }
 
