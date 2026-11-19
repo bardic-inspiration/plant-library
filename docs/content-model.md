@@ -144,6 +144,44 @@ each plant as `derived.use`, which the *Used in* facets and the plant page's
 
 The build also computes each entry's `refs` and `refBy` (back-references).
 
+### Compatibility
+
+`compatibility` in `lib/compat.ts` says whether a plant list's plants share
+growing conditions, and how they fit a site. It is one pure function, so the
+build (for projects and palettes) and the workspace always agree (P3); the
+panel that shows it is still in
+[`spec/v1/library.md`](../spec/v1/library.md#project-page-still-to-add).
+It is about growing conditions only and makes no claim about design,
+spacing, or competition.
+
+It takes a plant list, the plants by key, and optional site conditions
+(`sun`, `moisture`, `soil.drainage`, each one value or several, and
+`hardinessZone`). It considers each plant the list refs and the library
+holds, once, in list order; unsourced names are ignored. For each axis, in
+the order sun, moisture, soil drainage, hardiness zone, water use, it
+returns:
+
+| Field | Holds |
+|---|---|
+| `values` | The axis's values in order, the grid's columns: the vocabulary list, or the half zones 1a–13b |
+| `plants` | Each plant with the values it accepts, or `null` when it has no data on the axis |
+| `unknown` | The plants with no data; never part of a conflict |
+| `shared` | The values every plant with data accepts; `null` when none has data |
+| `conflicts` | When nothing is shared: the smallest sets of plants whose removal restores a shared value, each plant with the values it accepts (`needs`) and each set with the values it `restores`. Tied sets are alternatives, one per distinct set |
+| `siteFit` | With a site: each plant `pass`, `fail`, or `unknown` |
+
+- Hardiness compares half zones, as `derived.hardinessZones` does: a plant
+  rated `7`–`9` accepts 7a to 9b.
+- A plant has one `waterUse`, so it accepts that level only, and a shared
+  value is a single hydrozone (D53).
+- A site passes a plant when the plant accepts every value the site states
+  on the axis; a whole site zone (`8`) needs both halves. A plant with no
+  data, or an axis the site doesn't state, is `unknown`. A site has no
+  water use, so that axis is always `unknown`.
+
+The site's zone is given, not derived: a site location's zone waits on the
+zone layer (D33).
+
 ### References
 
 - A ref object `{ "ref": "<type>/<id>" }` must resolve.
@@ -199,9 +237,9 @@ unsourced plant in a plant list.
 
 `schemas/` (shapes), `config/vocab.json` (values and thresholds),
 `lib/validate.ts` (cross-entry rules), `lib/derive.ts`, `lib/names.ts`,
-`lib/zones.ts`. Each rule has a passing and a failing case in
+`lib/zones.ts`, `lib/compat.ts`. Each rule has a passing and a failing case in
 `tests/validate.test.ts` (plants) and `tests/project.test.ts` (projects and
-plant lists).
+plant lists); compatibility is tested in `tests/compat.test.ts`.
 
 ## Extending
 
@@ -210,4 +248,7 @@ plant lists).
   cite it, to `site/src/lib/traits.ts` for its label, and, if it's a
   filter, a facet in `config/types.json`.
 - **A new value** in an enumeration: a line in `config/vocab.json`.
+- **A new compatibility axis:** an entry in `COMPAT_AXES` in
+  `lib/compat.ts`, naming its vocabulary list and where a plant and a site
+  hold it.
 - **A new type:** a schema, an entry in `config/types.json`, and its pages.

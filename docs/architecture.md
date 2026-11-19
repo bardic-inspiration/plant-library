@@ -77,7 +77,7 @@ from `config/site.json`.
 ## Where the rules live
 
 `lib/` holds every rule; scripts are thin entry points. Client-safe modules
-(`names`, `derive`, `geo`, `zones`, `facets`, `filter`, `format`, `markdown`,
+(`names`, `derive`, `compat`, `geo`, `zones`, `facets`, `filter`, `format`, `markdown`,
 `site`, `registry`, `map-style`, `map-data`, `glyphs`) have no Node imports, so the island uses them too.
 
 ## Extending
