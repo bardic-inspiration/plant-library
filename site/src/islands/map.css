@@ -39,4 +39,73 @@
     border: var(--border);
     box-shadow: none;
   }
+
+  .map-panel {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-md) var(--space-xl);
+    padding: var(--space-sm);
+    border-block-start: var(--border);
+    font-size: var(--size-small);
+  }
+
+  .map-layers {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xxs);
+    margin: var(--none);
+    padding: var(--none);
+    border: none;
+  }
+
+  .map-layers legend,
+  .map-legend-title {
+    margin: var(--none);
+    padding: var(--none);
+    font-size: var(--size-label);
+    font-weight: var(--weight-strong);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+  }
+
+  .map-layers label {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+  }
+
+  .map-legend-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xxs) var(--space-md);
+    margin: var(--none);
+    padding: var(--none);
+    list-style: none;
+  }
+
+  .map-legend-items li {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xxs);
+  }
+
+  .map-swatch {
+    display: inline-block;
+    inline-size: calc(var(--map-mark-radius) * 2);
+    block-size: calc(var(--map-mark-radius) * 2);
+    background: var(--swatch);
+  }
+
+  .map-swatch-fill {
+    outline: var(--map-line-overlay) solid var(--map-overlay-outline);
+  }
+
+  .map-swatch-line {
+    inline-size: calc(var(--map-mark-radius) * 3);
+    block-size: var(--map-line-overlay-strong);
+  }
+
+  .map-swatch-point {
+    border-radius: var(--full);
+  }
 }

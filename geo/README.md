@@ -1,7 +1,7 @@
 # Boundary data
 
-The boundaries the build derives geography from (P6), and that the map will
-draw as overlays: one source for both (P3). Each file is TopoJSON in WGS 84,
+The boundaries the build derives geography from (P6), and that the map
+draws as overlays (`config/overlays.json`): one source for both (P3). Each file is TopoJSON in WGS 84,
 written by `npm run geo` ([`scripts/geo.ts`](../scripts/geo.ts)); don't edit
 them by hand. How they're used is in
 [docs/geography.md](../docs/geography.md).

@@ -15,10 +15,25 @@
     --map-cluster-text: var(--p-white);
     --map-mark-empty: var(--mark-empty);
 
+    /* Overlays (config/overlays.json). The palette fills regions so that
+       neighbors differ; labels stay readable on every step. */
+    --map-overlay-1: var(--p-green-100);
+    --map-overlay-2: var(--p-blue-100);
+    --map-overlay-3: var(--p-ochre-100);
+    --map-overlay-4: var(--p-purple-100);
+    --map-overlay-5: var(--p-teal-100);
+    --map-overlay-6: var(--p-magenta-100);
+    --map-overlay-7: var(--p-olive-100);
+    --map-overlay-outline: var(--p-gray-600);
+    --map-overlay-county: var(--p-gray-600);
+    --map-overlay-state: var(--p-black);
+
     --map-line-coast: 1px;
     --map-line-boundary: 1px;
     --map-line-road: 0.5px;
     --map-line-mark: 2px;
+    --map-line-overlay: 0.75px;
+    --map-line-overlay-strong: 2px;
     --map-halo-width: 1.5px;
     --map-mark-radius: 6px;
     --map-cluster-radius: 12px;

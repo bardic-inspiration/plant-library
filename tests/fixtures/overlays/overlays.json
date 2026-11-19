@@ -1,0 +1,25 @@
+{
+  "$schema": "../../../schemas/overlays.schema.json",
+  "overlays": [
+    { "id": "projects", "label": "Projects", "data": "library", "kind": "point", "legend": "none", "alwaysOn": true, "selectable": false },
+    {
+      "id": "park-districts",
+      "label": "Park districts",
+      "data": "tests/fixtures/overlays/parks.topojson",
+      "kind": "fill",
+      "style": { "palette": ["--map-overlay-1", "--map-overlay-2"], "outline": "--map-overlay-outline", "width": "--map-line-overlay" },
+      "legend": "features",
+      "selectable": false
+    },
+    {
+      "id": "states",
+      "label": "States",
+      "data": "geo/states.topojson",
+      "kind": "line",
+      "style": { "color": "--map-overlay-state", "width": "--map-line-overlay-strong" },
+      "legend": "single",
+      "selectable": true,
+      "facets": { "project": "state", "plant": "usedInState" }
+    }
+  ]
+}

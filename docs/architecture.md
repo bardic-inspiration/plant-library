@@ -13,8 +13,8 @@ builds one HTML page per entry and a Preact island for the Library.
 ```
 content/<type>/<id>.json           entries (plants so far)
 assets/images/plant/<id>/<n>.*     plant images
-schemas/                           JSON schemas: common, envelope, plant, sources, site, types
-config/                            site.json, types.json, vocab.json, sources.json
+schemas/                           JSON schemas: common, envelope, plant, project, sources, site, types, overlays
+config/                            site.json, types.json, vocab.json, sources.json, overlays.json
 geo/                               boundary layers (TopoJSON) the build derives geography from
 lib/                               code shared by scripts, the site, and tests
 scripts/                           the npm scripts' entry points
@@ -48,8 +48,8 @@ Dependabot proposes upgrades ([decisions.md](decisions.md)).
    copies `assets/` to `site/public/assets/`. It stops on any validation
    error. The output is sorted and has no timestamps, so two builds of the
    same content are byte-identical.
-4. `npm run build:map` writes the map style from the tokens and the map
-   glyphs to `site/public/map/` ([map.md](map.md)).
+4. `npm run build:map` writes the map style from the tokens, the map
+   glyphs, and the overlays' data to `site/public/map/` ([map.md](map.md)).
 5. `astro build --root site` renders the pages to `site/dist/`.
 
 Every internal URL goes through `lib/site.ts`, which reads the base path

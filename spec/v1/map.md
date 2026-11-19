@@ -15,8 +15,9 @@ fast, fully restylable, open source, and able to take many custom overlays
 ## Design
 
 The engine (MapLibre GL JS with PMTiles), the basemap extract, the style
-built from the tokens, glyphs, and project clustering are built; see
-[docs/map.md](../../docs/map.md). What remains is below.
+built from the tokens, glyphs, project clustering, and the overlay registry
+with the project, state, county, and ecoregion overlays and the layer list
+are built; see [docs/map.md](../../docs/map.md). What remains is below.
 
 ### Boundary data
 
@@ -36,15 +37,11 @@ committed layers as they are; places stay derivation-only.
 
 ### Overlays
 
-`config/overlays.json` registers each overlay: its id, label, data file,
-kind (`fill`, `line`, `point`, `heat`), style tokens, legend, whether its
-features can be selected as a region filter, and the facet a selection sets.
-A new overlay is a data file and a registry entry (P4). Overlay layers go
-under the basemap's water (D41), and the style guide page gains the map
-with each overlay.
-
-v1 overlays: projects (always on), states, counties, ecoregions, hardiness
-zones, and the two analysis overlays below. Later overlays the registry is
+The registry (`config/overlays.json`) and the project, state, county, and
+ecoregion overlays are built ([docs/map.md](../../docs/map.md#overlays)).
+Still to register: the hardiness zone overlay, once its layer is in `geo/`
+(a palette fill with a legend per zone, selectable on the zone facets),
+and the two analysis overlays below (M8). Later overlays the registry is
 meant to take without code: native range polygons, precipitation, watershed
 boundaries, city limits.
 
@@ -120,8 +117,6 @@ entered, not the region's planting as a whole.
 
 - The hardiness zone layer has derivation tests on points near zone lines,
   as the other layers do.
-- Overlay registration is tested: adding a fixture overlay file and registry
-  entry puts it in the layer list with no code change.
 - Region picking and the box filter produce the same URL state the tree
   does, covered by unit tests on the filter logic.
 - The analysis functions have tests over the fixture projects.
