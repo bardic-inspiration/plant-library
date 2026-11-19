@@ -31,7 +31,8 @@ TypeScript on Node 22, npm with a committed lockfile, Astro 7 (static
 output) with Preact 11 islands, Ajv (JSON Schema 2020-12), MiniSearch,
 `marked` for the markdown subset, plain CSS with tokens and Stylelint,
 Montserrat through `@fontsource`, `topojson-client` for the boundary
-layers, Lucide icons inlined, Vitest, and
+layers, MapLibre GL JS and PMTiles for the map ([map.md](map.md)), with
+`opentype.js` for its glyphs, Lucide icons inlined, Vitest, and
 Playwright with axe-core. Versions are pinned in `package-lock.json`;
 Dependabot proposes upgrades ([decisions.md](decisions.md)).
 
@@ -47,7 +48,9 @@ Dependabot proposes upgrades ([decisions.md](decisions.md)).
    copies `assets/` to `site/public/assets/`. It stops on any validation
    error. The output is sorted and has no timestamps, so two builds of the
    same content are byte-identical.
-4. `astro build --root site` renders the pages to `site/dist/`.
+4. `npm run build:map` writes the map style from the tokens and the map
+   glyphs to `site/public/map/` ([map.md](map.md)).
+5. `astro build --root site` renders the pages to `site/dist/`.
 
 Every internal URL goes through `lib/site.ts`, which reads the base path
 from `config/site.json`.
@@ -57,7 +60,7 @@ from `config/site.json`.
 | Script | Does |
 |---|---|
 | `validate` | All validation rules; exits 1 on any error |
-| `build:index`, `build` | The index, then the site |
+| `build:index`, `build:map`, `build` | The index, the map style and glyphs, then the site |
 | `dev`, `preview` | Astro's dev server; a static server for `site/dist` with range requests |
 | `build:fixtures`, `dev:fixtures` | The same, from the fixture library ([site.md](site.md#the-fixture-library)) |
 | `check` | `tsc`, Stylelint, and the link check |
@@ -69,12 +72,13 @@ from `config/site.json`.
 | `coverage` | Unsourced plant names and non-commercial dependencies ([sources.md](sources.md#coverage)) |
 | `attribution` | Regenerates `ATTRIBUTION.md`; `-- --check` fails when stale |
 | `geo` | Rebuilds the boundary layers in `geo/` from their sources; not part of the build ([geography.md](geography.md)) |
+| `basemap` | Cuts the PMTiles basemap into `site/public/`; run by the deploy workflow, needs Go ([map.md](map.md#basemap)) |
 
 ## Where the rules live
 
 `lib/` holds every rule; scripts are thin entry points. Client-safe modules
 (`names`, `derive`, `geo`, `zones`, `facets`, `filter`, `format`, `markdown`,
-`site`, `registry`) have no Node imports, so the island uses them too.
+`site`, `registry`, `map-style`, `map-data`, `glyphs`) have no Node imports, so the island uses them too.
 
 ## Extending
 

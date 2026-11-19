@@ -29,6 +29,7 @@ through tokens and checked automatically (P9).
 | `tokens/semantic.css` | Roles: background, text, rule, accent, focus, type, space, borders |
 | `tokens/components.css` | Card, grid, table, strip, and gallery knobs; breakpoints for reference |
 | `tokens/content.css` | Form and project-type accents, bloom swatches, choropleth steps |
+| `tokens/map.css` | The map: land, water, linework, labels, marks, and their sizes in pixels, read into the map style ([map.md](map.md)) |
 | `tokens/print.css` | Print sizing |
 
 ### Checks
@@ -41,7 +42,9 @@ through tokens and checked automatically (P9).
   files and checks text pairs at 4.5:1; rules, focus, and every form and
   project-type accent at 3:1 against white; every bloom swatch at 3:1
   against the white ground or its black frame; and black text on every
-  choropleth step.
+  choropleth step. `tests/map.test.ts` checks map labels on land and
+  water and cluster counts at 4.5:1, and fails if a color in the map
+  style isn't a token.
 - **Accessibility:** `npm run a11y` runs axe on the Library (plain and
   filtered), a plant page, About, and the style guide, at 1280 and 360 px,
   and fails on serious or critical violations. Every icon and color has a

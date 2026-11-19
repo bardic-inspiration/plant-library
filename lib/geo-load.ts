@@ -17,3 +17,10 @@ export function loadGeo(root = repoRoot()): GeoLayers {
   }
   return layers;
 }
+
+/** The three states' bounding box, with a margin in degrees, from the states layer (P3: not stored twice). */
+export function statesBbox(root = repoRoot(), margin = 0.5): [number, number, number, number] {
+  const b = loadGeo(root).states.map((s) => s.bbox);
+  const r = (n: number) => Math.round(n * 100) / 100;
+  return [r(Math.min(...b.map((x) => x[0])) - margin), r(Math.min(...b.map((x) => x[1])) - margin), r(Math.max(...b.map((x) => x[2])) + margin), r(Math.max(...b.map((x) => x[3])) + margin)];
+}

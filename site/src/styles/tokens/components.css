@@ -16,6 +16,7 @@
     --header-height: 3.5rem;
     --gallery-height: 22rem;
     --thumb-height: 6rem;
+    --map-height: 32rem;
     /* Breakpoints (for reference): narrow below 48rem, wide from 64rem. */
     --bp-narrow: 48rem;
     --bp-wide: 64rem;

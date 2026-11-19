@@ -95,13 +95,9 @@ carried by a fictional fixture project
 - `lib/derive.ts` has a test for each derived value above, including each
   case.
 
-## Open questions
-
-- **Project boundaries.** A point is enough for v1. Whether a project should
-  also carry a site polygon is left to the map pilot.
-
 ## Out of scope
 
 Nursery availability and container sizes as structured data, maintenance
 requirements, pest and disease data, Sunset climate zones (proprietary),
-plant range polygons, and per-plant planting density.
+plant range polygons, project site polygons (a project is a point, D40),
+and per-plant planting density.
