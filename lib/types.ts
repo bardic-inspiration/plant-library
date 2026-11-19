@@ -158,13 +158,23 @@ export interface SourceDef {
   citation: string;
 }
 
+export interface ImageSettings {
+  format: 'jpeg' | 'png' | 'webp';
+  maxEdge: number;
+  quality: number;
+}
+
 export interface SiteConfig {
   title: string;
   description: string;
   base: string;
   fixturesOnly: boolean;
   store: 'browser' | 'folder';
-  submissions: { maxBytes: Record<'image' | 'plant-list' | 'supporting', number> };
+  submissions: {
+    maxBytes: Record<'image' | 'plant-list' | 'supporting', number>;
+    /** How a submitted photo is re-encoded for the library (lib/image.ts). */
+    image: ImageSettings;
+  };
   basemap: { file: string; maxZoom: number };
 }
 

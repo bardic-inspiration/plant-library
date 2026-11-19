@@ -22,7 +22,7 @@
     "submissions": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["maxBytes"],
+      "required": ["maxBytes", "image"],
       "properties": {
         "maxBytes": {
           "description": "The largest file a submission may carry, in bytes, per file role.",
@@ -33,6 +33,17 @@
             "image": { "type": "integer", "minimum": 1 },
             "plant-list": { "type": "integer", "minimum": 1 },
             "supporting": { "type": "integer", "minimum": 1 }
+          }
+        },
+        "image": {
+          "description": "How `npm run inbox -- image` re-encodes a submitted photo for the library: the format it writes, the longest edge in pixels (smaller images aren't enlarged), and the encoder's quality (1-100; PNG ignores it).",
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["format", "maxEdge", "quality"],
+          "properties": {
+            "format": { "enum": ["jpeg", "png", "webp"] },
+            "maxEdge": { "type": "integer", "minimum": 64, "maximum": 10000 },
+            "quality": { "type": "integer", "minimum": 1, "maximum": 100 }
           }
         }
       }
