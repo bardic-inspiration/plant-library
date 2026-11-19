@@ -8,11 +8,14 @@ import { join } from 'node:path';
 import type { Config } from './config';
 import type { LoadedEntry } from './content';
 import { formatErrors, type Schemas } from './schemas';
-import { botanicalName, normalizeName, plantId } from './names';
+import { botanicalName, fullName, normalizeName, plantId } from './names';
 import { subsetProblems, refTokens } from './markdown';
 import { zoneIndex } from './zones';
 import { flatFacets, isGroup } from './facets';
-import type { Entry, PlantData, VocabValue } from './types';
+import { deriveGeo } from './derive';
+import { loadGeo } from './geo-load';
+import type { GeoLayers } from './geo';
+import type { Entry, LatLon, PlantData, VocabValue } from './types';
 
 export interface Issue { file: string; message: string }
 export interface Report { errors: Issue[]; warnings: Issue[] }
@@ -61,7 +64,21 @@ export interface ValidateOptions {
   dataRoot?: string;
   /** Measure a file, or undefined when it doesn't exist. Defaults to the filesystem under dataRoot. */
   fileSize?: (path: string) => number | undefined;
+  /** Boundary layers for the scope check on locations. Defaults to geo/ under the repo root, read only when needed. */
+  geo?: GeoLayers;
 }
+
+/** The most decimal places a location's lat or lon may have (about 1 m). */
+export const LOCATION_DECIMALS = 5;
+
+/** Decimal places in a number as written. */
+function decimals(n: number): number {
+  const [mant, exp] = String(Math.abs(n)).split('e');
+  const frac = (mant.split('.')[1] ?? '').length;
+  return Math.max(0, frac - Number(exp ?? 0));
+}
+
+interface PlantListItem { plant: string | { ref: string }; quantity?: number; size?: string }
 
 function get(obj: unknown, path: string): unknown {
   return path.split('.').reduce<unknown>((o, k) => (o && typeof o === 'object' ? (o as Record<string, unknown>)[k] : undefined), obj);
@@ -319,6 +336,47 @@ export function validateLibrary(config: Config, schemas: Schemas, loaded: Loaded
     const files = imgs.map((i) => i.file);
     const dup = files.find((f, i) => files.indexOf(f) !== i);
     if (dup) err(file, `image ${dup} is listed twice`);
+  }
+
+  // Projects.
+  const projects = valid.filter((le) => le.entry.type === 'project');
+  let geo = opts.geo;
+  const scope = new Set((config.vocab.state as VocabValue[]).map((v) => v.id));
+  for (const { file, entry } of projects) {
+    const d = entry.data as { location: LatLon; status: string; completed?: string };
+    const { lat, lon } = d.location;
+    if (decimals(lat) > LOCATION_DECIMALS || decimals(lon) > LOCATION_DECIMALS) err(file, `data.location: give lat and lon to at most ${LOCATION_DECIMALS} decimal places`);
+    geo ??= loadGeo(config.root);
+    const state = deriveGeo(d.location, geo).state;
+    if (!state || !scope.has(state)) err(file, `data.location: ${lat}, ${lon} is outside ${[...scope].join(', ')}`);
+    if (d.status === 'constructed' && !d.completed) err(file, 'data.completed is required when status is constructed');
+  }
+
+  // Plant lists (projects, and palettes once built). Text matching a plant's
+  // name, synonym, or name with its trade name must be a ref instead.
+  const textOwner = new Map(nameOwner);
+  for (const { entry } of plants) textOwner.set(normalizeName(fullName(entry.data)), `plant/${entry.id}`);
+  for (const { file, entry } of valid) {
+    const list = (entry.data as { plantList?: PlantListItem[] }).plantList;
+    if (!list) continue;
+    const seen = new Map<string, number>();
+    list.forEach((item, i) => {
+      const where = `data.plantList[${i}]`;
+      let plantKey: string;
+      if (typeof item.plant === 'string') {
+        const owner = textOwner.get(normalizeName(item.plant));
+        if (owner) err(file, `${where}.plant: "${item.plant}" is ${owner} in the library; use { "ref": "${owner}" }`);
+        else warn(file, `${where}.plant: "${item.plant}" is not in the library (unsourced)`);
+        plantKey = owner ?? `text:${normalizeName(item.plant)}`;
+      } else {
+        plantKey = item.plant.ref;
+        if (!plantKey.startsWith('plant/')) err(file, `${where}.plant: ${plantKey} is not a plant`);
+      }
+      const k = `${plantKey}\u0000${normalizeName(item.size ?? '')}`;
+      const prev = seen.get(k);
+      if (prev !== undefined) err(file, `${where}: the same plant and size as data.plantList[${prev}]; a plant appears once per distinct size`);
+      else seen.set(k, i);
+    });
   }
 
   // Field notes.

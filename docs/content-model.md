@@ -3,7 +3,8 @@
 ## Purpose
 
 What an entry holds, what is derived from it, and what validation enforces
-(P2, P3, P5). Plants are built; projects and palettes are still in
+(P2, P3, P5). Plants and the project schema are built; project derived
+values and palettes are still in
 [`spec/v1/data-model.md`](../spec/v1/data-model.md).
 
 ## Behavior
@@ -68,6 +69,42 @@ the `url` read, the `accessed` date, and the `fields` it supports. A parent
 key (`soil`, `bloom`) covers its parts. `data.furtherReading` links pages
 that aren't registered sources; nothing is cited to them.
 
+### Project
+
+A built or proposed landscape and its plant list (`schemas/project.schema.json`).
+The entry states its `name`.
+
+| Field | Shape | Notes |
+|---|---|---|
+| `landscapeArchitect` | short text | The landscape architect of record (firm) |
+| `client` | short text | Optional; proprietary |
+| `location` | `{ lat, lon }` | WGS 84, decimal degrees, at most 5 decimal places; must fall inside WA, OR, or CA |
+| `projectType` | `projectType` vocabulary | `park`, `campus`, `streetscape`, `commercial`, `civic`, `stormwater`, `restoration`, `residential` |
+| `sizeAcres` | number | Greater than 0 |
+| `constructionBudget` | integer | Optional; proprietary. Landscape construction, US dollars, not adjusted for inflation |
+| `status` | `projectStatus` vocabulary | `proposed`, `constructed` |
+| `completed` | `YYYY`, `YYYY-MM`, or `YYYY-MM-DD` | Required when `constructed`; an expected date, or absent, when `proposed` |
+| `plantList` | array | See below |
+
+`client` and `constructionBudget` are the type's `fixtureRules.proprietary`
+fields in `config/types.json`: with `fixturesOnly` on they must be blank, and
+every project must carry `meta.fixture: true`
+([workflow.md](workflow.md#the-prototype-and-the-company-copy)). The other
+fields are required. No state, county, or town is stored; they are derived
+from `location` (P6, [geography.md](geography.md)).
+
+A `plantList` item (`plantListItem` in `schemas/common.schema.json`):
+
+```json
+{ "plant": { "ref": "plant/acer-circinatum" }, "quantity": 24,
+  "size": "#5 container", "spacing": "As shown", "note": "Multi-stem" }
+```
+
+`quantity` is a positive integer and required; `size`, `spacing`, and `note`
+are optional short text, as written on the schedule. `plant` is `RefOrText`
+(below): a ref to a plant, or the name as the schedule wrote it when the
+library doesn't hold the plant yet. A plant appears once per distinct `size`.
+
 ### Derived values
 
 `lib/derive.ts`, never stored:
@@ -85,6 +122,13 @@ The build also computes each entry's `refs` and `refBy` (back-references).
 ### References
 
 - A ref object `{ "ref": "<type>/<id>" }` must resolve.
+- **`RefOrText`** (`refOrText` in `schemas/common.schema.json`): a ref object
+  or plain short text. In v1 that is `plantList[].plant`, where a ref must
+  name a plant. Plain text is an **unsourced plant**: validation warns on
+  it, and fails if the text matches a plant's botanical name, a synonym, or
+  its name with the trade name (compared as `normalizeName` does: case,
+  quotes, and marks ignored), since it must be a ref then. `npm run
+  coverage` lists unsourced names, most used first.
 - A `{ref:<type>/<id>}` token is allowed only in markdown-subset fields
   (`description`, field note `note`) and renders as the target's current
   name, linked.
@@ -113,17 +157,26 @@ The build also computes each entry's `refs` and `refBy` (back-references).
 - unresolved refs and ref tokens, ref tokens outside markdown fields, text
   outside the markdown subset, a field note on an unknown trait;
 - with `fixturesOnly` on, an entry of a type with `fixtureRules` that isn't
-  a fixture or fills a proprietary field.
+  a fixture or fills a proprietary field;
+- a project `location` outside WA, OR, and CA (by `deriveGeo` over the
+  boundary layers), or with more than 5 decimal places in `lat` or `lon`;
+  `completed` missing when `status` is `constructed`;
+- in a plant list: a ref to something other than a plant; the same plant
+  twice with the same `size` (no size counts as one size; text names are
+  compared normalized); an unsourced name that matches a plant's name,
+  synonym, or name with trade name.
 
 It warns on near-duplicate primary common names, images over 500 KB, a plant
-with no image, and a citation of a field the entry leaves empty.
+with no image, a citation of a field the entry leaves empty, and each
+unsourced plant in a plant list.
 
 ## Where the rules live
 
 `schemas/` (shapes), `config/vocab.json` (values and thresholds),
 `lib/validate.ts` (cross-entry rules), `lib/derive.ts`, `lib/names.ts`,
 `lib/zones.ts`. Each rule has a passing and a failing case in
-`tests/validate.test.ts`.
+`tests/validate.test.ts` (plants) and `tests/project.test.ts` (projects and
+plant lists).
 
 ## Extending
 

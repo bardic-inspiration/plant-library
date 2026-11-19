@@ -342,5 +342,29 @@
         "description"
       ]
     }
+  },
+  "project": {
+    "label": "Project",
+    "plural": "Projects",
+    "schema": "schemas/project.schema.json",
+    "namedBy": "entry",
+    "fixtureRules": {
+      "proprietary": [
+        "client",
+        "constructionBudget"
+      ]
+    },
+    "facets": [],
+    "sorts": [],
+    "search": {
+      "boosted": [
+        "name"
+      ],
+      "fields": [
+        "summary",
+        "tags",
+        "description"
+      ]
+    }
   }
 }

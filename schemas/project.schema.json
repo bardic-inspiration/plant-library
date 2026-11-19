@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "project.schema.json",
+  "title": "Project data",
+  "description": "The `data` of a project entry: a built or proposed landscape and its plant list. `client` and `constructionBudget` are proprietary: blank in this repo (config/types.json fixtureRules). State, county, and town are derived from `location` (P6).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["landscapeArchitect", "location", "projectType", "sizeAcres", "status", "plantList"],
+  "properties": {
+    "landscapeArchitect": {
+      "description": "The landscape architect of record (firm).",
+      "$ref": "common.schema.json#/$defs/shortText"
+    },
+    "client": { "$ref": "common.schema.json#/$defs/shortText" },
+    "location": {
+      "description": "WGS 84, decimal degrees, at most 5 decimal places; must fall inside WA, OR, or CA (lib/validate.ts).",
+      "$ref": "common.schema.json#/$defs/point"
+    },
+    "projectType": { "x-vocab": "projectType" },
+    "sizeAcres": { "type": "number", "exclusiveMinimum": 0 },
+    "constructionBudget": {
+      "description": "Landscape construction, US dollars, not adjusted for inflation.",
+      "type": "integer", "minimum": 0
+    },
+    "status": { "x-vocab": "projectStatus" },
+    "completed": {
+      "description": "Required when constructed; an expected date when proposed.",
+      "$ref": "common.schema.json#/$defs/partialDate"
+    },
+    "plantList": {
+      "type": "array",
+      "items": { "$ref": "common.schema.json#/$defs/plantListItem" }
+    }
+  }
+}
