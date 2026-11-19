@@ -1,25 +1,15 @@
 /**
- * What this browser has sent: each submission with its files, kept in
- * IndexedDB (spec: submissions.md, Stores, the `browser` store). The forms
- * `put` here and "My submissions" lists it. IndexedDB can be missing or
- * refuse a write (a private window, blocked site data); calls then reject,
- * and the form says the submission wasn't filed.
+ * The `browser` store (spec: submissions.md, Stores): each submission with
+ * its files in this browser's IndexedDB. The forms `put` here and My
+ * submissions lists it; "Export" bundles one for `inbox import`. A result
+ * never reaches the browser, so `result` has none. IndexedDB can be missing
+ * or refuse a write (a private window, blocked site data); calls then
+ * reject, and the form says the submission wasn't filed.
  */
-import type { Submission } from '../../../lib/contribute';
+import type { Sent, SubmissionStore } from '../store';
 
 const DB = 'plant-library-submissions';
 const STORE = 'submissions';
-
-export interface SentFile {
-  name: string;
-  blob: Blob;
-}
-
-export interface Sent {
-  id: string;
-  submission: Submission;
-  files: SentFile[];
-}
 
 function open(): Promise<IDBDatabase> {
   return new Promise((resolve, reject) => {
@@ -48,17 +38,18 @@ async function run<T>(mode: IDBTransactionMode, act: (s: IDBObjectStore) => IDBR
   }
 }
 
-/** File a submission and its files. Submissions are written once and never edited. */
-export function put(sent: Sent): Promise<IDBValidKey> {
-  return run('readwrite', (s) => s.add(sent));
-}
-
-/** Everything this browser has sent, newest first. */
-export async function list(): Promise<Sent[]> {
-  const all = await run<Sent[]>('readonly', (s) => s.getAll() as IDBRequest<Sent[]>);
-  return all.sort((a, b) => (a.id < b.id ? 1 : -1));
-}
-
-export function get(id: string): Promise<Sent | undefined> {
-  return run<Sent | undefined>('readonly', (s) => s.get(id) as IDBRequest<Sent | undefined>);
-}
+export const browserStore: SubmissionStore = {
+  async put(sent) {
+    await run('readwrite', (s) => s.add(sent));
+  },
+  async list() {
+    const all = await run<Sent[]>('readonly', (s) => s.getAll() as IDBRequest<Sent[]>);
+    return all.sort((a, b) => (a.id < b.id ? 1 : -1));
+  },
+  get(id) {
+    return run<Sent | undefined>('readonly', (s) => s.get(id) as IDBRequest<Sent | undefined>);
+  },
+  async result() {
+    return undefined;
+  },
+};

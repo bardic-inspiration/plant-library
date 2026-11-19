@@ -6,8 +6,8 @@ site/public/data/
 site/public/assets/
 site/public/basemap/
 site/public/map/
-inbox/
-processed/
+/inbox/
+/processed/
 snapshots/
 test-results/
 playwright-report/

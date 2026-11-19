@@ -6,7 +6,9 @@
  * the published entry and files only the differences, each with its basis.
  * Forms are lenient: only what makes a submission unusable blocks it.
  * Drafts and the person's name and role stay in the browser; a sent
- * submission goes to this browser's store (sent-store.ts).
+ * submission goes to the store config/site.json names (lib/store.ts), and
+ * My submissions lists it, with Export for a bundle and the result once
+ * the store has one.
  */
 import { useEffect, useMemo, useRef, useState } from 'preact/hooks';
 import {
@@ -36,7 +38,7 @@ import { normalizeName } from '../../../lib/names';
 import { entryUrl, url } from '../../../lib/site';
 import type { LibraryIndex, PlantListItem } from '../../../lib/types';
 import { vocabList } from '../lib/vocab';
-import { list as listSent, put as putSent, type Sent } from '../lib/sent-store';
+import { exportBundle, storeFor, type Sent, type SubmissionResult, type SubmissionStore, type ResultStatus } from '../lib/store';
 import './contribute.css';
 
 export interface TypeModel {
@@ -50,6 +52,8 @@ interface Props {
   noteFields: Field[];
   maxBytes: Record<FileRole, number>;
   fixturesOnly: boolean;
+  /** The store config/site.json names. */
+  store: string;
 }
 
 type Obj = Record<string, unknown>;
@@ -130,13 +134,13 @@ export default function Contribute(props: Props) {
   return (
     <div class="contribute">
       {error && <p class="c-alert" role="alert">{error}</p>}
-      {route.form ? <FormPage {...props} route={route} index={index} go={go} /> : <Hub types={props.types} go={go} />}
+      {route.form ? <FormPage {...props} route={route} index={index} go={go} /> : <Hub types={props.types} store={storeFor(props.store)} go={go} />}
     </div>
   );
 }
 
 /** Contribute's front page: the forms, and what this browser has sent. */
-function Hub({ types, go }: { types: TypeModel[]; go: (r: Route) => void }) {
+function Hub({ types, store, go }: { types: TypeModel[]; store: SubmissionStore; go: (r: Route) => void }) {
   const link = (r: Route, text: string, help: string) => (
     <li>
       <a
@@ -165,7 +169,7 @@ function Hub({ types, go }: { types: TypeModel[]; go: (r: Route) => void }) {
         {link({ form: 'edit' }, 'Suggest an edit', 'Correct or add to an entry; each change says what it is based on.')}
         {link({ form: 'note' }, 'Add field note', 'Your professional opinion of how a plant performs, kept beside the published facts.')}
       </ul>
-      <MySubmissions types={types} />
+      <MySubmissions types={types} store={store} />
     </>
   );
 }
@@ -181,16 +185,28 @@ const addHelp = (type: string) =>
         : 'A new entry.';
 
 const KIND_LABELS: Record<SubmissionKind, string> = { add: 'New entry', edit: 'Edit', photo: 'Photos', note: 'Field note' };
+const RESULT_LABELS: Record<ResultStatus, string> = { integrated: 'Integrated', partial: 'Partly integrated', rejected: 'Not used', 'needs-info': 'Needs more information' };
 
-/** What this browser has sent, newest first. */
-function MySubmissions({ types }: { types: TypeModel[] }) {
+/** What this browser has sent, newest first, each with Export and its result once the store has one. */
+function MySubmissions({ types, store }: { types: TypeModel[]; store: SubmissionStore }) {
   const [sent, setSent] = useState<Sent[] | undefined>();
+  const [results, setResults] = useState<Record<string, SubmissionResult>>({});
   const [failed, setFailed] = useState(false);
+  const [exportError, setExportError] = useState('');
   useEffect(() => {
-    listSent()
-      .then(setSent)
+    store
+      .list()
+      .then(async (all) => {
+        setSent(all);
+        const found = await Promise.all(all.map(async (s) => [s.id, await store.result(s.id).catch(() => undefined)] as const));
+        setResults(Object.fromEntries(found.filter((f): f is [string, SubmissionResult] => !!f[1])));
+      })
       .catch(() => setFailed(true));
-  }, []);
+  }, [store]);
+  const save = (items: Sent[]) => {
+    setExportError('');
+    exportBundle(items).catch((e: Error) => setExportError(`The bundle wasn't made: ${e.message}`));
+  };
   const typeLabel = (t: string) => types.find((x) => x.type === t)?.label ?? t;
   return (
     <section aria-labelledby="mine-heading" id="mine">
@@ -202,6 +218,12 @@ function MySubmissions({ types }: { types: TypeModel[] }) {
       ) : !sent.length ? (
         <p>Nothing sent from this browser yet.</p>
       ) : (
+        <>
+        <p>
+          A submission reaches the inbox as a bundle file: export it and give the file to whoever runs the inbox, or put it
+          in the shared folder.
+        </p>
+        {exportError && <p class="c-alert" role="alert">{exportError}</p>}
         <div class="table-scroll" role="region" aria-label="My submissions" tabindex={0}>
           <table class="c-table">
             <thead>
@@ -211,6 +233,7 @@ function MySubmissions({ types }: { types: TypeModel[] }) {
                 <th scope="col">About</th>
                 <th scope="col" class="num">Files</th>
                 <th scope="col">Result</th>
+                <th scope="col"><span class="visually-hidden">Export</span></th>
               </tr>
             </thead>
             <tbody>
@@ -225,16 +248,34 @@ function MySubmissions({ types }: { types: TypeModel[] }) {
                     <td>{KIND_LABELS[sub.kind]}</td>
                     <td>{id ? <a href={entryUrl(sub.target)}>{sub.target}</a> : `A new ${typeLabel(type).toLowerCase()}`}</td>
                     <td class="num">{sub.files?.length ?? 0}</td>
-                    <td>Not yet checked</td>
+                    <td>{resultCell(results[s.id])}</td>
+                    <td>
+                      <button type="button" class="c-button" aria-label={`Export submission ${s.id}`} onClick={() => save([s])}>
+                        Export
+                      </button>
+                    </td>
                   </tr>
                 );
               })}
             </tbody>
           </table>
         </div>
+        {sent.length > 1 && (
+          <p class="c-actions">
+            <button type="button" class="c-button" onClick={() => save(sent)}>
+              Export all {sent.length}
+            </button>
+          </p>
+        )}
+        </>
       )}
     </section>
   );
+}
+
+function resultCell(r: SubmissionResult | undefined) {
+  if (!r) return 'Not yet checked';
+  return r.pr ? <a href={r.pr}>{RESULT_LABELS[r.status]}</a> : RESULT_LABELS[r.status];
 }
 
 interface FileItem {
@@ -258,7 +299,7 @@ interface Draft {
 }
 
 /** The form for a route: picks a target first when the form needs one. */
-function FormPage({ types, noteFields, maxBytes, fixturesOnly, route, index, go }: Props & { route: Route; index?: LibraryIndex; go: (r: Route) => void }) {
+function FormPage({ types, noteFields, maxBytes, fixturesOnly, store, route, index, go }: Props & { route: Route; index?: LibraryIndex; go: (r: Route) => void }) {
   const { form } = route;
   const type = form === 'add' ? route.type : route.target?.split('/')[0];
   const model = types.find((t) => t.type === type);
@@ -306,7 +347,7 @@ function FormPage({ types, noteFields, maxBytes, fixturesOnly, route, index, go 
   return (
     <>
       {back}
-      <EntryForm key={`${form}:${route.target ?? type}`} route={route} model={model!} title={title} index={index} noteFields={noteFields} maxBytes={maxBytes} fixturesOnly={fixturesOnly} />
+      <EntryForm key={`${form}:${route.target ?? type}`} route={route} model={model!} title={title} index={index} noteFields={noteFields} maxBytes={maxBytes} fixturesOnly={fixturesOnly} store={storeFor(store)} />
     </>
   );
 }
@@ -372,7 +413,7 @@ function useEntry(target: string | undefined): { entry?: Obj; hash?: string; err
   return state;
 }
 
-function EntryForm({ route, model, title, index, noteFields, maxBytes, fixturesOnly }: { route: Route; model: TypeModel; title: string; index?: LibraryIndex; noteFields: Field[]; maxBytes: Record<FileRole, number>; fixturesOnly: boolean }) {
+function EntryForm({ route, model, title, index, noteFields, maxBytes, fixturesOnly, store }: { route: Route; model: TypeModel; title: string; index?: LibraryIndex; noteFields: Field[]; maxBytes: Record<FileRole, number>; fixturesOnly: boolean; store: SubmissionStore }) {
   const form = route.form!;
   const kind: SubmissionKind = form;
   const target = form === 'add' ? model.type : route.target!;
@@ -484,7 +525,7 @@ function EntryForm({ route, model, title, index, noteFields, maxBytes, fixturesO
     setSending(true);
     setSendError('');
     try {
-      await putSent({ id: sub.id, submission: sub, files: files.map((f) => ({ name: f.meta.name, blob: f.file })) });
+      await store.put({ id: sub.id, submission: sub, files: files.map((f) => ({ name: f.meta.name, blob: f.file })) });
       writeJson(draftKey, undefined);
       setSent(sub);
       scrollTo(0, 0);
@@ -509,8 +550,9 @@ function EntryForm({ route, model, title, index, noteFields, maxBytes, fixturesO
         <h1>{title}</h1>
         <div class="c-done" role="status">
           <p>
-            Filed as submission <code>{sent.id}</code>. It is kept in this browser until it reaches the inbox, where it is
-            checked and, if it passes, enters the library by a pull request.
+            Filed as submission <code>{sent.id}</code>. It is kept in this browser until it reaches the inbox: export it
+            from My submissions as a bundle file. In the inbox it is checked and, if it passes, enters the library by a
+            pull request.
           </p>
           <p>
             <a href={`${contributeUrl()}#mine`}>My submissions</a>

@@ -4,6 +4,7 @@ import Contribute, { type TypeModel } from '../islands/Contribute.tsx';
 import { buildData } from '../../../lib/build-data';
 import { defFields, entryFields } from '../../../lib/form';
 import { rawSchemas } from '../../../lib/schemas';
+import { storeFor } from '../lib/store';
 
 // The forms are generated here, at build, from the schemas, the vocabulary, and the facets (lib/form.ts).
 const { config } = buildData().library;
@@ -14,9 +15,11 @@ const types: TypeModel[] = Object.entries(config.types).map(([type, def]) => ({
   fields: entryFields(type, def, ctx, config.site.fixturesOnly),
 }));
 const noteFields = defFields('fieldNote', ctx);
+// Fail the build on a store with no adapter (config/site.json `store`).
+storeFor(config.site.store);
 ---
 <Base current="contribute" title="Contribute" description="Add a photo, a plant, a project, or a palette, suggest an edit, or record a field note.">
-  <Contribute client:only="preact" types={types} noteFields={noteFields} maxBytes={config.site.submissions.maxBytes} fixturesOnly={config.site.fixturesOnly} />
+  <Contribute client:only="preact" types={types} noteFields={noteFields} maxBytes={config.site.submissions.maxBytes} fixturesOnly={config.site.fixturesOnly} store={config.site.store} />
   <div id="contribute-fallback">
     <h1>Contribute</h1>
     <p>The contribution forms run in the browser and need JavaScript.</p>
