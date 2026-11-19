@@ -1,0 +1,22 @@
+{
+  "schema": 1,
+  "id": "20261120T090600Z-f10006",
+  "submittedAt": "2026-11-20T09:06:00Z",
+  "submitter": {
+    "name": "Pat Example",
+    "role": "Landscape architect"
+  },
+  "kind": "edit",
+  "target": "plant/polystichum-munitum",
+  "basedOn": "64d3dd73b390e041e98a552f6bb48834ffcf378602c51ebfbfc52260378e8dba",
+  "changes": [
+    {
+      "path": "data.tolerates",
+      "value": [
+        "compaction"
+      ],
+      "basis": "observation",
+      "note": "Has held up on the trodden edges of three park paths in Seattle for ten years."
+    }
+  ]
+}

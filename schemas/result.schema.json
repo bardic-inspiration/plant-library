@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "result.schema.json",
+  "title": "Submission result",
+  "description": "What the integrate skill decided about one submission, written to processed/<id>/result.json by `npm run inbox -- close` (docs/submissions.md#results). Reasons are written for the contributor.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "id", "status", "decidedAt", "items"],
+  "properties": {
+    "schema": { "const": 1 },
+    "id": { "type": "string", "pattern": "^[0-9]{8}T[0-9]{6}Z-[0-9a-f]{6}$" },
+    "status": {
+      "description": "integrated: every counted item accepted or changed. partial: some used, some not. rejected: nothing used. needs-info: nothing integrated until the contributor answers, with a new submission naming this one in replyTo.",
+      "enum": ["integrated", "partial", "rejected", "needs-info"]
+    },
+    "decidedAt": { "type": "string", "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\\.[0-9]+)?Z$" },
+    "pr": { "description": "The content PR, when anything was integrated.", "type": "string", "pattern": "^https://[^\\s]+$", "maxLength": 2000 },
+    "items": {
+      "description": "One decision per item of the submission, in its order.",
+      "type": "array",
+      "items": { "$ref": "#/$defs/item" }
+    },
+    "questions": {
+      "description": "What the contributor must answer (needs-info) or the owner must decide in review.",
+      "type": "array",
+      "items": { "type": "string", "minLength": 1, "maxLength": 2000 }
+    }
+  },
+  "allOf": [
+    {
+      "if": { "type": "object", "properties": { "status": { "const": "needs-info" } }, "required": ["status"] },
+      "then": { "type": "object", "required": ["questions"], "properties": { "questions": { "type": "array", "minItems": 1 } } }
+    }
+  ],
+  "$defs": {
+    "item": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["item", "decision", "reason"],
+      "properties": {
+        "item": {
+          "description": "submission (the whole of it), entry (an add's draft), change:<path>, file:<name>, field-note:<n> (from 1), or comment.",
+          "type": "string", "pattern": "^(submission|entry|comment|change:(name|summary|description|tags|data)(\\.[A-Za-z0-9-]+)*|file:[^/\\\\]{1,200}|field-note:[1-9][0-9]*)$"
+        },
+        "decision": { "enum": ["accepted", "changed", "not-used"] },
+        "reason": { "type": "string", "minLength": 1, "maxLength": 2000 }
+      }
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "schema": 1,
+  "id": "20261120T090400Z-f10004",
+  "submittedAt": "2026-11-20T09:04:00Z",
+  "submitter": {
+    "name": "Pat Example",
+    "role": "Landscape architect"
+  },
+  "kind": "photo",
+  "target": "plant/thuja-plicata",
+  "files": [
+    {
+      "name": "redcedar-bark.jpg",
+      "sha256": "f4432a257db189c7e0a500acafaf35e949917ae783cc39e533ba4e075c17510a",
+      "bytes": 304,
+      "role": "image",
+      "rights": "third-party",
+      "license": "CC-BY-4.0",
+      "sourceUrl": "https://photos.example.org/redcedar-bark-310",
+      "photographer": "B. Photographer",
+      "shows": "bark",
+      "alt": "Western redcedar bark in long fibrous strips"
+    }
+  ]
+}

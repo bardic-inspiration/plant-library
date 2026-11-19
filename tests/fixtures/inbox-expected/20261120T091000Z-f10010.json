@@ -1,0 +1,27 @@
+{
+  "case": "An edit whose basedOn is stale and touches a field that changed since.",
+  "mechanical": {
+    "rejected": false,
+    "checks": {
+      "schema": "pass",
+      "target": "pass",
+      "based-on": "warn",
+      "paths": "pass"
+    }
+  },
+  "result": {
+    "status": "partial",
+    "items": [
+      {
+        "item": "change:data.form",
+        "decision": "not-used",
+        "reason": "The entry changed after you opened the form: its form is already forb, with perennial as its life cycle, so this correction was already made."
+      },
+      {
+        "item": "change:summary",
+        "decision": "accepted",
+        "reason": "The summary didn't change since you opened the form; yours is used as written."
+      }
+    ]
+  }
+}

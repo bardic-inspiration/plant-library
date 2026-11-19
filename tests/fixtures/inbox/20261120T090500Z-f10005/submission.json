@@ -1,0 +1,31 @@
+{
+  "schema": 1,
+  "id": "20261120T090500Z-f10005",
+  "submittedAt": "2026-11-20T09:05:00Z",
+  "submitter": {
+    "name": "Pat Example",
+    "role": "Landscape architect"
+  },
+  "kind": "edit",
+  "target": "plant/camassia-quamash",
+  "basedOn": "0b866280a7f35035c7564f1f38cc9b62b327042d3c29d1fcbb692420b02d13c3",
+  "changes": [
+    {
+      "path": "data.spread",
+      "value": {
+        "min": 0.5,
+        "max": 1
+      },
+      "basis": "source",
+      "sourceUrl": "https://www.example-nursery.com/catalog/camassia-quamash",
+      "note": "Spread from the grower's catalog."
+    },
+    {
+      "path": "data.growthRate",
+      "value": "fast",
+      "basis": "source",
+      "sourceUrl": "https://www.example-nursery.com/catalog/camassia-quamash",
+      "note": "The catalog says it multiplies quickly."
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "schema": 1,
+  "id": "20261120T090200Z-f10002",
+  "submittedAt": "2026-11-20T09:02:00Z",
+  "submitter": {
+    "name": "Pat Example",
+    "role": "Landscape architect"
+  },
+  "kind": "photo",
+  "target": "plant/gaultheria-shallon",
+  "files": [
+    {
+      "name": "salal-flowers.jpg",
+      "sha256": "ea372fb85be99c90cd1cc75e59477a4b3a13593f61af6ab5c63fe96761faf58d",
+      "bytes": 305,
+      "role": "image",
+      "rights": "third-party",
+      "license": "CC-BY-SA-4.0",
+      "sourceUrl": "https://photos.example.org/salal-flowers-1201",
+      "photographer": "A. Photographer",
+      "shows": "flower",
+      "alt": "Salal flowers, small white bells on a red stalk"
+    }
+  ]
+}

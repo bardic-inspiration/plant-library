@@ -1,0 +1,38 @@
+{
+  "schema": 1,
+  "id": "20261120T091300Z-f10013",
+  "submittedAt": "2026-11-20T09:13:00Z",
+  "submitter": {
+    "name": "Pat Example",
+    "role": "Landscape architect"
+  },
+  "kind": "add",
+  "target": "project",
+  "basis": "observation",
+  "entry": {
+    "name": "Laurelhurst Park Pond Renovation",
+    "summary": "Renovation of the pond edge plantings for Portland Parks & Recreation.",
+    "data": {
+      "landscapeArchitect": "Our office",
+      "client": "Portland Parks & Recreation",
+      "location": {
+        "lat": 45.52,
+        "lon": -122.625
+      },
+      "projectType": "park",
+      "sizeAcres": 3.5,
+      "status": "constructed",
+      "completed": "2024-06",
+      "constructionBudget": 2400000,
+      "plantList": [
+        {
+          "plant": {
+            "ref": "plant/carex-obnupta"
+          },
+          "quantity": 500,
+          "size": "Plug"
+        }
+      ]
+    }
+  }
+}

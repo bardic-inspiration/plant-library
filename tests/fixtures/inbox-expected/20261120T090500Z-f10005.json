@@ -1,0 +1,32 @@
+{
+  "case": "An edit citing a nursery catalog for a height: the routine finds the figure in a registered source and cites that; where it can't, the change is not used.",
+  "assume": {
+    "https://www.example-nursery.com/catalog/camassia-quamash": "A nursery catalog page giving a spread of 6–12 in and calling growth fast. No registered source.",
+    "https://plants.usda.gov/plant-profile/CAQU2": "Gives a spread of 0.5–1 ft and no growth rate."
+  },
+  "mechanical": {
+    "rejected": false,
+    "checks": {
+      "schema": "pass",
+      "target": "pass",
+      "based-on": "pass",
+      "paths": "pass",
+      "urls": "warn"
+    }
+  },
+  "result": {
+    "status": "partial",
+    "items": [
+      {
+        "item": "change:data.spread",
+        "decision": "changed",
+        "reason": "The catalog isn't a registered source, but USDA PLANTS gives the same spread, 0.5–1 ft; it is set and cited to USDA PLANTS instead."
+      },
+      {
+        "item": "change:data.growthRate",
+        "decision": "not-used",
+        "reason": "No registered source gives a growth rate for camas, and a nursery catalog can't be cited. If you have seen it spread quickly yourself, send that as an observation."
+      }
+    ]
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "schema": 1,
+  "id": "20261120T091100Z-f10011",
+  "submittedAt": "2026-11-20T09:11:00Z",
+  "submitter": {
+    "name": "Pat Example",
+    "role": "Landscape architect"
+  },
+  "kind": "add",
+  "target": "project",
+  "basis": "observation",
+  "entry": {
+    "name": "Alder Creek Rain Garden",
+    "summary": "A made-up rain garden at a library branch, proposed.",
+    "data": {
+      "landscapeArchitect": "Placeholder Partners",
+      "location": {
+        "lat": 47.61,
+        "lon": -122.33
+      },
+      "projectType": "stormwater",
+      "sizeAcres": 0.3,
+      "status": "proposed",
+      "plantList": [
+        {
+          "plant": {
+            "ref": "plant/carex-obnupta"
+          },
+          "quantity": 60,
+          "size": "4 in pot"
+        },
+        {
+          "plant": "Juncus ensifolius",
+          "quantity": 120,
+          "size": "Plug"
+        },
+        {
+          "plant": "Iris tenax",
+          "quantity": 40,
+          "size": "#1 container"
+        },
+        {
+          "plant": "Sisyrinchium idahoense",
+          "quantity": 80,
+          "size": "Plug"
+        }
+      ]
+    }
+  }
+}

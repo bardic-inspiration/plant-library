@@ -1,0 +1,21 @@
+{
+  "case": "In the prototype, a project submission naming a real client.",
+  "mechanical": {
+    "rejected": false,
+    "checks": {
+      "schema": "pass",
+      "target": "pass",
+      "duplicate": "pass"
+    }
+  },
+  "result": {
+    "status": "rejected",
+    "items": [
+      {
+        "item": "entry",
+        "decision": "not-used",
+        "reason": "It names a real client and budget, and this prototype library is public and holds only made-up projects. It was not added; real projects go into the company's own copy of the library."
+      }
+    ]
+  }
+}

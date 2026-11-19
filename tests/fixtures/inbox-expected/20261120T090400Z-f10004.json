@@ -1,0 +1,27 @@
+{
+  "case": "The same with a page that states CC BY-ND: rejected, with the reason.",
+  "assume": {
+    "https://photos.example.org/redcedar-bark-310": "The page shows this photo and states: by B. Photographer, licensed CC BY-ND 4.0."
+  },
+  "mechanical": {
+    "rejected": false,
+    "checks": {
+      "schema": "pass",
+      "files": "pass",
+      "file-type": "pass",
+      "target": "pass",
+      "duplicate": "pass",
+      "urls": "warn"
+    }
+  },
+  "result": {
+    "status": "rejected",
+    "items": [
+      {
+        "item": "file:redcedar-bark.jpg",
+        "decision": "not-used",
+        "reason": "Its source page states CC BY-ND 4.0, which forbids changes; the library re-encodes and crops every photo, so it takes no ND licenses."
+      }
+    ]
+  }
+}

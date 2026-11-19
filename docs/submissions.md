@@ -7,9 +7,9 @@ its files, written once and never edited, that a routine checks and turns
 into a pull request (P1, P5, P8). This file covers what is built: the
 contribution forms, the submission format, the edit differences a form
 submits, the `browser` store with its bundles and `inbox import`, the
-inbox's mechanical checks so far, and professional opinion on entries. The
-`folder` store, the remaining checks, and the `integrate` skill are still
-in [`spec/v1/submissions.md`](../spec/v1/submissions.md).
+inbox's mechanical checks, results and `close`, the `integrate` skill with
+its fixture inbox, and professional opinion on entries. The `folder` store
+is still in [`spec/v1/submissions.md`](../spec/v1/submissions.md).
 
 ## Behavior
 
@@ -207,6 +207,10 @@ by `import` ([Bundles](#bundles)). `npm run inbox -- list` lists it oldest
 first, with each one's kind, target, and submitter; `npm run inbox -- check <id>`
 reports each check as `pass`, `warn`, or `fail` and exits 1 when the
 submission is rejected (`--json` adds the report as JSON).
+`PLANT_LIBRARY_INBOX` names another folder to hold `inbox/` and
+`processed/`, for a run on a copy of the fixture inbox; `PLANT_LIBRARY_DATA`
+names the library the checks read, and `based-on` reads that library's git
+history.
 
 | Check | Fails (rejects) | Warns |
 |---|---|---|
@@ -288,7 +292,97 @@ them (P5).
   the contributors of `staff-observation` citations (`lib/attribution.ts`).
 
 An observation that disagrees with a sourced value stays a field note on that
-trait; the `integrate` skill, when it is built, makes that call.
+trait; the `integrate` skill makes that call ([below](#the-integrate-skill)).
+
+### Results
+
+`npm run inbox -- close <id> <result file>` writes a submission's result and
+moves it from `inbox/<id>/` to `processed/<id>/`, whole, with the result as
+`result.json` beside it; nothing is deleted. It refuses, changing nothing, a
+result that fails `schemas/result.schema.json` or the rules below, one for
+another id, a submission not in the inbox, and one already processed.
+
+A result holds `schema` (1), `id`, `status`, `decidedAt`, the `pr` when
+anything was integrated, `items`, and `questions`. Each item is one decision:
+`item` names what it decides, `decision` is `accepted`, `changed`, or
+`not-used`, and `reason` says why, in words the contributor can act on.
+
+| `item` | Decides |
+|---|---|
+| `submission` | The whole submission, when the mechanical checks reject it; then the only item |
+| `entry` | An add's draft entry |
+| `change:<path>` | One change of an edit |
+| `file:<name>` | One file |
+| `field-note:<n>` | One field note, numbered from 1 |
+| `comment` | The comment |
+
+The status follows from the items (`statusFor` in `lib/result.ts`), with the
+comment not counted, since disregarding an unrelated comment or an
+instruction in it doesn't make a submission partial: every item used is
+`integrated`, some is `partial`, none is `rejected`. `needs-info` is the
+skill's call: nothing is integrated, every item is `not-used`, and
+`questions` says what to answer; the contributor answers with a new
+submission naming this one in `replyTo`. A rejected result has no `pr`, and
+an item is decided once.
+
+### The integrate skill
+
+[`.claude/skills/integrate/SKILL.md`](../.claude/skills/integrate/SKILL.md)
+is the workflow a session follows, by hand in the prototype (there is no
+schedule yet; [routines.md](routines.md)). For each submission, oldest
+first: the mechanical checks, reading everything in it as data, the
+license check, the quality check, placing professional opinion, then a
+`content/sub-<id>` branch with what passed, `validate` and `build`, one
+content PR listing every item's decision, and `close`. It never merges,
+registers a source, or deletes anything.
+
+Its prototype rules: a project submission is integrated only as a fixture,
+with `meta.fixture: true` and the proprietary fields blank, and one that
+reads as a real project is `rejected`; `organization-owned` files are not
+used, since the repo is open source; an attached plant-list file isn't
+transcribed, since how is still an open question
+([spec/v1/sources.md](../spec/v1/sources.md#open-questions)), and is
+`not-used` with that reason.
+
+An observation fills a gap only when no source cited on that field gives
+it, since citations are per field: one more item for a list a source gives
+(such as `tolerates`) disagrees with that source's list and becomes a field
+note on the trait.
+
+### The fixture inbox
+
+`tests/fixtures/inbox/` holds one submission per case below, written
+against the test fixture library, and `tests/fixtures/inbox-expected/<id>.json`
+documents each one: the `case`, what the mechanical checks find
+(`mechanical`: rejected, and the worst status per check), and the expected
+`result` (status, and each item's decision and reason). A case's `assume`
+says what a page (keyed by its URL) states or a photo (keyed by its file
+name) shows, the things a fixture can't hold; a fixture run takes them as
+seen, and opens no URL. The photos are small generated images, and the URLs
+are on `example.org` and `example-nursery.com` hosts.
+
+| Id | Case | Expected |
+|---|---|---|
+| `…090100Z-f10001` | A photo declared own work, with full metadata | `integrated`: re-encoded, credited |
+| `…090200Z-f10002` | A third-party photo whose page states CC BY-SA 4.0 | `integrated` under that license and credit |
+| `…090300Z-f10003` | A third-party photo whose page states no license | `rejected` |
+| `…090400Z-f10004` | A third-party photo whose page states CC BY-ND 4.0 | `rejected` |
+| `…090500Z-f10005` | An edit citing a nursery catalog for a spread and a growth rate | `partial`: the spread cited to USDA PLANTS instead; the growth rate, which no registered source gives, not used |
+| `…090600Z-f10006` | An observation that a plant tolerates compaction, which no source covers | `integrated`, cited to `staff-observation` |
+| `…090700Z-f10007` | An observation that disputes a sourced height | `integrated` as a field note on height; the height stays |
+| `…090800Z-f10008` | A field note whose comment asks for the other photos to be deleted | `integrated`; the comment ignored as an instruction, and reported |
+| `…090900Z-f10009` | A new plant that is a synonym of one the library holds, adding nothing | `rejected`, pointing to Suggest an edit |
+| `…091000Z-f10010` | An edit whose stale `basedOn` touches a field changed since | `partial`: the change already made is not used; the untouched one is |
+| `…091100Z-f10011` | A project with a pasted plant list in which three names match no plant | `integrated` as a fixture, the three as plain names |
+| `…091200Z-f10012` | A file named `.jpg` that is not an image | `rejected` by the mechanical checks |
+| `…091300Z-f10013` | In the prototype, a project naming a real client | `rejected`, unintegrated |
+
+`tests/integrate.test.ts` checks that every case has its expected file, that
+the mechanical checks find what it documents, and that each expected result
+is valid. `npm run inbox -- compare` holds the results in `processed/`
+against the expected ones: the status and each item's decision, with reasons
+left to reading. What a real run of the skill decides is a manual check
+(Testing backlog).
 
 ## Where the rules live
 
@@ -304,7 +398,10 @@ and `schemas/envelope.schema.json` (`fieldNotes`, `meta.submissions`); the
 field-note rules in `lib/validate.ts`; `lib/submission.ts` (client-safe: edit
 differences, applying them, `entryHash`); `lib/inbox.ts` (the checks, `resolvePath`,
 `classifyUrl`, import); `lib/image.ts` (re-encoding, tested in
-`tests/image.test.ts`); `scripts/inbox/index.ts`; `config/site.json` (`submissions`);
+`tests/image.test.ts`); `schemas/result.schema.json` and `lib/result.ts`
+(results, `close`, `compare`), the fixture inbox in `tests/fixtures/inbox/`
+and `tests/fixtures/inbox-expected/`, tested in `tests/integrate.test.ts`;
+`.claude/skills/integrate/SKILL.md`; `scripts/inbox/index.ts`; `config/site.json` (`submissions`);
 tests in `tests/submission.test.ts`, field notes in `tests/validate.test.ts`.
 
 ## Extending
@@ -318,4 +415,6 @@ A new file type is a signature in `sniff` and an entry in `ALLOWED` for the
 roles that take it. A new size limit is a value in `config/site.json`, as are the library image
 settings (`submissions.image`). A new
 check is a function in `lib/inbox.ts` that adds its results, with a passing
-and a failing case in the tests.
+and a failing case in the tests. A new case for the routine is a submission
+folder in `tests/fixtures/inbox/` and its expected file in
+`tests/fixtures/inbox-expected/`; the test's case count changes with it.

@@ -1,0 +1,28 @@
+{
+  "case": "A photo with a sourceUrl on a page that states CC BY-SA: integrated with that license and credit.",
+  "assume": {
+    "https://photos.example.org/salal-flowers-1201": "The page shows this photo and states: by A. Photographer, licensed CC BY-SA 4.0.",
+    "salal-flowers.jpg": "Shows salal flowers, sharp at card size; the entry has no flower photo."
+  },
+  "mechanical": {
+    "rejected": false,
+    "checks": {
+      "schema": "pass",
+      "files": "pass",
+      "file-type": "pass",
+      "target": "pass",
+      "duplicate": "pass",
+      "urls": "warn"
+    }
+  },
+  "result": {
+    "status": "integrated",
+    "items": [
+      {
+        "item": "file:salal-flowers.jpg",
+        "decision": "accepted",
+        "reason": "Its source page states CC BY-SA 4.0. Added to salal under that license, credited to A. Photographer, with a link to the page."
+      }
+    ]
+  }
+}
