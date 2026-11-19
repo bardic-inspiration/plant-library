@@ -53,18 +53,15 @@ plant lists follow the same rules once the type exists.
 ### Derived values
 
 Computed at build by `lib/derive.ts` and never stored (P3). Each is a facet
-or a detail-page line. The plant's own derived values are built, and so is
-`deriveGeo`, a point's state, county, place, and ecoregion
-([docs/geography.md](../../docs/geography.md#derivation)).
+or a detail-page line. The plant's and project's derived values are built, and so is `deriveGeo`, a
+point's state, county, place, and ecoregion
+([docs/geography.md](../../docs/geography.md#derivation)); see
+[docs/content-model.md](../../docs/content-model.md#derived-values).
 
 | On | Derived | From |
 |---|---|---|
-| Plant | `use.projects`, `use.quantity` | Back-references from projects |
-| Plant | `use.states`, `use.counties`, `use.ecoregions`, `use.zones` | The geography of the projects that use it |
 | Plant | `companions` | The plants it most often shares a project list with ([map.md](map.md#distribution-analysis)) |
-| Project | `geo.*` | `deriveGeo(location)`; `geo.hardinessZone` from the zone layer once it is added ([map.md](map.md#boundary-data)) |
-| Project | `plants.taxa`, `plants.quantity`, `plants.nativeShare`, `plants.byForm` | `plantList` and the plants it refs; `nativeShare` counts natives of the project's own state |
-| Project | `costPerAcre` | `constructionBudget` and `sizeAcres` |
+| Project | `geo.hardinessZone` | From the zone layer once it is added ([map.md](map.md#boundary-data)); `use.zones` waits on it |
 | Palette | `compatibility` | [library.md](library.md#compatibility) |
 | Palette | `geo.*` | `site.location`, when given |
 

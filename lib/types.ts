@@ -171,6 +171,57 @@ export interface GeoDerived {
   county?: string;
   place?: string;
   ecoregion?: string;
+  /** Waits on the zone data's terms (D33); collected into `use.zones` once present. */
+  hardinessZone?: string;
+}
+
+export interface PlantListItem {
+  plant: Ref | string;
+  quantity?: number;
+  size?: string;
+  spacing?: string;
+  note?: string;
+}
+
+export interface ProjectData {
+  landscapeArchitect: string;
+  client?: string;
+  location: LatLon;
+  projectType: string;
+  sizeAcres: number;
+  constructionBudget?: number;
+  status: string;
+  completed?: string;
+  plantList: PlantListItem[];
+}
+
+/** Derived project values (lib/derive.ts). Never stored. */
+export interface ProjectDerived {
+  geo: GeoDerived;
+  plants: {
+    /** Distinct plants the library holds (a plant listed at several sizes counts once). */
+    taxa: number;
+    /** Distinct unsourced names: unknown, never counted in `taxa`. */
+    unsourced: number;
+    /** Total quantity on the list, unsourced lines included. */
+    quantity: number;
+    /** Share of the quantity of plants with a known native range that are native to the project's state; absent when none is known or the project has no state. */
+    nativeShare?: number;
+    /** Quantity by plant form; unsourced lines under `unknown`. */
+    byForm: Record<string, number>;
+  };
+  /** Dollars per acre, rounded; absent without a budget. */
+  costPerAcre?: number;
+}
+
+/** A plant's use across projects (lib/derive.ts `derivePlantUse`). Never stored. */
+export interface PlantUse {
+  projects: string[];
+  quantity: number;
+  states: string[];
+  counties: string[];
+  ecoregions: string[];
+  zones: string[];
 }
 
 /** Derived plant values (lib/derive.ts). Never stored. */
