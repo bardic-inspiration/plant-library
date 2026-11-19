@@ -613,7 +613,35 @@
     "fixtureRules": {
       "proprietary": []
     },
-    "facets": [],
+    "facets": [
+      {
+        "group": "site",
+        "label": "Site conditions",
+        "facets": [
+          {
+            "id": "sun",
+            "label": "Sun",
+            "kind": "value",
+            "path": "data.site.sun",
+            "vocab": "sun"
+          },
+          {
+            "id": "moisture",
+            "label": "Moisture",
+            "kind": "value",
+            "path": "data.site.moisture",
+            "vocab": "moisture"
+          },
+          {
+            "id": "drainage",
+            "label": "Drainage",
+            "kind": "value",
+            "path": "data.site.soil.drainage",
+            "vocab": "soilDrainage"
+          }
+        ]
+      }
+    ],
     "sorts": [],
     "search": {
       "boosted": [

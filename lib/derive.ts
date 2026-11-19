@@ -84,7 +84,7 @@ export function deriveGeo(location: LatLon, layers: GeoLayers): GeoDerived {
  * maps `plant/<id>` to the plant's data. Unsourced names (plain text, or a ref
  * the library can't resolve) count as unknown: they add to `quantity` and
  * `byForm.unknown`, never to `taxa` or `nativeShare`. `geo` is passed in
- * (from `deriveGeo`).
+ * (from `deriveGeo`). `compatibility` is the list's, with no site.
  */
 export function deriveProject(
   d: ProjectData,
@@ -116,7 +116,8 @@ export function deriveProject(
   }
   const plants: ProjectDerived['plants'] = { taxa: taxa.size, unsourced: unsourced.size, quantity, byForm };
   if (geo.state && known > 0) plants.nativeShare = native / known;
-  const out: ProjectDerived = { geo, plants, usesPlant: [...taxa].sort() };
+  // A project has no site conditions of its own: its compatibility is the list's shared ranges, with no site fit.
+  const out: ProjectDerived = { geo, plants, usesPlant: [...taxa].sort(), compatibility: compatibility(d.plantList, plantsByKey) };
   if (d.constructionBudget !== undefined && d.sizeAcres > 0) out.costPerAcre = Math.round(d.constructionBudget / d.sizeAcres);
   if (d.completed) out.completedYear = Number(d.completed.slice(0, 4));
   return out;

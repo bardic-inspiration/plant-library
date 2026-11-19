@@ -15,6 +15,7 @@ follow links between entries (P4, P7, P10).
 | `/map/` | The Library map view |
 | `/plant/<id>/` | Plant detail page |
 | `/project/<id>/` | Project detail page |
+| `/palette/<id>/` | Palette detail page |
 | `/about/` | What the library is, the source registry, licenses, image credits, contributors |
 | `/styleguide/` | Every component state; not in navigation |
 | `/404.html` | Not found |
@@ -29,7 +30,7 @@ that has values, plus one per tag key, values in vocabulary order) and one
 lean record per entry: key, name and styled name parts, summary, URL,
 thumbnail (the pinned image), facet values, tags, refs, back-refs, sort
 keys, search text, and card fields. Only types the site builds pages for
-are indexed (`hasPages`, D35); projects are, with their card fields. Full entries
+are indexed (`hasPages`, D35); projects and palettes are, with their card fields. Full entries
 of every type are at
 `site/public/data/<type>/<id>.json`, for later exports and the workspace.
 
@@ -67,6 +68,8 @@ JavaScript it is a full list; the island hides that list once it loads.
   county, place, ecoregion, hardiness zone), and Uses plant. A facet with no
   values is left out of the index, so Client, Budget, and Cost per acre
   (blank in every fixture) and Hardiness zone (not derived, D33) don't show.
+- **Palette facets:** Site conditions: Sun, Moisture, and Drainage, from the
+  values the palette's `site` states.
 - **Cross-type filters:** *Uses plant* (a project facet) narrows projects to
   those whose lists ref the chosen plants. *Used in* (a plant group: state,
   county, ecoregion, and *On a project*, by project name) narrows plants to
@@ -97,6 +100,10 @@ JavaScript it is a full list; the island hides that list once it loads.
   placeholder, when it has none), botanical name, primary common name, form
   badge, a Native badge, height and spread, hardiness, sun and moisture as
   labelled icons, and a twelve-cell bloom strip with a text alternative.
+  A palette card shows its name, "Palette" with its place when its site has
+  a location, its plant count (distinct refs plus distinct unsourced names,
+  as a project card counts them), sun and moisture as labelled icons, and
+  drainage and a stated zone as text, or "No site conditions".
 
 ### Map view
 
@@ -108,6 +115,10 @@ on this page.
 - **Projects** in the results are points, clustered when zoomed out, colored
   by type, filled when constructed and hollow when proposed. A point opens a
   popup with the project's card, linking its page.
+- **Palettes** whose site has a location are points of their own kind: a
+  dark disc with a light center, unclustered, over the projects, opening a
+  popup with the palette's card. A palette with no location is counted
+  among the results the map can't place (D55).
 - **Plants** have no location of their own: with plants in the results, the
   map draws the projects whose lists ref a matching plant, among those that
   meet the query's project filters, each sized by the quantity of matching
@@ -149,8 +160,8 @@ on this page.
 - **Without JavaScript** the page lists every entry with a note; **without
   WebGL** the island shows the list view with a note.
 
-`npm run a11y` loads the map view at both widths, fails if the project layer
-drew no marks, and runs axe with the results panel showing (D49).
+`npm run a11y` loads the map view at both widths, fails if the map
+drew no project or palette marks, and runs axe with the results panel showing (D49).
 
 ### Plant page
 
@@ -166,8 +177,8 @@ project with its place, the quantity listed, and its completion year,
 plants by state, each state linked to the Library filtered by *Used in*);
 a small map of those projects, each sized by the quantity listed, as the
 map view draws the plant alone, and each state also offering the same
-filter on the map; related plants (the same species and its cultivars
-and varieties); sources, each with its link, the fields it supports, the
+filter on the map; In palettes, the palettes whose lists ref it, by name;
+related plants (the same species and its cultivars and varieties); sources, each with its link, the fields it supports, the
 access date, and its citation; further reading; and field notes.
 
 ### Project page
@@ -188,18 +199,55 @@ built from the project's own index record (`libraryUrl` in `lib/filter.ts`),
 so each names a value the index offers; place, county, state, and
 ecoregion also offer the same filter on the map (`mapUrl`), which opens
 with the overlay holding the region switched on and the region drawn
-picked. Below the facts, a small map shows the project's location. The
-compatibility panel, and export and workspace actions (M6) join later. A project card shows name,
+picked. Below the facts, a small map shows the project's location. After
+the summary comes the compatibility panel, over the list alone, since a
+project states no site conditions. Export and workspace actions (M6) join
+later. A project card shows name,
 place and state, type, status, completion year, size in acres, and plant
 count (taxa plus unsourced names, D37).
+
+### Palette page
+
+Name, the place when its site has a location, summary, description, and
+site conditions (sun, moisture, and drainage, each value linked to the
+Library filtered by it, built from the palette's index record as a project
+page's facts are; a stated hardiness zone; the place); a palette with none
+says it is checked only for whether its plants suit each other. A small map
+shows a located palette's point. The plant list is the project schedule
+(`Schedule` in `site/src/components/ui/`), with the quantity column only
+when a line has a quantity, and then the compatibility panel with the
+site's fit.
+
+### Compatibility panel
+
+`CompatPanel` in `site/src/components/ui/`, rendered at build on project and
+palette pages from the entry's derived `compatibility`, and ready for the
+workspace. For each axis (sun, moisture, soil drainage, hardiness zone,
+water use) it gives a status in words (Shared, Conflict, No data), the
+sentences from `describeAxis` in `lib/compat-text.ts`, and a
+plant-by-value grid:
+
+- **Words:** what every plant with data shares; or, with nothing shared,
+  which plants to remove, what each needs, and what the rest would then
+  share, with tied alternatives numbered; the plants with no data; and,
+  with a site, the plants not suited to it.
+- **Grid:** one row per plant (linked), one column per value, a dot with
+  the text "Yes" where the plant accepts it. Shared columns are tagged
+  "shared" and shaded, the site's values tagged "site", a plant a conflict
+  names tagged "conflict" and ruled, and a plant with no data reads "No
+  data" across the row. A Site column gives Suits, Not suited, or Unknown
+  where the site states the axis. Hardiness shows only the half zones from
+  the lowest to the highest the plants and the site reach (`gridColumns`).
+  An axis no plant has data on shows its sentence and no grid (D55).
 
 ### The fixture library
 
 `tests/fixtures/library/` holds 14 made-up plant entries and generated
 images covering the data model's cases (a variety, a cultivar, a hybrid
 cultivar with a trade name, synonyms, a wrapping bloom, a non-native, a
-staff observation, two citations of one trait), and 7 fictional projects
-([sources.md](sources.md#fixture-projects)). The tests use it.
+staff observation, two citations of one trait), 7 fictional projects
+([sources.md](sources.md#fixture-projects)), and 3 fictional palettes
+([sources.md](sources.md#fixture-palettes)). The tests use it.
 `npm run build:fixtures` and `npm run dev:fixtures` build the site from it
 (`PLANT_LIBRARY_DATA`), and every page then carries a banner saying its
 values haven't been checked against the sources they cite.
@@ -211,7 +259,7 @@ a fixture (`meta.fixture: true`), as every prototype plant is
 ## Where the rules live
 
 `config/types.json` (facets, sorts, search fields), `lib/facets.ts`,
-`lib/filter.ts`, `lib/map-data.ts`, `lib/build-data.ts`, `site/src/islands/Library.tsx`,
+`lib/filter.ts`, `lib/map-data.ts`, `lib/compat-text.ts`, `lib/build-data.ts`, `site/src/islands/Library.tsx`,
 `site/src/pages/`, and the shared components in
 `site/src/components/ui/`, which both the pages and the island render.
 

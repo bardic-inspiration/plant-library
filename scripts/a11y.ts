@@ -22,7 +22,7 @@ if (!existsSync(dist)) {
   console.error('site/dist is missing. Run `npm run build` first.');
   process.exit(1);
 }
-/** The page's (first) map drew its project layer; on a narrow screen, the map view's results sheet is opened. Returns the failures. */
+/** The page's (first) map drew its project or palette marks; on a narrow screen, the map view's results sheet is opened. Returns the failures. */
 async function checkMap(page: import('@playwright/test').Page, width: number, path: string): Promise<number> {
   // A map loads when it is first in view.
   await page.locator('.map-view').first().scrollIntoViewIfNeeded();
@@ -36,10 +36,10 @@ async function checkMap(page: import('@playwright/test').Page, width: number, pa
   }
   const rendered = Number(await view.getAttribute('data-projects-rendered'));
   if (!(rendered > 0)) {
-    console.error(`${width}px /${path}: the project layer drew no marks`);
+    console.error(`${width}px /${path}: the map drew no project or palette marks`);
     return 1;
   }
-  console.log(`${width}px /${path}: project layer drew ${rendered} marks`);
+  console.log(`${width}px /${path}: map drew ${rendered} marks`);
   const toggle = page.locator('.sheet-toggle');
   if (await toggle.isVisible()) await toggle.click();
   return 0;

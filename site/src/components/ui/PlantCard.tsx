@@ -29,6 +29,22 @@ interface ProjectCardData {
   plantCount: number;
 }
 
+interface PaletteCardData {
+  plantCount: number;
+  place?: string;
+  sun?: string[];
+  moisture?: string[];
+  drainage?: string[];
+  hardinessZone?: string;
+}
+
+/** A palette's site conditions as text: "Part shade or shade; dry; well-drained; zone 8b". */
+export function siteText(c: { sun?: string[]; moisture?: string[]; drainage?: string[]; hardinessZone?: string }): string {
+  const or = (list: string, vals?: string[]) => (vals?.length ? vals.map((v, i) => (i ? label(list, v).toLowerCase() : label(list, v))).join(' or ') : undefined);
+  const parts = [or('sun', c.sun), or('moisture', c.moisture), or('soilDrainage', c.drainage), c.hardinessZone && `zone ${c.hardinessZone}`].filter((x): x is string => Boolean(x));
+  return parts.map((p, i) => (i ? p.charAt(0).toLowerCase() + p.slice(1) : p)).join('; ');
+}
+
 /** A card for any index record. Plants get the full plant card; other types a plain one. */
 export function Card({ record, headingLevel = 3 }: { record: IndexRecord; headingLevel?: 2 | 3 }) {
   const H = headingLevel === 2 ? 'h2' : 'h3';
@@ -56,6 +72,35 @@ export function Card({ record, headingLevel = 3 }: { record: IndexRecord; headin
               </div>
             ))}
           </dl>
+        </div>
+      </article>
+    );
+  }
+  if (record.type === 'palette') {
+    const c = record.card as unknown as PaletteCardData;
+    // Sun and moisture show as icons, as on a plant card; drainage and a stated zone as text.
+    const soil = siteText({ drainage: c.drainage, hardinessZone: c.hardinessZone });
+    const none = !c.sun?.length && !c.moisture?.length && !soil;
+    return (
+      <article class="card" data-type="palette">
+        <div class="card-body">
+          <H class="card-title">
+            <a href={record.url}>{record.name}</a>
+          </H>
+          <p class="card-common">{c.place ? `Palette, ${c.place}` : 'Palette'}</p>
+          <dl class="card-facts">
+            <div>
+              <dt class="visually-hidden">Plants</dt>
+              <dd>{`${c.plantCount} ${c.plantCount === 1 ? 'plant' : 'plants'}`}</dd>
+            </div>
+            {(soil || none) && (
+              <div>
+                <dt class="visually-hidden">Site conditions</dt>
+                <dd>{soil || 'No site conditions'}</dd>
+              </div>
+            )}
+          </dl>
+          <Conditions sun={c.sun} moisture={c.moisture} />
         </div>
       </article>
     );

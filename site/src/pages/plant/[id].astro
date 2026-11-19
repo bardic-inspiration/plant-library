@@ -128,6 +128,8 @@ const byState = (dv.use?.states ?? []).map((st) => {
   return { state: st, name: label('state', st), projects: mine.length, quantity: mine.reduce((n, u) => n + u.quantity, 0), href: libraryUrl({ 'plant.usedInState': [st] }), map: mapUrl({ 'plant.usedInState': [st] }) };
 });
 // A small map of the projects it is used on, each sized by the quantity listed.
+// The palettes whose lists name this plant by ref, by name.
+const inPalettes = b.refBy.filter((k) => k.startsWith('palette/')).map((k) => data.byKey.get(k)!).sort((x, y) => x.name.localeCompare(y.name));
 const usedFeatures = detailFeatures(key, data.index.records);
 const usedFit = featureBounds(usedFeatures);
 const bloomLabel = dv.bloomMonthList ? `Bloom calendar: ${formatMonths(d.bloom?.months)}` : '';
@@ -241,6 +243,17 @@ const bloomLabel = dv.bloomMonthList ? `Bloom calendar: ${formatMonths(d.bloom?.
         <ul class="used-totals" role="list">
           {byState.map((t) => (
             <li><a href={t.href}>{t.name}</a> <a class="map-link" href={t.map} aria-label={`${t.name} on the map`}>on the map</a>: {t.projects === 1 ? '1 project' : `${t.projects} projects`}, {number.format(t.quantity)} plants</li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    {inPalettes.length > 0 && (
+      <section aria-labelledby="palettes-heading">
+        <h2 id="palettes-heading">In palettes</h2>
+        <ul>
+          {inPalettes.map((p) => (
+            <li><a href={url(`${p.key}/`)}>{p.name}</a></li>
           ))}
         </ul>
       </section>

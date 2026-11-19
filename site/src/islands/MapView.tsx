@@ -22,8 +22,8 @@
 import { useEffect, useRef, useState } from 'preact/hooks';
 import { render } from 'preact';
 import type { GeoJSONSource, GeoJSONSourceSpecification, Map as MapLibreMap } from 'maplibre-gl';
-import { BOUNDS_KEY, BOX_SOURCE, DETAIL_ZOOM, NATIVE_SOURCE, OVERLAY_BEFORE, PROJECT_LAYERS, PROJECT_SOURCE } from '../../../lib/map-style';
-import { projectFeatures, type Bounds } from '../../../lib/map-data';
+import { BOUNDS_KEY, BOX_SOURCE, DETAIL_ZOOM, NATIVE_SOURCE, OVERLAY_BEFORE, PALETTE_LAYERS, PALETTE_SOURCE, PROJECT_LAYERS, PROJECT_SOURCE } from '../../../lib/map-style';
+import { paletteFeatures, projectFeatures, type Bounds } from '../../../lib/map-data';
 import { pickedRegions, type MapPosition } from '../../../lib/filter';
 import { beforeLayer, layerList, overlaySource, pickedFilter, pickedLayers, pickLayer, type LegendItem, type OverlayMeta } from '../../../lib/overlays';
 import type { IndexRecord, LibraryIndex } from '../../../lib/types';
@@ -72,6 +72,8 @@ export interface MapViewProps {
   index?: LibraryIndex;
   /** The projects to draw (lib/map-data.ts); every project in the index when absent. Updates redraw. */
   features?: ReturnType<typeof projectFeatures>;
+  /** The palettes to draw; every located palette in the index when neither this nor `features` is given, none when only `features` is. Updates redraw. */
+  palettes?: ReturnType<typeof paletteFeatures>;
   /** States to draw as a single plant's native range. */
   nativeStates?: string[];
   /** Where the map opens; the three states when absent. */
@@ -116,7 +118,7 @@ function popupContent(rec: IndexRecord | undefined, p: { name: string; url: stri
   return body;
 }
 
-export default function MapView({ label = 'Map of projects', overlays: initial = [], layerList: showList = true, index: given, features, nativeStates, position, fit, compact = false, onMove, filters, onPick, regionLabel, box: boxFilter, onBox }: MapViewProps) {
+export default function MapView({ label = 'Map of projects', overlays: initial = [], layerList: showList = true, index: given, features, palettes, nativeStates, position, fit, compact = false, onMove, filters, onPick, regionLabel, box: boxFilter, onBox }: MapViewProps) {
   const box = useRef<HTMLDivElement>(null);
   const mapRef = useRef<MapLibreMap | undefined>(undefined);
   const added = useRef(new Map<string, Promise<void>>());
@@ -169,6 +171,7 @@ export default function MapView({ label = 'Map of projects', overlays: initial =
         }
         records.current = new Map(index.records.map((r) => [r.key, r]));
         style.sources[PROJECT_SOURCE].data = features ?? projectFeatures(index.records);
+        style.sources[PALETTE_SOURCE].data = palettes ?? (features ? { type: 'FeatureCollection', features: [] } : paletteFeatures(index.records));
         const m = new maplibregl.Map({
           container: el,
           style,
@@ -195,8 +198,8 @@ export default function MapView({ label = 'Map of projects', overlays: initial =
           report();
         });
         m.on('moveend', report);
-        // How many project marks are drawn, for the built-site check (scripts/a11y.ts) and assistive text.
-        m.on('idle', () => !cancelled && setRendered(m.queryRenderedFeatures({ layers: [PROJECT_LAYERS[0], PROJECT_LAYERS[2]] }).length));
+        // How many project and palette marks are drawn, for the built-site check (scripts/a11y.ts) and assistive text.
+        m.on('idle', () => !cancelled && setRendered(m.queryRenderedFeatures({ layers: [PROJECT_LAYERS[0], PROJECT_LAYERS[2], PALETTE_LAYERS[0]] }).length));
         m.on('error', (e) => console.warn('map:', e.error?.message ?? e));
 
         // A cluster zooms in to where it splits; a project opens a popup linking its page.
@@ -211,7 +214,7 @@ export default function MapView({ label = 'Map of projects', overlays: initial =
         m.on('click', (e) => {
           const { registry: reg, on: shown, onPick: pick, regionLabel: named } = live.current;
           if (!pick) return;
-          const projectLayers = [PROJECT_LAYERS[0], PROJECT_LAYERS[2]].filter((l) => m.getLayer(l));
+          const projectLayers = [PROJECT_LAYERS[0], PROJECT_LAYERS[2], PALETTE_LAYERS[0]].filter((l) => m.getLayer(l));
           if (projectLayers.length && m.queryRenderedFeatures(e.point, { layers: projectLayers }).length) return;
           const pickable = reg.filter((o) => o.selectable && shown.includes(o.id) && m.getLayer(pickLayer(o.id)));
           if (!pickable.length) return;
@@ -246,14 +249,17 @@ export default function MapView({ label = 'Map of projects', overlays: initial =
           body.append(title, list);
           popup.setLngLat(e.lngLat).setDOMContent(body).addTo(m);
         });
-        m.on('click', 'project-points', (e) => {
-          const f = e.features?.[0];
-          if (!f) return;
-          const p = f.properties as { key: string; name: string; url: string; place: string; quantity?: number };
-          const body = popupContent(records.current.get(p.key), p);
-          new maplibregl.Popup({ closeButton: true, maxWidth: 'none' }).setLngLat((f.geometry as unknown as { coordinates: [number, number] }).coordinates).setDOMContent(body).addTo(m);
-        });
-        for (const layer of [PROJECT_LAYERS[0], PROJECT_LAYERS[2]]) {
+        // A project or a palette point opens a popup with its card.
+        for (const layer of [PROJECT_LAYERS[2], PALETTE_LAYERS[0]]) {
+          m.on('click', layer, (e) => {
+            const f = e.features?.[0];
+            if (!f) return;
+            const p = f.properties as { key: string; name: string; url: string; place: string; quantity?: number };
+            const body = popupContent(records.current.get(p.key), p);
+            new maplibregl.Popup({ closeButton: true, maxWidth: 'none' }).setLngLat((f.geometry as unknown as { coordinates: [number, number] }).coordinates).setDOMContent(body).addTo(m);
+          });
+        }
+        for (const layer of [PROJECT_LAYERS[0], PROJECT_LAYERS[2], PALETTE_LAYERS[0]]) {
           m.on('mouseenter', layer, () => (m.getCanvas().style.cursor = 'pointer'));
           m.on('mouseleave', layer, () => (m.getCanvas().style.cursor = ''));
         }
@@ -313,7 +319,8 @@ export default function MapView({ label = 'Map of projects', overlays: initial =
     const m = mapRef.current;
     if (status !== 'ready' || !m || !features) return;
     m.getSource<GeoJSONSource>(PROJECT_SOURCE)?.setData(features as GeoJSONSourceSpecification['data'] & object);
-  }, [status, features]);
+    m.getSource<GeoJSONSource>(PALETTE_SOURCE)?.setData((palettes ?? { type: 'FeatureCollection', features: [] }) as GeoJSONSourceSpecification['data'] & object);
+  }, [status, features, palettes]);
 
   // Draw the regions the filters hold as picked, on each selectable overlay once its layers are added.
   const filterKey = JSON.stringify(filters ?? {});

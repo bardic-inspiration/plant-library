@@ -17,8 +17,8 @@ fast, fully restylable, open source, and able to take many custom overlays
 The engine (MapLibre GL JS with PMTiles), the basemap extract, the style
 built from the tokens, glyphs, project clustering, the overlay registry
 with the project, state, county, and ecoregion overlays and the layer list,
-the `/map/` view, the region filters (picking regions and the box), and the
-small maps on detail pages are built; see [docs/map.md](../../docs/map.md) and
+the `/map/` view, the region filters (picking regions and the box), the
+small maps on detail pages, and palette points are built; see [docs/map.md](../../docs/map.md) and
 [docs/site.md](../../docs/site.md#map-view). What remains is below.
 
 ### Boundary data
@@ -55,7 +55,6 @@ to come:
 
 - **The use choropleth** (M8): with plants in the results, their use by the
   active region overlay, beside the sized project points.
-- **Palettes** with a site location show as points of their own kind (M6).
 
 ### Distribution analysis
 

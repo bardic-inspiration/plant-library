@@ -19,8 +19,17 @@ export interface ProjectFeature {
   };
 }
 
+/** A palette with a site location: a point of its own kind (spec: map.md). */
+export interface PaletteFeature {
+  type: 'Feature';
+  geometry: { type: 'Point'; coordinates: [number, number] };
+  properties: { key: string; name: string; url: string; place: string };
+}
+
 /** What the map view draws for a result set. */
 export interface MapResults {
+  /** Palettes in the results that have a site location, by key. */
+  palettes: Set<string>;
   /** Projects to draw, by key: those in the results, and those listing a plant in the results, with the matching plants' quantity. */
   projects: Map<string, { quantity?: number }>;
   /** For each plant in the results, the drawn projects that list it. */
@@ -48,7 +57,11 @@ export function mapResults(results: IndexRecord[], records: IndexRecord[], filte
   const projectFilters = Object.fromEntries(Object.entries(filters).filter(([k]) => k.startsWith('project.')));
   const projects = new Map<string, { quantity?: number }>();
   const plantProjects = new Map<string, string[]>();
-  for (const r of results) if (r.type === 'project' && r.card.location) projects.set(r.key, {});
+  const palettes = new Set<string>();
+  for (const r of results) {
+    if (r.type === 'project' && r.card.location) projects.set(r.key, {});
+    if (r.type === 'palette' && r.card.location) palettes.add(r.key);
+  }
   const plants = results.filter((r) => r.type === 'plant');
   for (const plant of plants) {
     const on: string[] = [];
@@ -62,7 +75,7 @@ export function mapResults(results: IndexRecord[], records: IndexRecord[], filte
     }
     plantProjects.set(plant.key, on);
   }
-  const out: MapResults = { projects, plantProjects };
+  const out: MapResults = { projects, plantProjects, palettes };
   if (plants.length === 1) out.nativeStates = plants[0].facets['plant.nativeTo'] ?? [];
   return out;
 }
@@ -90,6 +103,18 @@ export function projectFeatures(records: IndexRecord[], drawn?: MapResults): { t
   return { type: 'FeatureCollection', features };
 }
 
+/** Palettes with a site location as points; with `drawn`, only those in it. */
+export function paletteFeatures(records: IndexRecord[], drawn?: MapResults): { type: 'FeatureCollection'; features: PaletteFeature[] } {
+  const features: PaletteFeature[] = [];
+  for (const r of records) {
+    const loc = r.card.location as [number, number] | undefined;
+    if (r.type !== 'palette' || !loc) continue;
+    if (drawn && !drawn.palettes.has(r.key)) continue;
+    features.push({ type: 'Feature', geometry: { type: 'Point', coordinates: loc }, properties: { key: r.key, name: r.name, url: r.url, place: String(r.card.place ?? '') } });
+  }
+  return { type: 'FeatureCollection', features };
+}
+
 export type { Bounds };
 
 /**
@@ -98,6 +123,7 @@ export type { Bounds };
  * the map view draws that plant alone. Anything else draws nothing.
  */
 export function detailFeatures(key: string, records: IndexRecord[]): ReturnType<typeof projectFeatures> {
+  // A palette's own point is drawn by `paletteFeatures`.
   const rec = records.find((r) => r.key === key);
   if (rec?.type === 'project') return projectFeatures([rec]);
   if (rec?.type === 'plant') return projectFeatures(records, mapResults([rec], records, {}));
@@ -119,8 +145,8 @@ export function featureBounds(fc: { features: { geometry: { coordinates: [number
 }
 
 /**
- * The results in view, in their order: projects drawn inside the bounds,
- * and plants with at least one drawn project inside them.
+ * The results in view, in their order: projects and palettes drawn inside
+ * the bounds, and plants with at least one drawn project inside them.
  */
 export function inView(results: IndexRecord[], records: IndexRecord[], drawn: MapResults, bounds: Bounds): IndexRecord[] {
   const byKey = new Map(records.map((r) => [r.key, r]));
@@ -131,11 +157,14 @@ export function inView(results: IndexRecord[], records: IndexRecord[], drawn: Ma
   return results.filter((r) => {
     if (r.type === 'project') return drawn.projects.has(r.key) && seen(r.key);
     if (r.type === 'plant') return (drawn.plantProjects.get(r.key) ?? []).some(seen);
+    if (r.type === 'palette') return drawn.palettes.has(r.key) && seen(r.key);
     return false;
   });
 }
 
-/** Results the map can't place: plants no drawn project lists, and projects without a location. */
+/** Results the map can't place: plants no drawn project lists, and projects and palettes without a location. */
 export function unplaced(results: IndexRecord[], drawn: MapResults): IndexRecord[] {
-  return results.filter((r) => (r.type === 'plant' ? !(drawn.plantProjects.get(r.key) ?? []).length : r.type === 'project' ? !drawn.projects.has(r.key) : true));
+  return results.filter((r) =>
+    r.type === 'plant' ? !(drawn.plantProjects.get(r.key) ?? []).length : r.type === 'project' ? !drawn.projects.has(r.key) : r.type === 'palette' ? !drawn.palettes.has(r.key) : true,
+  );
 }

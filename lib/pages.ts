@@ -16,5 +16,11 @@ export function samplePages(dist: string): string[] {
     const used = readdirSync(plants).sort().find((id) => readFileSync(join(plants, id, 'index.html'), 'utf8').includes('id="used-heading"'));
     if (used && !pages.includes(`plant/${used}/`)) pages.push(`plant/${used}/`);
   }
+  // A palette page with its location map, when any palette's site has a location.
+  const palettes = join(dist, 'palette');
+  if (existsSync(palettes)) {
+    const located = readdirSync(palettes).sort().find((id) => readFileSync(join(palettes, id, 'index.html'), 'utf8').includes('id="location-heading"'));
+    if (located && !pages.includes(`palette/${located}/`)) pages.push(`palette/${located}/`);
+  }
   return pages;
 }

@@ -15,6 +15,11 @@
     --map-cluster-text: var(--p-white);
     --map-mark-empty: var(--mark-empty);
 
+    /* Palettes with a site location: a dark disc with a light center, a
+       shape of its own beside the projects' filled and hollow circles. */
+    --map-palette: var(--p-black);
+    --map-palette-center: var(--p-white);
+
     /* Overlays (config/overlays.json). The palette fills regions so that
        neighbors differ; labels stay readable on every step. */
     --map-overlay-1: var(--p-green-100);
@@ -45,6 +50,7 @@
     --map-line-overlay-strong: 2px;
     --map-halo-width: 1.5px;
     --map-mark-radius: 6px;
+    --map-palette-center-radius: 2px;
     --map-mark-radius-max: 16px;
     --map-cluster-radius: 12px;
     --map-cluster-radius-large: 18px;

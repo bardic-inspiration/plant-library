@@ -1,15 +1,15 @@
 ---
 import Base from '../../layouts/Base.astro';
-import { PlantName } from '../../components/ui/PlantName';
-import { buildData } from '../../../../lib/build-data';
-import { nameSegments } from '../../../../lib/names';
+import { Schedule } from '../../components/ui/Schedule';
+import { CompatPanel } from '../../components/ui/CompatPanel';
+import { buildData, compatPlants, scheduleLines } from '../../../../lib/build-data';
 import { renderMarkdown } from '../../../../lib/markdown';
 import { url } from '../../../../lib/site';
 import MapView from '../../islands/MapView.tsx';
 import { libraryUrl, mapUrl } from '../../../../lib/filter';
 import { detailFeatures, featureBounds } from '../../../../lib/map-data';
 import { label } from '../../lib/vocab';
-import type { PlantData, PlantListItem, ProjectData, ProjectDerived } from '../../../../lib/types';
+import type { ProjectData, ProjectDerived } from '../../../../lib/types';
 
 export function getStaticPaths() {
   return buildData()
@@ -59,16 +59,7 @@ const located = detailFeatures(key, data.index.records);
 const fit = featureBounds(located);
 
 // The schedule: lines grouped by the plant's form, unsourced names last, each group in list order.
-interface Line { item: PlantListItem; plant?: PlantData; key?: string; text: string }
-const lines: Line[] = d.plantList.map((item) => {
-  const k = typeof item.plant === 'string' ? undefined : item.plant.ref;
-  const target = k ? data.byKey.get(k) : undefined;
-  const plant = target ? (target.entry.data as unknown as PlantData) : undefined;
-  return { item, plant, key: plant ? k : undefined, text: typeof item.plant === 'string' ? item.plant : k ?? '' };
-});
-const forms = (data.library.config.vocab.form as { id: string }[]).map((f) => f.id);
-const groups = [...forms.map((f) => ({ id: f, title: label('form', f), lines: lines.filter((l) => l.plant?.form === f) })), { id: 'unsourced', title: 'Not in the library', lines: lines.filter((l) => !l.plant) }].filter((g) => g.lines.length);
-const hasCol = (k: 'size' | 'spacing' | 'note') => lines.some((l) => l.item[k]);
+const lines = scheduleLines(d.plantList, data.byKey);
 
 const p = dv.plants;
 const mix = (rec: Record<string, number>, list: (id: string) => string) =>
@@ -117,40 +108,7 @@ const byLifeRows = mix(byLife, (id) => (id === 'unknown' ? 'Not recorded' : labe
 
     <section aria-labelledby="schedule-heading">
       <h2 id="schedule-heading">Plant schedule</h2>
-      {lines.length === 0 && <p>This project has no plant list yet.</p>}
-      {groups.map((g) => (
-        <div class="schedule-group">
-          <h3>{g.title}</h3>
-          <div class="table-scroll" role="region" aria-label={`${g.title} schedule`} tabindex="0">
-            <table class="schedule">
-              <thead>
-                <tr>
-                  <th scope="col">Botanical name</th>
-                  <th scope="col">Common name</th>
-                  <th scope="col" class="num">Quantity</th>
-                  {hasCol('size') && <th scope="col">Size</th>}
-                  {hasCol('spacing') && <th scope="col">Spacing</th>}
-                  {hasCol('note') && <th scope="col">Note</th>}
-                </tr>
-              </thead>
-              <tbody>
-                {g.lines.map((l) => (
-                  <tr>
-                    <th scope="row">
-                      {l.key ? <a href={url(`${l.key}/`)}><PlantName parts={nameSegments(l.plant!)} /></a> : l.text}
-                    </th>
-                    <td>{l.plant?.commonNames[0]}</td>
-                    <td class="num">{l.item.quantity === undefined ? '' : number.format(l.item.quantity)}</td>
-                    {hasCol('size') && <td>{l.item.size}</td>}
-                    {hasCol('spacing') && <td>{l.item.spacing}</td>}
-                    {hasCol('note') && <td>{l.item.note}</td>}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      ))}
+      <Schedule lines={lines} empty="This project has no plant list yet." quantity />
     </section>
 
     <section aria-labelledby="summary-heading">
@@ -179,6 +137,11 @@ const byLifeRows = mix(byLife, (id) => (id === 'unknown' ? 'Not recorded' : labe
         </div>
       </div>
       <p class="muted">Quantities count every line, including names the library doesn't hold; those count as unknown in the native share.</p>
+    </section>
+
+    <section aria-labelledby="compat-heading">
+      <h2 id="compat-heading">Compatibility</h2>
+      <CompatPanel compat={dv.compatibility} plants={compatPlants(dv.compatibility.plants, data.byKey)} />
     </section>
   </article>
 </Base>
@@ -215,10 +178,6 @@ const byLifeRows = mix(byLife, (id) => (id === 'unknown' ? 'Not recorded' : labe
     letter-spacing: var(--tracking-label);
     text-transform: uppercase;
     margin-block-end: var(--space-xs);
-  }
-
-  .schedule-group + .schedule-group {
-    margin-block-start: var(--space-lg);
   }
 
   .facts {

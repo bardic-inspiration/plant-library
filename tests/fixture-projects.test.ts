@@ -109,7 +109,7 @@ describe('fixture projects in the library: spread', () => {
 describe('the index', () => {
   it('lists the types the site builds pages for, projects with their card fields', () => {
     const { index } = buildData({ dataRoot: FIXTURES });
-    expect(new Set(index.records.map((r) => r.type))).toEqual(new Set(['plant', 'project']));
+    expect(new Set(index.records.map((r) => r.type))).toEqual(new Set(['plant', 'project', 'palette']));
     const card = index.records.find((r) => r.key === 'project/bothell-main-street')!.card;
     expect(card.place).toMatch(/^Bothell, WA$/);
     expect(Object.keys(card).sort()).toEqual(['completed', 'location', 'place', 'plantCount', 'projectType', 'quantities', 'sizeAcres', 'status']);
