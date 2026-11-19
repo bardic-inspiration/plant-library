@@ -164,6 +164,7 @@ export interface SiteConfig {
   base: string;
   fixturesOnly: boolean;
   store: 'browser' | 'folder';
+  submissions: { maxBytes: Record<'image' | 'plant-list' | 'supporting', number> };
   basemap: { file: string; maxZoom: number };
 }
 

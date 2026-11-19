@@ -75,52 +75,10 @@ the need arises:
 
 ### The submission
 
-One JSON document and its files. It is written once and never edited.
-
-```json
-{
-  "schema": 1,
-  "id": "20261117T180422Z-7f3a9c",
-  "submittedAt": "2026-11-17T18:04:22Z",
-  "submitter": { "name": "…", "role": "Landscape architect", "email": "…" },
-  "kind": "edit",
-  "target": "plant/acer-circinatum",
-  "basedOn": "sha256 of the entry file the form was opened with",
-  "changes": [
-    { "path": "data.height.max", "value": 25,
-      "basis": "observation",
-      "note": "Reaches 25 ft in irrigated beds on three of our Seattle projects after 15 years." },
-    { "path": "data.tolerates", "add": ["compaction"],
-      "basis": "source", "sourceUrl": "https://…" }
-  ],
-  "fieldNotes": [
-    { "topic": "establishment", "note": "…", "region": "WA", "project": "project/…" }
-  ],
-  "files": [
-    { "name": "IMG_2041.jpg", "sha256": "…", "bytes": 1834022, "role": "image",
-      "rights": "own-work", "license": "CC-BY-4.0", "photographer": "…",
-      "takenAt": "2025-10-12", "place": "Seattle, WA",
-      "shows": "habit", "alt": "…" }
-  ],
-  "comment": "Anything else, free text.",
-  "app": { "version": "…", "libraryBuild": "…" }
-}
-```
-
-| Key | Notes |
-|---|---|
-| `kind` | `add`, `edit`, `photo`, or `note` |
-| `target` | `<type>/<id>` for `edit`, `photo`, and `note`; the type alone for `add` |
-| `entry` | For `add`: a draft entry in the type's shape. It needn't validate. |
-| `basedOn` | Lets the routine see that the entry changed after the form was opened |
-| `changes[]` | `path` with `value`, `add`, or `remove`; `basis`; `note`; `sourceUrl` or `citation` when the basis is `source` |
-| `files[].role` | `image`, `plant-list`, or `supporting` |
-| `files[].rights` | `own-work`, `organization-owned`, or `third-party` |
-| `files[].license`, `sourceUrl` | The license granted or claimed; for `third-party`, the page the file came from, required |
-
-`schemas/submission.schema.json` defines it. The schema is deliberately
-looser than an entry's: it fixes the envelope and the metadata and lets the
-content be rough.
+Built: the format, `schemas/submission.schema.json`, and the edit
+differences a form submits are described in
+[docs/submissions.md](../../docs/submissions.md#the-submission). The forms
+produce it.
 
 ### Stores
 
@@ -149,16 +107,13 @@ the shared folder by hand.
 
 `scripts/inbox/` does everything that needs no judgment, so the routine's
 review starts from facts (`npm run inbox -- list | check <id> | import | close <id>`).
-`check` reports, per submission:
+`list` and `check` are built, with the schema, file, file type, size,
+target, and `basedOn` checks
+([docs/submissions.md](../../docs/submissions.md#inbox-and-mechanical-checks)).
+Still to build in `check`:
 
-- the submission validates against its schema, and every file is present
-  with the stated hash and size;
-- each file is an allowed type by its content, not its extension: JPEG,
-  PNG, or WebP for images; PDF, CSV, or XLSX for plant lists; within size
-  limits;
-- the target exists; whether `basedOn` is stale; whether an `add` duplicates
-  an entry by name or synonym; whether an image duplicates one the library
-  holds, by hash;
+- whether an `add` duplicates an entry by name or synonym; whether an image
+  duplicates one the library holds, by hash;
 - each `path` exists in the type's schema, and each value fits it;
 - each URL, classed by its host against the source registry: a registered
   source, or unknown.
@@ -282,13 +237,14 @@ other (P5).
 
 ## Done when
 
-- `schemas/submission.schema.json` exists, and each form produces a
-  submission that validates; tests cover each kind.
-- An edit form's submission contains exactly the fields changed.
+- Each form produces a submission that validates against
+  `schemas/submission.schema.json`.
+- An edit form's submission contains exactly the fields changed, as
+  `editDifferences` gives them.
 - The `browser` store round-trips a submission with files through export
   and `inbox import`, with hashes intact.
-- `inbox check` has a passing and a failing fixture for each mechanical
-  check, including the disguised file and the stale `basedOn`.
+- `inbox check` has a passing and a failing fixture for each remaining
+  mechanical check.
 - The plant schema takes `fieldNotes`, and the registry the
   `staff-observation` source, with validation tests.
 - The skill exists, and a fixture inbox holding the cases above documents

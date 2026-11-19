@@ -28,7 +28,8 @@
     "dev:fixtures": "PLANT_LIBRARY_DATA=tests/fixtures/library npm run dev",
     "build:fixtures": "PLANT_LIBRARY_DATA=tests/fixtures/library npm run build",
     "geo": "tsx scripts/geo.ts",
-    "basemap": "tsx scripts/basemap.ts"
+    "basemap": "tsx scripts/basemap.ts",
+    "inbox": "tsx scripts/inbox/index.ts"
   },
   "dependencies": {
     "@astrojs/preact": "^6.1.6",

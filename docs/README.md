@@ -11,6 +11,7 @@ part there and describes what now exists here.
 | [geography.md](geography.md) | Boundary data in `geo/` and geography derived from a point |
 | [map.md](map.md) | The map engine, the basemap extract, the style built from tokens, glyphs, project clustering, the overlay registry and layer list |
 | [sources.md](sources.md) | The source registry, licensing rules, attribution, coverage |
+| [submissions.md](submissions.md) | The submission format, edit differences, the inbox and its mechanical checks |
 | [site.md](site.md) | Pages, the index, the list view, filters, search, detail pages |
 | [styling.md](styling.md) | Tokens, type, color, Stylelint, contrast, accessibility |
 | [workflow.md](workflow.md) | Lanes, CI, checks, deploy, the prototype and the company copy |
