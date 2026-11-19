@@ -1,0 +1,62 @@
+{
+  "type": "project",
+  "id": "tacoma-tideflats-swale",
+  "name": "Tideflats Swale",
+  "summary": "A made-up proposed stormwater swale in Tacoma, with no completion date set.",
+  "data": {
+    "landscapeArchitect": "Fern & Field Landscape Architects",
+    "location": {
+      "lat": 47.25288,
+      "lon": -122.44429
+    },
+    "projectType": "stormwater",
+    "sizeAcres": 0.9,
+    "status": "proposed",
+    "plantList": [
+      {
+        "plant": {
+          "ref": "plant/carex-obnupta"
+        },
+        "quantity": 300,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/juncus-ensifolius"
+        },
+        "quantity": 200,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/scirpus-microcarpus"
+        },
+        "quantity": 150,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/cornus-sericea"
+        },
+        "quantity": 30,
+        "size": "#2 container"
+      },
+      {
+        "plant": "Carex pansa",
+        "quantity": 250,
+        "size": "Plug"
+      },
+      {
+        "plant": "Sisyrinchium californicum",
+        "quantity": 120,
+        "size": "4 in pot"
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-19",
+    "revisedAt": "2026-11-19",
+    "method": "manual",
+    "fixture": true
+  }
+}

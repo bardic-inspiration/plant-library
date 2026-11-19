@@ -23,8 +23,7 @@ sites (nursery catalogs included) are not used for it.
 The source registry, the licensing rules, attribution, and coverage are
 built; see [docs/sources.md](../../docs/sources.md). What remains is the
 survey of sources still to check, the production dataset, the fixture
-projects and palettes v1 runs on, and the import workflow (a later
-version).
+palettes v1 runs on, and the import workflow (a later version).
 
 ### Source survey
 
@@ -121,28 +120,23 @@ quamash, Carex obnupta, Deschampsia cespitosa, Dicentra formosa, Fragaria
 chiloensis, Iris tenax, Juncus ensifolius, Polystichum munitum, Sisyrinchium
 idahoense, Struthiopteris spicant, Tellima grandiflora.
 
-### Fixture projects and palettes
+### Fixture palettes
 
-v1's only project and palette data
-([README](README.md#v1-runs-on-fixtures)). Every one is fictional, marked
-`meta.fixture: true`, with `client` and `constructionBudget` blank.
+v1's only palette data ([README](README.md#v1-runs-on-fixtures)), added by
+M6 with the palette type. The fixture projects are built
+([docs/sources.md](../../docs/sources.md#fixture-projects)), and the
+palettes follow the same rules: every one is fictional and marked
+`meta.fixture: true`.
 
-- **Where.** `content/project/` and `content/palette/` for the library's own
-  build, referencing the prototype fixture plants; `tests/fixtures/library/`
-  holds a smaller set referencing its own plants, for tests and
-  `build:fixtures`. Tests may also generate projects in memory where a case
-  needs volume (the map's fifty-project case).
-- **How many.** About a dozen projects and a few palettes in each library,
-  spread across the three states and every project type and status.
-- **What they exercise.** Between them they carry the Cases in
-  [data-model.md](data-model.md#cases), [library.md](library.md#cases), and
-  [map.md](map.md#cases): mixed refs and unsourced text names (made-up or
-  real species the library lacks, never a client's schedule), points on and
-  near state and county lines, an unincorporated point, a proposed project
-  with no completion date, plants shared across projects so companions have
-  data, and a palette with a wet-soil conflict.
-- **Who builds them.** M4 adds the projects (with the project type) and M6
-  the palettes (with the palette type).
+- **Where.** `content/palette/` for the library's own build, referencing
+  the prototype fixture plants; `tests/fixtures/library/` holds a smaller
+  set referencing its own plants. Tests may also generate projects in
+  memory where a case needs volume (the map's fifty-project case).
+- **How many.** A few palettes in each library.
+- **What they exercise.** The palette Cases in
+  [data-model.md](data-model.md#cases) and [library.md](library.md#cases):
+  a palette with site conditions and no location, and a palette with a
+  wet-soil conflict.
 
 ### Import workflow
 
@@ -163,10 +157,8 @@ The steps that are already settled:
 
 ## Done when
 
-- Both libraries hold the fixture projects (M4) and palettes (M6) above,
-  passing validation with `fixturesOnly` on.
-- `npm run coverage` lists the unsourced names in the fixture projects
-  (the listing itself is built; the fixture projects aren't).
+- Both libraries hold the fixture palettes (M6) above, passing validation
+  with `fixturesOnly` on. (Built for the fixture projects.)
 
 ## Open questions
 

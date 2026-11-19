@@ -1,0 +1,81 @@
+{
+  "type": "project",
+  "id": "tolt-floodplain-reconnection",
+  "name": "Tolt Floodplain Reconnection",
+  "summary": "A made-up floodplain restoration in unincorporated King County, outside any town.",
+  "data": {
+    "landscapeArchitect": "Northfork Design Collective",
+    "location": {
+      "lat": 47.6411,
+      "lon": -121.8701
+    },
+    "projectType": "restoration",
+    "sizeAcres": 41,
+    "status": "constructed",
+    "completed": "2018-11",
+    "plantList": [
+      {
+        "plant": {
+          "ref": "plant/thuja-plicata"
+        },
+        "quantity": 300,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/pseudotsuga-menziesii"
+        },
+        "quantity": 250,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/alnus-rubra"
+        },
+        "quantity": 400,
+        "size": "Bare root"
+      },
+      {
+        "plant": {
+          "ref": "plant/salix-sitchensis"
+        },
+        "quantity": 600,
+        "size": "Live stake"
+      },
+      {
+        "plant": {
+          "ref": "plant/rubus-spectabilis"
+        },
+        "quantity": 350,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/symphoricarpos-albus"
+        },
+        "quantity": 300,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/polystichum-munitum"
+        },
+        "quantity": 500,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/oemleria-cerasiformis"
+        },
+        "quantity": 200,
+        "size": "#1 container"
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-19",
+    "revisedAt": "2026-11-19",
+    "method": "manual",
+    "fixture": true
+  }
+}

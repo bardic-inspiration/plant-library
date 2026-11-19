@@ -7,10 +7,12 @@ const plant = (es: Parameters<Parameters<typeof validateWith>[0]>[0], id: string
 const expectError = (r: ReturnType<typeof validateWith>, pattern: RegExp) => expect(messages(r).some((m) => pattern.test(m)), messages(r).join('\n') || '(no errors)').toBe(true);
 
 describe('the fixture library', () => {
-  it('passes validation, with warnings only for missing images', () => {
+  it('passes validation, with warnings only for missing images and the projects’ unsourced names', () => {
     const r = validateWith(() => {});
     expect(messages(r)).toEqual([]);
-    expect(r.warnings.map((w) => w.message)).toEqual(['has no image', 'has no image']);
+    const unsourced = (w: { file: string; message: string }) => w.file.startsWith('content/project/') && / is not in the library \(unsourced\)$/.test(w.message);
+    expect(r.warnings.filter((w) => !unsourced(w)).map((w) => w.message)).toEqual(['has no image', 'has no image']);
+    expect(r.warnings.filter(unsourced).length).toBeGreaterThan(0);
   });
 
   it('config passes its schemas', () => {

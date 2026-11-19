@@ -1,0 +1,46 @@
+{
+  "type": "project",
+  "id": "bothell-main-street",
+  "name": "Bothell Main Street",
+  "summary": "A made-up streetscape just over the county line, in Snohomish County.",
+  "data": {
+    "landscapeArchitect": "Fern & Field Landscape Architects",
+    "location": {
+      "lat": 47.77699,
+      "lon": -122.19964
+    },
+    "projectType": "streetscape",
+    "sizeAcres": 0.8,
+    "status": "constructed",
+    "completed": "2021",
+    "plantList": [
+      {
+        "plant": {
+          "ref": "plant/thuja-plicata"
+        },
+        "quantity": 5,
+        "size": "8 ft B&B"
+      },
+      {
+        "plant": {
+          "ref": "plant/gaultheria-shallon"
+        },
+        "quantity": 80,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/polystichum-munitum"
+        },
+        "quantity": 40,
+        "size": "#1 container"
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-19",
+    "revisedAt": "2026-11-19",
+    "method": "manual",
+    "fixture": true
+  }
+}

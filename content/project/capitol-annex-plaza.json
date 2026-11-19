@@ -1,0 +1,52 @@
+{
+  "type": "project",
+  "id": "capitol-annex-plaza",
+  "name": "Capitol Annex Plaza",
+  "summary": "A made-up proposed civic plaza in Sacramento, expected to open in 2027.",
+  "data": {
+    "landscapeArchitect": "Example Studio",
+    "location": {
+      "lat": 38.57672,
+      "lon": -121.49341
+    },
+    "projectType": "civic",
+    "sizeAcres": 2.1,
+    "status": "proposed",
+    "completed": "2027-09",
+    "plantList": [
+      {
+        "plant": "Quercus lobata",
+        "quantity": 8,
+        "size": "36 in box"
+      },
+      {
+        "plant": "Muhlenbergia rigens",
+        "quantity": 500,
+        "size": "#1 container"
+      },
+      {
+        "plant": "Salvia spathacea",
+        "quantity": 300,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/eriophyllum-lanatum"
+        },
+        "quantity": 200,
+        "size": "4 in pot"
+      },
+      {
+        "plant": "Arctostaphylos 'Emerald Carpet'",
+        "quantity": 450,
+        "size": "#1 container"
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-19",
+    "revisedAt": "2026-11-19",
+    "method": "manual",
+    "fixture": true
+  }
+}

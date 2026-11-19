@@ -1,0 +1,52 @@
+{
+  "type": "project",
+  "id": "coyote-creek-courts",
+  "name": "Coyote Creek Courts",
+  "summary": "A made-up townhouse development in La Mirada, on the Los Angeles County side of the Orange County line.",
+  "data": {
+    "landscapeArchitect": "Fern & Field Landscape Architects",
+    "location": {
+      "lat": 33.87398,
+      "lon": -118.01141
+    },
+    "projectType": "residential",
+    "sizeAcres": 4,
+    "status": "constructed",
+    "completed": "2016-02",
+    "plantList": [
+      {
+        "plant": "Heteromeles arbutifolia",
+        "quantity": 30,
+        "size": "#15 container"
+      },
+      {
+        "plant": "Salvia spathacea",
+        "quantity": 220,
+        "size": "#1 container"
+      },
+      {
+        "plant": "Muhlenbergia rigens",
+        "quantity": 180,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/eschscholzia-californica"
+        },
+        "quantity": 600,
+        "size": "Plug"
+      },
+      {
+        "plant": "Ceanothus 'Yankee Point'",
+        "quantity": 90,
+        "size": "#5 container"
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-19",
+    "revisedAt": "2026-11-19",
+    "method": "manual",
+    "fixture": true
+  }
+}

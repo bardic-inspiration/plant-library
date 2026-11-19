@@ -70,8 +70,9 @@ v1 is built, tested, and finished on fixture data only:
   fixture library in `tests/fixtures/library/`.
 - **Projects and palettes**: fictional ones, marked `meta.fixture: true`
   with the proprietary fields blank
-  ([sources.md](sources.md#fixture-projects-and-palettes)). M4 adds the
-  fixture projects and M6 the fixture palettes, in both libraries.
+  ([docs/sources.md](../../docs/sources.md#fixture-projects),
+  [sources.md](sources.md#fixture-palettes)). The fixture projects are
+  built; M6 adds the fixture palettes, in both libraries.
 
 Real project data, including filling the library from real projects' plant
 lists ([sources.md](sources.md#import-workflow)), is deferred to a later
@@ -122,7 +123,7 @@ for it.
 | M1 | Skeleton | Built: tooling, lanes, CI, deploy, docs, the site ([docs/workflow.md](../../docs/workflow.md)) |
 | M2 | Plants | Built: the plant type, validation, the source registry, and a prototype fixture set of 473 plants from the King County guide and the Portland Plant List ([docs/sources.md](../../docs/sources.md#the-prototype-fixture-set)) |
 | M3 | Library | Built: list view, filter tree, search, plant pages, styling ([docs/site.md](../../docs/site.md)) |
-| M4 | Projects | `data-model.md` project derived values (the project schema and its validation are built: [docs/content-model.md](../../docs/content-model.md#project); geography is built apart from hardiness zones: [docs/geography.md](../../docs/geography.md)); `sources.md` fixture projects; project pages; plant and project links |
+| M4 | Projects | `data-model.md` project derived values (the project schema and its validation are built: [docs/content-model.md](../../docs/content-model.md#project); geography is built apart from hardiness zones: [docs/geography.md](../../docs/geography.md); the fixture projects are built: [docs/sources.md](../../docs/sources.md#fixture-projects)); project pages; plant and project links |
 | M5 | Map | `map.md` map view, overlays, region filters |
 | M6 | Palettes | `data-model.md` palette type; `sources.md` fixture palettes; `library.md` workspace, compatibility, exports |
 | M7 | Contributions | `submissions.md`: forms, the browser store, the inbox script, field notes, the `integrate` skill |

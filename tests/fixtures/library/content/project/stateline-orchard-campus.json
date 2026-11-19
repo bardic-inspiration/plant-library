@@ -1,0 +1,51 @@
+{
+  "type": "project",
+  "id": "stateline-orchard-campus",
+  "name": "Stateline Orchard Campus",
+  "summary": "A made-up campus on the Washington side of the Washington–Oregon line, a few hundred feet from the restoration to its south.",
+  "data": {
+    "landscapeArchitect": "Fern & Field Landscape Architects",
+    "location": {
+      "lat": 46.00129,
+      "lon": -118.39968
+    },
+    "projectType": "campus",
+    "sizeAcres": 12,
+    "status": "constructed",
+    "completed": "2018",
+    "plantList": [
+      {
+        "plant": {
+          "ref": "plant/pinus-contorta-var-contorta"
+        },
+        "quantity": 20,
+        "size": "6 ft B&B"
+      },
+      {
+        "plant": {
+          "ref": "plant/achillea-millefolium"
+        },
+        "quantity": 250,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/camassia-quamash"
+        },
+        "quantity": 400,
+        "size": "Bulb"
+      },
+      {
+        "plant": "Artemisia tridentata",
+        "quantity": 40,
+        "size": "#1 container"
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-19",
+    "revisedAt": "2026-11-19",
+    "method": "manual",
+    "fixture": true
+  }
+}

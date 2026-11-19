@@ -101,6 +101,33 @@ two reference documents in `docs/`, under the names they use:
 Neither document gives hardiness, soil, or native range. The plants have no
 images yet.
 
+### Fixture projects
+
+Every project in this repo is fictional (D29): `meta.fixture: true`, with
+`client` and `constructionBudget` blank, a made-up firm as
+`landscapeArchitect`, and plant lists written for the purpose, never taken
+from a real schedule. Their unsourced text names are real species or
+cultivars the library lacks, so `npm run coverage` has something to list.
+
+- **`content/project/`** holds 14, referencing the prototype plants. They
+  cover every `projectType` and both statuses across the three states.
+- **`tests/fixtures/library/content/project/`** holds 7, referencing that
+  library's plants, for the tests and `build:fixtures`.
+
+Between them they carry the data-model cases, each checked in
+`tests/fixture-projects.test.ts` for both libraries: lists mixing refs and
+unsourced names; a pair of points either side of the WA–OR state line
+(the border-test points, D30) and, in `content/`, of the King–Snohomish,
+Multnomah–Washington, OR–CA, and Los Angeles–Orange lines; an
+unincorporated point (no place); a proposed project with no completion
+date; plants shared across projects, with pairs on two or more lists for
+companions; and a streetscape in King County using trees, beside tree
+lists that aren't one (a park in King County, a streetscape in Snohomish
+County) for the cross-type filter test.
+
+The site doesn't list projects yet: the index holds only types with a page
+template, and project pages come with #25 (D35).
+
 ### Licensing rules
 
 - In production, a source is registered only when its terms allow reuse in
@@ -125,7 +152,7 @@ CI runs `npm run attribution -- --check` on every PR that validates.
 ### Coverage
 
 `npm run coverage` lists plant names that plant lists give as text, most
-used first (none until projects exist), every entry, field, and image
+used first (the fixture projects' names), every entry, field, and image
 that depends on a non-commercial source or license, and every field that
 holds a placeholder.
 

@@ -1,0 +1,70 @@
+{
+  "type": "project",
+  "id": "stateline-research-campus",
+  "name": "Stateline Research Campus",
+  "summary": "A made-up research campus just north of the Washington–Oregon line near Walla Walla.",
+  "data": {
+    "landscapeArchitect": "Fern & Field Landscape Architects",
+    "location": {
+      "lat": 46.00129,
+      "lon": -118.39968
+    },
+    "projectType": "campus",
+    "sizeAcres": 22,
+    "status": "constructed",
+    "completed": "2019",
+    "plantList": [
+      {
+        "plant": {
+          "ref": "plant/pinus-ponderosa-var-benthamiana"
+        },
+        "quantity": 24,
+        "size": "6 ft B&B"
+      },
+      {
+        "plant": {
+          "ref": "plant/amelanchier-alnifolia"
+        },
+        "quantity": 60,
+        "size": "#5 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/philadelphus-lewisii"
+        },
+        "quantity": 45,
+        "size": "#5 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/achillea-millefolium"
+        },
+        "quantity": 300,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/festuca-roemeri"
+        },
+        "quantity": 800,
+        "size": "Plug"
+      },
+      {
+        "plant": "Elymus glaucus",
+        "quantity": 600,
+        "size": "Plug"
+      },
+      {
+        "plant": "Artemisia tridentata",
+        "quantity": 75,
+        "size": "#1 container"
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-19",
+    "revisedAt": "2026-11-19",
+    "method": "manual",
+    "fixture": true
+  }
+}

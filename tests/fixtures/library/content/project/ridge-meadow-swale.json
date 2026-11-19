@@ -1,0 +1,41 @@
+{
+  "type": "project",
+  "id": "ridge-meadow-swale",
+  "name": "Ridge Meadow Swale",
+  "summary": "A made-up proposed stormwater swale in unincorporated Lake County, California, with no completion date set.",
+  "data": {
+    "landscapeArchitect": "Placeholder Partners",
+    "location": {
+      "lat": 38.9,
+      "lon": -122.9
+    },
+    "projectType": "stormwater",
+    "sizeAcres": 0.6,
+    "status": "proposed",
+    "plantList": [
+      {
+        "plant": {
+          "ref": "plant/carex-obnupta"
+        },
+        "quantity": 200,
+        "size": "4 in pot"
+      },
+      {
+        "plant": "Muhlenbergia rigens",
+        "quantity": 120,
+        "size": "#1 container"
+      },
+      {
+        "plant": "Elymus glaucus",
+        "quantity": 300,
+        "size": "Plug"
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-19",
+    "revisedAt": "2026-11-19",
+    "method": "manual",
+    "fixture": true
+  }
+}
