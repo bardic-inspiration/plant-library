@@ -13,6 +13,7 @@ follow links between entries (P4, P7, P10).
 |---|---|
 | `/` | The Library list view |
 | `/plant/<id>/` | Plant detail page |
+| `/project/<id>/` | Project detail page |
 | `/about/` | What the library is, the source registry, licenses, image credits, contributors |
 | `/styleguide/` | Every component state; not in navigation |
 | `/404.html` | Not found |
@@ -27,7 +28,7 @@ that has values, plus one per tag key, values in vocabulary order) and one
 lean record per entry: key, name and styled name parts, summary, URL,
 thumbnail (the pinned image), facet values, tags, refs, back-refs, sort
 keys, search text, and card fields. Only types the site builds pages for
-are indexed (`hasPages`; projects join with their pages, D35). Full entries
+are indexed (`hasPages`, D35); projects are, with their card fields. Full entries
 of every type are at
 `site/public/data/<type>/<id>.json`, for later exports and the workspace.
 
@@ -76,6 +77,23 @@ on any value resting on a staff observation, and field notes shown beside
 the trait they address; related plants (the same species and its cultivars
 and varieties); sources, each with its link, the fields it supports, the
 access date, and its citation; further reading; and field notes.
+
+### Project page
+
+Name, place and state ("Portland, OR": the place, else the county, named from
+the boundary layers), summary, a facts table (landscape architect, client,
+type, size, construction budget, cost per acre, status, completion; a fact
+the entry leaves blank, as every fixture does the client and budget, has no
+row), the plant schedule, and the list summary. The schedule is one table per
+form (botanical name, common name, quantity, and the size, spacing, and note
+columns when any line has one); a plant links to its page, and names the
+library doesn't hold sit last, under "Not in the library", as plain text. The
+summary gives taxa, names not in the library, total quantity, native share
+(or "Unknown"), and the quantity mixed by form and by life cycle, with
+unsourced lines under unknown. The location map (M5), compatibility panel,
+and export and workspace actions (M6) join later. A project card shows name,
+place and state, type, status, completion year, size in acres, and plant
+count (taxa plus unsourced names, D37).
 
 ### The fixture library
 

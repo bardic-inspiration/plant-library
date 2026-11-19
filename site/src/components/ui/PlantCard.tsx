@@ -20,9 +20,46 @@ interface PlantCardData {
   nativeStatus?: string;
 }
 
+interface ProjectCardData {
+  place: string;
+  projectType: string;
+  status: string;
+  completed?: string;
+  sizeAcres: number;
+  plantCount: number;
+}
+
 /** A card for any index record. Plants get the full plant card; other types a plain one. */
 export function Card({ record, headingLevel = 3 }: { record: IndexRecord; headingLevel?: 2 | 3 }) {
   const H = headingLevel === 2 ? 'h2' : 'h3';
+  if (record.type === 'project') {
+    const c = record.card as unknown as ProjectCardData;
+    const facts = [label('projectType', c.projectType), label('projectStatus', c.status), c.completed, `${c.sizeAcres} acres`, `${c.plantCount} ${c.plantCount === 1 ? 'plant' : 'plants'}`];
+    return (
+      <article class="card" data-type="project">
+        <div class="card-body">
+          <H class="card-title">
+            <a href={record.url}>{record.name}</a>
+          </H>
+          <p class="card-common">{c.place}</p>
+          <dl class="card-facts">
+            {[
+              ['Type', facts[0]],
+              ['Status', facts[1]],
+              ...(c.completed ? [['Completed', facts[2]]] : []),
+              ['Size', facts[3]],
+              ['Plants', facts[4]],
+            ].map(([k, v]) => (
+              <div>
+                <dt class="visually-hidden">{k}</dt>
+                <dd>{v}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      </article>
+    );
+  }
   if (record.type !== 'plant') {
     return (
       <article class="card">
