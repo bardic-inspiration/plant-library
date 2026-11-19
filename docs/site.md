@@ -12,13 +12,14 @@ follow links between entries (P4, P7, P10).
 | Route | Content |
 |---|---|
 | `/` | The Library list view |
+| `/map/` | The Library map view |
 | `/plant/<id>/` | Plant detail page |
 | `/project/<id>/` | Project detail page |
 | `/about/` | What the library is, the source registry, licenses, image credits, contributors |
 | `/styleguide/` | Every component state; not in navigation |
 | `/404.html` | Not found |
 
-The top bar lists only built sections (Library, About); Map, Workspace, and
+The top bar lists only built sections (Library, Map, About); Workspace and
 Contribute join as they are built.
 
 ### Index
@@ -84,15 +85,50 @@ JavaScript it is a full list; the island hides that list once it loads.
 - **Sort:** every type's sorts from `config/types.json`; missing values go
   last; ties fall back to name.
 - **URL state:** `lib/filter.ts`. Search is `q`, a filter is its facet key
-  repeated per value (`plant.sun=shade&plant.sun=part-shade`), then `sort`
-  and `view`. Unknown parameters are kept, for the map. Checking a value
-  pushes a history entry; typing replaces it.
+  repeated per value (`plant.sun=shade&plant.sun=part-shade`), then `sort`.
+  The page is the view (D46): an old `view` parameter is dropped. Unknown
+  parameters are kept, so the map's `center` and `zoom` survive the list
+  view. Checking a value pushes a history entry; typing replaces it.
+- **View switch:** List and Map, beside the count, link the same query
+  string to `/` and `/map/` (`viewUrl`).
 - **Layout:** the tree is a sidebar from 64rem; below that it sits closed
   behind a Filters button.
 - **Cards:** a plant card shows its pinned image (none, and no
   placeholder, when it has none), botanical name, primary common name, form
   badge, a Native badge, height and spread, hardiness, sun and moisture as
   labelled icons, and a twelve-cell bloom strip with a text alternative.
+
+### Map view
+
+`/map/` is the same island (`Library` with `view="map"`): the search,
+filter tree, chips, sort, and URL state above, with the results drawn on the
+map ([map.md](map.md)) instead of listed. The map component is imported only
+on this page.
+
+- **Projects** in the results are points, clustered when zoomed out, colored
+  by type, filled when constructed and hollow when proposed. A point opens a
+  popup with the project's card, linking its page.
+- **Plants** have no location of their own: with plants in the results, the
+  map draws the projects whose lists ref a matching plant, among those that
+  meet the query's project filters, each sized by the quantity of matching
+  plants it lists (the popup gives the figure). With exactly one plant in
+  the results, the states it is native to are drawn with a legend, or a note
+  says no native range is recorded (D47, D48). `mapResults` in
+  `lib/map-data.ts`.
+- **Results in view:** a panel beside the map lists the results in view in
+  card form (projects drawn in the bounds, plants with a drawn project in
+  them) and follows the map when it settles. Results the map can't place
+  (plants on no drawn project) are counted under it, with a link to the list
+  view. Below 64rem the panel is a sheet fixed to the bottom of the screen
+  that pulls up over the map.
+- **Position:** the map opens on the three states, or at `center=lon,lat`
+  and `zoom` from the URL; a move the reader makes writes them back
+  (`mapPosition`, `withMapPosition`).
+- **Without JavaScript** the page lists every entry with a note; **without
+  WebGL** the island shows the list view with a note.
+
+`npm run a11y` loads the map view at both widths, fails if the project layer
+drew no marks, and runs axe with the results panel showing (D49).
 
 ### Plant page
 
@@ -148,7 +184,7 @@ a fixture (`meta.fixture: true`), as every prototype plant is
 ## Where the rules live
 
 `config/types.json` (facets, sorts, search fields), `lib/facets.ts`,
-`lib/filter.ts`, `lib/build-data.ts`, `site/src/islands/Library.tsx`,
+`lib/filter.ts`, `lib/map-data.ts`, `lib/build-data.ts`, `site/src/islands/Library.tsx`,
 `site/src/pages/`, and the shared components in
 `site/src/components/ui/`, which both the pages and the island render.
 

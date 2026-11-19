@@ -22,22 +22,19 @@ page, About, and the style guide are built; see
 
 | Route | Content |
 |---|---|
-| `/map/` | The Library, map view ([map.md](map.md)) |
 | `/project/<id>/`, `/palette/<id>/` | Detail pages |
 | `/workspace/` | The palette workspace |
 | `/contribute/` | The contribution forms and My submissions ([submissions.md](submissions.md#forms)) |
 | `/print/` | Print view for a plant list or a set of entries |
 
 The top bar will read **Library | Map | Workspace | Contribute | About**,
-each joining as it is built. Library and Map are two views of one result
-set: switching between them keeps the query string.
+each joining as it is built (Library, Map, and About are).
 
 ### List view, still to add
 
 - **Cards.** The project card is built. A palette card shows name, plant
   count, and its site conditions. Every card has an "add to list" control
   for the workspace.
-- **The view switch** (List, Map) beside sort and the count.
 - **Palette facets**: site conditions. (The project facets and the
   cross-type filters are built: [docs/site.md](../../docs/site.md#list-view).)
 - **Region filters** set from the map ([map.md](map.md#region-filters)) show

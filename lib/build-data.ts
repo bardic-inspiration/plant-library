@@ -99,6 +99,16 @@ function deriveFor(entry: Entry, plants: ReadonlyMap<string, PlantData>): { name
   return { name, derived: { name, sortName: name.toLowerCase() } };
 }
 
+/** Quantity listed per plant the project refs, by plant key: the map sizes a project by the matching plants' quantity. */
+function plantQuantities(d: ProjectData): Record<string, number> {
+  const out: Record<string, number> = {};
+  for (const i of d.plantList) {
+    if (typeof i.plant === 'string') continue;
+    out[i.plant.ref] = (out[i.plant.ref] ?? 0) + (i.quantity ?? 0);
+  }
+  return out;
+}
+
 function cardFor(b: BuiltEntry): Record<string, unknown> {
   if (b.entry.type === 'plant') {
     const d = b.entry.data as unknown as PlantData;
@@ -127,6 +137,7 @@ function cardFor(b: BuiltEntry): Record<string, unknown> {
       completed: d.completed,
       sizeAcres: d.sizeAcres,
       plantCount: dv.plants.taxa + dv.plants.unsourced,
+      quantities: plantQuantities(d),
     };
   }
   return {};

@@ -54,6 +54,9 @@ export const PROJECT_SOURCE = 'projects';
 /** Overlay layers are added before this layer id, or on top when there is no basemap. */
 export const OVERLAY_BEFORE = 'water';
 export const PROJECT_LAYERS = ['project-clusters', 'project-cluster-count', 'project-points'] as const;
+/** The single plant's native range in the map view: the states it is native to, drawn from the states overlay's file. */
+export const NATIVE_SOURCE = 'native-range';
+export const NATIVE_LAYERS = ['native-range-fill', 'native-range-line'] as const;
 
 /** Style metadata key holding the opening view's bounds. */
 export const BOUNDS_KEY = 'plant-library:bounds';
@@ -128,12 +131,20 @@ export function buildMapStyle(t: MapTokens, o: MapStyleOptions): StyleSpecificat
       paint: {
         // Constructed projects are filled; proposed ones are hollow rings.
         'circle-color': ['case', ['==', ['get', 'status'], 'proposed'], t.color('--map-mark-empty'), typeColor(t.color('--site-accent'))],
-        'circle-radius': t.num('--map-mark-radius'),
+        // A project the plant results put on the map grows with the matching plants' quantity (`size`, 0–1, from lib/map-data.ts).
+        'circle-radius': ['+', t.num('--map-mark-radius'), ['*', ['coalesce', ['get', 'size'], 0], t.num('--map-mark-radius-max') - t.num('--map-mark-radius')]],
         'circle-stroke-color': typeColor(t.color('--site-accent')),
         'circle-stroke-width': t.num('--map-line-mark'),
       },
     },
   ];
+
+  // Under the water and every overlay, so the coastline trims it as it does the boundary overlays (D41).
+  const native: LayerSpecification[] = [
+    { id: NATIVE_LAYERS[0], type: 'fill', source: NATIVE_SOURCE, paint: { 'fill-color': t.color('--map-native-range'), 'fill-opacity': t.num('--map-native-range-opacity') } },
+    { id: NATIVE_LAYERS[1], type: 'line', source: NATIVE_SOURCE, paint: { 'line-color': t.color('--map-native-range-outline'), 'line-width': t.num('--map-line-overlay-strong') } },
+  ];
+  const [earth, ...rest] = basemap;
 
   return {
     version: 8,
@@ -142,8 +153,9 @@ export function buildMapStyle(t: MapTokens, o: MapStyleOptions): StyleSpecificat
     glyphs: `${o.base}map/glyphs/{fontstack}/{range}.pbf`,
     sources: {
       ...(o.basemap ? { [BASEMAP_SOURCE]: { type: 'vector' as const, url: `pmtiles://${o.base}${o.basemap}`, attribution: BASEMAP_ATTRIBUTION } } : {}),
+      [NATIVE_SOURCE]: { type: 'geojson', data: { type: 'FeatureCollection', features: [] } },
       [PROJECT_SOURCE]: { type: 'geojson', data: { type: 'FeatureCollection', features: [] }, cluster: true, clusterRadius: o.cluster.radius, clusterMaxZoom: o.cluster.maxZoom },
     },
-    layers: [{ id: 'background', type: 'background', paint: { 'background-color': t.color('--map-land') } }, ...basemap, ...projects],
+    layers: [{ id: 'background', type: 'background', paint: { 'background-color': t.color('--map-land') } }, ...(earth ? [earth] : []), ...native, ...rest, ...projects],
   };
 }

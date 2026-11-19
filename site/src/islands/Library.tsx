@@ -1,12 +1,18 @@
 /**
- * The Library list view: one island that loads the index once and filters
- * in memory. Search, filters, and sort live in the query string.
+ * The Library: one island that loads the index once and filters in memory.
+ * Search, filters, and sort live in the query string. The list view (`/`)
+ * lists the results; the map view (`/map/`) draws them, with a panel of the
+ * results in view. Both share the query string, so switching keeps it.
  */
+import type { ComponentType } from 'preact';
 import { useEffect, useMemo, useRef, useState } from 'preact/hooks';
 import MiniSearch from 'minisearch';
 import { TYPES } from '../../../lib/registry';
-import { applyQuery, clearFilters, facetCounts, parseQuery, serializeQuery, sortOptions, sortRecords, toggleValue, type Query } from '../../../lib/filter';
+import { applyQuery, clearFilters, facetCounts, mapPosition, parseQuery, serializeQuery, sortOptions, sortRecords, toggleValue, viewUrl, withMapPosition, type MapPosition, type Query } from '../../../lib/filter';
+import { inView, mapResults, projectFeatures, unplaced, type Bounds } from '../../../lib/map-data';
 import type { IndexFacet, IndexRecord, LibraryIndex } from '../../../lib/types';
+import type { MapViewProps } from './MapView';
+import { webglAvailable } from '../lib/webgl';
 import { url } from '../../../lib/site';
 import { Card } from '../components/ui/PlantCard';
 import { Icon } from '../components/ui/Icon';
@@ -48,6 +54,112 @@ function buildSearch(index: LibraryIndex): MiniSearch<IndexRecord> {
 
 function plural(n: number, one: string, many: string) {
   return `${n} ${n === 1 ? one : many}`;
+}
+
+/** "3 plants, 2 projects" for a set of records. */
+function countText(records: IndexRecord[], none = 'No entries'): string {
+  const typeCounts = new Map<string, number>();
+  for (const r of records) typeCounts.set(r.type, (typeCounts.get(r.type) ?? 0) + 1);
+  return [...typeCounts.entries()].map(([t, n]) => plural(n, (types[t]?.label ?? t).toLowerCase(), (types[t]?.plural ?? t).toLowerCase())).join(', ') || none;
+}
+
+type View = 'list' | 'map';
+
+/** List and Map: links to the same query on the other view's page. */
+function ViewSwitch({ view, query }: { view: View; query: Query }) {
+  return (
+    <nav class="view-switch" aria-label="View">
+      {(['list', 'map'] as const).map((v) => (
+        <a href={viewUrl(query, v)} aria-current={v === view ? 'page' : undefined}>
+          {v === 'list' ? 'List' : 'Map'}
+        </a>
+      ))}
+    </nav>
+  );
+}
+
+function CardList({ records }: { records: IndexRecord[] }) {
+  return (
+    <ul role="list" class="card-grid">
+      {records.map((r) => (
+        <li key={r.key}>
+          <Card record={r} />
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+/** MapView, imported only on the map view, so the list view never loads the map component. */
+function useMapView(enabled: boolean): ComponentType<MapViewProps> | undefined {
+  const [C, setC] = useState<ComponentType<MapViewProps> | undefined>(undefined);
+  useEffect(() => {
+    if (!enabled) return;
+    void import('./MapView').then((m) => setC(() => m.default));
+  }, [enabled]);
+  return C;
+}
+
+/**
+ * The map view's results: the map, drawing the projects in the results and
+ * those that list a plant in them, and a panel of the results in view that
+ * follows the map. On narrow screens the panel is a sheet over the map.
+ */
+function MapResultsView({ index, query, results, onMove }: { index: LibraryIndex; query: Query; results: IndexRecord[]; onMove: (pos: MapPosition) => void }) {
+  const MapView = useMapView(true);
+  const [bounds, setBounds] = useState<Bounds | undefined>(undefined);
+  const [sheetOpen, setSheetOpen] = useState(false);
+  const opened = useRef(false);
+  const [position] = useState(() => mapPosition(query));
+  const drawn = useMemo(() => mapResults(results, index.records, query.filters), [results, index, query.filters]);
+  const features = useMemo(() => projectFeatures(index.records, drawn), [index, drawn]);
+  const visible = useMemo(() => (bounds ? inView(results, index.records, drawn, bounds) : []), [results, index, drawn, bounds]);
+  const away = useMemo(() => unplaced(results, drawn), [results, drawn]);
+  const single = drawn.nativeStates !== undefined ? results.find((r) => r.type === 'plant') : undefined;
+
+  return (
+    <div class="map-results-view">
+      <div class="map-stage">
+        {MapView ? (
+          <MapView
+            label="Map of the results"
+            index={index}
+            features={features}
+            nativeStates={drawn.nativeStates}
+            position={position}
+            onMove={(pos, b) => {
+              setBounds(b);
+              // The first report is the opening view; only a move the reader makes goes into the URL.
+              if (opened.current) onMove(pos);
+              opened.current = true;
+            }}
+          />
+        ) : (
+          <p class="library-message" aria-live="polite">
+            Loading the map…
+          </p>
+        )}
+        {single && drawn.nativeStates?.length === 0 && <p class="map-results-note">No native range is recorded for {single.name}.</p>}
+      </div>
+      <section class={sheetOpen ? 'map-results open' : 'map-results'} aria-labelledby="in-view-heading">
+        <button type="button" class="sheet-toggle" aria-expanded={sheetOpen} aria-controls="in-view-list" onClick={() => setSheetOpen((o) => !o)}>
+          {sheetOpen ? 'Hide results' : 'Show results'} in view ({visible.length})
+        </button>
+        <div id="in-view-list" class="map-results-body">
+          <h2 id="in-view-heading" class="label">
+            In view: {countText(visible, 'nothing')}
+          </h2>
+          {away.length > 0 && (
+            <p class="map-results-note">
+              {countText(away)} in the results {away.length === 1 ? 'has' : 'have'} no place on the map: a plant shows through the projects that list it.{' '}
+              <a href={viewUrl(query, 'list')}>The list view</a> shows every result.
+            </p>
+          )}
+          {visible.length > 0 ? <CardList records={visible} /> : <p class="map-results-note">Nothing in the results is in view. Zoom out or move the map.</p>}
+        </div>
+      </section>
+    </div>
+  );
 }
 
 interface FacetNode {
@@ -173,8 +285,10 @@ function ActiveFilters({ index, query, onToggle, onClear }: { index: LibraryInde
   );
 }
 
-export default function Library() {
+export default function Library({ view: page = 'list' }: { view?: View }) {
   const { index, error } = useIndex();
+  // Without WebGL the map page is the list view, with a note.
+  const [view] = useState<View>(() => (page === 'map' && !webglAvailable() ? 'list' : page));
   const [query, setQuery] = useState<Query>(() => parseQuery(typeof location === 'undefined' ? '' : location.search));
   const [filtersOpen, setFiltersOpen] = useState(false);
   const pushNext = useRef(false);
@@ -204,13 +318,14 @@ export default function Library() {
     return search.search(query.q.trim()).map((r) => String(r.id));
   }, [search, query.q]);
 
+  // Moving the map changes only `extra`; results and counts don't depend on it.
   const results = useMemo(() => {
     if (!index) return [];
     const sortId = query.sort === 'relevance' && !hits ? 'name' : query.sort;
     return sortRecords(applyQuery(index.records, query, hits), sortId, SORTS, hits);
-  }, [index, query, hits]);
+  }, [index, query.filters, query.sort, hits]);
 
-  const counts = useMemo(() => (index ? facetCounts(index.records, index.facets, query, hits) : {}), [index, query, hits]);
+  const counts = useMemo(() => (index ? facetCounts(index.records, index.facets, query, hits) : {}), [index, query.filters, hits]);
 
   const toggle = (key: string, value: string) => {
     pushNext.current = true;
@@ -225,13 +340,10 @@ export default function Library() {
   if (!index) return <p class="library-message" aria-live="polite">Loading the library…</p>;
 
   const nFilters = Object.values(query.filters).reduce((a, v) => a + v.length, 0);
-  const typeCounts = new Map<string, number>();
-  for (const r of results) typeCounts.set(r.type, (typeCounts.get(r.type) ?? 0) + 1);
-  const countText =
-    [...typeCounts.entries()].map(([t, n]) => plural(n, (types[t]?.label ?? t).toLowerCase(), (types[t]?.plural ?? t).toLowerCase())).join(', ') || 'No entries';
 
   return (
-    <div class="library">
+    <div class={view === 'map' ? 'library library-map' : 'library'}>
+      {page === 'map' && view === 'list' && <p class="library-message">This browser can't draw the map (it needs WebGL), so the results are listed instead.</p>}
       <div class="library-search" role="search">
         <label for="library-q" class="label">
           Search
@@ -261,8 +373,9 @@ export default function Library() {
         <section class="library-results" aria-labelledby="results-heading">
           <div class="results-head">
             <h2 id="results-heading" class="results-count" aria-live="polite">
-              {countText}
+              {countText(results)}
             </h2>
+            <ViewSwitch view={page} query={query} />
             <label class="sort">
               <span class="label">Sort</span>
               <select
@@ -282,14 +395,15 @@ export default function Library() {
           <ActiveFilters index={index} query={query} onToggle={toggle} onClear={clear} />
           {results.length === 0 ? (
             <p class="library-message">Nothing matches. Remove a filter or change the search.</p>
+          ) : view === 'map' ? (
+            <MapResultsView
+              index={index}
+              query={query}
+              results={results}
+              onMove={(pos) => setQuery((q) => withMapPosition(q, pos))}
+            />
           ) : (
-            <ul role="list" class="card-grid">
-              {results.map((r) => (
-                <li key={r.key}>
-                  <Card record={r} />
-                </li>
-              ))}
-            </ul>
+            <CardList records={results} />
           )}
         </section>
       </div>

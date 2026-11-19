@@ -17,6 +17,11 @@
     --gallery-height: 22rem;
     --thumb-height: 6rem;
     --map-height: 32rem;
+    --map-view-height: 40rem;
+    --results-panel-width: 22rem;
+    /* The map view's results sheet on narrow screens: how far it pulls up, and its stacking over the map's controls. */
+    --sheet-max: 60vh;
+    --z-sheet: 10;
     /* Breakpoints (for reference): narrow below 48rem, wide from 64rem. */
     --bp-narrow: 48rem;
     --bp-wide: 64rem;

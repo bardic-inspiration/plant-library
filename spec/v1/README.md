@@ -1,7 +1,7 @@
 # v1 stage spec
 
 The design for Plant Library v1. M1, M3, and M4 are built, M2 apart from
-its plant data, and M5's engine, basemap, token-built style, and overlays; what exists is described in [`docs/`](../../docs/README.md), and
+its plant data, and M5's engine, basemap, token-built style, overlays, and map view; what exists is described in [`docs/`](../../docs/README.md), and
 this folder holds the rest. It follows the stage-spec convention of
 `ttrpg-library` (TL below): it holds only unbuilt design, and the PR that
 builds a part deletes it here and describes what now exists in `docs/`. The
@@ -124,7 +124,7 @@ for it.
 | M2 | Plants | Built: the plant type, validation, the source registry, and a prototype fixture set of 473 plants from the King County guide and the Portland Plant List ([docs/sources.md](../../docs/sources.md#the-prototype-fixture-set)) |
 | M3 | Library | Built: list view, filter tree, search, plant pages, styling ([docs/site.md](../../docs/site.md)) |
 | M4 | Projects | Built: the project schema, validation, derived values, and fixture projects ([docs/content-model.md](../../docs/content-model.md#project), [docs/sources.md](../../docs/sources.md#fixture-projects)); geography apart from hardiness zones ([docs/geography.md](../../docs/geography.md)); project pages, project facets, the cross-type filters, project search, and plant and project links ([docs/site.md](../../docs/site.md)) |
-| M5 | Map | Engine, basemap extract, style from tokens, glyphs, project clustering, and the overlay registry with its boundary overlays built ([docs/map.md](../../docs/map.md)); `map.md` map view, hardiness zone overlay, region filters |
+| M5 | Map | Engine, basemap extract, style from tokens, glyphs, project clustering, the overlay registry with its boundary overlays, and the `/map/` view built ([docs/map.md](../../docs/map.md), [docs/site.md](../../docs/site.md#map-view)); `map.md` small maps on detail pages, hardiness zone overlay, region filters |
 | M6 | Palettes | `data-model.md` palette type; `sources.md` fixture palettes; `library.md` workspace, compatibility, exports |
 | M7 | Contributions | `submissions.md`: forms, the browser store, the inbox script, field notes, the `integrate` skill |
 | M8 | Analysis | `map.md` distribution analysis |
