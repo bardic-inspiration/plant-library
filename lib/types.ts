@@ -116,7 +116,11 @@ export interface FacetDef {
   keyVocab?: string;
   unit?: string;
   buckets?: Bucket[];
+  /** Where a value's label comes from when it isn't in a vocabulary: a boundary layer (by code) or the entry a key names. */
+  labels?: FacetLabels;
 }
+
+export type FacetLabels = 'counties' | 'places' | 'ecoregions' | 'entries';
 
 export interface FacetGroupDef { group: string; label: string; facets: FacetDef[] }
 
@@ -212,6 +216,10 @@ export interface ProjectDerived {
   };
   /** Dollars per acre, rounded; absent without a budget. */
   costPerAcre?: number;
+  /** The year of `completed`, for the Completed facet; absent without a date. */
+  completedYear?: number;
+  /** The plants the list names that the library holds, as `plant/<id>` keys, sorted and distinct. */
+  usesPlant: string[];
 }
 
 /** A plant's use across projects (lib/derive.ts `derivePlantUse`). Never stored. */
@@ -234,6 +242,8 @@ export interface PlantDerived {
   sizeClass?: string;
   hardinessZones?: string[];
   hardinessMin?: number;
+  /** Its use across projects (`derivePlantUse`), attached by the build. */
+  use?: PlantUse;
 }
 
 /** One lean record per entry in site/public/library.json. */

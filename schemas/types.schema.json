@@ -63,6 +63,10 @@
         "vocab": { "type": "string" },
         "keyVocab": { "type": "string" },
         "unit": { "type": "string" },
+        "labels": {
+          "description": "Where labels come from for values outside any vocabulary: a boundary layer in geo/ (values are its codes) or the entries the values name as keys.",
+          "enum": ["counties", "places", "ecoregions", "entries"]
+        },
         "buckets": {
           "type": "array",
           "items": {

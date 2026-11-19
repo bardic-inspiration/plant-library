@@ -10,9 +10,10 @@ import { formatZoneRange } from '../../../../lib/zones';
 import { renderMarkdown } from '../../../../lib/markdown';
 import { renderCitation } from '../../../../lib/citation';
 import { url } from '../../../../lib/site';
+import { libraryUrl } from '../../../../lib/filter';
 import { label } from '../../lib/vocab';
 import { traitLabel } from '../../lib/traits';
-import type { PlantData, PlantDerived } from '../../../../lib/types';
+import type { PlantData, PlantDerived, ProjectData, ProjectDerived } from '../../../../lib/types';
 
 export function getStaticPaths() {
   return buildData()
@@ -109,6 +110,21 @@ const groups: { title: string; rows: Row[] }[] = [
   { title: 'Uses', rows: [{ trait: 'uses', label: 'Uses', links: valueLinks('uses', 'uses', d.uses) }] },
 ];
 const shown = groups.map((g) => ({ ...g, rows: g.rows.filter((r) => r.text || r.html || r.links?.length || r.extra) })).filter((g) => g.rows.length);
+// Used on: the projects whose lists include it by ref, with the quantity listed and the year, then totals by state.
+const number = new Intl.NumberFormat('en-US');
+const usedOn = (dv.use?.projects ?? []).map((k) => {
+  const p = data.byKey.get(k)!;
+  const pd = p.entry.data as unknown as ProjectData;
+  const pv = p.derived as unknown as ProjectDerived & { placeName: string };
+  const quantity = pd.plantList.filter((i) => typeof i.plant !== 'string' && i.plant.ref === key).reduce((n, i) => n + (i.quantity ?? 0), 0);
+  const year = pv.completedYear === undefined ? '' : String(pv.completedYear);
+  const when = pd.status === 'proposed' ? (year ? `${year} (proposed)` : 'Proposed') : year;
+  return { key: k, name: p.name, place: pv.placeName, state: pv.geo.state, quantity, when };
+}).sort((x, y) => y.when.localeCompare(x.when) || x.name.localeCompare(y.name));
+const byState = (dv.use?.states ?? []).map((st) => {
+  const mine = usedOn.filter((u) => u.state === st);
+  return { state: st, name: label('state', st), projects: mine.length, quantity: mine.reduce((n, u) => n + u.quantity, 0), href: libraryUrl({ 'plant.usedInState': [st] }) };
+});
 const bloomLabel = dv.bloomMonthList ? `Bloom calendar: ${formatMonths(d.bloom?.months)}` : '';
 ---
 <Base title={fullName(d)} description={b.entry.summary}>
@@ -185,6 +201,40 @@ const bloomLabel = dv.bloomMonthList ? `Bloom calendar: ${formatMonths(d.bloom?.
         </div>
       ))}
     </section>
+
+    {usedOn.length > 0 && (
+      <section aria-labelledby="used-heading">
+        <h2 id="used-heading">Used on</h2>
+        <div class="table-scroll" role="region" aria-label="Projects using this plant" tabindex="0">
+          <table class="used-on">
+            <thead>
+              <tr>
+                <th scope="col">Project</th>
+                <th scope="col">Place</th>
+                <th scope="col" class="num">Quantity</th>
+                <th scope="col">Year</th>
+              </tr>
+            </thead>
+            <tbody>
+              {usedOn.map((u) => (
+                <tr>
+                  <th scope="row"><a href={url(`${u.key}/`)}>{u.name}</a></th>
+                  <td>{u.place}</td>
+                  <td class="num">{number.format(u.quantity)}</td>
+                  <td>{u.when}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <h3 class="used-totals-heading">By state</h3>
+        <ul class="used-totals" role="list">
+          {byState.map((t) => (
+            <li><a href={t.href}>{t.name}</a>: {t.projects === 1 ? '1 project' : `${t.projects} projects`}, {number.format(t.quantity)} plants</li>
+          ))}
+        </ul>
+      </section>
+    )}
 
     {relatives.length > 0 && (
       <section aria-labelledby="related-heading">
@@ -317,6 +367,23 @@ const bloomLabel = dv.bloomMonthList ? `Bloom calendar: ${formatMonths(d.bloom?.
 
   .traits th {
     inline-size: 35%;
+  }
+
+  .used-on {
+    inline-size: var(--full);
+    max-inline-size: var(--measure);
+  }
+
+  .num {
+    text-align: end;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .used-totals-heading {
+    font-size: var(--size-label);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    margin-block: var(--space-md) var(--space-xs);
   }
 
   .bloom-calendar {

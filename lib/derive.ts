@@ -115,8 +115,9 @@ export function deriveProject(
   }
   const plants: ProjectDerived['plants'] = { taxa: taxa.size, unsourced: unsourced.size, quantity, byForm };
   if (geo.state && known > 0) plants.nativeShare = native / known;
-  const out: ProjectDerived = { geo, plants };
+  const out: ProjectDerived = { geo, plants, usesPlant: [...taxa].sort() };
   if (d.constructionBudget !== undefined && d.sizeAcres > 0) out.costPerAcre = Math.round(d.constructionBudget / d.sizeAcres);
+  if (d.completed) out.completedYear = Number(d.completed.slice(0, 4));
   return out;
 }
 
