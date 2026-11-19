@@ -1,3 +1,5 @@
+import type { Compatibility } from './compat';
+
 /** Shapes shared by scripts and the site. The JSON schemas are the authority; these mirror them. */
 
 export interface Range { min: number; max: number }
@@ -222,6 +224,29 @@ export interface ProjectDerived {
   completedYear?: number;
   /** The plants the list names that the library holds, as `plant/<id>` keys, sorted and distinct. */
   usesPlant: string[];
+}
+
+/** The conditions a palette is for. Each condition may state several values. */
+export interface PaletteSite {
+  sun?: string[];
+  moisture?: string[];
+  soil?: { drainage: string[] };
+  /** A zone as entries write it (`8` or `8b`). */
+  hardinessZone?: string;
+  location?: LatLon;
+}
+
+export interface PaletteData {
+  site?: PaletteSite;
+  plantList: PlantListItem[];
+}
+
+/** Derived palette values (lib/derive.ts `derivePalette`). Never stored. */
+export interface PaletteDerived {
+  /** `compatibility` over the list and the site's conditions (lib/compat.ts). */
+  compatibility: Compatibility;
+  /** From `site.location`; absent without one. */
+  geo?: GeoDerived;
 }
 
 /** A plant's use across projects (lib/derive.ts `derivePlantUse`). Never stored. */

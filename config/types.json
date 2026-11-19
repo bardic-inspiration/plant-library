@@ -604,5 +604,26 @@
         "description"
       ]
     }
+  },
+  "palette": {
+    "label": "Palette",
+    "plural": "Palettes",
+    "schema": "schemas/palette.schema.json",
+    "namedBy": "entry",
+    "fixtureRules": {
+      "proprietary": []
+    },
+    "facets": [],
+    "sorts": [],
+    "search": {
+      "boosted": [
+        "name"
+      ],
+      "fields": [
+        "summary",
+        "tags",
+        "description"
+      ]
+    }
   }
 }

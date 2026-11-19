@@ -1,0 +1,56 @@
+{
+  "type": "palette",
+  "id": "rain-garden-cell",
+  "name": "Rain garden cell",
+  "summary": "A made-up mock-up of a Portland rain garden cell, with a location and one dry-ground plant that conflicts with the wet soil.",
+  "data": {
+    "site": {
+      "moisture": [
+        "wet"
+      ],
+      "location": {
+        "lat": 45.5122,
+        "lon": -122.6587
+      }
+    },
+    "plantList": [
+      {
+        "plant": {
+          "ref": "plant/carex-obnupta"
+        },
+        "quantity": 180,
+        "size": "#1 container",
+        "spacing": "18 in o.c."
+      },
+      {
+        "plant": {
+          "ref": "plant/juncus-effusus-var-pacificus"
+        },
+        "quantity": 140,
+        "size": "#1 container",
+        "spacing": "18 in o.c."
+      },
+      {
+        "plant": {
+          "ref": "plant/cornus-sericea"
+        },
+        "quantity": 24,
+        "size": "#5 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/arbutus-menziesii"
+        },
+        "quantity": 2,
+        "size": "#15 container",
+        "note": "On the berm"
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-19",
+    "revisedAt": "2026-11-19",
+    "method": "manual",
+    "fixture": true
+  }
+}

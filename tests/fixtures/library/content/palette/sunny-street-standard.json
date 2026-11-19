@@ -1,0 +1,31 @@
+{
+  "type": "palette",
+  "id": "sunny-street-standard",
+  "name": "Sunny street standard",
+  "summary": "A made-up firm standard for sunny street planting strips, with no site conditions or quantities.",
+  "data": {
+    "plantList": [
+      {
+        "plant": {
+          "ref": "plant/achillea-millefolium"
+        }
+      },
+      {
+        "plant": {
+          "ref": "plant/mahonia-aquifolium"
+        }
+      },
+      {
+        "plant": {
+          "ref": "plant/rosa-radrazz"
+        }
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-19",
+    "revisedAt": "2026-11-19",
+    "method": "manual",
+    "fixture": true
+  }
+}

@@ -5,14 +5,14 @@
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { loadLibrary, type Library } from './library';
-import { derivePlant, derivePlantUse, deriveGeo, deriveProject } from './derive';
+import { derivePalette, derivePlant, derivePlantUse, deriveGeo, deriveProject } from './derive';
 import { loadGeo } from './geo-load';
 import { nameSegments, fullName } from './names';
 import { facetValues, flatFacets, getPath, indexFacets, type Labeller } from './facets';
 import { plainText } from './markdown';
 import { entryUrl, url } from './site';
 import type { GeoLayers } from './geo';
-import type { Entry, FacetLabels, IndexRecord, LibraryIndex, PlantData, PlantDerived, ProjectData, ProjectDerived } from './types';
+import type { Entry, FacetLabels, IndexRecord, LibraryIndex, PaletteData, PlantData, PlantDerived, ProjectData, ProjectDerived } from './types';
 
 export interface BuiltEntry {
   key: string;
@@ -96,6 +96,12 @@ function deriveFor(entry: Entry, plants: ReadonlyMap<string, PlantData>): { name
     return { name, derived: { name, sortName: name.toLowerCase(), ...dp, placeName: placeLabel(dp.geo, layers), locationNames: locationNames(dp.geo, layers) } };
   }
   const name = entry.name ?? entry.id;
+  if (entry.type === 'palette') {
+    const d = entry.data as unknown as PaletteData;
+    const location = d.site?.location;
+    const dp = derivePalette(d, plants, location ? deriveGeo(location, loadGeo()) : undefined);
+    return { name, derived: { name, sortName: name.toLowerCase(), ...dp } };
+  }
   return { name, derived: { name, sortName: name.toLowerCase() } };
 }
 

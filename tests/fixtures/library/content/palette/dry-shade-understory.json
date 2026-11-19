@@ -1,0 +1,43 @@
+{
+  "type": "palette",
+  "id": "dry-shade-understory",
+  "name": "Dry shade understory",
+  "summary": "A made-up list for dry shade, with site conditions including a zone and no location.",
+  "data": {
+    "site": {
+      "sun": [
+        "shade"
+      ],
+      "moisture": [
+        "dry"
+      ],
+      "hardinessZone": "8"
+    },
+    "plantList": [
+      {
+        "plant": {
+          "ref": "plant/gaultheria-shallon"
+        }
+      },
+      {
+        "plant": {
+          "ref": "plant/mahonia-nervosa"
+        }
+      },
+      {
+        "plant": {
+          "ref": "plant/polystichum-munitum"
+        }
+      },
+      {
+        "plant": "Oxalis oregana"
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-19",
+    "revisedAt": "2026-11-19",
+    "method": "manual",
+    "fixture": true
+  }
+}

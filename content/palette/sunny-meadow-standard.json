@@ -1,0 +1,41 @@
+{
+  "type": "palette",
+  "id": "sunny-meadow-standard",
+  "name": "Sunny meadow standard",
+  "summary": "A made-up firm standard for an open, sunny meadow planting, with no site conditions or quantities.",
+  "data": {
+    "plantList": [
+      {
+        "plant": {
+          "ref": "plant/achillea-millefolium"
+        }
+      },
+      {
+        "plant": {
+          "ref": "plant/eriophyllum-lanatum"
+        }
+      },
+      {
+        "plant": {
+          "ref": "plant/festuca-roemeri"
+        }
+      },
+      {
+        "plant": {
+          "ref": "plant/camassia-quamash"
+        }
+      },
+      {
+        "plant": {
+          "ref": "plant/symphoricarpos-albus"
+        }
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-19",
+    "revisedAt": "2026-11-19",
+    "method": "manual",
+    "fixture": true
+  }
+}

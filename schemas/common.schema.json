@@ -67,6 +67,19 @@
         "note": { "$ref": "#/$defs/shortText" }
       }
     },
+    "paletteListItem": {
+      "description": "One line of a palette: a plant list item as a project's, with `quantity` optional. A plant appears once per distinct size (lib/validate.ts).",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["plant"],
+      "properties": {
+        "plant": { "$ref": "#/$defs/refOrText" },
+        "quantity": { "type": "integer", "minimum": 1 },
+        "size": { "$ref": "#/$defs/shortText" },
+        "spacing": { "$ref": "#/$defs/shortText" },
+        "note": { "$ref": "#/$defs/shortText" }
+      }
+    },
     "person": {
       "type": "object",
       "additionalProperties": false,
