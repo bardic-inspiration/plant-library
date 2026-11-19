@@ -1,6 +1,7 @@
 ---
 /* Every component in every state, for refinement and snapshots. Not linked in navigation. */
 import Base from '../layouts/Base.astro';
+import MapView from '../islands/MapView.tsx';
 import { Card } from '../components/ui/PlantCard';
 import { FormBadge } from '../components/ui/Badge';
 import { BloomStrip, Swatch } from '../components/ui/BloomStrip';
@@ -12,6 +13,7 @@ import { nameSegments } from '../../../lib/names';
 import type { IndexRecord } from '../../../lib/types';
 
 const forms = vocabList('form');
+const projectTypes = vocabList('projectType');
 const blooms = vocabList('bloomColor');
 const sample = (over: Partial<IndexRecord> & { card?: Record<string, unknown> }): IndexRecord => ({
   key: 'plant/sample', type: 'plant', id: 'sample', name: 'Sample', summary: 'A sample.', url: '#', facets: {}, tags: {}, refs: [], refBy: [], sort: {}, search: {}, createdAt: '2026-01-01',
@@ -105,10 +107,47 @@ const other = { ...sample({}), type: 'project', name: 'A made-up project', summa
         </table>
       </div>
     </section>
+
+    <section id="map">
+      <h2>Map</h2>
+      <p class="muted">The style is written from the tokens by <code>npm run build:map</code>. Projects cluster when zoomed out; a filled mark is constructed, a ring is proposed.</p>
+      <ul role="list" class="row map-legend">
+        {projectTypes.map((t) => <li data-project-type={t.id}><span class="map-mark" aria-hidden="true"></span>{t.label}</li>)}
+        <li><span class="map-mark map-mark-proposed" aria-hidden="true"></span>Proposed</li>
+        <li><span class="map-mark map-mark-cluster" aria-hidden="true"></span>A cluster of projects</li>
+      </ul>
+      <MapView client:only="preact" label="Map of the library's projects" />
+    </section>
   </div>
 </Base>
 
 <style>
+  .map-legend li {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xxs);
+    font-size: var(--size-small);
+  }
+
+  .map-mark {
+    display: inline-block;
+    inline-size: calc(var(--map-mark-radius) * 2);
+    block-size: calc(var(--map-mark-radius) * 2);
+    border-radius: var(--full);
+    background: var(--accent);
+    border: var(--map-line-mark) solid var(--accent);
+  }
+
+  .map-mark-proposed {
+    background: var(--map-mark-empty);
+    border-color: var(--rule);
+  }
+
+  .map-mark-cluster {
+    background: var(--map-cluster);
+    border-color: var(--map-cluster);
+  }
+
   .guide {
     display: flex;
     flex-direction: column;

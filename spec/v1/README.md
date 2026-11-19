@@ -1,7 +1,7 @@
 # v1 stage spec
 
-The design for Plant Library v1. M1, M3, and M4 are built, and M2 apart from
-its plant data; what exists is described in [`docs/`](../../docs/README.md), and
+The design for Plant Library v1. M1, M3, and M4 are built, M2 apart from
+its plant data, and M5's engine, basemap, and token-built style; what exists is described in [`docs/`](../../docs/README.md), and
 this folder holds the rest. It follows the stage-spec convention of
 `ttrpg-library` (TL below): it holds only unbuilt design, and the PR that
 builds a part deletes it here and describes what now exists in `docs/`. The
@@ -124,7 +124,7 @@ for it.
 | M2 | Plants | Built: the plant type, validation, the source registry, and a prototype fixture set of 473 plants from the King County guide and the Portland Plant List ([docs/sources.md](../../docs/sources.md#the-prototype-fixture-set)) |
 | M3 | Library | Built: list view, filter tree, search, plant pages, styling ([docs/site.md](../../docs/site.md)) |
 | M4 | Projects | Built: the project schema, validation, derived values, and fixture projects ([docs/content-model.md](../../docs/content-model.md#project), [docs/sources.md](../../docs/sources.md#fixture-projects)); geography apart from hardiness zones ([docs/geography.md](../../docs/geography.md)); project pages, project facets, the cross-type filters, project search, and plant and project links ([docs/site.md](../../docs/site.md)) |
-| M5 | Map | `map.md` map view, overlays, region filters |
+| M5 | Map | Engine, basemap extract, style from tokens, glyphs, and project clustering built ([docs/map.md](../../docs/map.md)); `map.md` map view, overlays, region filters |
 | M6 | Palettes | `data-model.md` palette type; `sources.md` fixture palettes; `library.md` workspace, compatibility, exports |
 | M7 | Contributions | `submissions.md`: forms, the browser store, the inbox script, field notes, the `integrate` skill |
 | M8 | Analysis | `map.md` distribution analysis |
@@ -144,7 +144,7 @@ listed here so the owner can overrule it in review.
   sourced ([data-model.md](data-model.md#references)).
 - **Feet and US units are stored**; the site shows metric beside them
   ([docs/content-model.md](../../docs/content-model.md#plant)).
-- **MapLibre GL JS with PMTiles** powers the map ([map.md](map.md#engine)).
+- **MapLibre GL JS with PMTiles** powers the map ([docs/map.md](../../docs/map.md#engine)).
 - **No dark theme** ([docs/styling.md](../../docs/styling.md)).
 - **Professional opinion is kept beside published facts, not over them**:
   field notes, and a `staff-observation` source for traits no source covers

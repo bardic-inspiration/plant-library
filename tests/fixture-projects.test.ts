@@ -112,7 +112,7 @@ describe('the index', () => {
     expect(new Set(index.records.map((r) => r.type))).toEqual(new Set(['plant', 'project']));
     const card = index.records.find((r) => r.key === 'project/bothell-main-street')!.card;
     expect(card.place).toMatch(/^Bothell, WA$/);
-    expect(Object.keys(card).sort()).toEqual(['completed', 'place', 'plantCount', 'projectType', 'sizeAcres', 'status']);
+    expect(Object.keys(card).sort()).toEqual(['completed', 'location', 'place', 'plantCount', 'projectType', 'sizeAcres', 'status']);
   });
 
   it('counts the plants on a project card as taxa plus unsourced names', () => {

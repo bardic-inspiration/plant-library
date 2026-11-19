@@ -1,0 +1,42 @@
+/* The map component. Its drawing comes from the style (tokens/map.css); this is the frame around it. */
+@layer components {
+  .map-view {
+    position: relative;
+    border: var(--border);
+  }
+
+  .map-canvas {
+    block-size: var(--map-height);
+    inline-size: var(--full);
+  }
+
+  .map-note {
+    position: absolute;
+    inset-block-start: var(--space-md);
+    inset-inline: var(--space-md);
+    margin: var(--none);
+    padding: var(--space-xs) var(--space-sm);
+    background: var(--bg);
+    border: var(--border);
+  }
+
+  .map-view .maplibregl-popup-content {
+    border-radius: var(--none);
+    border: var(--border);
+    box-shadow: none;
+    font-family: var(--font-body);
+    padding: var(--space-sm) var(--space-lg) var(--space-sm) var(--space-sm);
+  }
+
+  .map-view .maplibregl-popup-content p {
+    margin: var(--none);
+    font-size: var(--size-small);
+    color: var(--text-muted);
+  }
+
+  .map-view .maplibregl-ctrl-group {
+    border-radius: var(--none);
+    border: var(--border);
+    box-shadow: none;
+  }
+}

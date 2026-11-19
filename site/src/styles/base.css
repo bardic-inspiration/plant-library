@@ -10,6 +10,7 @@
 @import './tokens/semantic.css';
 @import './tokens/components.css';
 @import './tokens/content.css';
+@import './tokens/map.css';
 @import './tokens/print.css';
 
 @layer reset {

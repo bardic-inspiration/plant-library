@@ -35,7 +35,8 @@ rules, and `main` is always complete (P1, P8, P11).
   (`validate` with the attribution staleness check, `build`, a job summary
   of changed entries with their key facts, `check`, `test`). A PR labelled
   `milestone` also runs `a11y`.
-- **`deploy.yml`** on merge to `main`: build, check the built site's links,
+- **`deploy.yml`** on merge to `main`: cut the basemap extract (weekly,
+  cached; a failed cut is a warning, D42), build, check the built site's links,
   and keep `site/dist` as the `site` artifact for 30 days. A second job
   publishes the library's own build (`npm run build`, from `content/`) to
   GitHub Pages at `/plant-library/`, so the draft can be viewed; its

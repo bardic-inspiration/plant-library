@@ -121,6 +121,7 @@ function cardFor(b: BuiltEntry): Record<string, unknown> {
     const dv = b.derived as unknown as ProjectDerived & { placeName: string };
     return {
       place: dv.placeName,
+      location: [d.location.lon, d.location.lat],
       projectType: d.projectType,
       status: d.status,
       completed: d.completed,

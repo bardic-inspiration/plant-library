@@ -1,0 +1,31 @@
+/* The map's look. `npm run build:map` writes the MapLibre style from these
+   (lib/map-style.ts), so the basemap and its marks change with the tokens.
+   Lengths here are pixels on the map; project colors come from content.css. */
+@layer tokens {
+  :root {
+    --map-land: var(--p-white);
+    --map-water: var(--p-gray-100);
+    --map-coast: var(--p-black);
+    --map-boundary: var(--p-black);
+    --map-road: var(--p-gray-600);
+    --map-label: var(--p-gray-700);
+    --map-label-strong: var(--p-black);
+    --map-halo: var(--p-white);
+    --map-cluster: var(--p-black);
+    --map-cluster-text: var(--p-white);
+    --map-mark-empty: var(--mark-empty);
+
+    --map-line-coast: 1px;
+    --map-line-boundary: 1px;
+    --map-line-road: 0.5px;
+    --map-line-mark: 2px;
+    --map-halo-width: 1.5px;
+    --map-mark-radius: 6px;
+    --map-cluster-radius: 12px;
+    --map-cluster-radius-large: 18px;
+    --map-label-size: 11px;
+    --map-label-size-large: 13px;
+    --map-cluster-text-size: 12px;
+    --map-label-tracking: 0.08em;
+  }
+}
