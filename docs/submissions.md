@@ -215,11 +215,27 @@ submission is rejected (`--json` adds the report as JSON).
 | `file-type` | A file is none of its role's types by its content, or is over its role's size limit (`submissions.maxBytes` in `config/site.json`) | The content is an allowed type but the name's extension says another |
 | `target` | The type isn't one the library has, or the entry isn't in the library | |
 | `based-on` | | `basedOn` isn't the current entry; it names the paths changed since and, separately, the edit's paths that touch them (`touched`) |
+| `duplicate` | | An `add` whose name or a synonym is the name, the name with trade name, or a synonym of an entry of its type (a project or palette by its `name`); an image whose sha256 is a file under `assets/images/`, or an image file listed by a submission in `processed/` |
+| `paths` | A change's path isn't in the type's schema (the envelope's `name`, `summary`, `description`, `tags`, or the type's `data`), goes into a list or a read-only field, clears a required field, adds or removes items of a field that isn't a list, or its value (each added item) fails the schema there; a plant field note's `trait` isn't a plant trait, or a project's or palette's note names one | |
+| `urls` | | A URL whose host is no registered source's `hosts` (or a subdomain of one), or that can't be read; checked: every `sourceUrl`, and URLs in citations, notes, field notes, and the comment |
 
 A file's type comes from its first bytes, never its name: JPEG, PNG, or WebP
 for an image; PDF, CSV, or XLSX for a plant list; any of those for a
 supporting file. An XLSX file is a zip holding `xl/workbook.xml`; a CSV file
 is UTF-8 text with no control characters and a separator.
+
+Only schema, file, and file type failures reject a submission. A failed
+`target` or `paths` result means that item can't be used as it stands, and
+the warnings are facts for the routine's review: a duplicate `add` is
+turned into an edit or returned, and an unknown URL's fact is looked for in
+a registered source. An integrated image is re-encoded, so its hash no
+longer matches the file submitted; `processed/` keeps the original's hash
+in its submission, which is where `duplicate` finds it.
+
+A path's schema is found by walking the type's schema from the envelope,
+following `$ref`s, through `properties` and, for a map such as `tags`,
+`additionalProperties` with its `propertyNames`; its value is validated
+against that schema with the vocabulary filled in.
 
 A stale `basedOn` doesn't reject a submission: the routine merges it by hand
 against the current entry. To say which fields changed since, `check` looks
@@ -266,8 +282,8 @@ and `site/src/pages/contribute.astro`, tested in `tests/contribute.test.ts`;
 `schemas/submission.schema.json`; `schemas/common.schema.json` (`fieldNote`)
 and `schemas/envelope.schema.json` (`fieldNotes`, `meta.submissions`); the
 field-note rules in `lib/validate.ts`; `lib/submission.ts` (client-safe: edit
-differences, applying them, `entryHash`); `lib/inbox.ts` (the checks,
-import); `scripts/inbox/index.ts`; `config/site.json` (`submissions`);
+differences, applying them, `entryHash`); `lib/inbox.ts` (the checks, `resolvePath`,
+`classifyUrl`, import); `scripts/inbox/index.ts`; `config/site.json` (`submissions`);
 tests in `tests/submission.test.ts`, field notes in `tests/validate.test.ts`.
 
 ## Extending

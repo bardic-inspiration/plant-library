@@ -56,7 +56,7 @@ if (command === 'list') {
     process.exit(2);
   }
   const lib = loadLibrary(root);
-  const report = checkSubmission(join(dirs.inbox, arg), { config: lib.config, schemas: lib.schemas, entries: lib.entries, history });
+  const report = checkSubmission(join(dirs.inbox, arg), { config: lib.config, schemas: lib.schemas, entries: lib.entries, history, dataRoot: lib.dataRoot, processed: dirs.processed });
   console.log(formatCheck(report));
   if (json) console.log(JSON.stringify(report, null, 2));
   process.exit(report.rejected ? 1 : 0);
