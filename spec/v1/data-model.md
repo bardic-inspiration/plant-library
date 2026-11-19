@@ -37,7 +37,8 @@ the schema, left blank in this repo, and filled only in the company copy
 ([docs/workflow.md](../../docs/workflow.md#the-prototype-and-the-company-copy)). Everything that reads them
 (cards, filters, `costPerAcre`) copes with their absence. The other fields
 are required. Projects in this repo are made up and carry
-`meta.fixture: true`.
+`meta.fixture: true`; v1 has no other project data
+([sources.md](sources.md#fixture-projects-and-palettes)).
 
 No state, county, or town is stored; they are derived from `location` (P6).
 
@@ -123,7 +124,9 @@ It warns on unsourced plants in a plant list.
 
 ## Cases
 
-The fixtures the build must handle; each becomes a test.
+The fixtures the build must handle; each becomes a test, and each is
+carried by a fictional fixture project or palette
+([sources.md](sources.md#fixture-projects-and-palettes)).
 
 - A project whose list mixes refs and unsourced text names.
 - A project on a state line, and one in an unincorporated area (no place).
