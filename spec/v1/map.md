@@ -64,24 +64,25 @@ overlay.
 
 ### Boundary data
 
-`geo/` holds the boundaries the build derives geography from and the map
-draws as overlays, one source for both (P3):
+The state, county, place, and ecoregion layers in `geo/`, and the
+derivation of `geo.state`, `geo.county`, `geo.place`, and `geo.ecoregion`
+from them, are built; see [docs/geography.md](../../docs/geography.md).
+What remains is the hardiness zone layer:
 
 | Layer | Source | Used for |
 |---|---|---|
-| States | US Census | `geo.state`, scope check, overlay, region filter |
-| Counties | US Census | `geo.county`, overlay, region filter |
-| Places | US Census | `geo.place` |
-| Ecoregions | EPA Level III | `geo.ecoregion`, overlay, region filter |
 | Hardiness zones | USDA 2023 map | `geo.hardinessZone`, overlay, region filter |
 
-Each layer is clipped to the three states, simplified, and committed as
-TopoJSON with a record of its source, date, and processing in
-`geo/README.md`; its source is in the registry
-([docs/sources.md](../../docs/sources.md#registry)). Derivation tests points against
-the unsimplified-enough geometry that a project never lands in the wrong
-county; the pilot sets the simplification tolerance with tests on points
-near borders. Places are used for derivation only.
+It is processed like the others (clipped to the three states, simplified to
+the same tolerance, committed as TopoJSON, recorded in `geo/README.md`, its
+source registered), once its terms are read. The overlays draw the
+committed layers as they are; places stay derivation-only.
+
+TIGER/Line state and county polygons run out over water to the state
+boundary, which derivation needs (a pier or riverbank project still has a
+county) but a map drawn over the basemap's coastline may not want. The map
+pilot decides whether the overlays need shoreline-clipped versions, such as
+the Census cartographic boundary files, derived alongside these.
 
 ### Overlays
 
@@ -161,16 +162,14 @@ entered, not the region's planting as a whole.
 - A plant used on projects in two states and native to one.
 - A county picked on the map shows checked in the tree after switching to
   the list view.
-- A project within a few hundred feet of a county line derives the right
-  county.
 - A region with one project: the analysis shows its figures with the sample
   size, and companions are empty.
 - The ecoregion and hardiness overlays on together, with a legend for each.
 
 ## Done when
 
-- Geography derivation has tests for each layer, including border and
-  unincorporated points.
+- The hardiness zone layer has derivation tests on points near zone lines,
+  as the other layers do.
 - Overlay registration is tested: adding a fixture overlay file and registry
   entry puts it in the layer list with no code change.
 - Region picking and the box filter produce the same URL state the tree

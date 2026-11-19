@@ -28,6 +28,8 @@ Registered now:
 | `king-county-native-plant-guide` | King County's *Native Plant Guide for Western Washington Yards* (2017). It states no terms, so it is cited for facts only (D18): common names, leaf habit, sun, moisture, mature height. |
 | `staff-observation` | The organization's own observation, kind `professional`. Cited only for a trait no other source gives, and only with a `contributor`. It has no URL. |
 | `portland-plant-list` | The City of Portland's *Portland Plant List* (June 2016 update). It states no terms, so it is cited for facts only (D23): common names, form, foliage, height, spread, growth rate, sun, moisture, bloom. |
+| `census-tiger` | U.S. Census Bureau TIGER/Line shapefiles (2026), for the state, county, and place layers in `geo/`. Not copyrighted, with acknowledgement; terms read in the metadata shipped with the files. |
+| `epa-ecoregions` | EPA Level III ecoregions, for the ecoregion layer in `geo/`. No use constraints; the EPA asks to be acknowledged. |
 | `placeholder` | Not a source: kind `placeholder`, no URL. It stands in for a required field (`family` or `form`) that no reference gives, only where no other citation covers that field (D24). `npm run coverage` lists every use. |
 
 ### Data stages

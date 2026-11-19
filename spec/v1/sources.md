@@ -48,8 +48,7 @@ registered.
 | USDA Forest Service Fire Effects Information System and Silvics manuals | Site conditions and habit of native trees and shrubs (federal) |
 | USACE National Wetland Plant List | Wetland indicator status (federal) |
 | USDA Plant Hardiness Zone Map (2023) | Zone boundaries; the GIS data is published through PRISM at Oregon State, whose terms need reading |
-| EPA Level III and IV Ecoregions | Ecoregion boundaries |
-| US Census TIGER/Line | State, county, and place boundaries (federal) |
+| EPA Level IV Ecoregions | Finer ecoregion boundaries, later (Level III is registered: `epa-ecoregions`) |
 | USGS digitized range maps of Little's *Atlas of United States Trees* | Tree native ranges, later |
 | King County Native Plant Guide | Which Western Washington natives suit landscapes, with size, moisture, and exposure |
 | Washington Department of Ecology, Rain Garden Handbook for Western Washington | Rain garden plant lists by zone |

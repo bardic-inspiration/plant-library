@@ -8,6 +8,7 @@ part there and describes what now exists here.
 |---|---|
 | [architecture.md](architecture.md) | Layout, tech stack, the build pipeline, the scripts |
 | [content-model.md](content-model.md) | Entries, the plant type, derived values, refs, validation |
+| [geography.md](geography.md) | Boundary data in `geo/` and geography derived from a point |
 | [sources.md](sources.md) | The source registry, licensing rules, attribution, coverage |
 | [site.md](site.md) | Pages, the index, the list view, filters, search, detail pages |
 | [styling.md](styling.md) | Tokens, type, color, Stylelint, contrast, accessibility |

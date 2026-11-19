@@ -89,21 +89,20 @@ submitted and merged ([submissions.md](submissions.md#forms)).
 ### Derived values
 
 Computed at build by `lib/derive.ts` and never stored (P3). Each is a facet
-or a detail-page line. The plant's own derived values are built.
+or a detail-page line. The plant's own derived values are built, and so is
+`deriveGeo`, a point's state, county, place, and ecoregion
+([docs/geography.md](../../docs/geography.md#derivation)).
 
 | On | Derived | From |
 |---|---|---|
 | Plant | `use.projects`, `use.quantity` | Back-references from projects |
 | Plant | `use.states`, `use.counties`, `use.ecoregions`, `use.zones` | The geography of the projects that use it |
 | Plant | `companions` | The plants it most often shares a project list with ([map.md](map.md#distribution-analysis)) |
-| Project | `geo.state`, `geo.county`, `geo.place`, `geo.ecoregion`, `geo.hardinessZone` | `location` tested against the boundary data in `geo/` ([map.md](map.md#boundary-data)) |
+| Project | `geo.*` | `deriveGeo(location)`; `geo.hardinessZone` from the zone layer once it is added ([map.md](map.md#boundary-data)) |
 | Project | `plants.taxa`, `plants.quantity`, `plants.nativeShare`, `plants.byForm` | `plantList` and the plants it refs; `nativeShare` counts natives of the project's own state |
 | Project | `costPerAcre` | `constructionBudget` and `sizeAcres` |
 | Palette | `compatibility` | [library.md](library.md#compatibility) |
 | Palette | `geo.*` | `site.location`, when given |
-
-`geo.place` is the incorporated place or census-designated place containing
-the point, or absent.
 
 ### Validation
 
