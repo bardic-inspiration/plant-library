@@ -6,10 +6,10 @@ A contribution reaches the library as a **submission**: one JSON document and
 its files, written once and never edited, that a routine checks and turns
 into a pull request (P1, P5, P8). This file covers what is built: the
 contribution forms, the submission format, the edit differences a form
-submits, the inbox's mechanical checks so far, and professional opinion on
-entries. The stores (export and `inbox import`), the remaining checks, and
-the `integrate` skill are still in
-[`spec/v1/submissions.md`](../spec/v1/submissions.md).
+submits, the `browser` store with its bundles and `inbox import`, the
+inbox's mechanical checks so far, and professional opinion on entries. The
+`folder` store, the remaining checks, and the `integrate` skill are still
+in [`spec/v1/submissions.md`](../spec/v1/submissions.md).
 
 ## Behavior
 
@@ -87,10 +87,11 @@ index. The entry points are `ContributeLinks.astro` on detail pages.
   (`plant-library:submitter`).
 - **Sending** builds the submission (`buildSubmission`: trimmed, empty
   parts dropped, an id from the time and three random bytes) and files it
-  with its files in this browser's IndexedDB (`site/src/lib/sent-store.ts`,
-  `put`, `list`, `get`). **My submissions**, on `/contribute/`, lists what
-  this browser has sent, newest first; results join when the store has
-  them.
+  with its files in the configured store ([Stores](#stores)).
+  **My submissions**, on `/contribute/`, lists what the store holds, newest
+  first, each with **Export** (its bundle) and its result once the store has
+  one (Integrated, Partly integrated, Not used, Needs more information,
+  linked to its pull request); "Export all" bundles every one.
 
 `npm run a11y` checks the Contribute page and every form: Add plant, Add
 project, Submit palette from a fixture palette, and Add photo, Suggest an
@@ -145,6 +146,40 @@ loose, since cleaning it up is the routine's job.
 | `files[]` | `name` (a plain file name in the folder), `sha256`, `bytes`, `role` (`image`, `plant-list`, `supporting`), and `rights` (`own-work`, `organization-owned`, `third-party`); a `third-party` file needs its `sourceUrl`. `license`, `photographer`, `takenAt`, `place`, `shows`, and `alt` are optional. |
 | `replyTo` | The id of a submission this one answers |
 
+### Stores
+
+Where a submission is filed is behind one interface, `SubmissionStore` in
+`site/src/lib/store.ts`: `put` (written once, never edited), `list`
+(newest first), `get`, and `result` (the routine's `result.json`, once the
+store has one). `store` in `config/site.json` names the adapter; the build
+fails on a store with no adapter in `site/src/lib/stores/`.
+
+| Store | Files in | Results |
+|---|---|---|
+| `browser` (`stores/browser.ts`) | IndexedDB in the person's browser (`plant-library-submissions`), each submission with its files as blobs. Missing or refused IndexedDB (a private window) makes `put` reject, and the form says the submission wasn't filed. | None: a result never reaches the browser |
+
+### Bundles
+
+A bundle carries submissions from any store to an inbox: one uncompressed
+POSIX tar file laid out as the inbox is, `<id>/submission.json` (the
+submission as two-space JSON and a newline) and `<id>/<file name>` for each
+file, as uploaded. It is named `submission-<id>.tar`, or
+`submissions-<n>.tar` for several; any tar tool can list or unpack it.
+`lib/bundle.ts` writes and reads it, in the browser and in Node alike. A
+file name over a ustar header's 100 bytes (names go to 200 characters)
+travels in a pax `path` record.
+
+`npm run inbox -- import <bundle>` unpacks it into the git-ignored `inbox/`
+at the repo root. A bundle is untrusted, so reading it fails, and nothing
+is written, on a damaged header, a cut-short file, a link or any entry that
+isn't a plain file or folder, a pax record other than `path`, a path that
+isn't `<id>/<plain file name>` under a well-formed id, a name given twice,
+or a folder with no `submission.json`. A submission the inbox or
+`processed/` already holds is skipped, never overwritten. Each folder is
+written beside the inbox and renamed into it, so an import leaves no
+half-written folder. What the submission says isn't checked here; that is
+`check`.
+
 ### Edit differences
 
 An edit form opens with the entry and submits only what the person changed.
@@ -167,8 +202,9 @@ entry exactly.
 ### Inbox and mechanical checks
 
 The inbox is a git-ignored `inbox/` at the repo root, one folder per
-submission: `inbox/<id>/submission.json` and the files beside it.
-`npm run inbox -- list` lists it oldest first; `npm run inbox -- check <id>`
+submission: `inbox/<id>/submission.json` and the files beside it, put there
+by `import` ([Bundles](#bundles)). `npm run inbox -- list` lists it oldest
+first, with each one's kind, target, and submitter; `npm run inbox -- check <id>`
 reports each check as `pass`, `warn`, or `fail` and exits 1 when the
 submission is rejected (`--json` adds the report as JSON).
 
@@ -223,13 +259,15 @@ trait; the `integrate` skill, when it is built, makes that call.
 `lib/form.ts` (fields from the schemas, warnings), `lib/contribute.ts`
 (building a submission, what blocks it, pasted rows, file names),
 `lib/sniff.ts`, `site/src/islands/Contribute.tsx`,
-`site/src/lib/sent-store.ts`, and `site/src/pages/contribute.astro`, tested
-in `tests/contribute.test.ts`;
+and `site/src/pages/contribute.astro`, tested in `tests/contribute.test.ts`;
+`site/src/lib/store.ts` and `site/src/lib/stores/` (the stores, export),
+`lib/bundle.ts` (bundles), and `importBundle` in `lib/inbox.ts`, tested in
+`tests/bundle.test.ts`;
 `schemas/submission.schema.json`; `schemas/common.schema.json` (`fieldNote`)
 and `schemas/envelope.schema.json` (`fieldNotes`, `meta.submissions`); the
 field-note rules in `lib/validate.ts`; `lib/submission.ts` (client-safe: edit
-differences, applying them, `entryHash`); `lib/inbox.ts` (the checks, file
-sniffing); `scripts/inbox/index.ts`; `config/site.json` (`submissions`);
+differences, applying them, `entryHash`); `lib/inbox.ts` (the checks,
+import); `scripts/inbox/index.ts`; `config/site.json` (`submissions`);
 tests in `tests/submission.test.ts`, field notes in `tests/validate.test.ts`.
 
 ## Extending
@@ -237,7 +275,9 @@ tests in `tests/submission.test.ts`, field notes in `tests/validate.test.ts`.
 A new field on a type is on its forms with no form code: give it a `title`
 when the key in words isn't its label, and `readOnly: true` when
 contributors shouldn't edit it. A new type gets its Add and Suggest an edit
-forms the same way. A new file type is a signature in `sniff` and an entry in `ALLOWED` for the
+forms the same way. A new store is an adapter file in `site/src/lib/stores/`, an entry in
+`STORES`, and a value in the site schema's `store` enum.
+A new file type is a signature in `sniff` and an entry in `ALLOWED` for the
 roles that take it. A new size limit is a value in `config/site.json`. A new
 check is a function in `lib/inbox.ts` that adds its results, with a passing
 and a failing case in the tests.

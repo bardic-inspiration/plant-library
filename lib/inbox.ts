@@ -3,8 +3,9 @@
  * the facts about a submission that need no judgment. Node only.
  */
 import { createHash } from 'node:crypto';
-import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
+import { existsSync, mkdirSync, readdirSync, readFileSync, renameSync, rmSync, statSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
+import { readBundle } from './bundle';
 import type { Config } from './config';
 import type { LoadedEntry } from './content';
 import { formatErrors, type Schemas } from './schemas';
@@ -140,11 +141,39 @@ function parse(text: string): Record<string, unknown> | undefined {
 /** The submission folders in an inbox, oldest first (ids start with their time). */
 export function listInbox(inbox: string): string[] {
   if (!existsSync(inbox)) return [];
-  return readdirSync(inbox).filter((n) => existsSync(join(inbox, n, 'submission.json'))).sort();
+  return readdirSync(inbox).filter((n) => !n.startsWith('.') && existsSync(join(inbox, n, 'submission.json'))).sort();
 }
 
 export function formatCheck(r: CheckReport): string {
   const lines = r.results.map((x) => `${x.status.padEnd(4)}  ${x.check.padEnd(9)}  ${x.message}`);
   lines.push(r.rejected ? `${r.id}: rejected by the mechanical checks` : `${r.id}: passes the mechanical checks${r.results.some((x) => x.status === 'warn') ? ', with warnings' : ''}`);
   return lines.join('\n');
+}
+
+export interface Imported {
+  id: string;
+  /** `imported`, or `skipped` when the inbox or processed/ already holds the id: a submission is written once. */
+  status: 'imported' | 'skipped';
+  files: number;
+}
+
+/**
+ * Unpack a bundle into the inbox, one folder per submission
+ * (docs/submissions.md#bundles). Each folder is written beside the inbox
+ * and renamed into it, so a failed import leaves no half-written folder.
+ * Throws on a malformed bundle before writing anything.
+ */
+export function importBundle(bytes: Uint8Array, dirs: { inbox: string; processed: string }): Imported[] {
+  const subs = readBundle(bytes);
+  mkdirSync(dirs.inbox, { recursive: true });
+  return subs.map((s) => {
+    if (existsSync(join(dirs.inbox, s.id)) || existsSync(join(dirs.processed, s.id))) return { id: s.id, status: 'skipped', files: s.files.length };
+    const tmp = join(dirs.inbox, `.import-${s.id}`);
+    rmSync(tmp, { recursive: true, force: true });
+    mkdirSync(tmp);
+    writeFileSync(join(tmp, 'submission.json'), s.submission);
+    for (const f of s.files) writeFileSync(join(tmp, f.name), f.bytes);
+    renameSync(tmp, join(dirs.inbox, s.id));
+    return { id: s.id, status: 'imported', files: s.files.length };
+  });
 }

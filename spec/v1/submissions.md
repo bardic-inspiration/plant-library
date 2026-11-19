@@ -37,10 +37,9 @@ input from start to finish.
 
 Built: the forms, generated from the schemas, with edits as differences,
 a basis for every claim, plant lists, photo metadata, lenient checks,
-drafts, the remembered submitter, and My submissions
-([docs/submissions.md](../../docs/submissions.md#forms)). Still to build
-with the stores: My submissions showing each result once the store has
-one.
+drafts, the remembered submitter, and My submissions with Export and each
+result once the store has one
+([docs/submissions.md](../../docs/submissions.md#forms)).
 
 ### The submission
 
@@ -51,9 +50,11 @@ produce it.
 
 ### Stores
 
-Where a submission is filed is behind one interface, `SubmissionStore`
-(`put`, `list`, `get`, `result`), chosen in `config/site.json`. On disk a
-store is always the same layout, so the routine doesn't care which filed it:
+Built: the `SubmissionStore` interface, the `browser` store, bundles, and
+`inbox import` ([docs/submissions.md](../../docs/submissions.md#stores)).
+Still to build: the `folder` store for the company copy, whose writing is
+an open question. On disk a store is always the same layout, so the routine
+doesn't care which filed it:
 
 ```
 inbox/<id>/submission.json        the submission
@@ -64,10 +65,7 @@ processed/<id>/result.json        what the routine decided (below)
 
 | Store | For | How it files |
 |---|---|---|
-| `browser` | The prototype | IndexedDB in the person's browser. "Export" downloads a submission as one bundle file; `npm run inbox -- import <bundle>` unpacks it into a git-ignored `inbox/` in a checkout. |
-| `folder` | The company copy | A folder on the organization's server. How the browser writes there is an open question, with three candidates below. |
-
-A third store is a new adapter file and a config value (P4).
+| `folder` | The company copy | A folder on the organization's server. How the browser writes there is an open question, with three candidates below. Its `result` reads `processed/<id>/result.json`. |
 
 Bundles also work everywhere as a fallback: export, then drop the file into
 the shared folder by hand.
@@ -76,9 +74,10 @@ the shared folder by hand.
 
 `scripts/inbox/` does everything that needs no judgment, so the routine's
 review starts from facts (`npm run inbox -- list | check <id> | import | close <id>`).
-`list` and `check` are built, with the schema, file, file type, size,
-target, and `basedOn` checks
-([docs/submissions.md](../../docs/submissions.md#inbox-and-mechanical-checks)).
+`list`, `import`, and `check` are built, with the schema, file, file type,
+size, target, and `basedOn` checks
+([docs/submissions.md](../../docs/submissions.md#inbox-and-mechanical-checks));
+`close` is built with the skill.
 Still to build in `check`:
 
 - whether an `add` duplicates an entry by name or synonym; whether an image
@@ -203,10 +202,8 @@ other (P5).
 
 ## Done when
 
-The forms' items are met ([docs/submissions.md](../../docs/submissions.md#forms)). Still to meet:
+The forms' items and the `browser` store's round trip are met ([docs/submissions.md](../../docs/submissions.md#forms), [#stores](../../docs/submissions.md#stores)). Still to meet:
 
-- The `browser` store round-trips a submission with files through export
-  and `inbox import`, with hashes intact.
 - `inbox check` has a passing and a failing fixture for each remaining
   mechanical check.
 - The skill exists, and a fixture inbox holding the cases above documents
