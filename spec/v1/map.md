@@ -58,26 +58,23 @@ to come:
 
 ### Distribution analysis
 
-Computed at build from projects' plant lists and derived geography, and
-read on the map and on detail pages. Every figure is a count the reader
-could check against the lists.
+The functions are built: per-plant figures by state, county, ecoregion,
+zone, and completion year, with the states outside a plant's native range;
+per-region figures (the ranked plants, taxa, native share, and mix by
+form); and companions, each figure with the number of projects behind it
+([docs/content-model.md](../../docs/content-model.md#distribution-analysis)).
+What remains is where they are read:
 
-- **Per plant**: projects and total quantity, by state, county, ecoregion,
-  and hardiness zone, and over time by completion year. On the map this is
-  the use choropleth. Where a plant is used in a state outside its native
-  range, the page says so.
-- **Per region**: for the selected regions, a ranked table of plants by
-  number of projects and by quantity, taxa count, native share, and the mix
-  by form. This is the "what gets planted here" view, and it exports as CSV.
-- **Companions**: for a plant, the plants that share its project lists most
-  often, ranked by the number of shared projects, with a minimum of two so a
-  single project doesn't decide it.
+- **Per plant**, on the map, is the use choropleth. Where a plant is used
+  in a state outside its native range, the page says so.
+- **Per region** is the "what gets planted here" view for the selected
+  regions, and it exports as CSV.
+- **Companions** are listed on plant pages.
 - **Comparison**: two plants, or two regions, side by side on the same
   measures.
 
-The measures are honest about sample size: every figure shows the number of
-projects behind it, and the pages say the library reflects the projects
-entered, not the region's planting as a whole.
+Every figure shown gives its sample size, and the pages say the library
+reflects the projects entered, not the region's planting as a whole.
 
 ## Cases
 
@@ -90,7 +87,6 @@ entered, not the region's planting as a whole.
 
 - The hardiness zone layer has derivation tests on points near zone lines,
   as the other layers do.
-- The analysis functions have tests over the fixture projects.
 
 Map rendering quality and performance on real devices are manual checks for
 the Testing backlog.

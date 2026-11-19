@@ -102,6 +102,7 @@ describe('cross-type filters', () => {
     // thuja-plicata is on a King County streetscape and a Snohomish one; the King County park lists neither tree.
     expect(filter({ type: ['plant'], 'project.projectType': ['park'], 'project.county': ['53061'] })).toEqual([]);
     expect(filter({ type: ['plant'], 'project.projectType': ['streetscape'], 'project.county': ['53061'] })).toEqual([
+      'plant/garrya-elliptica',
       'plant/gaultheria-shallon',
       'plant/polystichum-munitum',
       'plant/thuja-plicata',
@@ -121,7 +122,7 @@ describe('cross-type filters', () => {
   });
 
   it('On a project narrows plants to those on the chosen projects', () => {
-    expect(filter({ 'plant.usedOn': ['project/bothell-main-street'] })).toEqual(['plant/gaultheria-shallon', 'plant/polystichum-munitum', 'plant/thuja-plicata']);
+    expect(filter({ 'plant.usedOn': ['project/bothell-main-street'] })).toEqual(['plant/garrya-elliptica', 'plant/gaultheria-shallon', 'plant/polystichum-munitum', 'plant/thuja-plicata']);
     expect(facet('plant.usedOn')!.values.find((v) => v.id === 'project/pine-street-trees')!.label).toBe('Pine Street Trees');
   });
 

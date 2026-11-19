@@ -5,7 +5,7 @@
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { loadLibrary, type Library } from './library';
-import { derivePalette, derivePlant, derivePlantUse, deriveGeo, deriveProject } from './derive';
+import { companions, derivePalette, derivePlant, derivePlantUse, deriveGeo, deriveProject } from './derive';
 import { loadGeo } from './geo-load';
 import { nameSegments, fullName } from './names';
 import { facetValues, flatFacets, getPath, indexFacets, type Labeller } from './facets';
@@ -246,7 +246,11 @@ export function buildData(opts: { dataRoot?: string } = {}): BuildData {
   const projects = entries
     .filter((e) => e.entry.type === 'project')
     .map((e) => ({ key: e.key, data: e.entry.data as unknown as ProjectData, geo: (e.derived as unknown as ProjectDerived).geo }));
-  for (const e of entries) if (e.entry.type === 'plant') e.derived.use = derivePlantUse(e.key, projects);
+  for (const e of entries) {
+    if (e.entry.type !== 'plant') continue;
+    e.derived.use = derivePlantUse(e.key, projects);
+    e.derived.companions = companions(e.key, projects);
+  }
 
   const listed = new Set(Object.keys(config.types).filter((t) => hasPages(config.root, t)));
   const subjects = entries.filter((b) => listed.has(b.entry.type)).map((b) => ({

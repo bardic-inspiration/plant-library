@@ -272,6 +272,12 @@ export interface PlantUse {
   zones: string[];
 }
 
+/** A plant sharing project lists with another (lib/derive.ts `companions`): how many projects list both. */
+export interface Companion {
+  plant: string;
+  projects: number;
+}
+
 /** Derived plant values (lib/derive.ts). Never stored. */
 export interface PlantDerived {
   name: string;
@@ -284,6 +290,8 @@ export interface PlantDerived {
   hardinessMin?: number;
   /** Its use across projects (`derivePlantUse`), attached by the build. */
   use?: PlantUse;
+  /** The plants it most often shares a project list with (`companions`), attached by the build. */
+  companions?: Companion[];
 }
 
 /** One lean record per entry in site/public/library.json. */

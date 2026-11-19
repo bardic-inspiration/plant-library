@@ -7,7 +7,7 @@ import { featureAt, type GeoLayers } from './geo';
 import { botanicalName, sortName } from './names';
 import { expandZones, zoneIndex } from './zones';
 import { compatibility, type CompatSite } from './compat';
-import type { GeoDerived, LatLon, PaletteData, PaletteDerived, PlantData, PlantDerived, PlantUse, ProjectData, ProjectDerived, Vocab } from './types';
+import type { Companion, GeoDerived, LatLon, PaletteData, PaletteDerived, PlantData, PlantDerived, PlantUse, ProjectData, ProjectDerived, Vocab } from './types';
 
 const defaultVocab = vocabJson as unknown as Vocab;
 
@@ -178,4 +178,32 @@ export function derivePlantUse(
     ecoregions: sorted(sets.ecoregions),
     zones: sorted(sets.zones),
   };
+}
+
+/** The fewest projects two plants must share to be companions, so a single project doesn't decide it. */
+export const COMPANION_MIN = 2;
+
+/**
+ * A plant's companions: the other plants that share its project lists, by
+ * ref (unsourced text never counts), on at least `min` projects. Ranked by
+ * the number of shared projects, most first, ties by key. Pass a region's
+ * projects to get its companions there; a region with one project has none.
+ */
+export function companions(
+  plantKey: string,
+  projects: readonly { key: string; data: ProjectData }[],
+  min: number = COMPANION_MIN,
+): Companion[] {
+  const shared = new Map<string, number>();
+  for (const p of projects) {
+    const keys = new Set<string>();
+    for (const i of p.data.plantList) if (typeof i.plant !== 'string') keys.add(i.plant.ref);
+    if (!keys.has(plantKey)) continue;
+    keys.delete(plantKey);
+    for (const k of keys) shared.set(k, (shared.get(k) ?? 0) + 1);
+  }
+  return [...shared]
+    .filter(([, n]) => n >= min)
+    .map(([plant, n]) => ({ plant, projects: n }))
+    .sort((a, b) => b.projects - a.projects || a.plant.localeCompare(b.plant));
 }
