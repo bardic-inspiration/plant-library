@@ -276,4 +276,19 @@
   .add-button:disabled {
     cursor: progress;
   }
+
+  /* A detail page's actions: open in the workspace, the exports, and print. */
+  .list-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+    margin-block-end: var(--space-md);
+  }
+
+  @media print {
+    .list-actions,
+    .add-to-list {
+      display: none;
+    }
+  }
 }

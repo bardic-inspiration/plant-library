@@ -1,7 +1,7 @@
 /**
  * npm run build:index — validate, derive, resolve refs, and write the
  * site's data: site/public/library.json (the lean index), the full entries
- * under site/public/data/, and the plant images under site/public/assets/.
+ * under site/public/data/ (each with a plant list also as a CSV schedule), and the plant images under site/public/assets/.
  * The output is sorted and has no timestamps, so two builds of the same
  * content are byte-identical.
  */
@@ -9,6 +9,8 @@ import { cpSync, existsSync, mkdirSync, rmSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { buildData } from '../lib/build-data';
 import { formatReport } from '../lib/library';
+import { scheduleCsv, schedulePlant, scheduleRows } from '../lib/export';
+import type { PlantData, PlantListItem } from '../lib/types';
 
 const data = buildData();
 const { report, config, dataRoot } = data.library;
@@ -28,6 +30,15 @@ for (const b of data.entries) {
   const dir = join(dataDir, b.entry.type);
   mkdirSync(dir, { recursive: true });
   writeFileSync(join(dir, `${b.entry.id}.json`), JSON.stringify(b.entry, null, 2) + '\n');
+  // A project's or palette's plant list, as the CSV schedule its page offers.
+  const list = (b.entry.data as { plantList?: PlantListItem[] }).plantList;
+  if (list) {
+    const plant = (k: string) => {
+      const t = data.byKey.get(k);
+      return t?.entry.type === 'plant' ? schedulePlant(t.entry.data as unknown as PlantData) : undefined;
+    };
+    writeFileSync(join(dir, `${b.entry.id}.csv`), scheduleCsv(scheduleRows(list, plant)));
+  }
 }
 
 const assets = join(pub, 'assets');

@@ -10,6 +10,7 @@ import { libraryUrl, mapUrl } from '../../../../lib/filter';
 import { detailFeatures, featureBounds } from '../../../../lib/map-data';
 import { label } from '../../lib/vocab';
 import { shareUrl } from '../../../../lib/workspace';
+import { printListUrl } from '../../../../lib/export';
 import type { ProjectData, ProjectDerived } from '../../../../lib/types';
 
 export function getStaticPaths() {
@@ -63,6 +64,8 @@ const fit = featureBounds(located);
 const lines = scheduleLines(d.plantList, data.byKey);
 // "Open in workspace": the workspace's share URL for a copy of the list, with the project's location as the site's.
 const workspaceHref = shareUrl({ name: b.name, site: { location: d.location }, lines: d.plantList });
+// Exports: the schedule as CSV (written by build:index), its print view, and the entry as stored.
+const printHref = printListUrl({ name: b.name, site: { location: d.location }, lines: d.plantList });
 
 const p = dv.plants;
 const mix = (rec: Record<string, number>, list: (id: string) => string) =>
@@ -111,7 +114,12 @@ const byLifeRows = mix(byLife, (id) => (id === 'unknown' ? 'Not recorded' : labe
 
     <section aria-labelledby="schedule-heading">
       <h2 id="schedule-heading">Plant schedule</h2>
-      {d.plantList.length > 0 && <p class="list-actions"><a class="workspace-link" href={workspaceHref}>Open in workspace</a></p>}
+      <p class="list-actions">
+        {d.plantList.length > 0 && <a class="workspace-link" href={workspaceHref}>Open in workspace</a>}
+        {d.plantList.length > 0 && <a class="workspace-link" href={url(`data/${key}.csv`)} download={`${b.entry.id}.csv`}>Schedule as CSV</a>}
+        {d.plantList.length > 0 && <a class="workspace-link" href={printHref}>Print schedule</a>}
+        <a class="workspace-link" href={url(`data/${key}.json`)} download={`${b.entry.id}.json`}>Entry as JSON</a>
+      </p>
       <Schedule lines={lines} empty="This project has no plant list yet." quantity />
     </section>
 
@@ -151,9 +159,6 @@ const byLifeRows = mix(byLife, (id) => (id === 'unknown' ? 'Not recorded' : labe
 </Base>
 
 <style>
-  .list-actions {
-    margin-block-end: var(--space-md);
-  }
 
   .project {
     display: flex;

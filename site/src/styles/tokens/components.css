@@ -18,6 +18,9 @@
     --thumb-height: 6rem;
     /* A text field on a workspace line (size, spacing, note). */
     --ws-field-width: 10rem;
+    /* A cut sheet in the print view: its image column and the traits' narrowest width. */
+    --sheet-image-width: 18rem;
+    --sheet-traits-min: 20rem;
     --map-height: 32rem;
     /* A small map on a detail page. */
     --map-height-compact: 20rem;

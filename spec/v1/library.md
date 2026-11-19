@@ -23,7 +23,6 @@ page, About, and the style guide are built; see
 | Route | Content |
 |---|---|
 | `/contribute/` | The contribution forms and My submissions ([submissions.md](submissions.md#forms)) |
-| `/print/` | Print view for a plant list or a set of entries |
 
 The top bar will read **Library | Map | Workspace | Contribute | About**,
 each joining as it is built (Library, Map, Workspace, and About are).
@@ -45,41 +44,27 @@ The page carries "Add photo", "Suggest an edit", and "Add field note".
 
 The project page and its compatibility panel are built
 ([docs/site.md](../../docs/site.md#project-page)), as is the palette page
-([docs/site.md](../../docs/site.md#palette-page)), with "Open in workspace".
-Still to come on both: the action to export the schedule (M6).
+([docs/site.md](../../docs/site.md#palette-page)), with "Open in workspace"
+and the exports ([docs/site.md](../../docs/site.md#exports-and-print)).
 
 ### Palette workspace
 
-Built ([docs/site.md](../../docs/site.md#workspace)). Still to come:
+Built ([docs/site.md](../../docs/site.md#workspace)), with its exports
+([docs/site.md](../../docs/site.md#exports-and-print)). Still to come:
 
 - **Suggestions.** In "Plants that fit", the companions of the plants
   already chosen are listed first, once M8 derives companions
   ([map.md](map.md)).
-- **Keeping it.** Exporting a list ([Exports](#exports)), and submitting it
-  to the library ([submissions.md](submissions.md#forms)); it becomes an
-  entry only when that submission's PR is merged (P1).
+- **Keeping it.** Submitting a list to the library
+  ([submissions.md](submissions.md#forms)); it becomes an entry only when
+  that submission's PR is merged (P1).
 - **Site.** The location supplies the hardiness zone once the zone layer
   exists (D33); until then the zone is chosen.
-
-### Exports
-
-- **CSV plant schedule** of any plant list (project, palette, or workspace):
-  botanical name, common name, quantity, size, spacing, note.
-- **JSON**: any entry as stored, or a workspace list as a palette entry.
-- **Print**: a plant schedule, or plant cut sheets (one plant per section
-  with image, traits, and sources) for the selection or the filtered
-  results.
 
 ## Cases
 
 - A project list with unsourced plants: the schedule shows them, the summary
   counts them as unknown, and compatibility ignores them.
-
-## Done when
-
-- The workspace round-trips a list through CSV and a palette file that
-  passes validation (local storage and the share URL are built and tested,
-  and `npm run a11y` passes on the workspace).
 
 ## Out of scope
 

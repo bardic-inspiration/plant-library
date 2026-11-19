@@ -1,0 +1,97 @@
+/* The print view: schedules and cut sheets, on screen and on paper. */
+@layer components {
+  .print-meta {
+    margin-block: var(--space-xs) var(--space-md);
+    max-inline-size: var(--measure);
+  }
+
+  .print-actions {
+    margin-block-end: var(--space-lg);
+  }
+
+  .print-schedule h3 {
+    font-size: var(--size-body);
+    margin-block: var(--space-md) var(--space-xs);
+  }
+
+  .cut-sheet {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    padding-block: var(--space-lg);
+    border-block-start: var(--line-focus) solid var(--accent);
+  }
+
+  .cut-sheet h2 {
+    font-size: var(--size-h2);
+  }
+
+  .cut-sheet h3 {
+    font-size: var(--size-body);
+  }
+
+  .cut-sheet-common {
+    font-weight: var(--weight-strong);
+  }
+
+  .cut-sheet-body {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-lg);
+    align-items: flex-start;
+  }
+
+  .cut-sheet-image {
+    flex: 0 1 var(--sheet-image-width);
+    margin: 0;
+  }
+
+  .cut-sheet-image img {
+    inline-size: var(--full);
+    block-size: auto;
+    max-block-size: var(--gallery-height);
+    object-fit: cover;
+  }
+
+  .cut-sheet-image figcaption,
+  .cut-sheet-sources {
+    font-size: var(--size-small);
+  }
+
+  .cut-sheet-traits {
+    flex: 1 1 var(--sheet-traits-min);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+
+  .cut-sheet-traits caption {
+    text-align: start;
+    font-weight: var(--weight-strong);
+    padding-block-end: var(--space-xxs);
+  }
+
+  .cut-sheet-traits th {
+    inline-size: 35%;
+  }
+
+  @media print {
+    .print-actions,
+    .site-header,
+    .site-footer {
+      display: none;
+    }
+
+    .cut-sheet {
+      break-inside: avoid-page;
+    }
+
+    .cut-sheet + .cut-sheet {
+      break-before: page;
+    }
+
+    .schedule-group {
+      break-inside: avoid;
+    }
+  }
+}
