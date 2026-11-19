@@ -124,8 +124,9 @@ The type has `fixtureRules` with no proprietary fields, so with
 `RefOrText` apply to its list as to a project's. Palettes are made in the
 site's workspace and become entries by being submitted and merged; both are
 still in [`spec/v1/library.md`](../spec/v1/library.md) and
-[`spec/v1/submissions.md`](../spec/v1/submissions.md). The site has no
-palette pages yet, so palettes aren't in the index (D35).
+[`spec/v1/submissions.md`](../spec/v1/submissions.md). Palettes have pages
+and are in the index ([site.md](site.md#palette-page)), with a site
+conditions facet (sun, moisture, drainage).
 
 ### Derived values
 
@@ -152,6 +153,7 @@ A project's, from `deriveProject` (its plant list, the plants it refs, and
 | `costPerAcre` | `constructionBudget` over `sizeAcres`, rounded to the dollar; absent without a budget |
 | `completedYear` | The year of `completed`; absent without a date |
 | `usesPlant` | The `plant/<id>` keys the list refs that the library holds, sorted and distinct; the *Uses plant* facet |
+| `compatibility` | `compatibility` over the list, with no site, so no axis has a `siteFit` ([Compatibility](#compatibility)) |
 
 The build adds `placeName` ("Portland, OR") and `locationNames` (the place
 and county names, searched) from the boundary layers.
@@ -177,6 +179,8 @@ The site's zone is `site.hardinessZone`, or else the location's
 `geo.hardinessZone`, which waits on the zone layer (D33), so for now a
 palette with only a location has an unknown hardiness fit.
 
+The build adds `placeName` from the location's geography, as for a project.
+
 The build also computes each entry's `refs` and `refBy` (back-references);
 a plant's `refBy` lists the projects and palettes whose lists include it.
 
@@ -185,8 +189,8 @@ a plant's `refBy` lists the projects and palettes whose lists include it.
 `compatibility` in `lib/compat.ts` says whether a plant list's plants share
 growing conditions, and how they fit a site. It is one pure function, so the
 build (for projects and palettes) and the workspace always agree (P3); the
-panel that shows it is still in
-[`spec/v1/library.md`](../spec/v1/library.md#project-page-still-to-add).
+compatibility panel on project and palette pages shows it
+([site.md](site.md#compatibility-panel)).
 It is about growing conditions only and makes no claim about design,
 spacing, or competition.
 

@@ -60,6 +60,7 @@ map on the next build.
 | `project-clusters`, `project-cluster-count` | Clusters: black discs with a white count, larger from ten projects |
 | `native-range-fill`, `native-range-line` | A single plant's native states in the map view, a pale fill with a strong outline (`--map-native-range*`), under the water |
 | `project-points` | Projects, colored by type; constructed is filled, proposed is a ring; a mark with a `size` (0–1) grows from `--map-mark-radius` to `--map-mark-radius-max` |
+| `palette-points`, `palette-centers` | Palettes with a site location: a dark disc (`--map-palette`) with a light center (`--map-palette-center`), unclustered, over the projects (D55) |
 
 Overlays go under the water layer (`OVERLAY_BEFORE`), so state and county
 polygons that run out over water to the state line are hidden by the
@@ -93,15 +94,25 @@ and the matching plants' quantity when it has one.
 `MapView` takes the page's index, the features to draw (redrawn when they
 change), native states, an opening position, and an `onMove` callback with
 the center, zoom, and bounds each time the map settles. It sets
-`data-projects-rendered` to the number of project marks drawn once the map
-is idle, which the built-site check reads.
+`data-projects-rendered` to the number of project and palette marks drawn
+once the map is idle, which the built-site check reads.
+
+### Palettes
+
+A palette whose `site` has a `location` is a point of its own kind, from its
+own unclustered source (`PALETTE_SOURCE`): the index carries the point on
+the palette's card, and `paletteFeatures` in `lib/map-data.ts` draws every
+located palette, or, in the map view, those in the results (`mapResults`
+gives them as `palettes`). Clicking one opens its card. A map given only
+project `features` (a detail page's) draws no palettes unless it is also
+given `palettes`.
 
 The style guide shows the map with the library's projects and a legend.
 
 ### Small maps on detail pages
 
-A project page (its location) and a plant page's Used on (its projects)
-draw the same component, `compact`: `--map-height-compact` tall, with no
+A project page (its location), a palette page (its site's location), and a
+plant page's Used on (its projects) draw the same component, `compact`: `--map-height-compact` tall, with no
 layer list or filter tools, and with MapLibre's cooperative gestures, so a
 page scroll or a one-finger drag passes over the map and zooming takes a
 modifier key or two fingers. The page passes the features at build,

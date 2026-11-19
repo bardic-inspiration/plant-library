@@ -9,7 +9,7 @@ import { useEffect, useMemo, useRef, useState } from 'preact/hooks';
 import MiniSearch from 'minisearch';
 import { TYPES } from '../../../lib/registry';
 import { applyQuery, clearFilters, facetCounts, mapPosition, parseQuery, pickRegion, regionKeys, serializeQuery, sortOptions, sortRecords, toggleValue, viewUrl, withBbox, withMapPosition, type MapPosition, type Query } from '../../../lib/filter';
-import { inView, mapResults, projectFeatures, unplaced, type Bounds } from '../../../lib/map-data';
+import { inView, mapResults, paletteFeatures, projectFeatures, unplaced, type Bounds } from '../../../lib/map-data';
 import type { IndexFacet, IndexRecord, LibraryIndex } from '../../../lib/types';
 import type { OverlayMeta } from '../../../lib/overlays';
 import type { MapViewProps } from './MapView';
@@ -114,6 +114,7 @@ function MapResultsView({ index, query, results, onMove, onPick, onBox }: { inde
   const [position] = useState(() => mapPosition(query));
   const drawn = useMemo(() => mapResults(results, index.records, query.filters, query.bbox), [results, index, query.filters, query.bbox]);
   const features = useMemo(() => projectFeatures(index.records, drawn), [index, drawn]);
+  const palettes = useMemo(() => paletteFeatures(index.records, drawn), [index, drawn]);
   const visible = useMemo(() => (bounds ? inView(results, index.records, drawn, bounds) : []), [results, index, drawn, bounds]);
   const away = useMemo(() => unplaced(results, drawn), [results, drawn]);
   const single = drawn.nativeStates !== undefined ? results.find((r) => r.type === 'plant') : undefined;
@@ -126,6 +127,7 @@ function MapResultsView({ index, query, results, onMove, onPick, onBox }: { inde
             label="Map of the results"
             index={index}
             features={features}
+            palettes={palettes}
             nativeStates={drawn.nativeStates}
             position={position}
             filters={query.filters}

@@ -1,0 +1,136 @@
+---
+import Base from '../../layouts/Base.astro';
+import { Schedule } from '../../components/ui/Schedule';
+import { CompatPanel } from '../../components/ui/CompatPanel';
+import { buildData, compatPlants, scheduleLines } from '../../../../lib/build-data';
+import { renderMarkdown } from '../../../../lib/markdown';
+import { url } from '../../../../lib/site';
+import MapView from '../../islands/MapView.tsx';
+import { libraryUrl } from '../../../../lib/filter';
+import { featureBounds, paletteFeatures } from '../../../../lib/map-data';
+import type { PaletteData, PaletteDerived } from '../../../../lib/types';
+
+export function getStaticPaths() {
+  return buildData()
+    .entries.filter((e) => e.entry.type === 'palette')
+    .map((b) => ({ params: { id: b.entry.id }, props: { key: b.key } }));
+}
+
+const { key } = Astro.props as { key: string };
+const data = buildData();
+const b = data.byKey.get(key)!;
+const d = b.entry.data as unknown as PaletteData;
+const dv = b.derived as unknown as PaletteDerived & { placeName?: string };
+const resolve = (k: string) => {
+  const t = data.byKey.get(k);
+  return t ? { name: t.name, url: url(`${k}/`) } : undefined;
+};
+
+// Site conditions link to the Library filtered by them, taken from this palette's index record so each names a value the index offers.
+const record = data.index.records.find((r) => r.key === key)!;
+const facetLabel = (facet: string, id: string) => data.index.facets.find((f) => f.key === `palette.${facet}`)?.values.find((v) => v.id === id)?.label ?? id;
+const links = (facet: string) => (record.facets[`palette.${facet}`] ?? []).map((id) => ({ text: facetLabel(facet, id), href: libraryUrl({ [`palette.${facet}`]: [id] }) }));
+type Fact = { label: string; text?: string; links?: { text: string; href: string }[] };
+const facts: Fact[] = [
+  { label: 'Sun', links: links('sun') },
+  { label: 'Moisture', links: links('moisture') },
+  { label: 'Soil drainage', links: links('drainage') },
+  { label: 'Hardiness zone', text: d.site?.hardinessZone },
+  { label: 'Place', text: dv.placeName },
+];
+const shownFacts = facts.filter((f) => f.text || f.links?.length);
+
+// The location map: the palette's own point, when its site has a location.
+const located = paletteFeatures([record]);
+const fit = featureBounds(located);
+const none = { type: 'FeatureCollection' as const, features: [] };
+
+const lines = scheduleLines(d.plantList, data.byKey);
+const site = d.site ? { sun: d.site.sun, moisture: d.site.moisture, soil: d.site.soil, hardinessZone: d.site.hardinessZone ?? dv.geo?.hardinessZone } : undefined;
+---
+<Base title={b.name} description={b.entry.summary}>
+  <article class="palette">
+    <header class="palette-head">
+      <p class="label kicker">Palette</p>
+      <h1>{b.name}</h1>
+      {dv.placeName && <p class="place">{dv.placeName}</p>}
+      <p class="summary">{b.entry.summary}</p>
+    </header>
+
+    {b.entry.description && <section class="prose" set:html={renderMarkdown(b.entry.description, resolve)} />}
+
+    <section aria-labelledby="site-heading">
+      <h2 id="site-heading">Site conditions</h2>
+      {shownFacts.length === 0 ? (
+        <p>This palette states no site conditions, so it is checked only for whether its plants suit each other.</p>
+      ) : (
+        <div class="table-scroll" role="region" aria-label="Site conditions" tabindex="0">
+          <table class="facts">
+            <tbody>
+              {shownFacts.map((f) => (
+                <tr>
+                  <th scope="row">{f.label}</th>
+                  <td>{f.text}{f.links?.map((l, i) => <>{i ? ', ' : ''}<a href={l.href}>{l.text}</a></>)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </section>
+
+    {fit && (
+      <section aria-labelledby="location-heading">
+        <h2 id="location-heading">Location</h2>
+        <MapView client:only="preact" compact features={none} palettes={located} fit={fit} layerList={false} label={`Map of ${b.name}'s site`} />
+      </section>
+    )}
+
+    <section aria-labelledby="list-heading">
+      <h2 id="list-heading">Plant list</h2>
+      <Schedule lines={lines} empty="This palette has no plants yet." />
+    </section>
+
+    <section aria-labelledby="compat-heading">
+      <h2 id="compat-heading">Compatibility</h2>
+      <CompatPanel compat={dv.compatibility} plants={compatPlants(dv.compatibility.plants, data.byKey)} site={site} />
+    </section>
+  </article>
+</Base>
+
+<style>
+  .palette {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xl);
+  }
+
+  .palette-head {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    padding-block-end: var(--space-lg);
+    border-block-end: var(--line-focus) solid var(--accent);
+  }
+
+  .place {
+    font-size: var(--size-h3);
+    font-weight: var(--weight-strong);
+  }
+
+  h2 {
+    font-size: var(--size-h3);
+    padding-block-end: var(--space-xs);
+    border-block-end: var(--border);
+    margin-block-end: var(--space-md);
+  }
+
+  .facts {
+    inline-size: var(--full);
+    max-inline-size: var(--measure);
+  }
+
+  .facts th {
+    inline-size: 35%;
+  }
+</style>

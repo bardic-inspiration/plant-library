@@ -224,6 +224,8 @@ export interface ProjectDerived {
   completedYear?: number;
   /** The plants the list names that the library holds, as `plant/<id>` keys, sorted and distinct. */
   usesPlant: string[];
+  /** `compatibility` over the list, with no site (lib/compat.ts). */
+  compatibility: Compatibility;
 }
 
 /** The conditions a palette is for. Each condition may state several values. */

@@ -12,7 +12,7 @@ import { facetValues, flatFacets, getPath, indexFacets, type Labeller } from './
 import { plainText } from './markdown';
 import { entryUrl, url } from './site';
 import type { GeoLayers } from './geo';
-import type { Entry, FacetLabels, IndexRecord, LibraryIndex, PaletteData, PlantData, PlantDerived, ProjectData, ProjectDerived } from './types';
+import type { Entry, FacetLabels, IndexRecord, LibraryIndex, PaletteData, PaletteDerived, PlantData, PlantListItem, PlantDerived, ProjectData, ProjectDerived } from './types';
 
 export interface BuiltEntry {
   key: string;
@@ -99,14 +99,16 @@ function deriveFor(entry: Entry, plants: ReadonlyMap<string, PlantData>): { name
   if (entry.type === 'palette') {
     const d = entry.data as unknown as PaletteData;
     const location = d.site?.location;
-    const dp = derivePalette(d, plants, location ? deriveGeo(location, loadGeo()) : undefined);
-    return { name, derived: { name, sortName: name.toLowerCase(), ...dp } };
+    const layers = loadGeo();
+    const dp = derivePalette(d, plants, location ? deriveGeo(location, layers) : undefined);
+    const placed = dp.geo ? { placeName: placeLabel(dp.geo, layers) } : {};
+    return { name, derived: { name, sortName: name.toLowerCase(), ...dp, ...placed } };
   }
   return { name, derived: { name, sortName: name.toLowerCase() } };
 }
 
 /** Quantity listed per plant the project refs, by plant key: the map sizes a project by the matching plants' quantity. */
-function plantQuantities(d: ProjectData): Record<string, number> {
+function plantQuantities(d: { plantList: ProjectData['plantList'] }): Record<string, number> {
   const out: Record<string, number> = {};
   for (const i of d.plantList) {
     if (typeof i.plant === 'string') continue;
@@ -146,7 +148,29 @@ function cardFor(b: BuiltEntry): Record<string, unknown> {
       quantities: plantQuantities(d),
     };
   }
+  if (b.entry.type === 'palette') {
+    const d = b.entry.data as unknown as PaletteData;
+    const dv = b.derived as unknown as PaletteDerived & { placeName?: string };
+    const site = d.site;
+    const card: Record<string, unknown> = { plantCount: paletteCount(d), quantities: plantQuantities(d) };
+    if (site?.sun) card.sun = site.sun;
+    if (site?.moisture) card.moisture = site.moisture;
+    if (site?.soil?.drainage) card.drainage = site.soil.drainage;
+    if (site?.hardinessZone) card.hardinessZone = site.hardinessZone;
+    if (site?.location) {
+      card.location = [site.location.lon, site.location.lat];
+      if (dv.placeName) card.place = dv.placeName;
+    }
+    return card;
+  }
   return {};
+}
+
+/** A palette's plant count as a project card counts it: distinct refs plus distinct unsourced names (D37). */
+function paletteCount(d: PaletteData): number {
+  const seen = new Set<string>();
+  for (const i of d.plantList) seen.add(typeof i.plant === 'string' ? `text:${i.plant.trim().toLowerCase()}` : i.plant.ref);
+  return seen.size;
 }
 
 function searchText(v: unknown): string {
@@ -154,6 +178,37 @@ function searchText(v: unknown): string {
   if (Array.isArray(v)) return v.map(searchText).join(' ');
   if (typeof v === 'object') return Object.entries(v).map(([k, c]) => `${k} ${searchText(c)}`).join(' ');
   return String(v);
+}
+
+/** A list line with the plant it refs, when the library holds it, and that plant's name parts and page. */
+export interface ScheduleLine {
+  item: PlantListItem;
+  plant?: PlantData;
+  parts?: [string, 'i' | 'r' | 't'][];
+  url?: string;
+  /** The unsourced name, or the ref. */
+  text: string;
+}
+
+/** A plant list's lines with the plants they ref, for a schedule (site/src/components/ui/Schedule.tsx). */
+export function scheduleLines(items: readonly PlantListItem[], byKey: ReadonlyMap<string, BuiltEntry>): ScheduleLine[] {
+  return items.map((item) => {
+    const k = typeof item.plant === 'string' ? undefined : item.plant.ref;
+    const target = k ? byKey.get(k) : undefined;
+    const plant = target?.entry.type === 'plant' ? (target.entry.data as unknown as PlantData) : undefined;
+    const text = typeof item.plant === 'string' ? item.plant : k ?? '';
+    return plant ? { item, plant, parts: nameSegments(plant), url: url(`${k}/`), text } : { item, text };
+  });
+}
+
+/** The plants a compatibility result names, with their names and pages, for the panel. */
+export function compatPlants(keys: readonly string[], byKey: ReadonlyMap<string, BuiltEntry>) {
+  return new Map(
+    keys.map((k) => {
+      const d = byKey.get(k)!.entry.data as unknown as PlantData;
+      return [k, { name: fullName(d), parts: nameSegments(d), url: url(`${k}/`) }] as const;
+    }),
+  );
 }
 
 let cache: BuildData | undefined;

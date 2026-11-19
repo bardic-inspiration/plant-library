@@ -1,4 +1,4 @@
-/* Shared components: cards, badges, name, icons, bloom strip, conditions. */
+/* Shared components: cards, badges, name, icons, bloom strip, conditions, compatibility panel. */
 @layer components {
   .icon {
     display: inline-flex;
@@ -136,5 +136,109 @@
 
   .card-summary {
     font-size: var(--size-small);
+  }
+
+  /* Compatibility panel: words carry every state (shared, site, conflict,
+     no data); the fills and rules only repeat them. */
+  .compat {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+  }
+
+  .compat-note,
+  .compat-text {
+    max-inline-size: var(--measure);
+  }
+
+  .compat-note {
+    color: var(--text-muted);
+    font-size: var(--size-small);
+  }
+
+  .compat-axis {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+
+  .compat-axis h3 {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-sm);
+  }
+
+  .compat-status {
+    padding: var(--badge-pad);
+    border: var(--border);
+    font-size: var(--size-label);
+    font-weight: var(--weight-strong);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+  }
+
+  .compat-axis[data-status="conflict"] .compat-status {
+    border-inline-start: var(--line-focus) solid var(--accent);
+  }
+
+  .compat-grid {
+    font-size: var(--size-small);
+    border-collapse: collapse;
+  }
+
+  .compat-grid th,
+  .compat-grid td {
+    padding: var(--space-xxs) var(--space-xs);
+    border-block-end: var(--border-faint);
+    text-align: center;
+    vertical-align: top;
+  }
+
+  .compat-grid th[scope="row"] {
+    text-align: start;
+    font-weight: var(--weight-body);
+  }
+
+  .compat-grid .is-shared {
+    background: var(--bg-subtle);
+  }
+
+  .compat-grid .is-conflict th[scope="row"] {
+    border-inline-start: var(--line-focus) solid var(--accent);
+  }
+
+  .compat-tag {
+    display: block;
+    font-size: var(--size-label);
+    font-weight: var(--weight-strong);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+  }
+
+  .compat-unknown,
+  .compat-grid .fit-unknown {
+    color: var(--text-muted);
+    font-style: italic;
+  }
+
+  .compat-grid .fit-fail {
+    font-weight: var(--weight-strong);
+  }
+
+  /* Plant schedules on project and palette pages. */
+  .schedule-group + .schedule-group {
+    margin-block-start: var(--space-lg);
+  }
+
+  .schedule-group h3 {
+    font-size: var(--size-label);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    margin-block-end: var(--space-xs);
+  }
+
+  .schedule .num {
+    text-align: end;
+    font-variant-numeric: tabular-nums;
   }
 }

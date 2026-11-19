@@ -22,7 +22,6 @@ page, About, and the style guide are built; see
 
 | Route | Content |
 |---|---|
-| `/project/<id>/`, `/palette/<id>/` | Detail pages |
 | `/workspace/` | The palette workspace |
 | `/contribute/` | The contribution forms and My submissions ([submissions.md](submissions.md#forms)) |
 | `/print/` | Print view for a plant list or a set of entries |
@@ -32,13 +31,9 @@ each joining as it is built (Library, Map, and About are).
 
 ### List view, still to add
 
-- **Cards.** The project card is built. A palette card shows name, plant
-  count, and its site conditions. Every card has an "add to list" control
-  for the workspace.
-- **Palette facets**: site conditions. (The project facets and the
-  cross-type filters are built: [docs/site.md](../../docs/site.md#list-view);
-  so are region filters set from the map, which show in the tree as
-  ordinary checked values: [docs/site.md](../../docs/site.md#map-view).)
+- **Cards.** The project and palette cards are built
+  ([docs/site.md](../../docs/site.md#list-view)), as are the palette facets.
+  Every card has an "add to list" control for the workspace.
 
 ### Plant page, still to add
 
@@ -49,20 +44,10 @@ The page carries "Add photo", "Suggest an edit", and "Add field note".
 
 ### Project page, still to add
 
-The project page is built ([docs/site.md](../../docs/site.md#project-page)).
-Still to come: the compatibility panel, and the
-actions to export the schedule and open the list in the workspace (M6).
-
-### Palette page
-
-As a project page without the project facts: site conditions, plant list,
-compatibility.
-
-### Links, still to add
-
-- A plant page lists every palette that uses it (projects are built).
-- A facet value on a palette page links to the Library filtered by it, as
-  a project page's do ([docs/site.md](../../docs/site.md#project-page)).
+The project page and its compatibility panel are built
+([docs/site.md](../../docs/site.md#project-page)), as is the palette page
+([docs/site.md](../../docs/site.md#palette-page)). Still to come on both:
+the actions to export the schedule and open the list in the workspace (M6).
 
 ### Palette workspace
 
@@ -78,7 +63,9 @@ account.
   and ecoregion.
 - **Feedback as you build**: totals, taxa count, native share for the site's
   state, mix by form and by life cycle, a combined bloom calendar showing gaps in seasonal
-  interest, and the compatibility panel.
+  interest, and the compatibility panel (built:
+  [docs/site.md](../../docs/site.md#compatibility-panel); `CompatPanel`
+  renders from the same `compatibility` result in the browser).
 - **Suggestions.** "Plants that fit": the Library filtered to the list's
   shared conditions and the site, with the companions of the plants already
   chosen listed first.
@@ -87,16 +74,6 @@ account.
   encodes it, exported ([Exports](#exports)), or submitted to the library
   ([submissions.md](submissions.md#forms)); it becomes an entry only when
   that submission's PR is merged (P1).
-
-### Compatibility panel
-
-The function, `compatibility` in `lib/compat.ts`, is built
-([docs/content-model.md](../../docs/content-model.md#compatibility)); the
-build runs it for projects and palettes, and the workspace in the browser.
-The panel shows its result as a plant-by-value grid per axis (its `values`
-and `plants`), with shared columns marked, unknowns shown as such, and
-conflicts named in words, so color is never the only signal. Where a
-conflict has tied alternatives, the panel names each.
 
 ### Exports
 
@@ -115,11 +92,10 @@ conflict has tied alternatives, the panel names each.
 
 ## Done when
 
-- Palette pages build for every fixture entry, with every ref
-  and facet link resolving.
 - The workspace round-trips a list through local storage, a share URL, CSV,
   and a palette file that passes validation.
-- `npm run a11y` passes on project and palette pages and the workspace.
+- `npm run a11y` passes on the workspace (it passes on project and palette
+  pages).
 
 ## Out of scope
 

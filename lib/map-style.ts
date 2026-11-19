@@ -57,6 +57,9 @@ export const PROJECT_SOURCE = 'projects';
 /** Overlay layers are added before this layer id, or on top when there is no basemap. */
 export const OVERLAY_BEFORE = 'water';
 export const PROJECT_LAYERS = ['project-clusters', 'project-cluster-count', 'project-points'] as const;
+/** Palettes with a site location: unclustered points of their own kind, over the projects. */
+export const PALETTE_SOURCE = 'palettes';
+export const PALETTE_LAYERS = ['palette-points', 'palette-centers'] as const;
 /** The single plant's native range in the map view: the states it is native to, drawn from the states overlay's file. */
 export const NATIVE_SOURCE = 'native-range';
 export const NATIVE_LAYERS = ['native-range-fill', 'native-range-line'] as const;
@@ -146,6 +149,16 @@ export function buildMapStyle(t: MapTokens, o: MapStyleOptions): StyleSpecificat
     },
   ];
 
+  const palettes: LayerSpecification[] = [
+    {
+      id: PALETTE_LAYERS[0],
+      type: 'circle',
+      source: PALETTE_SOURCE,
+      paint: { 'circle-color': t.color('--map-palette'), 'circle-radius': t.num('--map-mark-radius'), 'circle-stroke-color': t.color('--map-halo'), 'circle-stroke-width': t.num('--map-line-coast') },
+    },
+    { id: PALETTE_LAYERS[1], type: 'circle', source: PALETTE_SOURCE, paint: { 'circle-color': t.color('--map-palette-center'), 'circle-radius': t.num('--map-palette-center-radius') } },
+  ];
+
   // Under the water and every overlay, so the coastline trims it as it does the boundary overlays (D41).
   const native: LayerSpecification[] = [
     { id: NATIVE_LAYERS[0], type: 'fill', source: NATIVE_SOURCE, paint: { 'fill-color': t.color('--map-native-range'), 'fill-opacity': t.num('--map-native-range-opacity') } },
@@ -168,7 +181,8 @@ export function buildMapStyle(t: MapTokens, o: MapStyleOptions): StyleSpecificat
       [NATIVE_SOURCE]: { type: 'geojson', data: { type: 'FeatureCollection', features: [] } },
       [BOX_SOURCE]: { type: 'geojson', data: { type: 'FeatureCollection', features: [] } },
       [PROJECT_SOURCE]: { type: 'geojson', data: { type: 'FeatureCollection', features: [] }, cluster: true, clusterRadius: o.cluster.radius, clusterMaxZoom: o.cluster.maxZoom },
+      [PALETTE_SOURCE]: { type: 'geojson', data: { type: 'FeatureCollection', features: [] } },
     },
-    layers: [{ id: 'background', type: 'background', paint: { 'background-color': t.color('--map-land') } }, ...(earth ? [earth] : []), ...native, ...rest, ...box, ...projects],
+    layers: [{ id: 'background', type: 'background', paint: { 'background-color': t.color('--map-land') } }, ...(earth ? [earth] : []), ...native, ...rest, ...box, ...projects, ...palettes],
   };
 }
