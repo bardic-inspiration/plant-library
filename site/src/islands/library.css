@@ -258,6 +258,56 @@
     block-size: var(--map-view-height);
   }
 
+  /* What gets planted here: the selected regions' figures, under the map. */
+  .region-view {
+    margin-block-start: var(--space-lg);
+    border-block-start: var(--border);
+    padding-block-start: var(--space-sm);
+  }
+
+  .region-view h2 {
+    font-size: var(--size-h3);
+    margin-block-end: var(--space-xs);
+  }
+
+  .region-names {
+    font-weight: var(--weight-strong);
+  }
+
+  .region-sample {
+    font-size: var(--size-small);
+    margin-block: var(--space-xs) var(--space-md);
+  }
+
+  .region-figures {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: var(--space-xs) var(--space-md);
+    margin-block-end: var(--space-md);
+  }
+
+  .region-figures dt {
+    font-weight: var(--weight-strong);
+  }
+
+  .region-view table {
+    inline-size: var(--full);
+    margin-block-end: var(--space-md);
+  }
+
+  .region-view caption {
+    text-align: start;
+    padding-block-end: var(--space-xs);
+  }
+
+  .region-plants-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    gap: var(--space-md);
+    margin-block-end: var(--space-sm);
+  }
+
   .map-results-note {
     font-size: var(--size-small);
     color: var(--text-muted);

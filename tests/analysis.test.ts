@@ -1,10 +1,11 @@
 import { describe, expect, it } from 'vitest';
 import { plantDistribution, projectsIn, rankPlants, regionSummary, type AnalysisProject } from '../lib/analysis';
+import { analysisFile, selectedRegions, type AnalysisFile } from '../lib/analysis-data';
 import { buildData } from '../lib/build-data';
 import { companions, deriveGeo } from '../lib/derive';
 import { loadGeo } from '../lib/geo-load';
 import type { PlantData, PlantDerived, ProjectData } from '../lib/types';
-import { FIXTURES, fixtureEntries } from './helpers';
+import { FIXTURES, fixtureEntries, setup } from './helpers';
 
 /** Distribution analysis over the test library's fixture projects (spec/v1/map.md#distribution-analysis, #47). */
 
@@ -177,5 +178,38 @@ describe('companions', () => {
     expect(rec('plant/rosa-radrazz').companions).toBeUndefined();
     expect(keys(built)).toEqual(keys(projects));
     expect(plantDistribution('plant/garrya-elliptica', built, plants.get('plant/garrya-elliptica')).outsideNativeRange).toEqual(['WA']);
+  });
+});
+
+describe('the per-region view’s data (site/public/analysis.json)', () => {
+  const { config } = setup();
+  const file: AnalysisFile = JSON.parse(JSON.stringify(analysisFile(projects, plants, config.overlays)));
+  const filePlants = new Map(Object.entries(file.plants));
+
+  it('names the region levels from the selectable overlays, each with the facets that select it', () => {
+    expect(file.regions).toEqual([
+      { level: 'ecoregion', overlay: 'ecoregions', label: 'Ecoregions', keys: ['project.ecoregion', 'plant.usedInEcoregion'] },
+      { level: 'county', overlay: 'counties', label: 'Counties', keys: ['project.county', 'plant.usedInCounty'] },
+      { level: 'state', overlay: 'states', label: 'States', keys: ['project.state', 'plant.usedInState'] },
+    ]);
+  });
+
+  it('reads the query’s region filters, project and plant facets alike, as one selection', () => {
+    expect(selectedRegions(file.regions, { 'project.state': ['WA'], 'plant.usedInState': ['OR', 'WA'], 'project.county': ['06037'], 'plant.form': ['tree'] })).toEqual({ county: ['06037'], state: ['WA', 'OR'] });
+    expect(selectedRegions(file.regions, { 'plant.form': ['tree'] })).toEqual({});
+  });
+
+  it('gives the browser the same figures as the build, for any selection (P3)', () => {
+    for (const regions of [{ state: ['WA'] }, { county: ['06037'] }, { county: ['06037'], ecoregion: ['10'] }, { state: ['WA', 'OR', 'CA'] }]) {
+      expect(regionSummary(projectsIn(file.projects, regions), filePlants)).toEqual(regionSummary(projectsIn(projects, regions), plants));
+    }
+  });
+
+  it('carries only what the figures read', () => {
+    const p = file.projects.find((x) => x.key === 'project/mirada-terraces')!;
+    expect(Object.keys(p).sort()).toEqual(['data', 'geo', 'key']);
+    expect(Object.keys(p.data)).toEqual(['plantList']);
+    for (const line of p.data.plantList) expect(Object.keys(line).every((k) => k === 'plant' || k === 'quantity')).toBe(true);
+    expect(file.plants['plant/garrya-elliptica']).toEqual({ form: 'shrub', nativeRange: { states: ['OR', 'CA'] } });
   });
 });

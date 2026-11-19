@@ -158,6 +158,26 @@ on this page.
   point; a plant meets it through a project inside it that also meets the
   query's project filters, and the map draws only those projects (D51;
   `withBbox`, `matches`).
+- **Plant use:** the *Plant use* layer colors the regions of the finest
+  region overlay that is on (states when none is) by how many drawn
+  projects in each list a matching plant, with a legend of the steps and
+  the projects behind them; without plants in the results its legend says
+  so ([map.md](map.md#the-use-choropleth)).
+- **What gets planted here:** under the map, once a region filter holds a
+  value (a region picked on the map, or a value under a project's
+  Location or a plant's Used in), the plants listed on every project in
+  the selected regions, whatever the other filters: the number of projects
+  (the sample size) and the note that the library reflects the projects
+  entered; taxa, names not in the library, native share, and total
+  quantity, each with its projects; the mix by form; and the plants ranked
+  by projects or by quantity (the first 20, then *Show all*), each linked,
+  with its projects and quantity. *Download as CSV* saves the ranked table
+  (rank, botanical and common name, form, projects, quantity;
+  `regionCsv` in `lib/export.ts`). With no region selected a line says how
+  to pick one. The figures are `regionSummary` over `projectsIn`, run in
+  the browser on `site/public/analysis.json`, fetched the first time a
+  region is selected (`site/src/islands/RegionView.tsx`,
+  `lib/analysis-data.ts`; D67).
 - Both carry over to the list view in the query string. With no results the
   map stays, so a pick can be undone on it. A map view opened with region
   filters (a detail page's *on the map* link, or a list view's) switches on
@@ -169,7 +189,9 @@ on this page.
   WebGL** the island shows the list view with a note.
 
 `npm run a11y` loads the map view at both widths, fails if the map
-drew no project or palette marks, and runs axe with the results panel showing (D49).
+drew no project or palette marks, and runs axe with the results panel showing (D49);
+it also loads the map view with shrubs in Washington, switches on *Plant
+use*, and checks its legend and the per-region view.
 
 ### Plant page
 

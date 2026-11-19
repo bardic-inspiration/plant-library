@@ -133,10 +133,11 @@ there, with no code change (P4):
 | Key | Holds |
 |---|---|
 | `id`, `label` | The overlay's id, and its name in the layer list and legend |
-| `data` | A TopoJSON file's path from the repo root, or `library` for the projects in the index |
-| `kind` | `fill`, `line`, `point`, or `heat` |
-| `style` | `--map-*` token names: `color`, or a `palette` for regions; `outline` and `width` for lines and fill edges; `opacity`; `radius` for points; `ramp` for heat, low to high |
-| `legend` | `single` (one swatch with the label), `features` (a swatch per feature, by name), or `none` |
+| `data` | A TopoJSON file's path from the repo root, `library` for the projects in the index, or `analysis` for a choropleth the map computes from the results |
+| `kind` | `fill`, `line`, `point`, `heat`, or `choropleth` |
+| `style` | `--map-*` token names: `color`, or a `palette` for regions; `outline` and `width` for lines, fill edges, and choropleth edges; `opacity`; `radius` for points; `ramp` for heat or a choropleth, low to high |
+| `legend` | `single` (one swatch with the label), `features` (a swatch per feature, by name), `steps` (a choropleth's steps, from its figures), or `none` |
+| `regions` | A choropleth's region overlays, in order of preference |
 | `alwaysOn` | Shown and not switchable: the projects |
 | `selectable`, `facets` | Whether a feature can be picked as a region filter, and the facet a pick sets, by type (a facet id in `config/types.json` whose values are the features' ids) |
 
@@ -148,6 +149,7 @@ The registered overlays:
 | Ecoregions | `geo/ecoregions.topojson` | Pale fills from a seven-color palette, edged in gray | Each ecoregion by name | `project.ecoregion`, `plant.usedInEcoregion` |
 | Counties | `geo/counties.topojson` | Thin gray lines | One line | `project.county`, `plant.usedInCounty` |
 | States | `geo/states.topojson` | Heavy black lines | One line | `project.state`, `plant.usedInState` |
+| Plant use | `analysis` | The use choropleth over counties, ecoregions, or states ([below](#the-use-choropleth)) | Its steps, with the projects behind them | — |
 
 The boundary overlays draw the same committed `geo/` files the build
 derives geography from (P3, D41). Places stay derivation-only. Hardiness
@@ -190,12 +192,38 @@ outline, county, and state line colors and widths.
 The style guide shows the map with the layer list, and a map with each
 overlay on, with its legend.
 
+### The use choropleth
+
+`plant-use` is a `choropleth` overlay: it has no data file, and its layers
+(`choroplethLayers`, a fill and an edge per region overlay) draw over the
+sources of its `regions`. Validation requires each to be a fill or line
+overlay with a TopoJSON file, below it in the registry. When it is on, the
+map draws by the first of its regions that is on, else the last (states),
+loading that overlay's source if needed without showing its own layers
+(`activeRegion`); the layers over the other regions are hidden.
+
+The figures come from the page (`use` on `MapView`): in the map view, with
+plants in the results, `regionUse` in `lib/map-data.ts` counts the drawn
+projects listing a matching plant by the region each is in (the overlay's
+project facet), with their matching quantity. A region is colored by its
+projects, so the sample size is the figure. `choroplethSteps` turns the
+largest count into whole-number steps, one per count while they fit the
+ramp, else equal intervals, the darkest step to the highest count;
+`choroplethPaint` draws only the regions with a count, each in its step.
+The ramp is `--map-choropleth-1` to `-3` (the content scale's first three
+steps, on which map labels hold 4.5:1), at `--map-choropleth-opacity`,
+edged in `--map-choropleth-outline`. The legend gives the steps ("1
+project", "2–3 projects"), the projects behind the figures, and the note
+that the library reflects the projects entered; without plants in the
+results it says to search or filter for plants. Maps not given `use` (the
+detail pages' and the workspace's) leave it out of the layer list (D67).
+
 ## Where the rules live
 
 `lib/map-style.ts` (the style, client-safe), `lib/map-data.ts` (what the
 map view draws and what is in view, tested in `tests/map-view.test.ts`), `lib/map-style-load.ts` (reads
 the tokens), `config/overlays.json`, `lib/overlays.ts` and
-`lib/overlays-load.ts` (the overlays), the overlay checks in
+`lib/overlays-load.ts` (the overlays, the choropleth's steps and paint), the overlay checks in
 `lib/validate.ts`, `lib/glyphs.ts` and `lib/glyph-fonts.ts`,
 `scripts/build-map.ts`, `scripts/basemap.ts`,
 `site/src/islands/MapView.tsx`, `site/src/styles/tokens/map.css`, and
@@ -205,6 +233,8 @@ marks overlapping, and `tests/overlays.test.ts`, which checks the registry,
 that a fixture overlay (`tests/fixtures/overlays/`) reaches the layer list
 with no code change, that overlay colors are tokens, that selectable
 overlays carry the pick layers, and that neighboring ecoregions differ.
+`tests/overlays.test.ts` also checks the choropleth's validation, layers,
+steps, and paint, and labels on its steps.
 `tests/region-filters.test.ts` checks that picking and the box give the
 same URL state as the tree. `tests/map-view.test.ts` also checks what the
 detail pages' small maps draw and open on, and their map links.
@@ -215,7 +245,8 @@ A new map color or size is a `--map-*` token in `map.css`, read by
 `buildMapStyle`. A new overlay is a TopoJSON file (with `id` and `name` on
 each feature) and an entry in `config/overlays.json`; with `selectable` and
 `facets` its regions can be picked as filters, with no code; a longer palette is
-more tokens in its `palette`. A new basemap layer is a layer in
+more tokens in its `palette`. A new region overlay joins the use
+choropleth by adding its id to the choropleth's `regions`. A new basemap layer is a layer in
 `buildMapStyle` over the Protomaps schema's source layers. A label weight
 needs a name in `WEIGHT_NAMES`; `build:map` then writes its glyphs. A
 street-level map is a higher `basemap.maxZoom`.

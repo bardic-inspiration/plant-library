@@ -8,17 +8,24 @@
 import type { ExpressionSpecification, LayerSpecification, StyleSpecification } from 'maplibre-gl';
 import type { MapTokens } from './map-style';
 
-export type OverlayKind = 'fill' | 'line' | 'point' | 'heat';
+export type OverlayKind = 'fill' | 'line' | 'point' | 'heat' | 'choropleth';
 
 /** One entry of config/overlays.json. */
 export interface OverlayDef {
   id: string;
   label: string;
-  /** `library` for the projects in the index; otherwise a TopoJSON file's path from the repo root. */
+  /**
+   * `library` for the projects in the index; `analysis` for a figure the map
+   * computes from the results (a choropleth); otherwise a TopoJSON file's
+   * path from the repo root.
+   */
   data: string;
   kind: OverlayKind;
   style?: { color?: string; palette?: string[]; outline?: string; width?: string; opacity?: string; radius?: string; ramp?: string[] };
-  legend: 'single' | 'features' | 'none';
+  /** `steps`: a choropleth's steps, drawn by the map from the figures it shows. */
+  legend: 'single' | 'features' | 'steps' | 'none';
+  /** A choropleth's region overlays, by id, in order of preference: it draws by the first that is on, else the last. */
+  regions?: string[];
   alwaysOn?: boolean;
   selectable: boolean;
   /** The facet a selection sets, by type. */
@@ -45,6 +52,10 @@ export interface OverlayMeta {
   alwaysOn: boolean;
   selectable: boolean;
   facets: Record<string, string>;
+  /** A choropleth's region overlays, in order of preference. */
+  regions?: string[];
+  /** A choropleth's ramp, low to high, resolved from its tokens. */
+  ramp?: string[];
 }
 
 /** Style metadata key holding the overlays, bottom to top. */
@@ -61,6 +72,9 @@ export const pickLayer = (id: string) => `${overlaySource(id)}-pick`;
 /** A selectable overlay's layers drawing the picked regions; their filter is set to the picked ids (`pickedFilter`). */
 export const pickedLayers = (id: string) => [`${overlaySource(id)}-picked-fill`, `${overlaySource(id)}-picked-line`];
 
+/** A choropleth's layers drawn over one region overlay's source: its fill and edge. */
+export const choroplethLayers = (id: string, region: string) => [`${overlaySource(id)}-${region}-fill`, `${overlaySource(id)}-${region}-line`];
+
 /** The filter that draws these regions as picked. */
 export function pickedFilter(ids: string[]): ExpressionSpecification {
   return ['in', ['get', 'id'], ['literal', ids]] as unknown as ExpressionSpecification;
@@ -75,6 +89,7 @@ export function pickedFilter(ids: string[]): ExpressionSpecification {
  */
 export function overlayLayers(t: MapTokens, def: OverlayDef): LayerSpecification[] {
   if (def.data === 'library') return [];
+  if (def.kind === 'choropleth') return choropleth(t, def);
   const source = overlaySource(def.id);
   const pick: LayerSpecification[] =
     def.selectable && (def.kind === 'fill' || def.kind === 'line')
@@ -85,6 +100,67 @@ export function overlayLayers(t: MapTokens, def: OverlayDef): LayerSpecification
         ]
       : [];
   return [...drawnLayers(t, def, source), ...pick];
+}
+
+/**
+ * A choropleth draws over its region overlays' sources, one fill and edge per
+ * region overlay, with no data of its own. Each starts drawing nothing; the
+ * map sets the regions and their colors from the figures (`choroplethPaint`).
+ */
+function choropleth(t: MapTokens, def: OverlayDef): LayerSpecification[] {
+  const s = def.style ?? {};
+  const opacity = s.opacity ? t.num(s.opacity) : 1;
+  return (def.regions ?? []).flatMap((region): LayerSpecification[] => {
+    const [fill, line] = choroplethLayers(def.id, region);
+    const source = overlaySource(region);
+    return [
+      { id: fill, type: 'fill', source, filter: pickedFilter([]), paint: { 'fill-color': t.color(s.ramp![0]), 'fill-opacity': opacity } },
+      { id: line, type: 'line', source, filter: pickedFilter([]), paint: { 'line-color': t.color(s.outline!), 'line-width': t.num(s.width!) } },
+    ];
+  });
+}
+
+/** One step of a choropleth: the counts from `min` to `max`, and its color. */
+export interface ChoroplethStep {
+  min: number;
+  max: number;
+  color: string;
+}
+
+/**
+ * Steps for counts from 1 to `max`, one per ramp color at most: each count a
+ * step of its own while they fit, else equal whole-number intervals. The
+ * darkest colors go to the highest counts, so a few projects stay pale.
+ */
+export function choroplethSteps(max: number, ramp: readonly string[]): ChoroplethStep[] {
+  if (max < 1 || !ramp.length) return [];
+  const size = Math.ceil(max / ramp.length);
+  const n = Math.ceil(max / size);
+  return Array.from({ length: n }, (_, i) => ({ min: i * size + 1, max: Math.min((i + 1) * size, max), color: ramp[ramp.length - n + i] }));
+}
+
+/** The step a count falls in. */
+export function stepFor(steps: readonly ChoroplethStep[], value: number): ChoroplethStep | undefined {
+  return steps.find((s) => value >= s.min && value <= s.max);
+}
+
+/**
+ * What a choropleth's layers draw for these figures: the regions with a
+ * count (the filter), and each one's step color (the fill). Regions with no
+ * count aren't drawn.
+ */
+export function choroplethPaint(figures: readonly { id: string; value: number }[], steps: readonly ChoroplethStep[]): { filter: ExpressionSpecification; color: string | ExpressionSpecification } {
+  const shown = figures.filter((f) => f.value > 0 && stepFor(steps, f.value));
+  const filter = pickedFilter(shown.map((f) => f.id));
+  if (!shown.length) return { filter, color: steps[0]?.color ?? 'rgba(0, 0, 0, 0)' };
+  const color = ['match', ['get', 'id'], ...shown.flatMap((f) => [f.id, stepFor(steps, f.value)!.color]), steps[0].color] as unknown as ExpressionSpecification;
+  return { filter, color };
+}
+
+/** The region overlay a choropleth draws by: the first of its regions that is on, else the last. */
+export function activeRegion(def: Pick<OverlayMeta, 'regions'>, on: readonly string[]): string | undefined {
+  const regions = def.regions ?? [];
+  return regions.find((r) => on.includes(r)) ?? regions.at(-1);
 }
 
 function drawnLayers(t: MapTokens, def: OverlayDef, source: string): LayerSpecification[] {
@@ -119,6 +195,8 @@ function drawnLayers(t: MapTokens, def: OverlayDef, source: string): LayerSpecif
           },
         },
       ];
+    case 'choropleth':
+      return [];
     case 'heat': {
       const ramp = s.ramp!;
       const stops = ramp.flatMap((tok, i) => [i / (ramp.length - 1), t.color(tok)]);
@@ -134,7 +212,7 @@ function drawnLayers(t: MapTokens, def: OverlayDef, source: string): LayerSpecif
 export function overlayLegend(t: MapTokens, def: OverlayDef, features: { name: string; pi?: number }[] = []): LegendItem[] {
   const s = def.style ?? {};
   const mark: LegendItem['mark'] = def.kind === 'line' ? 'line' : def.kind === 'point' ? 'point' : 'fill';
-  if (def.legend === 'none') return [];
+  if (def.legend === 'none' || def.legend === 'steps') return [];
   if (def.legend === 'single') return [{ label: def.label, color: t.color(s.color ?? s.palette?.[0] ?? s.ramp!.at(-1)!), mark }];
   return [...features]
     .sort((a, b) => a.name.localeCompare(b.name))

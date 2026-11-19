@@ -18,6 +18,11 @@
  * `onBox`, the box tool draws a box to filter to, or takes the view as one.
  * A map opened with region filters switches on the overlays that hold them,
  * so a region named on a detail page shows picked when its map link opens.
+ *
+ * A choropleth overlay (the plant use) has no data of its own: with `use`,
+ * it colors the regions of the first of its region overlays that is on (the
+ * last when none is), by the figures `use` gives for that overlay, and its
+ * legend gives the steps and the number of projects behind them.
  */
 import { useEffect, useRef, useState } from 'preact/hooks';
 import { render } from 'preact';
@@ -25,7 +30,8 @@ import type { GeoJSONSource, GeoJSONSourceSpecification, Map as MapLibreMap } fr
 import { BOUNDS_KEY, BOX_SOURCE, DETAIL_ZOOM, NATIVE_SOURCE, OVERLAY_BEFORE, PALETTE_LAYERS, PALETTE_SOURCE, PROJECT_LAYERS, PROJECT_SOURCE } from '../../../lib/map-style';
 import { paletteFeatures, projectFeatures, type Bounds } from '../../../lib/map-data';
 import { pickedRegions, type MapPosition } from '../../../lib/filter';
-import { beforeLayer, layerList, overlaySource, pickedFilter, pickedLayers, pickLayer, type LegendItem, type OverlayMeta } from '../../../lib/overlays';
+import { activeRegion, beforeLayer, choroplethLayers, choroplethPaint, choroplethSteps, layerList, overlaySource, pickedFilter, pickedLayers, pickLayer, type LegendItem, type OverlayMeta } from '../../../lib/overlays';
+import type { RegionUse } from '../../../lib/map-data';
 import type { IndexRecord, LibraryIndex } from '../../../lib/types';
 import { url } from '../../../lib/site';
 import { Card } from '../components/ui/PlantCard';
@@ -96,6 +102,13 @@ export interface MapViewProps {
   onBox?: (box: Bounds | undefined) => void;
   /** Called with the point clicked anywhere but on a mark: the workspace picks its site's location this way. */
   onLocate?: (lon: number, lat: number) => void;
+  /** A choropleth's figures for a region overlay: each region's use and the projects behind them; undefined when there are none to show. */
+  use?: (overlay: OverlayMeta) => { regions: RegionUse[]; projects: number } | undefined;
+}
+
+/** "1 project", "2–3 projects": a choropleth step's label. */
+function stepLabel(min: number, max: number): string {
+  return `${min === max ? min : `${min}–${max}`} ${max === 1 ? 'project' : 'projects'}`;
 }
 
 /** A box as a GeoJSON polygon, for drawing. */
@@ -120,7 +133,7 @@ function popupContent(rec: IndexRecord | undefined, p: { name: string; url: stri
   return body;
 }
 
-export default function MapView({ label = 'Map of projects', overlays: initial = [], layerList: showList = true, index: given, features, palettes, nativeStates, position, fit, compact = false, onMove, filters, onPick, regionLabel, box: boxFilter, onBox, onLocate }: MapViewProps) {
+export default function MapView({ label = 'Map of projects', overlays: initial = [], layerList: showList = true, index: given, features, palettes, nativeStates, position, fit, compact = false, onMove, filters, onPick, regionLabel, box: boxFilter, onBox, onLocate, use }: MapViewProps) {
   const box = useRef<HTMLDivElement>(null);
   const mapRef = useRef<MapLibreMap | undefined>(undefined);
   const added = useRef(new Map<string, Promise<void>>());
@@ -291,33 +304,78 @@ export default function MapView({ label = 'Map of projects', overlays: initial =
     };
   }, []);
 
+  /** Where an overlay's layers go: under the next overlay up already on the map, else under the water (or the projects without a basemap). */
+  const placeBefore = (m: MapLibreMap, id: string) => beforeLayer(registry, id, (l) => Boolean(m.getLayer(l)), m.getLayer(OVERLAY_BEFORE) ? OVERLAY_BEFORE : PROJECT_LAYERS[0]);
+
+  /** An overlay's source and layers, added hidden the first time it is asked for; showing them is the caller's. */
+  const ensure = (m: MapLibreMap, o: OverlayMeta): Promise<void> => {
+    let ready = added.current.get(o.id);
+    if (!ready) {
+      ready = overlayData(absolute(o.url!)).then((data) => {
+        if (mapRef.current !== m) return;
+        m.addSource(overlaySource(o.id), { type: 'geojson', data });
+        const before = placeBefore(m, o.id);
+        for (const l of o.layers) m.addLayer({ ...l, layout: { ...l.layout, visibility: 'none' } } as typeof l, before);
+      });
+      ready.catch((e) => console.warn(`map: overlay ${o.id}:`, e));
+      added.current.set(o.id, ready);
+    }
+    return ready;
+  };
+
   // Show the overlays that are on, adding each one's source and layers the first time.
   useEffect(() => {
     const m = mapRef.current;
     if (status !== 'ready' || !m) return;
     for (const o of registry) {
       if (o.alwaysOn || !o.url) continue;
-      const visible = on.includes(o.id);
       const show = () => {
         if (mapRef.current !== m) return;
         for (const l of o.layers) m.setLayoutProperty(l.id, 'visibility', on.includes(o.id) ? 'visible' : 'none');
       };
-      let ready = added.current.get(o.id);
-      if (!ready && visible) {
-        const href = absolute(o.url);
-        ready = overlayData(href).then((data) => {
-          if (mapRef.current !== m) return;
-          m.addSource(overlaySource(o.id), { type: 'geojson', data });
-          const fallback = m.getLayer(OVERLAY_BEFORE) ? OVERLAY_BEFORE : PROJECT_LAYERS[0];
-          const before = beforeLayer(registry, o.id, (id) => Boolean(m.getLayer(id)), fallback);
-          for (const l of o.layers) m.addLayer(l, before);
-        });
-        ready.catch((e) => console.warn(`map: overlay ${o.id}:`, e));
-        added.current.set(o.id, ready);
-      }
+      const ready = on.includes(o.id) ? ensure(m, o) : added.current.get(o.id);
       void ready?.then(show, () => {});
     }
   }, [status, registry, on]);
+
+  // A choropleth: the regions of its active region overlay, colored by the figures; its layers over the other regions are hidden.
+  const choropleths = registry.filter((o) => o.kind === 'choropleth');
+  const shownUse = choropleths
+    .filter((o) => on.includes(o.id))
+    .map((o) => {
+      const region = registry.find((r) => r.id === activeRegion(o, on));
+      const figures = region ? use?.(region) : undefined;
+      const max = Math.max(0, ...(figures?.regions ?? []).map((f) => f.projects));
+      return { o, region, figures, steps: choroplethSteps(max, o.ramp ?? []) };
+    });
+  useEffect(() => {
+    const m = mapRef.current;
+    if (status !== 'ready' || !m) return;
+    for (const o of choropleths) {
+      const shown = shownUse.find((x) => x.o.id === o.id);
+      for (const r of o.regions ?? []) {
+        const ids = choroplethLayers(o.id, r);
+        if (!shown || shown.region?.id !== r) {
+          for (const l of ids) if (m.getLayer(l)) m.setLayoutProperty(l, 'visibility', 'none');
+          continue;
+        }
+        const region = shown.region;
+        if (!region.url) continue;
+        const paint = choroplethPaint((shown.figures?.regions ?? []).map((f) => ({ id: f.id, value: f.projects })), shown.steps);
+        void ensure(m, region).then(() => {
+          if (mapRef.current !== m) return;
+          if (!m.getLayer(ids[0])) {
+            const before = placeBefore(m, o.id);
+            for (const l of o.layers.filter((x) => ids.includes(x.id))) m.addLayer(l, before);
+          }
+          for (const l of ids) m.setFilter(l, paint.filter);
+          m.setPaintProperty(ids[0], 'fill-color', paint.color);
+          for (const l of ids) m.setLayoutProperty(l, 'visibility', 'visible');
+        }, () => {});
+      }
+    }
+    // shownUse follows registry, on, and use.
+  }, [status, registry, on, use]);
 
   // Redraw the projects when the results change.
   useEffect(() => {
@@ -425,9 +483,11 @@ export default function MapView({ label = 'Map of projects', overlays: initial =
 
   const toggle = (id: string, checked: boolean) => setOn((cur) => (checked ? [...cur.filter((x) => x !== id), id] : cur.filter((x) => x !== id)));
   const legends = registry.filter((o) => o.legend.length && (o.alwaysOn || on.includes(o.id)));
+  const useLegends = use ? shownUse : [];
   const native = (nativeStates?.length ?? 0) > 0;
   const pickable = onPick ? registry.filter((o) => o.selectable && on.includes(o.id)) : [];
   const tools = Boolean(onBox) && status === 'ready';
+  const hasUse = useLegends.length > 0;
 
   return (
     <div class={compact ? 'map-view map-view-compact' : 'map-view'} data-status={status} data-projects-rendered={rendered}>
@@ -444,7 +504,7 @@ export default function MapView({ label = 'Map of projects', overlays: initial =
       )}
       {status === 'unsupported' && <p class="map-note">This browser can't draw the map (it needs WebGL). The list view shows the same entries.</p>}
       {status === 'error' && <p class="map-note">The map didn't load: {message}</p>}
-      {(showList || legends.length > 0 || native || tools) && registry.length > 0 && (
+      {(showList || legends.length > 0 || native || tools || hasUse) && registry.length > 0 && (
         <div class="map-panel">
           {tools && (
             <div class="map-tools" role="group" aria-labelledby="map-tools-title">
@@ -476,7 +536,7 @@ export default function MapView({ label = 'Map of projects', overlays: initial =
           {showList && (
             <fieldset class="map-layers">
               <legend>Layers</legend>
-              {registry.map((o) => (
+              {registry.filter((o) => o.kind !== 'choropleth' || use).map((o) => (
                 <label key={o.id}>
                   <input type="checkbox" checked={o.alwaysOn || on.includes(o.id)} disabled={o.alwaysOn} onChange={(e) => toggle(o.id, (e.currentTarget as HTMLInputElement).checked)} />
                   {o.label}
@@ -496,6 +556,31 @@ export default function MapView({ label = 'Map of projects', overlays: initial =
               </ul>
             </div>
           )}
+          {useLegends.map(({ o, region, figures, steps }) => (
+            <div class="map-legend-block" key={o.id}>
+              <p class="map-legend-title">
+                {o.label}
+                {region ? ` (${region.label.toLowerCase()})` : ''}
+              </p>
+              {figures && steps.length ? (
+                <>
+                  <ul role="list" class="map-legend-items">
+                    {steps.map((s) => (
+                      <li key={s.min}>
+                        <Swatch item={{ label: '', color: s.color, mark: 'fill' }} />
+                        {stepLabel(s.min, s.max)}
+                      </li>
+                    ))}
+                  </ul>
+                  <p class="map-hint">
+                    Projects listing the matching plants, in each region: {figures.projects} {figures.projects === 1 ? 'project' : 'projects'} in all. The library reflects the projects entered, not the region's planting as a whole.
+                  </p>
+                </>
+              ) : (
+                <p class="map-hint">Search or filter for plants to see where they are used.</p>
+              )}
+            </div>
+          ))}
           {legends.map((o) => (
             <div class="map-legend-block" key={o.id}>
               <p class="map-legend-title">{o.label}</p>

@@ -39,6 +39,16 @@
       "legend": "single",
       "selectable": true,
       "facets": { "project": "state", "plant": "usedInState" }
+    },
+    {
+      "id": "plant-use",
+      "label": "Plant use",
+      "data": "analysis",
+      "kind": "choropleth",
+      "style": { "ramp": ["--map-choropleth-1", "--map-choropleth-2", "--map-choropleth-3"], "outline": "--map-choropleth-outline", "width": "--map-line-overlay", "opacity": "--map-choropleth-opacity" },
+      "legend": "steps",
+      "selectable": false,
+      "regions": ["counties", "ecoregions", "states"]
     }
   ]
 }

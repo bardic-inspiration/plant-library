@@ -6,7 +6,8 @@
  * on) it first scrolls the map into view and waits for it, fails if no
  * project mark was drawn, and on the map view opens the results sheet on
  * narrow screens, so axe checks the map's controls and the results panel as
- * a reader sees them.
+ * a reader sees them. With plants in the results it switches on the use
+ * choropleth, so its legend is checked too.
  */
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
@@ -40,6 +41,11 @@ async function checkMap(page: import('@playwright/test').Page, width: number, pa
     return 1;
   }
   console.log(`${width}px /${path}: map drew ${rendered} marks`);
+  const use = page.getByRole('checkbox', { name: 'Plant use' });
+  if (path.includes('plant.') && (await use.count())) {
+    await use.check();
+    await page.locator('.map-legend-title', { hasText: 'Plant use (' }).waitFor({ timeout: 5000 });
+  }
   const toggle = page.locator('.sheet-toggle');
   if (await toggle.isVisible()) await toggle.click();
   return 0;

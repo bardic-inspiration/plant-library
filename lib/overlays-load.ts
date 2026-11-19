@@ -63,7 +63,7 @@ export function prepareOverlays(root: string, defs: OverlayDef[], t: MapTokens, 
   for (const def of defs) {
     let url: string | null = null;
     let features: { name: string; pi?: number }[] = [];
-    if (def.data !== 'library') {
+    if (def.data !== 'library' && def.data !== 'analysis') {
       const topology = JSON.parse(readFileSync(join(root, def.data), 'utf8')) as Topology;
       const geoms = collection(topology).geometries;
       const colors = def.style?.palette ? colorFeatures(topology, def.style.palette.length) : null;
@@ -86,6 +86,7 @@ export function prepareOverlays(root: string, defs: OverlayDef[], t: MapTokens, 
       alwaysOn: def.alwaysOn ?? false,
       selectable: def.selectable,
       facets: def.facets ?? {},
+      ...(def.kind === 'choropleth' ? { regions: def.regions ?? [], ramp: (def.style?.ramp ?? []).map((tok) => t.color(tok)) } : {}),
     });
   }
   return { meta, files };

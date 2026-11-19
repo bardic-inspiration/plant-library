@@ -168,3 +168,33 @@ export function unplaced(results: IndexRecord[], drawn: MapResults): IndexRecord
     r.type === 'plant' ? !(drawn.plantProjects.get(r.key) ?? []).length : r.type === 'project' ? !drawn.projects.has(r.key) : r.type === 'palette' ? !drawn.palettes.has(r.key) : true,
   );
 }
+
+/** One region's use in the choropleth: the drawn projects in it that list a matching plant, and their quantity of them. */
+export interface RegionUse {
+  id: string;
+  projects: number;
+  quantity: number;
+}
+
+/**
+ * The use choropleth's figures (spec map.md): with plants in the results,
+ * the drawn projects that list one, counted by the region each is in under
+ * `facetKey` (`project.state`, `project.county`, `project.ecoregion`), with
+ * their matching quantity; and `projects`, the number behind the figures.
+ * Without plants in the results there are none.
+ */
+export function regionUse(drawn: MapResults, records: readonly IndexRecord[], facetKey: string): { regions: RegionUse[]; projects: number } {
+  const byKey = new Map(records.map((r) => [r.key, r]));
+  const listing = new Set([...drawn.plantProjects.values()].flat());
+  const by = new Map<string, RegionUse>();
+  for (const k of listing) {
+    const q = drawn.projects.get(k)?.quantity ?? 0;
+    for (const id of byKey.get(k)?.facets[facetKey] ?? []) {
+      const f = by.get(id) ?? { id, projects: 0, quantity: 0 };
+      f.projects += 1;
+      f.quantity += q;
+      by.set(id, f);
+    }
+  }
+  return { regions: [...by.values()].sort((a, b) => a.id.localeCompare(b.id)), projects: listing.size };
+}

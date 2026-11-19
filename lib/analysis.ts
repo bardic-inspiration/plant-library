@@ -5,7 +5,7 @@
  * carries the number of projects behind it, so a page can show its sample
  * size; a plant counts only where a list refs it, never by unsourced text.
  */
-import type { GeoDerived, PlantData, ProjectData } from './types';
+import type { GeoDerived, PlantData, PlantListItem, ProjectData } from './types';
 
 /** A project as the analysis reads it: its key, its data, and `deriveGeo` of its location. */
 export interface AnalysisProject {
@@ -13,6 +13,19 @@ export interface AnalysisProject {
   data: ProjectData;
   geo: GeoDerived;
 }
+
+/**
+ * What `projectsIn` and `regionSummary` read of a project: its list and its
+ * geography. The map page builds these from site/public/analysis.json.
+ */
+export interface RegionProject {
+  key: string;
+  data: { plantList: readonly Pick<PlantListItem, 'plant' | 'quantity'>[] };
+  geo: Partial<Pick<GeoDerived, RegionLevel>>;
+}
+
+/** What `regionSummary` reads of a plant. */
+export type RegionPlantData = Pick<PlantData, 'form'> & { nativeRange?: { states: readonly string[] } };
 
 /** A count and the number of projects behind it. */
 export interface UseFigure {
@@ -130,10 +143,10 @@ export function plantDistribution(plantKey: string, projects: readonly AnalysisP
  * The projects in any of the selected regions (a union, as values within a
  * region facet are ORed), in their given order.
  */
-export function projectsIn(
-  projects: readonly AnalysisProject[],
+export function projectsIn<P extends RegionProject>(
+  projects: readonly P[],
   regions: Partial<Record<RegionLevel, readonly string[]>>,
-): AnalysisProject[] {
+): P[] {
   return projects.filter((p) => REGION_LEVELS.some((level) => {
     const v = p.geo[level];
     return v !== undefined && (regions[level] ?? []).includes(v);
@@ -152,7 +165,7 @@ export function rankPlants(plants: readonly RegionPlant[], by: 'projects' | 'qua
  * sample size. Counts follow `deriveProject`: unsourced lines and refs the
  * library can't resolve add to `quantity` and `byForm.unknown` only.
  */
-export function regionSummary(projects: readonly AnalysisProject[], plantsByKey: ReadonlyMap<string, PlantData>): RegionSummary {
+export function regionSummary(projects: readonly RegionProject[], plantsByKey: ReadonlyMap<string, RegionPlantData>): RegionSummary {
   const plants = new Map<string, UseFigure>();
   const forms = new Map<string, UseFigure>();
   const unsourced = new Set<string>();

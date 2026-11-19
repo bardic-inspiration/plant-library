@@ -11,6 +11,8 @@ import {
   printResultsUrl,
   recordNameIndex,
   recordPlant,
+  regionCsv,
+  REGION_CSV_COLUMNS,
   scheduleCsv,
   schedulePlant,
   scheduleRows,
@@ -95,6 +97,17 @@ describe('the CSV plant schedule', () => {
     expect(linesFromCsv('Botanical name,Quantity\n,4\nCarex obnupta,2\n', names)).toEqual({ lines: [{ plant: { ref: 'plant/carex-obnupta' }, quantity: 2 }], skipped: 1 });
     expect(linesFromCsv('Name,Quantity\nCarex obnupta,2\n', names).error).toMatch(/Botanical name/);
     expect(linesFromCsv('', names).error).toMatch(/empty/);
+  });
+});
+
+describe('the per-region view as CSV', () => {
+  it('writes the ranked table with each plant’s projects and quantity, cells escaped as the schedule’s', () => {
+    const csv = regionCsv([
+      { botanicalName: 'Polystichum munitum', commonName: 'western sword fern', form: 'Fern', projects: 3, quantity: 270 },
+      { botanicalName: '=Odd, name', projects: 1, quantity: 0 },
+    ]);
+    expect(csv).toBe('Rank,Botanical name,Common name,Form,Projects,Quantity\r\n1,Polystichum munitum,western sword fern,Fern,3,270\r\n2,"\'=Odd, name",,,1,0\r\n');
+    expect(parseCsv(csv)[0]).toEqual([...REGION_CSV_COLUMNS]);
   });
 });
 

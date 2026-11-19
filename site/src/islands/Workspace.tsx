@@ -51,6 +51,7 @@ import { label, vocabList } from '../lib/vocab';
 import { buildSearch } from '../lib/search';
 import { currentList, readStore, withCurrent, writeStore } from '../lib/workspace-store';
 import './workspace.css';
+import { download } from '../lib/download';
 
 const number = new Intl.NumberFormat('en-US');
 const percent = (x: number) => `${Math.round(x * 100)}%`;
@@ -600,16 +601,6 @@ function Fit({ index, byKey, list, filters, onList }: { index: LibraryIndex; byK
       )}
     </>
   );
-}
-
-/** Offer a file to save, made in the browser. */
-function download(text: string, name: string, type: string) {
-  const href = URL.createObjectURL(new Blob([text], { type }));
-  const a = Object.assign(document.createElement('a'), { href, download: name });
-  document.body.append(a);
-  a.click();
-  a.remove();
-  setTimeout(() => URL.revokeObjectURL(href), 1000);
 }
 
 /** Export the list (CSV schedule, palette file, print views) and import a CSV schedule as a new list. */

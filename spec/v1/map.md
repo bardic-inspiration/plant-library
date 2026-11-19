@@ -43,18 +43,10 @@ The registry (`config/overlays.json`) and the project, state, county, and
 ecoregion overlays are built ([docs/map.md](../../docs/map.md#overlays)).
 Still to register: the hardiness zone overlay, once its layer is in `geo/`
 (a palette fill with a legend per zone, selectable on the zone facets,
-which makes zones pickable as region filters with no code),
-and the two analysis overlays below (M8). Later overlays the registry is
+which makes zones pickable as region filters with no code); its id then
+goes into the use choropleth's `regions`. Later overlays the registry is
 meant to take without code: native range polygons, precipitation, watershed
 boundaries, city limits.
-
-### Map view, still to add
-
-The map view is built ([docs/site.md](../../docs/site.md#map-view)). Still
-to come:
-
-- **The use choropleth** (M8): with plants in the results, their use by the
-  active region overlay, beside the sized project points.
 
 ### Distribution analysis
 
@@ -65,12 +57,10 @@ form); and companions, each figure with the number of projects behind it
 ([docs/content-model.md](../../docs/content-model.md#distribution-analysis)).
 Plant pages read them: totals by state and year, the note on states
 outside the native range, and companions
-([docs/site.md](../../docs/site.md#plant-page)). What remains is where the
-rest are read:
+([docs/site.md](../../docs/site.md#plant-page)); the map view reads them
+in the use choropleth and the "what gets planted here" view
+([docs/site.md](../../docs/site.md#map-view)). What remains:
 
-- **Per plant**, on the map, is the use choropleth.
-- **Per region** is the "what gets planted here" view for the selected
-  regions, and it exports as CSV.
 - **Comparison**: two plants, or two regions, side by side on the same
   measures.
 

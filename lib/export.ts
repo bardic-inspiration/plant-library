@@ -79,6 +79,29 @@ export function scheduleCsv(rows: readonly ScheduleRow[]): string {
   return lines.join('\r\n') + '\r\n';
 }
 
+/** The per-region view's CSV columns, in order. */
+export const REGION_CSV_COLUMNS = ['Rank', 'Botanical name', 'Common name', 'Form', 'Projects', 'Quantity'] as const;
+
+/** A line of the per-region view's table, as the CSV writes it. */
+export interface RegionCsvRow {
+  botanicalName: string;
+  commonName?: string;
+  form?: string;
+  projects: number;
+  quantity: number;
+}
+
+/**
+ * What gets planted in the selected regions as CSV: the ranked plant table,
+ * one line per plant in its order, each with the projects behind it (its
+ * sample size) and its quantity; CRLF line ends, as the schedule's.
+ */
+export function regionCsv(rows: readonly RegionCsvRow[]): string {
+  const lines = [REGION_CSV_COLUMNS.join(',')];
+  rows.forEach((r, i) => lines.push([i + 1, r.botanicalName, r.commonName, r.form, r.projects, r.quantity].map(cell).join(',')));
+  return lines.join('\r\n') + '\r\n';
+}
+
 /** CSV text as rows of cells (RFC 4180: quoted cells may hold commas, quotes, and line breaks). Blank lines are skipped. */
 export function parseCsv(text: string): string[][] {
   const rows: string[][] = [];
