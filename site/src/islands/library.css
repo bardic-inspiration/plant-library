@@ -77,6 +77,11 @@
     align-items: center;
     gap: var(--space-xxs);
     cursor: pointer;
+    font-weight: var(--weight-body);
+  }
+
+  /* First-order categories are strong; everything nested is body weight. */
+  .filter-tree > details > summary {
     font-weight: var(--weight-strong);
   }
 
@@ -90,10 +95,6 @@
   .facet-group,
   .facet {
     padding-inline-start: var(--space-sm);
-  }
-
-  .facet > summary {
-    font-weight: var(--weight-body);
   }
 
   .facet-active {
