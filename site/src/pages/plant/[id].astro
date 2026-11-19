@@ -11,6 +11,7 @@ import { renderMarkdown } from '../../../../lib/markdown';
 import { renderCitation } from '../../../../lib/citation';
 import { url } from '../../../../lib/site';
 import MapView from '../../islands/MapView.tsx';
+import { AddToList } from '../../components/ui/AddToList';
 import { libraryUrl, mapUrl } from '../../../../lib/filter';
 import { detailFeatures, featureBounds } from '../../../../lib/map-data';
 import { label } from '../../lib/vocab';
@@ -146,6 +147,7 @@ const bloomLabel = dv.bloomMonthList ? `Bloom calendar: ${formatMonths(d.bloom?.
       {d.synonyms?.length ? <p class="synonyms">Also sold or published as {d.synonyms.map((s, i) => <>{i ? ', ' : ''}<i>{s}</i></>)}</p> : null}
       <p class="summary">{b.entry.summary}</p>
       <Conditions sun={d.sun} moisture={d.moisture} />
+      <AddToList client:only="preact" entry={key} name={fullName(d)} />
     </header>
 
     {images.length > 0 && (

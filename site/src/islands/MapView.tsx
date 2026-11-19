@@ -94,6 +94,8 @@ export interface MapViewProps {
   box?: Bounds;
   /** Called with a box drawn or taken from the view, or undefined to clear it; without it there is no box tool. */
   onBox?: (box: Bounds | undefined) => void;
+  /** Called with the point clicked anywhere but on a mark: the workspace picks its site's location this way. */
+  onLocate?: (lon: number, lat: number) => void;
 }
 
 /** A box as a GeoJSON polygon, for drawing. */
@@ -118,7 +120,7 @@ function popupContent(rec: IndexRecord | undefined, p: { name: string; url: stri
   return body;
 }
 
-export default function MapView({ label = 'Map of projects', overlays: initial = [], layerList: showList = true, index: given, features, palettes, nativeStates, position, fit, compact = false, onMove, filters, onPick, regionLabel, box: boxFilter, onBox }: MapViewProps) {
+export default function MapView({ label = 'Map of projects', overlays: initial = [], layerList: showList = true, index: given, features, palettes, nativeStates, position, fit, compact = false, onMove, filters, onPick, regionLabel, box: boxFilter, onBox, onLocate }: MapViewProps) {
   const box = useRef<HTMLDivElement>(null);
   const mapRef = useRef<MapLibreMap | undefined>(undefined);
   const added = useRef(new Map<string, Promise<void>>());
@@ -134,8 +136,8 @@ export default function MapView({ label = 'Map of projects', overlays: initial =
   const [drawing, setDrawing] = useState(false);
   const [drag, setDrag] = useState<{ x0: number; y0: number; x1: number; y1: number } | undefined>(undefined);
   // The click handler is set once, so it reads the current overlays and callbacks through a ref.
-  const live = useRef({ registry, on, onPick, regionLabel });
-  live.current = { registry, on, onPick, regionLabel };
+  const live = useRef({ registry, on, onPick, regionLabel, onLocate });
+  live.current = { registry, on, onPick, regionLabel, onLocate };
 
   useEffect(() => {
     const el = box.current;
@@ -212,10 +214,13 @@ export default function MapView({ label = 'Map of projects', overlays: initial =
         });
         // A click on a region of a selectable overlay that is on picks it; one on a project or cluster doesn't.
         m.on('click', (e) => {
-          const { registry: reg, on: shown, onPick: pick, regionLabel: named } = live.current;
-          if (!pick) return;
+          const { registry: reg, on: shown, onPick: pick, regionLabel: named, onLocate: locate } = live.current;
+          if (!pick && !locate) return;
           const projectLayers = [PROJECT_LAYERS[0], PROJECT_LAYERS[2], PALETTE_LAYERS[0]].filter((l) => m.getLayer(l));
           if (projectLayers.length && m.queryRenderedFeatures(e.point, { layers: projectLayers }).length) return;
+          // A click that isn't on a mark sets a location, when the map takes one.
+          if (locate) return locate(e.lngLat.lng, e.lngLat.lat);
+          if (!pick) return;
           const pickable = reg.filter((o) => o.selectable && shown.includes(o.id) && m.getLayer(pickLayer(o.id)));
           if (!pickable.length) return;
           const hits = m.queryRenderedFeatures(e.point, { layers: pickable.map((o) => pickLayer(o.id)) });

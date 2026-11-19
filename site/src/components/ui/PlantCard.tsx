@@ -1,3 +1,4 @@
+import type { ComponentChildren } from 'preact';
 import type { IndexRecord, Range, ZoneRange } from '../../../../lib/types';
 import { formatRange } from '../../../../lib/format';
 import { formatZoneRange } from '../../../../lib/zones';
@@ -45,8 +46,8 @@ export function siteText(c: { sun?: string[]; moisture?: string[]; drainage?: st
   return parts.map((p, i) => (i ? p.charAt(0).toLowerCase() + p.slice(1) : p)).join('; ');
 }
 
-/** A card for any index record. Plants get the full plant card; other types a plain one. */
-export function Card({ record, headingLevel = 3 }: { record: IndexRecord; headingLevel?: 2 | 3 }) {
+/** A card for any index record. Plants get the full plant card; other types a plain one. `action` (the island's "add to list") goes last in the card. */
+export function Card({ record, headingLevel = 3, action }: { record: IndexRecord; headingLevel?: 2 | 3; action?: ComponentChildren }) {
   const H = headingLevel === 2 ? 'h2' : 'h3';
   if (record.type === 'project') {
     const c = record.card as unknown as ProjectCardData;
@@ -72,6 +73,7 @@ export function Card({ record, headingLevel = 3 }: { record: IndexRecord; headin
               </div>
             ))}
           </dl>
+          {action}
         </div>
       </article>
     );
@@ -101,6 +103,7 @@ export function Card({ record, headingLevel = 3 }: { record: IndexRecord; headin
             )}
           </dl>
           <Conditions sun={c.sun} moisture={c.moisture} />
+          {action}
         </div>
       </article>
     );
@@ -113,6 +116,7 @@ export function Card({ record, headingLevel = 3 }: { record: IndexRecord; headin
             <a href={record.url}>{record.name}</a>
           </H>
           <p class="card-summary">{record.summary}</p>
+          {action}
         </div>
       </article>
     );
@@ -152,6 +156,7 @@ export function Card({ record, headingLevel = 3 }: { record: IndexRecord; headin
         </dl>
         <Conditions sun={c.sun} moisture={c.moisture} />
         {bloomLabel && <BloomStrip months={c.bloomMonths} colors={c.bloomColors} label={bloomLabel} />}
+        {action}
       </div>
     </article>
   );

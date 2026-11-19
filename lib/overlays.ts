@@ -52,6 +52,9 @@ export const OVERLAYS_KEY = 'plant-library:overlays';
 /** Feature property holding a palette overlay's color index; neighbors never share one. */
 export const PALETTE_PROP = 'pi';
 
+/** Where build:map writes overlay data, under site/public and the base path: `<OVERLAY_DIR>/<id>.json`. */
+export const OVERLAY_DIR = 'map/overlays';
+
 export const overlaySource = (id: string) => `overlay-${id}`;
 /** A selectable overlay's hit layer: an unseen fill the map queries for a pick, so line overlays can be picked inside their regions. */
 export const pickLayer = (id: string) => `${overlaySource(id)}-pick`;

@@ -6,7 +6,7 @@
  */
 import type { ComponentType } from 'preact';
 import { useEffect, useMemo, useRef, useState } from 'preact/hooks';
-import MiniSearch from 'minisearch';
+import { buildSearch } from '../lib/search';
 import { TYPES } from '../../../lib/registry';
 import { applyQuery, clearFilters, facetCounts, mapPosition, parseQuery, pickRegion, regionKeys, serializeQuery, sortOptions, sortRecords, toggleValue, viewUrl, withBbox, withMapPosition, type MapPosition, type Query } from '../../../lib/filter';
 import { inView, mapResults, paletteFeatures, projectFeatures, unplaced, type Bounds } from '../../../lib/map-data';
@@ -16,6 +16,7 @@ import type { MapViewProps } from './MapView';
 import { webglAvailable } from '../lib/webgl';
 import { url } from '../../../lib/site';
 import { Card } from '../components/ui/PlantCard';
+import { AddToList } from '../components/ui/AddToList';
 import { Icon } from '../components/ui/Icon';
 import './library.css';
 
@@ -34,23 +35,6 @@ function useIndex(): { index?: LibraryIndex; error?: string } {
       .catch((e: Error) => setState({ error: e.message }));
   }, []);
   return state;
-}
-
-function buildSearch(index: LibraryIndex): MiniSearch<IndexRecord> {
-  const fields = [...index.searchFields.boosted, ...index.searchFields.fields];
-  const ms = new MiniSearch<IndexRecord>({
-    idField: 'key',
-    fields,
-    extractField: (doc, field) => (field === 'key' ? doc.key : doc.search[field] ?? ''),
-    searchOptions: {
-      boost: Object.fromEntries(index.searchFields.boosted.map((f) => [f, 3])),
-      prefix: true,
-      fuzzy: 0.15,
-      combineWith: 'AND',
-    },
-  });
-  ms.addAll(index.records);
-  return ms;
 }
 
 function plural(n: number, one: string, many: string) {
@@ -84,7 +68,7 @@ function CardList({ records }: { records: IndexRecord[] }) {
     <ul role="list" class="card-grid">
       {records.map((r) => (
         <li key={r.key}>
-          <Card record={r} />
+          <Card record={r} action={<AddToList entry={r.key} name={r.name} />} />
         </li>
       ))}
     </ul>

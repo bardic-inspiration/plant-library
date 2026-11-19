@@ -16,12 +16,13 @@ follow links between entries (P4, P7, P10).
 | `/plant/<id>/` | Plant detail page |
 | `/project/<id>/` | Project detail page |
 | `/palette/<id>/` | Palette detail page |
+| `/workspace/` | The palette workspace |
 | `/about/` | What the library is, the source registry, licenses, image credits, contributors |
 | `/styleguide/` | Every component state; not in navigation |
 | `/404.html` | Not found |
 
-The top bar lists only built sections (Library, Map, About); Workspace and
-Contribute join as they are built.
+The top bar lists only built sections (Library, Map, Workspace, About);
+Contribute joins when it is built.
 
 ### Index
 
@@ -104,6 +105,12 @@ JavaScript it is a full list; the island hides that list once it loads.
   a location, its plant count (distinct refs plus distinct unsourced names,
   as a project card counts them), sun and moisture as labelled icons, and
   drainage and a stated zone as text, or "No site conditions".
+- **Add to list:** every card the island draws ends with an *Add to list*
+  button for the workspace's current list: a plant adds a line (once; a
+  plant already on the list says so), a project or palette adds its whole
+  list, line by line, from its full entry. A status beside the button says
+  what happened and links the workspace. The static list, without
+  JavaScript, has no button.
 
 ### Map view
 
@@ -201,8 +208,9 @@ ecoregion also offer the same filter on the map (`mapUrl`), which opens
 with the overlay holding the region switched on and the region drawn
 picked. Below the facts, a small map shows the project's location. After
 the summary comes the compatibility panel, over the list alone, since a
-project states no site conditions. Export and workspace actions (M6) join
-later. A project card shows name,
+project states no site conditions. *Open in workspace*, above the
+schedule, links the workspace's share URL for a copy of the list, with the
+project's location as the site's. The export action (M6) joins later. A project card shows name,
 place and state, type, status, completion year, size in acres, and plant
 count (taxa plus unsourced names, D37).
 
@@ -215,8 +223,9 @@ page's facts are; a stated hardiness zone; the place); a palette with none
 says it is checked only for whether its plants suit each other. A small map
 shows a located palette's point. The plant list is the project schedule
 (`Schedule` in `site/src/components/ui/`), with the quantity column only
-when a line has a quantity, and then the compatibility panel with the
-site's fit.
+when a line has a quantity, with *Open in workspace* above it (the list and
+its site), and then the compatibility panel with the site's fit. A plant
+page has *Add to list* under its conditions.
 
 ### Compatibility panel
 
@@ -240,6 +249,54 @@ plant-by-value grid:
   the lowest to the highest the plants and the site reach (`gridColumns`).
   An axis no plant has data on shows its sentence and no grid (D55).
 
+### Workspace
+
+`/workspace/` is the `Workspace` island (`site/src/islands/Workspace.tsx`),
+a design tool for mocking up a plant list in the browser, with no account.
+The list model is `lib/workspace.ts`: a list's lines are palette list items
+and its site is a palette's `site`, so the build's `compatibility` takes
+them as they are.
+
+- **Lists:** kept in local storage (`plant-library:workspace`), several by
+  name: choose one, rename it, start a new one, or delete it. What storage
+  holds is cleaned on reading (vocabulary values, valid zones, refs and
+  short text only). When the browser refuses storage, a note says the list
+  lasts only for the visit.
+- **Share link:** `/workspace/?list=…`, the list's name, site, lines, and
+  grouping as URL-safe base64 of JSON. Opening one adds a copy as a new
+  list, cleaned the same way, and drops the parameter from the address.
+  Project and palette pages' *Open in workspace* links are such URLs, built
+  at build time.
+- **Plants:** search within the workspace (the Library's search, plants
+  only) with an Add button per hit, and a way to add the search text as a
+  name not in the library; *Add to list* on cards and plant pages. Each
+  line takes a quantity, size, spacing, and note (saved when a field is
+  left), moves up or down, and can be removed. *Group by form* shows the
+  lines under their forms (vocabulary order, names not in the library
+  last); reordering is off while grouped.
+- **Site:** sun, moisture, and soil drainage (several values each), a
+  hardiness zone (whole or half), and a location, clicked on a small map
+  (which shows the projects for context and the site as a palette point)
+  or entered as coordinates. The location gives the state and ecoregion,
+  found in the map's own states and ecoregions overlay files, fetched when
+  a location is first set; the zone isn't derived (D33).
+- **Feedback:** the plants' full entries (`data/plant/<id>.json`) are
+  fetched as they join the list. The summary gives taxa, names not in the
+  library, total quantity, native share for the site's state, and the mix
+  by form and by life cycle (`listSummary`); the bloom calendar counts the
+  plants in bloom per month and names the months nothing blooms in; and the
+  compatibility panel is `CompatPanel` over `compatibility` of the list and
+  the site.
+- **Plants that fit:** the Library filtered (`fitFilters`) by the site's
+  values on each axis it states, otherwise by the values the list's plants
+  share; a facet's values combine as OR, so a plant accepting any one
+  shared value keeps it shared. Up to twelve not already on the list are
+  shown, each with an Add button, with a link to all of them in the
+  Library.
+
+`npm run a11y` checks the workspace empty and holding a fixture palette's
+list opened from its share link.
+
 ### The fixture library
 
 `tests/fixtures/library/` holds 14 made-up plant entries and generated
@@ -259,7 +316,7 @@ a fixture (`meta.fixture: true`), as every prototype plant is
 ## Where the rules live
 
 `config/types.json` (facets, sorts, search fields), `lib/facets.ts`,
-`lib/filter.ts`, `lib/map-data.ts`, `lib/compat-text.ts`, `lib/build-data.ts`, `site/src/islands/Library.tsx`,
+`lib/filter.ts`, `lib/map-data.ts`, `lib/compat-text.ts`, `lib/workspace.ts`, `lib/build-data.ts`, `site/src/islands/Library.tsx`, `site/src/islands/Workspace.tsx`,
 `site/src/pages/`, and the shared components in
 `site/src/components/ui/`, which both the pages and the island render.
 
