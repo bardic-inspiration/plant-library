@@ -7,7 +7,7 @@ import { loadGeo } from '../lib/geo-load';
 import type { PlantData, ProjectData } from '../lib/types';
 import { fixtureEntries, setup } from './helpers';
 
-/** Comparison over the test library's fixture projects (spec/v1/map.md#distribution-analysis, #50). */
+/** Comparison over the test library's fixture projects (docs/site.md#compare-page, #50). */
 
 const layers = loadGeo();
 const entries = fixtureEntries();

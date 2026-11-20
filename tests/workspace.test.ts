@@ -13,7 +13,11 @@ import {
   emptyList,
   encodeList,
   fitFilters,
+  fitsEvery,
+  hasRoom,
+  limitMessage,
   listCompatibility,
+  listLimit,
   listSummary,
   moveLine,
   removeLine,
@@ -71,6 +75,13 @@ describe('workspace lists', () => {
     expect(list.lines).toEqual([{ plant: { ref: 'plant/thuja-plicata' }, size: 'a b' }]);
   });
 
+  it('keep a stored list of any length: the limit applies to adding, never to reading', () => {
+    const lines = Array.from({ length: 600 }, (_, i) => ({ plant: `Plant ${i}` }));
+    const long = { ...emptyList('Long', 'l1'), lines };
+    expect(cleanStore(JSON.parse(JSON.stringify({ current: 'l1', lists: [long] }))).lists[0].lines).toHaveLength(600);
+    expect(decodeList(encodeList(long))!.lines).toHaveLength(600);
+  });
+
   it('start fresh when local storage holds nothing readable', () => {
     const s = cleanStore('garbage');
     expect(s.lists).toHaveLength(1);
@@ -108,6 +119,13 @@ describe('editing a list', () => {
     expect(addPlant(base, 'project/x')).toBe(base);
   });
 
+  it('takes two spellings that validation treats as one name as one name', () => {
+    const one = addText(base, "Acer rubrum 'Armstrong'");
+    expect(addText(one, 'acer  rubrum ‘Armstrong’')).toBe(one);
+    const lines = [{ plant: "Acer rubrum 'Armstrong'", size: '2 in cal' }, { plant: 'acer  rubrum ‘Armstrong’', size: '3 in cal' }];
+    expect(listSummary(lines, new Map()).unsourced).toBe(1);
+  });
+
   it('appends a project’s or palette’s lines as they are written', () => {
     const lines = palette('bioswale-bottom').plantList;
     expect(addLines(base, lines).lines).toEqual(lines);
@@ -123,6 +141,26 @@ describe('editing a list', () => {
     expect(updateLine(q, 0, 'quantity', '0').lines[0].quantity).toBeUndefined();
     expect(updateLine(l, 1, 'spacing', '  3 ft o.c. ').lines[1].spacing).toBe('3 ft o.c.');
     expect(removeLine(l, 1).lines).toHaveLength(2);
+  });
+});
+
+describe('the list limit', () => {
+  it('is four lines per species in the library, a cultivar or a second size of a species adding none', () => {
+    expect(listLimit([{ genus: 'Acer', species: 'circinatum' }, { genus: 'Acer', species: 'circinatum', cultivar: 'Pacific Fire' }, { genus: 'Rosa', cultivar: 'Radrazz' }])).toBe(8);
+    expect(listLimit([])).toBe(0);
+    const species = new Set([...plants.values()].map((p) => (p.species ? `${p.genus} ${p.species}` : p.genus + p.cultivar)));
+    expect(data.index.listLimit).toBe(4 * species.size);
+  });
+
+  it('refuses an add past the limit, whole, and says why', () => {
+    const list = addText(addPlant(emptyList('Small', 's1'), 'plant/thuja-plicata', 2), 'Ribes sanguineum', 2);
+    expect(list.lines).toHaveLength(2);
+    expect(hasRoom(list, 1, 2)).toBe(false);
+    expect(addPlant(list, 'plant/carex-obnupta', 2)).toBe(list);
+    expect(addText(list, 'Other', 2)).toBe(list);
+    expect(addLines(emptyList(), [{ plant: 'A' }, { plant: 'B' }, { plant: 'C' }], 2).lines).toEqual([]);
+    expect(addLines(emptyList(), [{ plant: 'A' }, { plant: 'B' }], 2).lines).toHaveLength(2);
+    expect(limitMessage(list, 3, 2)).toBe('Not added: Small has 2 lines, and 3 more would pass the limit of 2 lines a list may hold.');
   });
 });
 
@@ -163,16 +201,35 @@ describe('feedback', () => {
 
   it('suggests plants that fit: the site where it states a condition, else what the list shares', () => {
     const list = fromPalette('bioswale-bottom');
-    const f = fitFilters(listCompatibility(list, plants), list.site);
+    const { filters: f, every } = fitFilters(listCompatibility(list, plants), list.site);
     expect(f.type).toEqual(['plant']);
     expect(f['plant.moisture']).toEqual(['wet']);
     expect(f['plant.drainage']).toEqual(['poor']);
+    expect(every).toEqual([]);
     const shady = fitFilters(listCompatibility({ ...list, site: {}, lines: [{ plant: { ref: 'plant/gaultheria-shallon' } }, { plant: { ref: 'plant/polystichum-munitum' } }] }, plants), {});
-    const fits = applyQuery(data.index.records, { ...emptyQuery(), filters: shady }, null).map((r) => r.key);
+    const fits = applyQuery(data.index.records, { ...emptyQuery(), filters: shady.filters }, null).map((r) => r.key);
     expect(fits).toContain('plant/gaultheria-shallon');
     // Every suggestion accepts one of the shared sun values; as in the Library, a plant with no data on a filtered axis is left out.
-    for (const k of fits) expect(plants.get(k)!.sun!.some((v) => shady['plant.sun']!.includes(v))).toBe(true);
-    expect(fitFilters(listCompatibility(emptyList(), plants), { hardinessZone: '8' })['plant.hardiness']).toEqual(['8a', '8b']);
+    for (const k of fits) expect(plants.get(k)!.sun!.some((v) => shady.filters['plant.sun']!.includes(v))).toBe(true);
+    expect(fitFilters(listCompatibility(emptyList(), plants), { hardinessZone: '8' })).toMatchObject({ filters: { 'plant.hardiness': ['8a', '8b'] }, every: ['plant.hardiness'] });
+  });
+
+  it('suggests only plants the compatibility panel says suit the site', () => {
+    // Sun is per part of the site, so one of its values fits; a whole zone, and the site's moisture and drainage, need every value.
+    const site = { sun: ['full-sun', 'part-shade'], moisture: ['moist', 'wet'], hardinessZone: '8' };
+    const fit = fitFilters(listCompatibility(emptyList(), plants), site);
+    expect(fit.every.sort()).toEqual(['plant.hardiness', 'plant.moisture']);
+    const library = applyQuery(data.index.records, { ...emptyQuery(), filters: fit.filters }, null);
+    const suggested = library.filter((r) => fitsEvery(r, fit));
+    // The Library's filters alone, OR within a facet, would offer plants the panel fails.
+    expect(library.length).toBeGreaterThan(suggested.length);
+    expect(suggested.length).toBeGreaterThan(0);
+    const panel = listCompatibility({ ...emptyList(), site, lines: [...plants.keys()].map((k) => ({ plant: { ref: k } })) }, plants);
+    const suits = (k: string) => panel.axes.every((a) => a.siteFit![k] !== 'fail');
+    for (const r of suggested) expect(suits(r.key), r.key).toBe(true);
+    // And every plant the panel passes on each filtered axis is suggested.
+    const passes = [...plants.keys()].filter((k) => ['sun', 'moisture', 'hardiness'].every((ax) => panel.axes.find((a) => a.axis === ax)!.siteFit![k] === 'pass'));
+    expect(suggested.map((r) => r.key).sort()).toEqual(passes.sort());
   });
 
   it('lists the companions of the plants already chosen first among the plants that fit', () => {

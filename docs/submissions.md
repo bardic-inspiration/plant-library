@@ -41,8 +41,10 @@ index. The entry points are `ContributeLinks.astro` on detail pages.
   and, with `fixturesOnly`, the type's proprietary fields are left off. A
   list of other objects (a plant's `furtherReading`) has no form field; the
   comment carries it. Field notes take their fields from the submission
-  schema's `fieldNote`; a note's trait is picked from the plant form's
-  fields, and its project from the library's projects.
+  schema's `fieldNote`; a note's trait is picked from the plant traits
+  validation takes (`traitOptions`, from `isNoteTrait` in `lib/traits.ts`),
+  labeled from the plant form's fields, and its project from the library's
+  projects.
 - **Edits are differences.** An edit opens the published
   `data/<type>/<id>.json`, records its `entryHash` as `basedOn`, and files
   `editDifferences` between it and what the person left. Emptied text is a
@@ -59,8 +61,11 @@ index. The entry points are `ContributeLinks.astro` on detail pages.
   pasted from a spreadsheet are read by `linesFromPaste`: tab-separated (or
   comma-separated without tabs), columns named by a header row, else the
   first text cell is the plant, the first whole number its quantity, and the
-  rest size, spacing, and note. An attached plant list file is listed for
-  the routine to transcribe.
+  rest size, spacing, and note. A name is matched to a plant as validation
+  matches it, synonyms included. An attached plant list file is listed for
+  the routine. Nothing transcribes it yet (how is an open question), so for
+  now it is a placeholder, kept so the flow can be tested with the files
+  the real data will come from (D69).
 - **Photos** ask for the rights basis (own work, organization owned, or
   third party with its page), the license granted (from the `license`
   vocabulary), who took it, when (the file's date to start), where, what it
@@ -220,7 +225,7 @@ history.
 | `target` | The type isn't one the library has, or the entry isn't in the library | |
 | `based-on` | | `basedOn` isn't the current entry; it names the paths changed since and, separately, the edit's paths that touch them (`touched`) |
 | `duplicate` | | An `add` whose name or a synonym is the name, the name with trade name, or a synonym of an entry of its type (a project or palette by its `name`); an image whose sha256 is a file under `assets/images/`, or an image file listed by a submission in `processed/` |
-| `paths` | A change's path isn't in the type's schema (the envelope's `name`, `summary`, `description`, `tags`, or the type's `data`), goes into a list or a read-only field, clears a required field, adds or removes items of a field that isn't a list, or its value (each added item) fails the schema there; a plant field note's `trait` isn't a plant trait, or a project's or palette's note names one | |
+| `paths` | A change's path isn't in the type's schema (the envelope's `name`, `summary`, `description`, `tags`, or the type's `data`), goes into a list or a read-only field, clears a required field, adds or removes items of a field that isn't a list, or its value (each added item) fails the schema there; a plant field note's `trait` isn't a plant trait (`isNoteTrait`, the list validation uses: a cited trait, or `soil` or `bloom`; a name, one end of a range, or one wetland region is in the schema but isn't a trait), or a project's or palette's note names one | |
 | `urls` | | A URL whose host is no registered source's `hosts` (or a subdomain of one), or that can't be read; checked: every `sourceUrl`, and URLs in citations, notes, field notes, and the comment |
 
 A file's type comes from its first bytes, never its name: JPEG, PNG, or WebP
@@ -261,7 +266,9 @@ the form, never the file. The defaults in `config/site.json` are JPEG,
 
 The image goes to the next free `assets/images/<type>/<entry>/<n>.<ext>`
 (one more than the highest number held), never over an existing file. For
-an `add`, the new entry's id is the third argument. The command prints the
+an `add`, the new entry's id is the third argument; it must be a slug, as
+an entry id is, so an id such as `../x` writes nothing outside the
+entry's folder. The command prints the
 `images` item the form's metadata gives (`file`, `alt`, `shows`, `credit`
 from the photographer, `license`, `sourceUrl`), for the routine to check and
 add to the entry. A file that only looks like an image, or that can't be
@@ -277,8 +284,9 @@ them (P5).
   `establishment`, `maintenance`, `availability`, `design`, `caution`), a
   markdown `note`, the `author`'s name and role, a `date`, and optionally a
   `region` (a state), a `project` (a ref to a project), and the
-  `submission` it came from. Only a plant's note may name a `trait` (a data
-  path such as `height` or `soil.drainage`), and the plant page then shows
+  `submission` it came from. Only a plant's note may name a `trait` (a
+  cited trait such as `height` or `soil.drainage`, or `soil` or `bloom` for
+  all their parts; `isNoteTrait` in `lib/traits.ts`), and the plant page then shows
   it beside that trait as well. Every page with notes ends with a "Field
   notes" section ([site.md](site.md#plant-page)).
 - **An observation that fills a gap** is cited to the registry's
@@ -296,11 +304,13 @@ trait; the `integrate` skill makes that call ([below](#the-integrate-skill)).
 
 ### Results
 
-`npm run inbox -- close <id> <result file>` writes a submission's result and
-moves it from `inbox/<id>/` to `processed/<id>/`, whole, with the result as
-`result.json` beside it; nothing is deleted. It refuses, changing nothing, a
-result that fails `schemas/result.schema.json` or the rules below, one for
-another id, a submission not in the inbox, and one already processed.
+`npm run inbox -- close <id> <result file>` writes a submission's result as
+`result.json` in its folder, then moves the folder from `inbox/<id>/` to
+`processed/<id>/`, whole; nothing of the submission is deleted. It refuses,
+changing nothing, a result that fails `schemas/result.schema.json` or the
+rules below, one for another id, a submission not in the inbox, and one
+already processed; if the move fails, the `result.json` it wrote is taken
+out again, so the submission is left as it was.
 
 A result holds `schema` (1), `id`, `status`, `decidedAt`, the `pr` when
 anything was integrated, `items`, and `questions`. Each item is one decision:

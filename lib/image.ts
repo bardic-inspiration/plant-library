@@ -40,8 +40,14 @@ export async function reencodeImage(input: Uint8Array, settings: ImageSettings):
   return { bytes: out.data, ext: EXTENSION[settings.format], width: out.info.width, height: out.info.height };
 }
 
-/** The next free library image path for an entry: assets/images/<type>/<id>/<n>.<ext>, n one more than the highest held. */
+/** An entry's type and id as the envelope allows them (`^[a-z]+$`, and a slug), so an image path stays under assets/images/. */
+const TYPE = /^[a-z]+$/;
+const SLUG = /^[a-z0-9]+(-[a-z0-9]+)*$/;
+
+/** The next free library image path for an entry: assets/images/<type>/<id>/<n>.<ext>, n one more than the highest held. Throws on a type or id the envelope wouldn't take. */
 export function nextImagePath(dataRoot: string, type: string, id: string, ext: string): string {
+  if (!TYPE.test(type)) throw new Error(`"${type}" is not an entry type`);
+  if (!SLUG.test(id) || id.length > 120) throw new Error(`"${id}" is not an entry id (lowercase letters and digits, joined by single hyphens)`);
   const dir = join(dataRoot, 'assets', 'images', type, id);
   const held = existsSync(dir) ? readdirSync(dir).map((n) => /^([0-9]+)\./.exec(n)?.[1]).filter(Boolean).map(Number) : [];
   return `assets/images/${type}/${id}/${Math.max(0, ...held) + 1}.${ext}`;
@@ -49,9 +55,12 @@ export function nextImagePath(dataRoot: string, type: string, id: string, ext: s
 
 /**
  * Re-encode one image of a submission into the library, at the next free
- * path for the entry. Returns the repo-relative path written.
+ * path for the entry. Returns the repo-relative path written. Throws,
+ * writing nothing, on an id that isn't a slug (`../x` would write outside
+ * assets/images/<type>/).
  */
 export async function placeImage(file: string, opts: { dataRoot: string; type: string; id: string; settings: ImageSettings }): Promise<{ path: string } & Omit<Reencoded, 'bytes'>> {
+  nextImagePath(opts.dataRoot, opts.type, opts.id, 'x'); // the type and id, checked before any work
   const out = await reencodeImage(readFileSync(file), opts.settings);
   const path = nextImagePath(opts.dataRoot, opts.type, opts.id, out.ext);
   mkdirSync(join(opts.dataRoot, path, '..'), { recursive: true });

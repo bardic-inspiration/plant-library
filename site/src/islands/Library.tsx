@@ -65,12 +65,12 @@ function ViewSwitch({ view, query }: { view: View; query: Query }) {
   );
 }
 
-function CardList({ records }: { records: IndexRecord[] }) {
+function CardList({ records, limit }: { records: IndexRecord[]; limit: number }) {
   return (
     <ul role="list" class="card-grid">
       {records.map((r) => (
         <li key={r.key}>
-          <Card record={r} action={<AddToList entry={r.key} name={r.name} />} />
+          <Card record={r} action={<AddToList entry={r.key} name={r.name} limit={limit} />} />
         </li>
       ))}
     </ul>
@@ -159,7 +159,7 @@ function MapResultsView({ index, query, results, onMove, onPick, onBox }: { inde
           {results.length === 0 ? (
             <p class="map-results-note">Nothing matches. Remove a filter or change the search.</p>
           ) : visible.length > 0 ? (
-            <CardList records={visible} />
+            <CardList records={visible} limit={index.listLimit} />
           ) : (
             <p class="map-results-note">Nothing in the results is in view. Zoom out or move the map.</p>
           )}
@@ -458,7 +458,7 @@ export default function Library({ view: page = 'list' }: { view?: View }) {
           ) : results.length === 0 ? (
             <p class="library-message">Nothing matches. Remove a filter or change the search.</p>
           ) : (
-            <CardList records={results} />
+            <CardList records={results} limit={index.listLimit} />
           )}
         </section>
       </div>

@@ -32,8 +32,11 @@ The top bar lists Library, Map, Workspace, Contribute, and About.
 that has values, plus one per tag key, values in vocabulary order) and one
 lean record per entry: key, name and styled name parts, summary, URL,
 thumbnail (the pinned image), facet values, tags, refs, back-refs, sort
-keys, search text, and card fields. Only types the site builds pages for
-are indexed (`hasPages`, D35); projects and palettes are, with their card fields. Full entries
+keys, search text, and card fields, and a plant's synonyms, so the browser
+matches list text to plants as validation does. It also holds
+`listLimit`, the most lines a workspace list may hold. Only types the site
+builds pages for are indexed (`hasPages`, D35); projects and palettes are,
+with their card fields. Full entries
 of every type are at
 `site/public/data/<type>/<id>.json`, for later exports and the workspace.
 
@@ -321,7 +324,10 @@ plant-by-value grid:
 - **Words:** what every plant with data shares; or, with nothing shared,
   which plants to remove, what each needs, and what the rest would then
   share, with tied alternatives numbered; the plants with no data; and,
-  with a site, the plants not suited to it.
+  with a site, the plants not suited to it. A plant suits a site's zone,
+  moisture, and drainage when it accepts every value the site states, and
+  its sun when it accepts any one, since light differs across a site
+  (D69); several sun values read "full sun or shade".
 - **Grid:** one row per plant (linked), one column per value, a dot with
   the text "Yes" where the plant accepts it. Shared columns are tagged
   "shared" and shaded, the site's values tagged "site", a plant a conflict
@@ -342,11 +348,19 @@ them as they are.
 - **Lists:** kept in local storage (`plant-library:workspace`), several by
   name: choose one, rename it, start a new one, or delete it. What storage
   holds is cleaned on reading (vocabulary values, valid zones, refs and
-  short text only). When the browser refuses storage, a note says the list
-  lasts only for the visit.
+  short text only); a list is never dropped for its length. When the
+  browser refuses storage, a note says the list lasts only for the visit.
+- **Limit:** a list holds at most `listLimit` lines, four per species in
+  the library (`listLimit` in `lib/workspace.ts`; 1,880 for the prototype
+  plants), room for several sizes of every species (D69). An add that
+  would pass it (a plant, a name, *Add to list* with a project's or
+  palette's whole list, a CSV import, a share link) is refused whole, with
+  a message saying the list's size and the limit; at the limit the
+  workspace's Add buttons are off and a note says so.
 - **Share link:** `/workspace/?list=…`, the list's name, site, lines, and
   grouping as URL-safe base64 of JSON. Opening one adds a copy as a new
-  list, cleaned the same way, and drops the parameter from the address.
+  list, cleaned the same way, unless it is over the limit, and drops the
+  parameter from the address.
   Project and palette pages' *Open in workspace* links are such URLs, built
   at build time.
 - **Plants:** search within the workspace (the Library's search, plants
@@ -369,21 +383,29 @@ them as they are.
   plants in bloom per month and names the months nothing blooms in; and the
   compatibility panel is `CompatPanel` over `compatibility` of the list and
   the site.
-- **Plants that fit:** the Library filtered (`fitFilters`) by the site's
-  values on each axis it states, otherwise by the values the list's plants
-  share; a facet's values combine as OR, so a plant accepting any one
-  shared value keeps it shared. Up to twelve not already on the list are
-  shown, each with an Add button, with a link to all of them in the
-  Library. The companions of the plants already chosen come first, ranked
+- **Plants that fit:** the plants the compatibility panel would pass
+  (`fitFilters`): on each axis the site's values where it states it,
+  otherwise the values the list's plants share. Shared values and the
+  site's sun values combine as OR, as the Library's filters do, since a
+  plant accepting any one of them keeps a value shared or has a place on
+  the site. Several site values for zone, moisture, or drainage (a whole
+  zone is both its halves) must all be accepted, which the Library can't
+  filter, so the workspace applies those itself (`fitsEvery`, D69). Up to
+  twelve not already on the list are shown, each with an Add button, with
+  a link to all of them in the Library; when the workspace applied a
+  condition itself, the link opens the Library's filters and says how
+  many plants they give there. The companions of the plants already chosen come first, ranked
   by their shared projects summed over the list's plants
   (`companionScores`, `companionsFirst` in `lib/workspace.ts`), and are
   marked "often planted with the list's plants"; the index carries each
   plant's companions for this.
 
-- **Export:** *Schedule as CSV*, *Palette file (JSON)*, *Print schedule*,
-  and *Print cut sheets* ([Exports and print](#exports-and-print)), with
-  any reason the palette file would fail validation listed beside them;
-  and *Import*, which opens a CSV plant schedule as a new list.
+- **Export:** *Schedule as CSV*, *Palette file (JSON)*, *Submit to
+  library* (the Submit palette form with the list filled in,
+  `/contribute/?form=add&type=palette&list=…`), *Print schedule*, and
+  *Print cut sheets* ([Exports and print](#exports-and-print)), with any
+  reason the palette file would fail validation listed beside them; and
+  *Import*, which opens a CSV plant schedule as a new list.
 
 `npm run a11y` checks the workspace empty and holding a fixture palette's
 list opened from its share link.
@@ -403,9 +425,9 @@ workspace, and the tests (D57).
   stored entry; the workspace makes its own in the browser.
 - **Reading a CSV schedule** (`linesFromCsv`): the header names the
   columns in any order and case, and only *Botanical name* is required. A
-  name the library holds (its botanical name, or with its trade name,
-  compared as validation compares them) becomes a ref, any other stays
-  text; values are cleaned as a share link's are. The workspace opens the
+  name the library holds (its botanical name, with its trade name, or a
+  synonym, compared as validation compares them, `normalizeName`) becomes a
+  ref, any other stays text; values are cleaned as a share link's are. The workspace opens the
   result as a new list.
 - **JSON:** an entry as stored is `data/<type>/<id>.json`, which every
   detail page offers as *Entry as JSON*. A workspace list downloads as a

@@ -122,6 +122,18 @@ describe('a workspace list as a palette file', () => {
     expect(paletteEntry(list, '2026-11-19', names, false).meta.fixture).toBeUndefined();
   });
 
+  it('turns a synonym into a ref, as validation requires, from the entries or the index alike', () => {
+    // Berberis aquifolium is a synonym of plant/mahonia-aquifolium.
+    const csv = 'Botanical name,Quantity\r\nBerberis aquifolium,3\r\n';
+    for (const idx of [names, recordNameIndex(data.index.records)]) {
+      const read = linesFromCsv(csv, idx);
+      expect(read.lines).toEqual([{ plant: { ref: 'plant/mahonia-aquifolium' }, quantity: 3 }]);
+      const list = { ...emptyList('From a CSV'), lines: [{ plant: 'berberis aquifolium' }, { plant: { ref: 'plant/mahonia-aquifolium' } }] } as WorkspaceList;
+      expect(messages(validatePalette(paletteEntry({ ...list, lines: read.lines }, '2026-11-19', idx, true)))).toEqual([]);
+      expect(paletteProblems(list, idx, () => 'Mahonia aquifolium')).toEqual([expect.stringMatching(/^Lines 1 and 2 are both Mahonia aquifolium/)]);
+    }
+  });
+
   it('leaves out an empty site, and an empty list is still a palette', () => {
     const entry = paletteEntry(emptyList('Nothing yet'), '2026-11-19', names, true);
     expect(entry.data).toEqual({ plantList: [] });

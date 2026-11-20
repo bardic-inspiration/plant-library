@@ -20,6 +20,13 @@ interface AxisDef {
   accepts: (d: PlantData) => string[] | undefined;
   /** The site's values on the axis, or undefined when the site doesn't state it (a site has no water use). */
   site: (s: CompatSite) => string[] | undefined;
+  /**
+   * How a plant fits several site values: `every` for a condition of the
+   * whole site (its zone, its moisture and drainage), so the plant must
+   * accept each; `any` for sun, which differs from place to place on a site,
+   * so a plant fits when it accepts one of them (D69).
+   */
+  siteNeeds: 'every' | 'any';
 }
 
 /** Site conditions, as a palette's `site` or the workspace gives them. */
@@ -36,17 +43,18 @@ const list = (v: string | string[] | undefined): string[] | undefined =>
 
 /** The axes, in the order the panel shows them. */
 export const COMPAT_AXES: readonly AxisDef[] = [
-  { axis: 'sun', vocab: 'sun', accepts: (d) => d.sun, site: (s) => list(s.sun) },
-  { axis: 'moisture', vocab: 'moisture', accepts: (d) => d.moisture, site: (s) => list(s.moisture) },
-  { axis: 'drainage', vocab: 'soilDrainage', accepts: (d) => d.soil?.drainage, site: (s) => list(s.soil?.drainage) },
+  { axis: 'sun', vocab: 'sun', accepts: (d) => d.sun, site: (s) => list(s.sun), siteNeeds: 'any' },
+  { axis: 'moisture', vocab: 'moisture', accepts: (d) => d.moisture, site: (s) => list(s.moisture), siteNeeds: 'every' },
+  { axis: 'drainage', vocab: 'soilDrainage', accepts: (d) => d.soil?.drainage, site: (s) => list(s.soil?.drainage), siteNeeds: 'every' },
   {
     axis: 'hardiness',
     accepts: (d) => (d.hardiness ? expandZones(d.hardiness) : undefined),
     site: (s) => (s.hardinessZone ? expandZones({ min: s.hardinessZone, max: s.hardinessZone }) : undefined),
+    siteNeeds: 'every',
   },
   // A plant has one water use; it accepts that level only, so a shared value
   // is one hydrozone (D53).
-  { axis: 'waterUse', vocab: 'waterUse', accepts: (d) => (d.waterUse ? [d.waterUse] : undefined), site: () => undefined },
+  { axis: 'waterUse', vocab: 'waterUse', accepts: (d) => (d.waterUse ? [d.waterUse] : undefined), site: () => undefined, siteNeeds: 'every' },
 ];
 
 export type SiteFit = 'pass' | 'fail' | 'unknown';
@@ -74,7 +82,11 @@ export interface CompatAxisResult {
    * restores a shared value. Ties are alternatives, one per distinct set.
    */
   conflicts: CompatConflict[];
-  /** With a site: each plant passes, fails, or is unknown. Unknown for every plant when the site doesn't state the axis. */
+  /**
+   * With a site: each plant passes, fails, or is unknown. A plant passes when
+   * it accepts every site value on the axis, or on sun any one of them
+   * (`siteNeeds`). Unknown for every plant when the site doesn't state the axis.
+   */
   siteFit?: Record<string, SiteFit>;
 }
 
@@ -149,7 +161,7 @@ export function compatibility(
       out.siteFit = Object.fromEntries(
         rows.map((r): [string, SiteFit] => [
           r.key,
-          !want || !r.accepts ? 'unknown' : want.every((v) => r.accepts!.includes(v)) ? 'pass' : 'fail',
+          !want || !r.accepts ? 'unknown' : (def.siteNeeds === 'any' ? want.some((v) => r.accepts!.includes(v)) : want.every((v) => r.accepts!.includes(v))) ? 'pass' : 'fail',
         ]),
       );
     }

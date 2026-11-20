@@ -48,27 +48,8 @@ goes into the use choropleth's `regions`. Later overlays the registry is
 meant to take without code: native range polygons, precipitation, watershed
 boundaries, city limits.
 
-### Distribution analysis
-
-The functions are built: per-plant figures by state, county, ecoregion,
-zone, and completion year, with the states outside a plant's native range;
-per-region figures (the ranked plants, taxa, native share, and mix by
-form); and companions, each figure with the number of projects behind it
-([docs/content-model.md](../../docs/content-model.md#distribution-analysis)).
-Plant pages read them: totals by state and year, the note on states
-outside the native range, and companions
-([docs/site.md](../../docs/site.md#plant-page)); the map view reads them
-in the use choropleth and the "what gets planted here" view
-([docs/site.md](../../docs/site.md#map-view)); and the compare page sets
-two plants, or two regions, side by side
-([docs/site.md](../../docs/site.md#compare-page)). Nothing of it remains to
-build.
-
 ## Cases
 
-- A plant used on projects in two states and native to one.
-- A region with one project: the analysis shows its figures with the sample
-  size, and companions are empty.
 - The ecoregion and hardiness overlays on together, with a legend for each.
 
 ## Done when

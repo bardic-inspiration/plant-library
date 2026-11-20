@@ -7,7 +7,7 @@ import { loadGeo } from '../lib/geo-load';
 import type { PlantData, PlantDerived, ProjectData } from '../lib/types';
 import { FIXTURES, fixtureEntries, setup } from './helpers';
 
-/** Distribution analysis over the test library's fixture projects (spec/v1/map.md#distribution-analysis, #47). */
+/** Distribution analysis over the test library's fixture projects (docs/content-model.md#distribution-analysis, #47). */
 
 const layers = loadGeo();
 const entries = fixtureEntries();
@@ -121,6 +121,11 @@ describe('per region', () => {
     const unknownRange = new Map([...plants].map(([k, v]) => [k, { ...v, nativeRange: undefined }]));
     expect(regionSummary([p], unknownRange).nativeShare).toBeUndefined();
     expect(regionSummary([], plants)).toMatchObject({ projects: 0, quantity: 0, plants: [], taxa: { count: 0, projects: 0 } });
+  });
+
+  it('counts an unsourced name once in any spelling validation treats as the same name', () => {
+    const at = (key: string, plant: string): AnalysisProject => ({ key, data: { ...projects[0].data, plantList: [{ plant, quantity: 1 }] }, geo: projects[0].geo });
+    expect(regionSummary([at('project/a', "Acer rubrum 'Armstrong'"), at('project/b', 'acer  rubrum ‘Armstrong’')], plants).unsourced).toEqual({ count: 1, projects: 2 });
   });
 
   it('the mix by form counts the projects behind each form', () => {

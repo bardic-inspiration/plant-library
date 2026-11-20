@@ -4,6 +4,7 @@ import { defFields, entryFields, fieldWarnings, flatFields, humanize, prune, set
 import { rawSchemas } from '../lib/schemas';
 import { applyDifferences, editDifferences, entryHash } from '../lib/submission';
 import { nameIndex } from '../lib/export';
+import { CITED_TRAITS, TRAIT_PARENTS } from '../lib/traits';
 import { sniff } from '../lib/sniff';
 import { clone, entry, fixtureEntries, ROOT, setup } from './helpers';
 
@@ -74,10 +75,12 @@ describe('form fields from the schemas', () => {
     const note = defFields('fieldNote', ctx);
     expect(note.map((f) => f.key)).toEqual(['topic', 'note', 'region', 'project', 'trait']);
     expect(note[0].kind).toBe('choice');
-    const traits = traitOptions(fields('plant')).map((o) => o.id);
-    expect(traits).toEqual(expect.arrayContaining(['height', 'soil', 'soil.drainage', 'tolerates']));
-    expect(traits).not.toContain('summary');
-    expect(traits).not.toContain('height.min');
+    const options = traitOptions(fields('plant'));
+    const traits = options.map((o) => o.id);
+    expect(traits).toEqual(expect.arrayContaining(['height', 'soil', 'soil.drainage', 'soil.ph', 'bloom', 'bloom.months', 'tolerates', 'hardiness', 'wetlandIndicator', 'nativeRange']));
+    // The picker offers exactly what validation takes (lib/traits.ts), no name parts or pieces of a range.
+    expect([...traits].sort()).toEqual([...Object.keys(CITED_TRAITS), ...Object.keys(TRAIT_PARENTS)].sort());
+    expect(options.find((o) => o.id === 'soil.drainage')?.label).toMatch(/^Soil: /);
   });
 
   it('warns on what is missing or odd, without refusing it', () => {
@@ -230,6 +233,8 @@ describe('helpers', () => {
     expect(linesFromPaste('Qty\tBotanical name\tSize\n5\tacer circinatum\t#2\n\t\t\n7\t\t', names)).toEqual({ lines: [{ plant: { ref: 'plant/acer-circinatum' }, quantity: 5, size: '#2' }], skipped: 1 });
     expect(linesFromPaste('Mystery plant, 3, 1 gal, 18 in o.c., near path', names).lines).toEqual([{ plant: 'Mystery plant', quantity: 3, size: '1 gal', spacing: '18 in o.c.', note: 'near path' }]);
     expect(linesFromPaste('12\tAcer circinatum', names).lines).toEqual([{ plant: { ref: 'plant/acer-circinatum' }, quantity: 12 }]);
+    const withSynonym = nameIndex([{ key: 'plant/mahonia-aquifolium', botanicalName: 'Mahonia aquifolium', synonyms: ['Berberis aquifolium'] }]);
+    expect(linesFromPaste('Berberis aquifolium\t4', withSynonym).lines).toEqual([{ plant: { ref: 'plant/mahonia-aquifolium' }, quantity: 4 }]);
   });
 });
 

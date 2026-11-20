@@ -13,6 +13,7 @@ import { subsetProblems, refTokens } from './markdown';
 import { zoneIndex } from './zones';
 import { flatFacets, isGroup } from './facets';
 import { deriveGeo } from './derive';
+import { CITED_TRAITS, isNoteTrait, TRAIT_PARENTS, traitsOverlap } from './traits';
 import { loadGeo } from './geo-load';
 import type { GeoLayers } from './geo';
 import type { Entry, LatLon, PlantData, VocabValue } from './types';
@@ -23,41 +24,12 @@ export interface Report { errors: Issue[]; warnings: Issue[] }
 export const IMAGE_WARN_BYTES = 500 * 1024;
 export const IMAGE_FAIL_BYTES = 2 * 1024 * 1024;
 
-/** Traits that must be cited when populated, and the registry category that may cite each. */
-export const CITED_TRAITS: Record<string, string> = {
-  family: 'names',
-  form: 'traits',
-  lifeCycle: 'traits',
-  foliage: 'traits',
-  height: 'traits',
-  spread: 'traits',
-  growthRate: 'traits',
-  sun: 'traits',
-  moisture: 'traits',
-  'soil.texture': 'traits',
-  'soil.drainage': 'traits',
-  'soil.ph': 'traits',
-  hardiness: 'traits',
-  waterUse: 'traits',
-  tolerates: 'traits',
-  'bloom.colors': 'traits',
-  'bloom.months': 'traits',
-  fallColor: 'traits',
-  fruit: 'traits',
-  wildlife: 'traits',
-  uses: 'traits',
-  wetlandIndicator: 'wetland',
-  nativeRange: 'range',
-};
-
 /** Required fields a `placeholder` citation may stand in for, when no reference gives them. */
 export const PLACEHOLDER_FIELDS = ['family', 'form'];
 
 /** Name fields a source may also be cited for, though citing them isn't required. */
 const NAME_FIELDS = ['genus', 'species', 'infraEpithet', 'commonNames', 'synonyms', 'usdaSymbol'];
 
-/** Parent keys that may be cited for all their parts. */
-const PARENTS: Record<string, string[]> = { soil: ['soil.texture', 'soil.drainage', 'soil.ph'], bloom: ['bloom.colors', 'bloom.months'] };
 
 export interface ValidateOptions {
   /** The folder image paths are relative to. Defaults to the repo root. */
@@ -279,23 +251,23 @@ export function validateLibrary(config: Config, schemas: Schemas, loaded: Loaded
     if (other) err(file, `botanical name ${botanicalName(d)} is also ${other}`);
     nameOwner.set(n, `plant/${entry.id}`);
   }
+  // Synonyms: not a botanical name in the library, and each listed by one plant, once.
+  const botanical = new Map(nameOwner);
+  const synSeen = new Map<string, string>(); // normalized synonym → key
   for (const { file, entry } of plants) {
+    const key = `plant/${entry.id}`;
     for (const syn of entry.data.synonyms ?? []) {
       const n = normalizeName(syn);
-      const owner = nameOwner.get(n);
-      if (owner && owner !== `plant/${entry.id}`) err(file, `synonym "${syn}" is the name of ${owner}`);
-      else if (owner) err(file, `synonym "${syn}" is the plant's own name`);
-      else nameOwner.set(n, `plant/${entry.id}`);
-    }
-  }
-  // Repeated synonyms across plants.
-  const synSeen = new Map<string, string>();
-  for (const { file, entry } of plants) {
-    for (const syn of entry.data.synonyms ?? []) {
-      const n = normalizeName(syn);
+      const owner = botanical.get(n);
       const prev = synSeen.get(n);
-      if (prev && prev !== entry.id) err(file, `synonym "${syn}" is also a synonym of plant/${prev}`);
-      synSeen.set(n, entry.id);
+      if (owner === key) err(file, `synonym "${syn}" is the plant's own name`);
+      else if (owner) err(file, `synonym "${syn}" is the name of ${owner}`);
+      else if (prev === key) err(file, `synonym "${syn}" is listed twice`);
+      else if (prev) err(file, `synonym "${syn}" is also a synonym of ${prev}`);
+      else {
+        synSeen.set(n, key);
+        nameOwner.set(n, key);
+      }
     }
   }
   // Near-duplicate common names.
@@ -327,7 +299,7 @@ export function validateLibrary(config: Config, schemas: Schemas, loaded: Loaded
         }
       }
       for (const f of c.fields) {
-        const parts = PARENTS[f] ?? [f];
+        const parts = TRAIT_PARENTS[f] ?? [f];
         for (const p of parts) {
           const cat = CITED_TRAITS[p] ?? (NAME_FIELDS.includes(p) ? 'names' : undefined);
           if (!cat) {
@@ -341,7 +313,7 @@ export function validateLibrary(config: Config, schemas: Schemas, loaded: Loaded
       }
       if (src.kind === 'professional') {
         for (const f of c.fields) {
-          const others = d.sources.filter((o) => o !== c && config.sources[o.source]?.kind !== 'professional' && o.fields.some((g) => g === f || (PARENTS[g] ?? []).includes(f)));
+          const others = d.sources.filter((o) => o !== c && config.sources[o.source]?.kind !== 'professional' && o.fields.some((g) => traitsOverlap(f, g)));
           if (others.length) err(file, `data.sources[${i}]: ${f} is given by ${others.map((o) => o.source).join(', ')}; an observation that differs belongs in a field note`);
         }
       }
@@ -428,7 +400,7 @@ export function validateLibrary(config: Config, schemas: Schemas, loaded: Loaded
   for (const { file, entry } of valid) {
     (entry.fieldNotes ?? []).forEach((n, i) => {
       if (n.trait && entry.type !== 'plant') err(file, `fieldNotes[${i}].trait: only a plant's field notes attach to a trait`);
-      else if (n.trait && !(n.trait in CITED_TRAITS) && !(n.trait in PARENTS)) err(file, `fieldNotes[${i}].trait: "${n.trait}" is not a trait`);
+      else if (n.trait && !isNoteTrait(n.trait)) err(file, `fieldNotes[${i}].trait: "${n.trait}" is not a trait`);
       if (n.project && keys.has(n.project.ref) && !n.project.ref.startsWith('project/')) err(file, `fieldNotes[${i}].project: ${n.project.ref} is not a project`);
       if (n.submission && !(entry.meta.submissions ?? []).includes(n.submission)) err(file, `fieldNotes[${i}].submission: ${n.submission} is not in meta.submissions`);
     });

@@ -8,10 +8,11 @@ import { loadLibrary, type Library } from './library';
 import type { AnalysisProject } from './analysis';
 import { companions, derivePalette, derivePlant, derivePlantUse, deriveGeo, deriveProject } from './derive';
 import { loadGeo } from './geo-load';
-import { nameSegments, fullName } from './names';
+import { nameSegments, fullName, normalizeName } from './names';
 import { facetValues, flatFacets, getPath, indexFacets, type Labeller } from './facets';
 import { plainText } from './markdown';
 import { entryUrl, url } from './site';
+import { listLimit as workspaceListLimit } from './workspace';
 import type { GeoLayers } from './geo';
 import type { Entry, FacetLabels, IndexRecord, LibraryIndex, PaletteData, PaletteDerived, PlantData, PlantListItem, PlantDerived, ProjectData, ProjectDerived } from './types';
 
@@ -170,9 +171,9 @@ function cardFor(b: BuiltEntry): Record<string, unknown> {
 }
 
 /** A palette's plant count as a project card counts it: distinct refs plus distinct unsourced names (D37). */
-function paletteCount(d: PaletteData): number {
+export function paletteCount(d: PaletteData): number {
   const seen = new Set<string>();
-  for (const i of d.plantList) seen.add(typeof i.plant === 'string' ? `text:${i.plant.trim().toLowerCase()}` : i.plant.ref);
+  for (const i of d.plantList) seen.add(typeof i.plant === 'string' ? `text:${normalizeName(i.plant)}` : i.plant.ref);
   return seen.size;
 }
 
@@ -217,10 +218,6 @@ export function compatPlants(keys: readonly string[], byKey: ReadonlyMap<string,
 let cache: BuildData | undefined;
 
 /**
- * Build once per process. Pass `dataRoot` (tests do) to build from another
- * library folder; that result is not cached.
- */
-/**
  * Whether the site builds pages for a type: it has `site/src/pages/<type>/[id].astro`.
  * Only those types are in the index, so the list view never links an
  * unbuilt page (D35, as the top bar lists only built sections, D10).
@@ -229,6 +226,10 @@ export function hasPages(root: string, type: string): boolean {
   return existsSync(join(root, 'site', 'src', 'pages', type, '[id].astro'));
 }
 
+/**
+ * Build once per process. Pass `dataRoot` (tests do) to build from another
+ * library folder; that result is not cached.
+ */
 export function buildData(opts: { dataRoot?: string } = {}): BuildData {
   if (cache && !opts.dataRoot) return cache;
   const library = opts.dataRoot ? loadLibrary(undefined, opts.dataRoot) : loadLibrary();
@@ -303,6 +304,8 @@ export function buildData(opts: { dataRoot?: string } = {}): BuildData {
     }
     if (type === 'plant') {
       rec.nameParts = nameSegments(b.entry.data as unknown as PlantData);
+      const synonyms = (b.entry.data as unknown as PlantData).synonyms;
+      if (synonyms?.length) rec.synonyms = synonyms;
       // Its companions, so the workspace can list them first among the plants that fit.
       const comp = (b.derived as unknown as PlantDerived).companions;
       if (comp?.length) rec.companions = comp;
@@ -315,7 +318,8 @@ export function buildData(opts: { dataRoot?: string } = {}): BuildData {
     boosted: [...new Set(Object.values(config.types).flatMap((t) => t.search.boosted))],
     fields: [...new Set(Object.values(config.types).flatMap((t) => t.search.fields))],
   };
-  const result = { library, entries, byKey, index: { facets, records, searchFields }, projects };
+  const listLimit = workspaceListLimit(plants.values());
+  const result = { library, entries, byKey, index: { facets, records, searchFields, listLimit }, projects };
   if (!opts.dataRoot) cache = result;
   return result;
 }

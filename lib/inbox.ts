@@ -13,6 +13,7 @@ import { botanicalName, fullName, normalizeName } from './names';
 import type { ValidateFunction } from 'ajv/dist/2020.js';
 import { formatErrors, type Schemas } from './schemas';
 import { editDifferences, entryText, pathsOverlap } from './submission';
+import { isNoteTrait } from './traits';
 import { ALLOWED, EXTENSIONS, LABEL, extension, sniff, type FileRole } from './sniff';
 
 export { ALLOWED, sniff, type FileRole, type Sniffed } from './sniff';
@@ -350,9 +351,9 @@ function checkPaths(sub: Submission, ctx: CheckContext, add: Add): void {
       add('paths', 'fail', `a field note names the trait ${n.trait}, but only a plant's notes name a trait`);
       continue;
     }
-    const at = resolvePath(type, `data.${n.trait}`, ctx);
-    if ('error' in at) add('paths', 'fail', `field note trait ${n.trait}: ${at.error.replace(/^data\./, '')}`);
-    else add('paths', 'pass', `field note trait ${n.trait} is a plant trait`);
+    // The list validation uses (lib/traits.ts): a name, one end of a range, or one wetland region isn't a trait.
+    if (isNoteTrait(n.trait)) add('paths', 'pass', `field note trait ${n.trait} is a plant trait`);
+    else add('paths', 'fail', `field note trait ${n.trait} is not a plant trait`);
   }
 }
 

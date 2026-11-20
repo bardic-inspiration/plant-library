@@ -97,8 +97,18 @@ describe('names and synonyms', () => {
     expectError(validateWith((es) => plant(es, 'mahonia-nervosa').data.synonyms!.push('Mahonia aquifolium')), /synonym "Mahonia aquifolium" is the name of plant\/mahonia-aquifolium/);
   });
 
-  it('a synonym may not belong to two plants', () => {
-    expectError(validateWith((es) => plant(es, 'mahonia-nervosa').data.synonyms!.push('Berberis aquifolium')), /Berberis aquifolium/);
+  it('a synonym may not belong to two plants, and is reported once, as a synonym', () => {
+    const r = validateWith((es) => plant(es, 'mahonia-nervosa').data.synonyms!.push('Berberis aquifolium'));
+    expect(messages(r)).toEqual(['content/plant/mahonia-nervosa.json: synonym "Berberis aquifolium" is also a synonym of plant/mahonia-aquifolium']);
+  });
+
+  it('a synonym listed twice by one plant, in two spellings, is reported as listed twice', () => {
+    const r = validateWith((es) => plant(es, 'mahonia-nervosa').data.synonyms!.push('Berberis  nervosa'));
+    expect(messages(r)).toEqual(['content/plant/mahonia-nervosa.json: synonym "Berberis  nervosa" is listed twice']);
+  });
+
+  it('a synonym may not be the plant’s own name', () => {
+    expectError(validateWith((es) => plant(es, 'mahonia-nervosa').data.synonyms!.push('Mahonia nervosa')), /synonym "Mahonia nervosa" is the plant's own name/);
   });
 
   it('the family must be in the family table', () => {
@@ -151,6 +161,19 @@ describe('provenance', () => {
 
   it('a staff observation fills only a trait no other source gives', () => {
     expectError(validateWith((es) => plant(es, 'gaultheria-shallon').data.sources[1].fields.push('height')), /height is given by usda-plants/);
+  });
+
+  it('a staff observation may not cite a parent when another source cites one of its parts, or the reverse', () => {
+    // usda-plants cites soil.drainage; the observation citing all of soil overlaps it.
+    expectError(validateWith((es) => plant(es, 'gaultheria-shallon').data.sources[1].fields.push('soil')), /soil is given by usda-plants/);
+    expectError(
+      validateWith((es) => {
+        const d = plant(es, 'gaultheria-shallon').data;
+        d.sources[0].fields = d.sources[0].fields.map((f) => (f === 'soil.drainage' ? 'soil' : f));
+        d.sources[1].fields.push('soil.drainage');
+      }),
+      /soil\.drainage is given by usda-plants/,
+    );
   });
 
   it('a staff observation names its contributor', () => {
@@ -225,8 +248,13 @@ describe('refs and markdown', () => {
     expectError(validateWith((es) => (plant(es, 'gaultheria-shallon').fieldNotes![0].note = 'See <a href="x">this</a>')), /fieldNotes\[0\]\.note: HTML is not allowed/);
   });
 
-  it('a field note’s trait must be a trait', () => {
-    expectError(validateWith((es) => (plant(es, 'gaultheria-shallon').fieldNotes![1].trait = 'colour')), /"colour" is not a trait/);
+  it('a field note’s trait must be a trait: a cited trait or soil or bloom, not a name or part of a range', () => {
+    for (const t of ['colour', 'genus', 'commonNames', 'synonyms', 'hardiness.min', 'wetlandIndicator.AW', 'nativeRange.states']) {
+      expectError(validateWith((es) => (plant(es, 'gaultheria-shallon').fieldNotes![1].trait = t)), new RegExp(`"${t.replace('.', '\\.')}" is not a trait`));
+    }
+    for (const t of ['soil', 'soil.drainage', 'bloom', 'hardiness', 'wetlandIndicator']) {
+      expect(messages(validateWith((es) => (plant(es, 'gaultheria-shallon').fieldNotes![1].trait = t))), t).toEqual([]);
+    }
   });
 
   it('a field note’s topic comes from the vocabulary, and author and date are required', () => {

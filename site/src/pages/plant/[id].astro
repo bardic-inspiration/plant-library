@@ -35,6 +35,7 @@ const b = data.byKey.get(key)!;
 const d = b.entry.data as unknown as PlantData;
 const dv = b.derived as unknown as PlantDerived;
 const { sources: registry } = data.library.config;
+const { listLimit } = data.index;
 const resolve = (k: string) => {
   const t = data.byKey.get(k);
   return t ? { name: t.name, url: url(`${k}/`) } : undefined;
@@ -165,7 +166,7 @@ const bloomLabel = dv.bloomMonthList ? `Bloom calendar: ${formatMonths(d.bloom?.
       {d.synonyms?.length ? <p class="synonyms">Also sold or published as {d.synonyms.map((s, i) => <>{i ? ', ' : ''}<i>{s}</i></>)}</p> : null}
       <p class="summary">{b.entry.summary}</p>
       <Conditions sun={d.sun} moisture={d.moisture} />
-      <AddToList client:only="preact" entry={key} name={fullName(d)} />
+      <AddToList client:only="preact" entry={key} name={fullName(d)} limit={listLimit} />
       <p class="list-actions">
         <a class="workspace-link" href={printPlantsUrl([key])}>Print cut sheet</a>
         <a class="workspace-link" href={url(`data/${key}.json`)} download={`${b.entry.id}.json`}>Entry as JSON</a>

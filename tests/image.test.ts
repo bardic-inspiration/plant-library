@@ -1,4 +1,4 @@
-import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import sharp from 'sharp';
@@ -67,5 +67,14 @@ describe('placeImage', () => {
     const out = await placeImage(src, { dataRoot: root, type: 'plant', id: 'thuja-plicata', settings });
     expect(out.path).toBe('assets/images/plant/thuja-plicata/1.jpg');
     expect((await sharp(readFileSync(join(root, out.path))).metadata()).exif).toBeUndefined();
+  });
+
+  it('refuses an entry id or type that would write outside assets/images/<type>/', async () => {
+    const src = join(root, 'IMG_2041.jpg');
+    for (const id of ['../../escape', 'thuja/plicata', 'Thuja-plicata', '']) {
+      await expect(placeImage(src, { dataRoot: root, type: 'plant', id, settings }), id).rejects.toThrow(/not an entry id/);
+    }
+    await expect(placeImage(src, { dataRoot: root, type: '../plant', id: 'thuja-plicata', settings })).rejects.toThrow(/not an entry type/);
+    expect(existsSync(join(root, 'escape'))).toBe(false);
   });
 });

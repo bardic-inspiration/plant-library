@@ -418,6 +418,8 @@ describe('inbox check', () => {
       expect(of(note('height'), 'paths')[0].status).toBe('pass');
       expect(of(note('soil.drainage'), 'paths')[0].status).toBe('pass');
       expect(of(note('wingspan'), 'paths')[0].status).toBe('fail');
+      // In the schema, but not a trait: validation would reject the note once integrated.
+      for (const t of ['genus', 'commonNames', 'hardiness.min', 'wetlandIndicator.AW', 'nativeRange.states']) expect(of(note(t), 'paths')[0].status, t).toBe('fail');
     });
   });
 

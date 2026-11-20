@@ -131,7 +131,7 @@ The steps that are already settled:
 
 1. A project entry is written from a plant list, with every plant the
    library holds as a ref and the rest as text
-   ([data-model.md](data-model.md#references)).
+   ([docs/content-model.md](../../docs/content-model.md#references)).
 2. `npm run coverage` lists the unsourced plants across all projects and
    palettes, most used first.
 3. A `plant-import` session takes plants from that list, finds each in the

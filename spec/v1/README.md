@@ -1,8 +1,11 @@
 # v1 stage spec
 
-The design for Plant Library v1. M1, M3, M4, M6, and M8 are built, M7 apart from the `folder` store, M2 apart from
-its plant data, and M5's engine, basemap, token-built style, overlays, map view, region filters, and small maps on detail pages; what exists is described in [`docs/`](../../docs/README.md), and
-this folder holds the rest. It follows the stage-spec convention of
+The design for Plant Library v1. M1, M3, and M8 are built; M2 apart from
+its plant data; M4, M5, and M6 apart from the hardiness zone layer and what
+it feeds (a project's zone, the zone overlay, the workspace's zone from its
+location); and M7 apart from the `folder` store. What exists is described
+in [`docs/`](../../docs/README.md), and this folder holds the rest. It
+follows the stage-spec convention of
 `ttrpg-library` (TL below): it holds only unbuilt design, and the PR that
 builds a part deletes it here and describes what now exists in `docs/`. The
 stage is finished when only this README is left.
@@ -104,11 +107,11 @@ of scope (Goal and Design required).
 
 | File | Covers |
 |---|---|
-| [`data-model.md`](data-model.md) | The `project` and `palette` types, plant lists, derived use and geography, their validation |
-| [`sources.md`](sources.md) | The source survey, the production dataset (a later stage), fixture projects, the import workflow |
-| [`library.md`](library.md) | Project and palette pages and cards, cross-type filters, the palette workspace, compatibility |
-| [`map.md`](map.md) | The map view, the map engine, basemap and its style from tokens, overlays, region filters, distribution analysis |
-| [`submissions.md`](submissions.md) | Contribution forms, the submission format, stores, the `integrate` skill and routine, professional opinion |
+| [`data-model.md`](data-model.md) | A project's hardiness zone, the one derived value left |
+| [`sources.md`](sources.md) | The source survey, the production dataset (a later stage), the import workflow |
+| [`library.md`](library.md) | The workspace's zone from its location |
+| [`map.md`](map.md) | The hardiness zone layer and overlay |
+| [`submissions.md`](submissions.md) | The `folder` store, and the handover questions |
 
 ## Milestones
 
@@ -121,9 +124,9 @@ for it.
 | M1 | Skeleton | Built: tooling, lanes, CI, deploy, docs, the site ([docs/workflow.md](../../docs/workflow.md)) |
 | M2 | Plants | Built: the plant type, validation, the source registry, and a prototype fixture set of 473 plants from the King County guide and the Portland Plant List ([docs/sources.md](../../docs/sources.md#the-prototype-fixture-set)) |
 | M3 | Library | Built: list view, filter tree, search, plant pages, styling ([docs/site.md](../../docs/site.md)) |
-| M4 | Projects | Built: the project schema, validation, derived values, and fixture projects ([docs/content-model.md](../../docs/content-model.md#project), [docs/sources.md](../../docs/sources.md#fixture-projects)); geography apart from hardiness zones ([docs/geography.md](../../docs/geography.md)); project pages, project facets, the cross-type filters, project search, and plant and project links ([docs/site.md](../../docs/site.md)) |
-| M5 | Map | Engine, basemap extract, style from tokens, glyphs, project clustering, the overlay registry with its boundary overlays, the `/map/` view, region filters, and small maps on detail pages built ([docs/map.md](../../docs/map.md), [docs/site.md](../../docs/site.md#map-view)); `map.md` hardiness zone overlay |
-| M6 | Palettes | The compatibility function, the palette type with its derived values, the fixture palettes, palette pages and cards, the palette facet, palette points on the map, the compatibility panel, the workspace, and the exports and print view: built ([docs/content-model.md](../../docs/content-model.md#palette), [docs/sources.md](../../docs/sources.md#fixture-palettes), [docs/site.md](../../docs/site.md#palette-page), [docs/site.md](../../docs/site.md#exports-and-print)) |
+| M4 | Projects | Built: the project schema, validation, derived values, and fixture projects ([docs/content-model.md](../../docs/content-model.md#project), [docs/sources.md](../../docs/sources.md#fixture-projects)); geography apart from hardiness zones ([docs/geography.md](../../docs/geography.md)); project pages, project facets, the cross-type filters, project search, and plant and project links ([docs/site.md](../../docs/site.md)). `data-model.md`: a project's hardiness zone |
+| M5 | Map | Built: engine, basemap extract, style from tokens, glyphs, project clustering, the overlay registry with its boundary overlays, the `/map/` view, region filters, and small maps on detail pages ([docs/map.md](../../docs/map.md), [docs/site.md](../../docs/site.md#map-view)). `map.md`: the hardiness zone layer and overlay |
+| M6 | Palettes | The compatibility function, the palette type with its derived values, the fixture palettes, palette pages and cards, the palette facet, palette points on the map, the compatibility panel, the workspace, and the exports and print view: built ([docs/content-model.md](../../docs/content-model.md#palette), [docs/sources.md](../../docs/sources.md#fixture-palettes), [docs/site.md](../../docs/site.md#palette-page), [docs/site.md](../../docs/site.md#exports-and-print)). `library.md`: the workspace's zone from its location |
 | M7 | Contributions | The submission schema, edit differences, the inbox's `list`, `check` with all its mechanical checks, and `image` re-encoding, field notes with the `staff-observation` source and contributor credit, the contribution forms, the `browser` store with bundles and `inbox import`, results with `close` and `compare`, and the `integrate` skill with its fixture inbox: built ([docs/submissions.md](../../docs/submissions.md), [docs/routines.md](../../docs/routines.md)). `submissions.md`: the `folder` store, which waits on a handover question |
 | M8 | Analysis | The analysis functions and companions, and the plant-page figures with companions in the workspace: built ([docs/content-model.md](../../docs/content-model.md#distribution-analysis), [docs/site.md](../../docs/site.md#plant-page)). The use choropleth and the per-region view: built ([docs/map.md](../../docs/map.md#the-use-choropleth), [docs/site.md](../../docs/site.md#map-view)). Comparison of two plants or two regions: built ([docs/site.md](../../docs/site.md#compare-page)) |
 
@@ -139,7 +142,7 @@ listed here so the owner can overrule it in review.
   project ([docs/content-model.md](../../docs/content-model.md#palette)).
 - **A project's plant list may name a plant the library doesn't hold yet**,
   as plain text, so real plant lists can be entered before every species is
-  sourced ([data-model.md](data-model.md#references)).
+  sourced ([docs/content-model.md](../../docs/content-model.md#references)).
 - **Feet and US units are stored**; the site shows metric beside them
   ([docs/content-model.md](../../docs/content-model.md#plant)).
 - **MapLibre GL JS with PMTiles** powers the map ([docs/map.md](../../docs/map.md#engine)).
