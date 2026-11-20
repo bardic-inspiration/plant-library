@@ -5,6 +5,7 @@
  * carries the number of projects behind it, so a page can show its sample
  * size; a plant counts only where a list refs it, never by unsourced text.
  */
+import { normalizeName } from './names';
 import type { GeoDerived, PlantData, PlantListItem, ProjectData } from './types';
 
 /** A project as the analysis reads it: its key, its data, and `deriveGeo` of its location. */
@@ -195,7 +196,7 @@ export function regionSummary(projects: readonly RegionProject[], plantsByKey: R
       const key = typeof item.plant === 'string' ? undefined : item.plant.ref;
       const plant = key ? plantsByKey.get(key) : undefined;
       if (!key || !plant) {
-        unsourced.add(typeof item.plant === 'string' ? item.plant.trim().toLowerCase() : String(key));
+        unsourced.add(typeof item.plant === 'string' ? normalizeName(item.plant) : String(key));
         unsourcedHere = true;
         formsHere.set('unknown', (formsHere.get('unknown') ?? 0) + q);
         continue;

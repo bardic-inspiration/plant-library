@@ -4,7 +4,7 @@
  */
 import vocabJson from '../config/vocab.json' with { type: 'json' };
 import { featureAt, type GeoLayers } from './geo';
-import { botanicalName, sortName } from './names';
+import { botanicalName, normalizeName, sortName } from './names';
 import { expandZones, zoneIndex } from './zones';
 import { compatibility, type CompatSite } from './compat';
 import type { Companion, GeoDerived, LatLon, PaletteData, PaletteDerived, PlantData, PlantDerived, PlantUse, ProjectData, ProjectDerived, Vocab } from './types';
@@ -103,7 +103,7 @@ export function deriveProject(
     const key = typeof item.plant === 'string' ? undefined : item.plant.ref;
     const plant = key ? plantsByKey.get(key) : undefined;
     if (!key || !plant) {
-      unsourced.add(typeof item.plant === 'string' ? item.plant.trim().toLowerCase() : String(key));
+      unsourced.add(typeof item.plant === 'string' ? normalizeName(item.plant) : String(key));
       byForm.unknown = (byForm.unknown ?? 0) + q;
       continue;
     }

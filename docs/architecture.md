@@ -4,14 +4,17 @@
 
 Plant Library is files plus a static site (P1). Entries are JSON files in
 `content/`; scripts validate them and derive everything computable; Astro
-builds one HTML page per entry and a Preact island for the Library.
+builds one HTML page per entry, and Preact islands for the pages that run
+in the browser: the Library (list and map), the workspace, the contribution
+forms, the compare page, the print view, the small maps, and the per-region
+view.
 
 ## Behavior
 
 ### Layout
 
 ```
-content/<type>/<id>.json           entries (plants so far)
+content/<type>/<id>.json           entries: plants, projects, and palettes
 assets/images/plant/<id>/<n>.*     plant images
 schemas/                           JSON schemas: common, envelope, plant, project, palette, submission, result, sources, site, types, overlays
 config/                            site.json, types.json, vocab.json, sources.json, overlays.json
@@ -62,7 +65,7 @@ from `config/site.json`.
 |---|---|
 | `validate` | All validation rules; exits 1 on any error |
 | `build:index`, `build:map`, `build` | The index, the map style and glyphs, then the site |
-| `dev`, `preview` | Astro's dev server; a static server for `site/dist` with range requests |
+| `dev`, `preview` | Astro's dev server; a static server for `site/dist` with range requests, which answers a malformed URL with 400 |
 | `build:fixtures`, `dev:fixtures` | The same, from the fixture library ([site.md](site.md#the-fixture-library)) |
 | `check` | `tsc`, Stylelint, and the link check |
 | `links` | Relative Markdown links in the repo, and internal links in the built site |
@@ -73,14 +76,14 @@ from `config/site.json`.
 | `coverage` | Unsourced plant names and non-commercial dependencies ([sources.md](sources.md#coverage)) |
 | `attribution` | Regenerates `ATTRIBUTION.md`; `-- --check` fails when stale |
 | `geo` | Rebuilds the boundary layers in `geo/` from their sources; not part of the build ([geography.md](geography.md)) |
-| `inbox` | `list`, `check <id>` (the mechanical checks on a submission in `inbox/`), `import <bundle>` (unpack a bundle exported from the site into `inbox/`), `image <id> <file>` (re-encode a submitted photo into the library), `close <id> <result file>` (file the result and move the submission to `processed/`), and `compare` (results against the fixture inbox's) ([submissions.md](submissions.md#inbox-and-mechanical-checks)) |
+| `inbox` | `list`, `check <id>` (the mechanical checks on a submission in `inbox/`), `import <bundle>` (unpack a bundle exported from the site into `inbox/`), `image <id> <file> [<entry id>]` (re-encode a submitted photo into the library; an add names the new entry's id, which must be a slug), `close <id> <result file>` (file the result and move the submission to `processed/`), and `compare` (results against the fixture inbox's) ([submissions.md](submissions.md#inbox-and-mechanical-checks)) |
 | `basemap` | Cuts the PMTiles basemap into `site/public/`; run by the deploy workflow, needs Go ([map.md](map.md#basemap)) |
 
 ## Where the rules live
 
 `lib/` holds every rule; scripts are thin entry points. Client-safe modules
-(`names`, `derive`, `compat`, `geo`, `zones`, `facets`, `filter`, `format`, `markdown`,
-`site`, `registry`, `map-style`, `map-data`, `glyphs`, `overlays`, `workspace`, `export`, `cutsheet`, `submission`, `sniff`, `form`, `contribute`, `bundle`) have no Node imports, so the island uses them too.
+(`names`, `derive`, `compat`, `compat-text`, `geo`, `zones`, `facets`, `filter`, `format`, `markdown`,
+`site`, `registry`, `citation`, `traits`, `map-style`, `map-data`, `glyphs`, `overlays`, `workspace`, `export`, `cutsheet`, `analysis`, `analysis-data`, `compare`, `submission`, `sniff`, `form`, `contribute`, `bundle`) have no Node imports, so the islands use them too.
 
 ## Extending
 

@@ -1,18 +1,19 @@
 import { useEffect, useState } from 'preact/hooks';
-import { addLines, addPlant, hasPlant } from '../../../../lib/workspace';
+import { addLines, addPlant, hasPlant, hasRoom, limitMessage } from '../../../../lib/workspace';
 import { url } from '../../../../lib/site';
 import { currentList, readStore, withCurrent, writeStore } from '../../lib/workspace-store';
 
-type State = { kind: 'idle' | 'on' | 'added' | 'busy' | 'failed'; list?: string; count?: number };
+type State = { kind: 'idle' | 'on' | 'added' | 'busy' | 'failed' | 'full'; list?: string; count?: number; message?: string };
 
 /**
  * "Add to list": adds a plant, or a project's or palette's whole list, to the
  * workspace's current list in local storage. A plant already on the list
  * says so instead of adding a second line. Rendered only in the browser
  * (the Library island's cards, and plant pages as an island), since it does
- * nothing without JavaScript.
+ * nothing without JavaScript. Lines that would take the list past `limit`
+ * (`LibraryIndex.listLimit`) aren't added, and it says why.
  */
-export function AddToList({ entry, name }: { entry: string; name: string }) {
+export function AddToList({ entry, name, limit }: { entry: string; name: string; limit: number }) {
   const [state, setState] = useState<State>({ kind: 'idle' });
   const isPlant = entry.startsWith('plant/');
 
@@ -28,7 +29,8 @@ export function AddToList({ entry, name }: { entry: string; name: string }) {
       const store = readStore();
       const list = currentList(store);
       if (hasPlant(list, entry)) return setState({ kind: 'on', list: list.name });
-      const ok = writeStore(withCurrent(store, (l) => addPlant(l, entry)));
+      if (!hasRoom(list, 1, limit)) return setState({ kind: 'full', message: limitMessage(list, 1, limit) });
+      const ok = writeStore(withCurrent(store, (l) => addPlant(l, entry, limit)));
       return setState(ok ? { kind: 'added', list: list.name, count: 1 } : { kind: 'failed' });
     }
     // A project or palette: its full entry holds the list.
@@ -39,7 +41,8 @@ export function AddToList({ entry, name }: { entry: string; name: string }) {
       const items = ((await r.json()) as { data?: { plantList?: unknown[] } }).data?.plantList ?? [];
       const store = readStore();
       const list = currentList(store);
-      const ok = writeStore(withCurrent(store, (l) => addLines(l, items)));
+      if (!hasRoom(list, items.length, limit)) return setState({ kind: 'full', message: limitMessage(list, items.length, limit) });
+      const ok = writeStore(withCurrent(store, (l) => addLines(l, items, limit)));
       setState(ok ? { kind: 'added', list: list.name, count: items.length } : { kind: 'failed' });
     } catch {
       setState({ kind: 'failed' });
@@ -55,7 +58,9 @@ export function AddToList({ entry, name }: { entry: string; name: string }) {
           : `Added ${state.count} ${state.count === 1 ? 'line' : 'lines'} to ${state.list}.`
         : state.kind === 'failed'
           ? 'Not added: this browser blocked saving the list.'
-          : '';
+          : state.kind === 'full'
+            ? state.message!
+            : '';
   return (
     <div class="add-to-list">
       <button type="button" class="add-button" onClick={add} disabled={state.kind === 'busy'} aria-label={`Add to list: ${name}`}>

@@ -10,11 +10,12 @@
  * and a list becomes a palette entry without translation.
  */
 import vocabJson from '../config/vocab.json' with { type: 'json' };
-import { compatibility, type Compatibility, type CompatSite } from './compat';
+import { COMPAT_AXES, compatibility, type CompatAxis, type Compatibility, type CompatSite } from './compat';
 import { monthsBetween } from './derive';
 import { expandZones, isZone } from './zones';
+import { botanicalName, normalizeName } from './names';
 import { url } from './site';
-import type { IndexRecord, PaletteSite, PlantData, PlantListItem, Vocab } from './types';
+import type { IndexRecord, NameParts, PaletteSite, PlantData, PlantListItem, Vocab } from './types';
 
 const defaultVocab = vocabJson as unknown as Vocab;
 
@@ -40,10 +41,33 @@ export const STORE_KEY = 'plant-library:workspace';
 export const SHARE_PARAM = 'list';
 /** The longest text a line or a name may hold, as the schema's `shortText`. */
 const SHORT = 200;
-/** A shared list longer than this is refused rather than stored. */
-const MAX_LINES = 500;
+/** Lines a list may hold per species in the library: room for several sizes of every species (D69). */
+export const LINES_PER_SPECIES = 4;
 
 const KEY = /^plant\/[a-z0-9]+(-[a-z0-9]+)*$/;
+
+/**
+ * The most lines a workspace list may hold: four per species in the library,
+ * a species being a genus and species epithet, and a plant with no species
+ * epithet (a cultivar of a hybrid) counting as one of its own. The build
+ * puts it in the index (`LibraryIndex.listLimit`).
+ */
+export function listLimit(plants: Iterable<NameParts>): number {
+  const species = new Set<string>();
+  for (const p of plants) species.add(normalizeName(p.species ? `${p.genus} ${p.species}` : botanicalName(p)));
+  return LINES_PER_SPECIES * species.size;
+}
+
+/** Whether `count` more lines fit on the list under the limit. */
+export function hasRoom(list: Pick<WorkspaceList, 'lines'>, count: number, limit: number): boolean {
+  return list.lines.length + count <= limit;
+}
+
+/** Why lines weren't added: the list's size and the limit, as a sentence. */
+export function limitMessage(list: Pick<WorkspaceList, 'name' | 'lines'>, count: number, limit: number): string {
+  const n = list.lines.length;
+  return `Not added: ${list.name} has ${n} ${n === 1 ? 'line' : 'lines'}, and ${count} more would pass the limit of ${limit} lines a list may hold.`;
+}
 
 export function newId(): string {
   return Math.random().toString(36).slice(2, 10);
@@ -117,11 +141,15 @@ export function roundPoint(lat: number, lon: number): { lat: number; lon: number
   return { lat: r(lat), lon: r(lon) };
 }
 
-/** A list read from storage or a share URL; undefined when it isn't one. Unknown keys and invalid values are dropped. */
+/**
+ * A list read from storage or a share URL; undefined when it isn't one.
+ * Unknown keys and invalid values are dropped. A list is never dropped for
+ * its length: the limit is applied when lines are added (`hasRoom`).
+ */
 export function cleanList(raw: unknown, vocab: Vocab = defaultVocab): WorkspaceList | undefined {
   if (!raw || typeof raw !== 'object') return undefined;
   const r = raw as Record<string, unknown>;
-  if (!Array.isArray(r.lines) || r.lines.length > MAX_LINES) return undefined;
+  if (!Array.isArray(r.lines)) return undefined;
   const list: WorkspaceList = {
     id: typeof r.id === 'string' && /^[a-z0-9]{1,16}$/.test(r.id) ? r.id : newId(),
     name: shortText(r.name) ?? 'Shared list',
@@ -190,25 +218,29 @@ export function hasPlant(list: WorkspaceList, key: string): boolean {
   return list.lines.some((l) => plantKey(l) === key);
 }
 
-/** The list with a line for the plant added at the end; unchanged when the plant is already on it. */
-export function addPlant(list: WorkspaceList, key: string): WorkspaceList {
-  if (!KEY.test(key) || hasPlant(list, key)) return list;
+/** The list with a line for the plant added at the end; unchanged when the plant is already on it, or the list is at `limit`. */
+export function addPlant(list: WorkspaceList, key: string, limit = Infinity): WorkspaceList {
+  if (!KEY.test(key) || hasPlant(list, key) || !hasRoom(list, 1, limit)) return list;
   return { ...list, lines: [...list.lines, { plant: { ref: key } }] };
 }
 
-/** The list with a name the library doesn't hold added as plain text, unless a line already has it. */
-export function addText(list: WorkspaceList, text: string): WorkspaceList {
+/** The list with a name the library doesn't hold added as plain text, unless a line already has it or the list is at `limit`. */
+export function addText(list: WorkspaceList, text: string, limit = Infinity): WorkspaceList {
   const t = shortText(text);
-  if (!t) return list;
-  const norm = t.toLowerCase();
-  if (list.lines.some((l) => typeof l.plant === 'string' && l.plant.toLowerCase() === norm)) return list;
+  if (!t || !hasRoom(list, 1, limit)) return list;
+  const norm = normalizeName(t);
+  if (list.lines.some((l) => typeof l.plant === 'string' && normalizeName(l.plant) === norm)) return list;
   return { ...list, lines: [...list.lines, { plant: t }] };
 }
 
-/** The list with another list's lines appended (a project's or palette's), each line kept as it is written. */
-export function addLines(list: WorkspaceList, items: readonly unknown[]): WorkspaceList {
+/**
+ * The list with another list's lines appended (a project's or palette's),
+ * each line kept as it is written; unchanged when they would take it past
+ * `limit`, since adding only some of a list would be a silent loss.
+ */
+export function addLines(list: WorkspaceList, items: readonly unknown[], limit = Infinity): WorkspaceList {
   const lines = items.map(cleanLine).filter((l): l is PlantListItem => l !== undefined);
-  return lines.length ? { ...list, lines: [...list.lines, ...lines] } : list;
+  return lines.length && hasRoom(list, lines.length, limit) ? { ...list, lines: [...list.lines, ...lines] } : list;
 }
 
 /** The list with line `i` moved by `delta` places (clamped to the list). */
@@ -293,7 +325,7 @@ export function listSummary(items: readonly PlantListItem[], plants: ReadonlyMap
     const key = plantKey(item);
     const plant = key ? plants.get(key) : undefined;
     if (!key || !plant) {
-      unsourced.add(typeof item.plant === 'string' ? item.plant.trim().toLowerCase() : String(key));
+      unsourced.add(typeof item.plant === 'string' ? normalizeName(item.plant) : String(key));
       add(byForm, 'unknown', q);
       add(byLifeCycle, 'unknown', q);
       continue;
@@ -332,27 +364,45 @@ export function listSummary(items: readonly PlantListItem[], plants: ReadonlyMap
   return out;
 }
 
+/** "Plants that fit" as a query: Library filters, and the facets on which a plant must hold every filtered value. */
+export interface FitQuery {
+  /** Library filters; values in a facet combine as OR. */
+  filters: Record<string, string[]>;
+  /** Facet keys on which a plant must hold each of the filtered values, which the Library's filters can't say. */
+  every: string[];
+}
+
 /**
- * "Plants that fit": Library filters for plants that keep the list's shared
- * conditions and suit the site. On each axis the site's values are used
- * where it states them, else the values the list's plants share; values in
- * a facet combine as OR, so a plant accepting any one shared value keeps
- * that value shared. An axis with neither gives no filter. Water use has no
- * facet value to share and no site value, so it isn't used.
+ * "Plants that fit": plants that keep the list's shared conditions and suit
+ * the site, as `compatibility`'s site fit judges them. On each axis the
+ * site's values are used where it states them, else the values the list's
+ * plants share. A plant accepting any one shared value keeps that value
+ * shared, and on sun, moisture, and drainage any one site value fits (D69),
+ * so those combine as OR; the site's zone needs every half zone it states
+ * (a whole zone is both its halves), so that facet is in `every`. An axis
+ * with neither gives no filter. Water use has no facet value to share and no
+ * site value, so it isn't used.
  */
-export function fitFilters(compat: Compatibility, site: PaletteSite): Record<string, string[]> {
+export function fitFilters(compat: Compatibility, site: PaletteSite): FitQuery {
   const shared = (axis: string) => compat.axes.find((a) => a.axis === axis)?.shared ?? undefined;
-  const pick = (siteValues: string[] | undefined, axis: string) => (siteValues?.length ? siteValues : shared(axis)?.length ? shared(axis) : undefined);
   const filters: Record<string, string[]> = { type: ['plant'] };
-  const sun = pick(site.sun, 'sun');
-  if (sun) filters['plant.sun'] = sun;
-  const moisture = pick(site.moisture, 'moisture');
-  if (moisture) filters['plant.moisture'] = moisture;
-  const drainage = pick(site.soil?.drainage, 'drainage');
-  if (drainage) filters['plant.drainage'] = drainage;
-  const zones = pick(site.hardinessZone ? expandZones({ min: site.hardinessZone, max: site.hardinessZone }) : undefined, 'hardiness');
-  if (zones) filters['plant.hardiness'] = zones;
-  return filters;
+  const every: string[] = [];
+  const pick = (key: string, axis: CompatAxis, siteValues: string[] | undefined) => {
+    if (siteValues?.length) {
+      filters[key] = siteValues;
+      if (siteValues.length > 1 && COMPAT_AXES.find((a) => a.axis === axis)!.siteNeeds === 'every') every.push(key);
+    } else if (shared(axis)?.length) filters[key] = shared(axis)!;
+  };
+  pick('plant.sun', 'sun', site.sun);
+  pick('plant.moisture', 'moisture', site.moisture);
+  pick('plant.drainage', 'drainage', site.soil?.drainage);
+  pick('plant.hardiness', 'hardiness', site.hardinessZone ? expandZones({ min: site.hardinessZone, max: site.hardinessZone }) : undefined);
+  return { filters, every };
+}
+
+/** Whether a record holds every filtered value on each of the fit's `every` facets (its other filters the Library applies). */
+export function fitsEvery(r: Pick<IndexRecord, 'facets'>, fit: FitQuery): boolean {
+  return fit.every.every((k) => (fit.filters[k] ?? []).every((v) => (r.facets[k] ?? []).includes(v)));
 }
 
 /**

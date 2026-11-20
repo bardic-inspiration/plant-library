@@ -3,6 +3,7 @@
  * commercial use, and the placeholders still to replace. Pure over the built data.
  */
 import type { BuildData } from './build-data';
+import { normalizeName } from './names';
 import type { PlantData, VocabValue } from './types';
 
 export interface Coverage {
@@ -24,7 +25,7 @@ export function coverage(data: BuildData): Coverage {
     const list = (b.entry.data as { plantList?: { plant: unknown; quantity?: number }[] }).plantList ?? [];
     for (const item of list) {
       if (typeof item.plant !== 'string') continue;
-      const k = item.plant.trim().toLowerCase();
+      const k = normalizeName(item.plant);
       const u = unsourced.get(k) ?? { name: item.plant.trim(), lists: new Set<string>(), quantity: 0 };
       u.lists.add(b.key);
       u.quantity += item.quantity ?? 0;

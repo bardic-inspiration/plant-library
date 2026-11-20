@@ -26,7 +26,15 @@ const TYPES: Record<string, string> = {
 export function serve(dist: string, base: string, port = 4321): Promise<{ server: Server; url: string }> {
   const server = createServer((req, res) => {
     const u = new URL(req.url ?? '/', 'http://localhost');
-    let path = decodeURIComponent(u.pathname);
+    let path: string;
+    try {
+      path = decodeURIComponent(u.pathname);
+    } catch {
+      // A malformed escape (`/%E0%A4%A`) can't name a file.
+      res.writeHead(400, { 'content-type': TYPES['.txt'] });
+      res.end('Bad request');
+      return;
+    }
     if (!path.startsWith(base)) {
       res.writeHead(302, { location: base });
       res.end();

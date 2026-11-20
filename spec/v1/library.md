@@ -14,47 +14,14 @@ P10).
 
 ## Design
 
-The list view, filter tree, search, sort, URL state, the index, the plant
-page, About, and the style guide are built; see
+The list view, filter tree, search, sort, URL state, the index, the plant,
+project, and palette pages with their cards and contribution links, About,
+the style guide, the contribution forms, the palette workspace with its
+exports and submission, and the compatibility panel are built; see
 [docs/site.md](../../docs/site.md). What remains:
-
-### Pages still to build
-
-| Route | Content |
-|---|---|
-| `/contribute/` | The contribution forms and My submissions ([submissions.md](submissions.md#forms)) |
-
-The top bar will read **Library | Map | Workspace | Contribute | About**,
-each joining as it is built (Library, Map, Workspace, and About are).
-
-### List view, still to add
-
-- **Cards.** The project and palette cards are built
-  ([docs/site.md](../../docs/site.md#list-view)), as are the palette facets
-  and every card's "add to list" control.
-
-### Plant page, still to add
-
-Used on, with its small map, its totals by state and year, and Often
-planted with, is built ([docs/site.md](../../docs/site.md#plant-page)).
-The page carries "Add photo", "Suggest an edit", and "Add field note".
-
-### Project page, still to add
-
-The project page and its compatibility panel are built
-([docs/site.md](../../docs/site.md#project-page)), as is the palette page
-([docs/site.md](../../docs/site.md#palette-page)), with "Open in workspace"
-and the exports ([docs/site.md](../../docs/site.md#exports-and-print)).
 
 ### Palette workspace
 
-Built ([docs/site.md](../../docs/site.md#workspace)), with its exports
-([docs/site.md](../../docs/site.md#exports-and-print)) and companions first
-in "Plants that fit". Still to come:
-
-- **Keeping it.** Submitting a list to the library
-  ([submissions.md](submissions.md#forms)); it becomes an entry only when
-  that submission's PR is merged (P1).
 - **Site.** The location supplies the hardiness zone once the zone layer
   exists (D33); until then the zone is chosen.
 

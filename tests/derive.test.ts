@@ -78,6 +78,11 @@ describe('derived project values', () => {
     expect(p.unsourced).toBe(1);
     expect(p.quantity).toBe(200);
   });
+  it('counts an unsourced name once in any spelling validation treats as the same name', () => {
+    const list = proj().plantList.slice(0, 4);
+    const p = deriveProject(proj({ plantList: [...list, { plant: "Acer rubrum 'Armstrong'", quantity: 2, size: '2 in cal' }, { plant: 'acer  rubrum ‘Armstrong’', quantity: 1, size: '3 in cal' }] }), plants, wa).plants;
+    expect(p.unsourced).toBe(1);
+  });
   it('quantity by form puts unsourced lines under unknown', () => {
     expect(deriveProject(proj(), plants, wa).plants.byForm).toEqual({ tree: 20, graminoid: 80, unknown: 100 });
   });

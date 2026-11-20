@@ -146,7 +146,7 @@ A project's, from `deriveProject` (its plant list, the plants it refs, and
 | Derived | From |
 |---|---|
 | `plants.taxa` | Distinct plants the library holds; a plant at several sizes counts once |
-| `plants.unsourced` | Distinct unsourced names: unknown, never in `taxa` |
+| `plants.unsourced` | Distinct unsourced names, compared by `normalizeName` as validation compares them: unknown, never in `taxa` |
 | `plants.quantity` | Total quantity on the list, unsourced lines included |
 | `plants.byForm` | Quantity by plant form; unsourced lines under `unknown` |
 | `plants.nativeShare` | Quantity of plants native to the project's own state, over the quantity of plants with a known `nativeRange`; absent with no state or none known |
@@ -264,10 +264,13 @@ returns:
   rated `7`–`9` accepts 7a to 9b.
 - A plant has one `waterUse`, so it accepts that level only, and a shared
   value is a single hydrozone (D53).
-- A site passes a plant when the plant accepts every value the site states
-  on the axis; a whole site zone (`8`) needs both halves. A plant with no
-  data, or an axis the site doesn't state, is `unknown`. A site has no
-  water use, so that axis is always `unknown`.
+- A site passes a plant on sun, moisture, and drainage when the plant
+  accepts any one of the values the site states, since a site has sunny
+  and shady, wetter and drier parts, and a plant needs only one place to
+  grow. On hardiness it passes when the plant accepts every half zone the
+  site states, since the zone holds for the whole site; a whole site zone
+  (`8`) needs both halves (each axis's `siteNeeds`, D69). A plant with no data, or an axis the site doesn't state, is
+  `unknown`. A site has no water use, so that axis is always `unknown`.
 
 The site's zone is given, not derived: a site location's zone waits on the
 zone layer (D33).
@@ -292,23 +295,33 @@ zone layer (D33).
 
 `npm run validate` fails on:
 
-- config files against their schemas, and facets naming unknown vocabulary;
+- config files against their schemas; facets naming unknown vocabulary, a
+  range facet with no buckets, and two facets of a type with one key;
 - the envelope and the type schema, unknown keys included;
 - path, type, and id disagreeing; a plant id that isn't the slug of its
   name; a stored plant name; `revisedAt` before `createdAt`;
+- a plant with neither a species epithet nor a cultivar, a hybrid with no
+  species epithet and no cultivar, and `infraRank` without `infraEpithet`
+  or the reverse;
 - `min` > `max` in any range; months outside 1–12; zones outside 1a–13b or
   reversed;
 - duplicate botanical names; a synonym that is another plant's name, the
-  plant's own name, or another plant's synonym; a family not in the table;
+  plant's own name, another plant's synonym, or listed twice by the plant
+  (in two spellings `normalizeName` makes one), each reported once; a
+  family not in the table;
 - citing an unregistered source; a populated trait no source cites; citing
   a source for what it doesn't `provide`; a staff observation for a trait
-  another source gives, or without a contributor; a citation without a URL,
+  another source gives (a parent such as `soil` and one of its parts
+  overlap, either way round), or without a contributor; a citation without a URL,
   except from a `professional` or `placeholder` source; a placeholder for a
   field other than `family` or `form`, or for one another source gives;
 - a missing image file, one over 2 MB, a pinned count other than one, a
-  license not on the allowed list, a file outside the plant's folder;
+  license not on the allowed list, a file outside the plant's folder, an
+  image listed twice;
 - unresolved refs and ref tokens, ref tokens outside markdown fields, text
-  outside the markdown subset, a field note on an unknown trait, a trait on
+  outside the markdown subset, a field note on a path that isn't a trait
+  (`isNoteTrait` in `lib/traits.ts`: a cited trait, or `soil` or `bloom`;
+  not a name, one end of a range, or one wetland region), a trait on
   a project's or palette's field note, a field note's `project` that isn't
   a project, a field note's `submission` missing from `meta.submissions`;
 - with `fixturesOnly` on, an entry of a type with `fixtureRules` that isn't
@@ -322,6 +335,8 @@ zone layer (D33).
   compared normalized); an unsourced name that matches a plant's name,
   synonym, or name with trade name.
 
+The overlay registry's rules are in [map.md](map.md#overlays).
+
 It warns on near-duplicate primary common names, images over 500 KB, a plant
 with no image, a citation of a field the entry leaves empty, and each
 unsourced plant in a plant list.
@@ -329,7 +344,8 @@ unsourced plant in a plant list.
 ## Where the rules live
 
 `schemas/` (shapes), `config/vocab.json` (values and thresholds),
-`lib/validate.ts` (cross-entry rules), `lib/derive.ts`, `lib/names.ts`,
+`lib/validate.ts` (cross-entry rules), `lib/traits.ts` (the cited traits,
+shared with the contribution form and the inbox), `lib/derive.ts`, `lib/names.ts`,
 `lib/zones.ts`, `lib/compat.ts`, `lib/analysis.ts`. Each rule has a passing and a failing case in
 `tests/validate.test.ts` (plants), `tests/project.test.ts` (projects and
 plant lists), and `tests/palette.test.ts` (palettes, their derived values,
@@ -339,11 +355,13 @@ analysis and companions in `tests/analysis.test.ts`.
 ## Extending
 
 - **A new trait:** add it to `schemas/plant.schema.json`, to
-  `CITED_TRAITS` in `lib/validate.ts` with the registry category that may
-  cite it, to `site/src/lib/traits.ts` for its label, and, if it's a
+  `CITED_TRAITS` in `lib/traits.ts` with the registry category that may
+  cite it (field notes, the form's trait picker, and the inbox `paths`
+  check follow), to `site/src/lib/traits.ts` for its label, and, if it's a
   filter, a facet in `config/types.json`.
 - **A new value** in an enumeration: a line in `config/vocab.json`.
 - **A new compatibility axis:** an entry in `COMPAT_AXES` in
-  `lib/compat.ts`, naming its vocabulary list and where a plant and a site
-  hold it.
+  `lib/compat.ts`, naming its vocabulary list, where a plant and a site
+  hold it, and whether a plant must accept every site value or any one
+  (`siteNeeds`).
 - **A new type:** a schema, an entry in `config/types.json`, and its pages.

@@ -4,7 +4,7 @@
  * to processed/; `compareRun` holds a run's results against the fixture
  * inbox's expected ones. Node only.
  */
-import { existsSync, mkdirSync, readdirSync, readFileSync, renameSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readdirSync, readFileSync, renameSync, rmSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import type { ValidateFunction } from 'ajv/dist/2020.js';
 import { formatErrors } from './schemas';
@@ -65,10 +65,12 @@ export interface InboxDirs {
 }
 
 /**
- * Write a submission's result and move it from inbox/ to processed/. The
- * folder is moved whole, then result.json is written beside it; nothing is
- * deleted. Throws, changing nothing, on an invalid result or a submission
- * that isn't in the inbox or is already processed.
+ * Write a submission's result and move it from inbox/ to processed/:
+ * result.json is written into the submission's folder, then the folder is
+ * moved whole; nothing of the submission is deleted. Throws, changing
+ * nothing, on an invalid result, a submission that isn't in the inbox or is
+ * already processed, or a write or move that fails (a result.json written
+ * before a failed move is taken out again).
  */
 export function closeSubmission(dirs: InboxDirs, id: string, result: unknown, validate: ValidateFunction): string {
   const problems = resultProblems(result, validate);
@@ -79,11 +81,16 @@ export function closeSubmission(dirs: InboxDirs, id: string, result: unknown, va
   if (!existsSync(join(from, 'submission.json'))) throw new Error(`${id} is not in the inbox`);
   if (existsSync(to)) throw new Error(`${id} is already in processed/`);
   if (existsSync(join(from, 'result.json'))) throw new Error(`${id} already holds a result.json`);
-  mkdirSync(dirs.processed, { recursive: true });
-  renameSync(from, to);
-  const path = join(to, 'result.json');
-  writeFileSync(path, `${JSON.stringify(result, null, 2)}\n`);
-  return path;
+  const staged = join(from, 'result.json');
+  writeFileSync(staged, `${JSON.stringify(result, null, 2)}\n`, { flag: 'wx' });
+  try {
+    mkdirSync(dirs.processed, { recursive: true });
+    renameSync(from, to);
+  } catch (e) {
+    rmSync(staged, { force: true });
+    throw e;
+  }
+  return join(to, 'result.json');
 }
 
 /** One case of the fixture inbox: tests/fixtures/inbox-expected/<id>.json. */

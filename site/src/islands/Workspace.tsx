@@ -19,7 +19,9 @@ import {
   companionsFirst,
   emptyList,
   fitFilters,
+  fitsEvery,
   hasPlant,
+  hasRoom,
   listCompatibility,
   listSummary,
   moveLine,
@@ -32,6 +34,7 @@ import {
   shareUrl,
   compatSite,
   updateLine,
+  type FitQuery,
   type WorkspaceList,
   type WorkspaceStore,
 } from '../../../lib/workspace';
@@ -229,6 +232,7 @@ function AddPlants({ index, list, onList }: { index: LibraryIndex; list: Workspa
   const [q, setQ] = useState('');
   const search = useMemo(() => buildSearch(index), [index]);
   const byKey = useMemo(() => new Map(index.records.map((r) => [r.key, r])), [index]);
+  const full = !hasRoom(list, 1, index.listLimit);
   const hits = useMemo(() => {
     if (!q.trim()) return [];
     return search
@@ -254,7 +258,7 @@ function AddPlants({ index, list, onList }: { index: LibraryIndex; list: Workspa
               {hasPlant(list, r.key) ? (
                 <span class="muted">On the list</span>
               ) : (
-                <button type="button" class="ws-button" aria-label={`Add ${r.name}`} onClick={() => onList(addPlant(list, r.key))}>
+                <button type="button" class="ws-button" disabled={full} aria-label={`Add ${r.name}`} onClick={() => onList(addPlant(list, r.key, index.listLimit))}>
                   Add
                 </button>
               )}
@@ -265,8 +269,9 @@ function AddPlants({ index, list, onList }: { index: LibraryIndex; list: Workspa
             <button
               type="button"
               class="ws-button"
+              disabled={full}
               onClick={() => {
-                onList(addText(list, q));
+                onList(addText(list, q, index.listLimit));
                 setQ('');
               }}
             >
@@ -561,15 +566,18 @@ function BloomCalendar({ list, plants }: { list: WorkspaceList; plants: Readonly
   );
 }
 
-function Fit({ index, byKey, list, filters, onList }: { index: LibraryIndex; byKey: ReadonlyMap<string, IndexRecord>; list: WorkspaceList; filters: Record<string, string[]>; onList: (l: WorkspaceList) => void }) {
-  const all = useMemo(() => applyQuery(index.records, { ...emptyQuery(), filters }, null), [index, filters]);
+function Fit({ index, byKey, list, fit, onList }: { index: LibraryIndex; byKey: ReadonlyMap<string, IndexRecord>; list: WorkspaceList; fit: FitQuery; onList: (l: WorkspaceList) => void }) {
+  const { filters } = fit;
+  // The Library's filters, then the site's whole zone, both of whose halves a plant must accept, which they can't say.
+  const library = useMemo(() => applyQuery(index.records, { ...emptyQuery(), filters }, null), [index, filters]);
+  const all = useMemo(() => library.filter((r) => fitsEvery(r, fit)), [library, fit]);
   // Companions of the plants already chosen come first (spec: library.md, Suggestions).
   const scores = useMemo(() => companionScores(list, byKey), [list, byKey]);
   const shown = companionsFirst(all.filter((r) => !hasPlant(list, r.key)), scores).slice(0, FIT_SHOWN);
   const facetLabel = (k: string) => index.facets.find((f) => f.key === k);
   const terms = Object.entries(filters)
     .filter(([k]) => k !== 'type')
-    .map(([k, vals]) => `${facetLabel(k)?.label ?? k}: ${vals.map((v) => facetLabel(k)?.values.find((x) => x.id === v)?.label ?? v).join(' or ')}`);
+    .map(([k, vals]) => `${facetLabel(k)?.label ?? k}: ${vals.map((v) => facetLabel(k)?.values.find((x) => x.id === v)?.label ?? v).join(fit.every.includes(k) ? ' and ' : ' or ')}`);
   return (
     <>
       <p>
@@ -577,7 +585,13 @@ function Fit({ index, byKey, list, filters, onList }: { index: LibraryIndex; byK
           ? `Plants in the library that accept ${terms.join('; ')}, from the site where it states a condition and otherwise from what the list's plants share.`
           : 'Add plants with recorded conditions, or give the site conditions, to narrow this to plants that fit.'}{' '}
         {scores.size ? 'Plants that share two or more projects with the list\'s plants come first. ' : null}
-        <a href={libraryUrl(filters)}>See all {all.length} in the Library</a>
+        {fit.every.length ? (
+          <>
+            <a href={libraryUrl(filters)}>See these filters in the Library</a> ({library.length} plants there, since the Library matches any one value of a condition)
+          </>
+        ) : (
+          <a href={libraryUrl(filters)}>See all {all.length} in the Library</a>
+        )}
       </p>
       {shown.length ? (
         <ul role="list" class="ws-fit">
@@ -590,7 +604,7 @@ function Fit({ index, byKey, list, filters, onList }: { index: LibraryIndex; byK
                 {r.card.commonName ? <span class="muted"> {String(r.card.commonName)}</span> : null}
                 {scores.has(r.key) ? <span class="muted"> · often planted with the list's plants</span> : null}
               </span>
-              <button type="button" class="ws-button" aria-label={`Add ${r.name}`} onClick={() => onList(addPlant(list, r.key))}>
+              <button type="button" class="ws-button" disabled={!hasRoom(list, 1, index.listLimit)} aria-label={`Add ${r.name}`} onClick={() => onList(addPlant(list, r.key, index.listLimit))}>
                 Add
               </button>
             </li>
@@ -628,6 +642,7 @@ function Exports({ index, store, list, outside, onStore }: { index: LibraryIndex
     if (!file) return;
     const read = linesFromCsv(await file.text(), names);
     if (read.error) return setStatus(read.error);
+    if (read.lines.length > index.listLimit) return setStatus(`Not imported: the file has ${read.lines.length} plant lines, more than the ${index.listLimit} a list may hold.`);
     const fresh = { ...emptyList(file.name.replace(/\.csv$/i, '').trim() || 'Imported list'), lines: read.lines };
     onStore({ current: fresh.id, lists: [...store.lists, fresh] });
     setStatus(`Imported “${fresh.name}” as a new list, with ${read.lines.length} ${read.lines.length === 1 ? 'line' : 'lines'}${read.skipped ? `; ${read.skipped} ${read.skipped === 1 ? 'row has' : 'rows have'} no botanical name and ${read.skipped === 1 ? 'was' : 'were'} left out` : ''}.`);
@@ -688,17 +703,19 @@ export default function Workspace() {
   const [saved, setSaved] = useState(true);
   const [notice, setNotice] = useState('');
 
-  // A shared list in the URL opens as a new list, and the query is cleared so a reload doesn't add it again.
+  // A shared list in the URL opens as a new list, once the index gives the list limit; the query is cleared so a reload doesn't add it again.
   useEffect(() => {
+    if (!index) return;
     const shared = sharedFromSearch(location.search);
     if (!shared) return;
     const list = decodeList(shared);
     history.replaceState(null, '', location.pathname + location.hash);
     if (!list) return setNotice("The shared link couldn't be read, so no list was opened from it.");
+    if (!hasRoom({ lines: [] }, list.lines.length, index.listLimit)) return setNotice(`The shared list has ${list.lines.length} lines, more than the ${index.listLimit} a list may hold, so it wasn't opened.`);
     const cur = readStore();
     commit({ current: list.id, lists: [...cur.lists.filter((l) => l.lines.length || l.name !== 'My list' || cur.lists.length > 1), list] });
     setNotice(`Opened “${list.name}” as a new list, with ${list.lines.length} ${list.lines.length === 1 ? 'line' : 'lines'}.`);
-  }, []);
+  }, [index]);
 
   // Another tab (or a card's "add to list") changed the lists.
   useEffect(() => {
@@ -732,7 +749,7 @@ export default function Workspace() {
     () => new Map<string, CompatPlant>(compat.plants.map((k) => [k, { name: byKey.get(k)?.name ?? k, parts: byKey.get(k)?.nameParts, url: byKey.get(k)?.url ?? url(`${k}/`) }])),
     [compat, byKey],
   );
-  const filters = useMemo(() => fitFilters(compat, list.site), [compat, list.site]);
+  const fit = useMemo(() => fitFilters(compat, list.site), [compat, list.site]);
 
   if (error) return <p class="ws-note">{error}</p>;
   if (!index) return <p aria-live="polite">Loading the workspace…</p>;
@@ -748,6 +765,7 @@ export default function Workspace() {
       <section aria-labelledby="plants-heading">
         <h2 id="plants-heading">Plants</h2>
         <AddPlants index={index} list={list} onList={setList} />
+        {!hasRoom(list, 1, index.listLimit) && <p class="ws-note">The list holds {index.listLimit} lines, the most a list may hold; remove a line to add another.</p>}
         {list.lines.length ? (
           <Lines list={list} byKey={byKey} plants={plants} onList={setList} />
         ) : (
@@ -780,7 +798,7 @@ export default function Workspace() {
 
       <section aria-labelledby="fit-heading">
         <h2 id="fit-heading">Plants that fit</h2>
-        <Fit index={index} byKey={byKey} list={list} filters={filters} onList={setList} />
+        <Fit index={index} byKey={byKey} list={list} fit={fit} onList={setList} />
       </section>
 
       <section aria-labelledby="export-heading">

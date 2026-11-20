@@ -7,6 +7,7 @@
  */
 import type { FacetDef, FacetGroupDef, TypeDef, Vocab, VocabValue } from './types';
 import { jsonEqual } from './submission';
+import { isNoteTrait } from './traits';
 
 export interface Option {
   id: string;
@@ -217,17 +218,18 @@ export function flatFields(fields: readonly Field[]): Field[] {
   return fields.flatMap((f) => (f.kind === 'group' ? [f, ...flatFields(f.fields)] : [f]));
 }
 
-/** The leaf data paths a field note may name as its trait, with their labels ("Soil: Drainage"), from a type's fields. */
+/**
+ * The traits a plant field note may name (`isNoteTrait`, the list validation
+ * uses), with their labels ("Soil: Drainage"), in the plant form's order.
+ */
 export function traitOptions(fields: readonly Field[]): Option[] {
   const out: Option[] = [];
   const walk = (fs: readonly Field[], prefix: string) => {
     for (const f of fs) {
       if (!f.path.startsWith('data.')) continue;
       const path = f.path.slice(5);
-      // Field notes name a trait or one level inside it (soil.drainage), as the fieldNote schema allows.
-      if (path.split('.').length > 2) continue;
-      out.push({ id: path, label: prefix ? `${prefix}: ${f.label}` : f.label });
-      if (f.kind === 'group' && !prefix && f.fields.every((c) => c.kind !== 'number')) walk(f.fields, f.label);
+      if (isNoteTrait(path)) out.push({ id: path, label: prefix ? `${prefix}: ${f.label}` : f.label });
+      if (f.kind === 'group' && !prefix) walk(f.fields, f.label);
     }
   };
   walk(fields, '');

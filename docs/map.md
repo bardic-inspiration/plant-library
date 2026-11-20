@@ -151,6 +151,11 @@ The registered overlays:
 | States | `geo/states.topojson` | Heavy black lines | One line | `project.state`, `plant.usedInState` |
 | Plant use | `analysis` | The use choropleth over counties, ecoregions, or states ([below](#the-use-choropleth)) | Its steps, with the projects behind them | — |
 
+`npm run validate` checks the registry (`overlayProblems` in
+`lib/validate.ts`): its schema, unique ids, exactly one overlay with data
+`library`, a data file that exists, a `facets` entry naming a type and one
+of its facets, and a choropleth's `regions` as below.
+
 The boundary overlays draw the same committed `geo/` files the build
 derives geography from (P3, D41). Places stay derivation-only. Hardiness
 zones join the registry once their data's terms are read

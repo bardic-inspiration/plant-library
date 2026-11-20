@@ -139,15 +139,19 @@ function uncell(t: string | undefined): string {
 
 /**
  * Plant names to the plants that hold them, normalized as validation
- * compares them (`normalizeName`): each plant's botanical name and its name
- * with the trade name. Built from the index's plant records in the browser,
- * or from plant entries at build.
+ * compares them (`normalizeName`): each plant's botanical name, its name
+ * with the trade name, and its synonyms, since validation treats all three
+ * as the library's names. Built from the index's plant records in the
+ * browser, or from plant entries at build.
  */
 export type NameIndex = ReadonlyMap<string, string>;
 
-export function nameIndex(plants: Iterable<{ key: string; botanicalName: string; fullName?: string }>): NameIndex {
+export function nameIndex(plants: Iterable<{ key: string; botanicalName: string; fullName?: string; synonyms?: readonly string[] }>): NameIndex {
   const out = new Map<string, string>();
-  for (const p of plants) {
+  const list = [...plants];
+  // Synonyms first, so a plant's own name wins should a synonym repeat it (validation fails that).
+  for (const p of list) for (const s of p.synonyms ?? []) out.set(normalizeName(s), p.key);
+  for (const p of list) {
     out.set(normalizeName(p.botanicalName), p.key);
     if (p.fullName) out.set(normalizeName(p.fullName), p.key);
   }
@@ -156,12 +160,12 @@ export function nameIndex(plants: Iterable<{ key: string; botanicalName: string;
 
 /** The name index of the plant records in the Library's index. */
 export function recordNameIndex(records: readonly IndexRecord[]): NameIndex {
-  return nameIndex(records.filter((r) => r.type === 'plant').map((r) => ({ key: r.key, botanicalName: recordPlant(r).botanicalName, fullName: r.name })));
+  return nameIndex(records.filter((r) => r.type === 'plant').map((r) => ({ key: r.key, botanicalName: recordPlant(r).botanicalName, fullName: r.name, synonyms: r.synonyms })));
 }
 
 /** The name index of plant entries' data, by key. */
-export function plantNameIndex(plants: Iterable<[string, NameParts]>): NameIndex {
-  return nameIndex([...plants].map(([key, p]) => ({ key, botanicalName: botanicalName(p), fullName: fullName(p) })));
+export function plantNameIndex(plants: Iterable<[string, NameParts & { synonyms?: string[] }]>): NameIndex {
+  return nameIndex([...plants].map(([key, p]) => ({ key, botanicalName: botanicalName(p), fullName: fullName(p), synonyms: p.synonyms })));
 }
 
 /** A line with plain text the library holds as a plant turned into a ref to it, as validation requires. */

@@ -302,6 +302,8 @@ export interface IndexRecord {
   name: string;
   /** Name as styled runs: italic, roman, or trade name (lib/names.ts). */
   nameParts?: [string, 'i' | 'r' | 't'][];
+  /** A plant's synonyms, so text in a list can be matched to it in the browser as validation matches it; absent when it has none. */
+  synonyms?: string[];
   summary: string;
   url: string;
   thumb?: { src: string; alt: string };
@@ -322,6 +324,8 @@ export interface IndexRecord {
 export interface LibraryIndex {
   facets: IndexFacet[];
   records: IndexRecord[];
+  /** The most lines a workspace list may hold (`listLimit` in lib/workspace.ts). */
+  listLimit: number;
   /** The search fields across types; boosted ones weigh more. */
   searchFields: { boosted: string[]; fields: string[] };
 }

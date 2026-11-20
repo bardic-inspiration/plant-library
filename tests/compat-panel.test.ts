@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { compatibility, type CompatAxis, type Compatibility } from '../lib/compat';
 import { andList, conflictPlants, describeAxis, gridColumns, type ValueLabel } from '../lib/compat-text';
-import { buildData } from '../lib/build-data';
+import { buildData, paletteCount } from '../lib/build-data';
 import { mapResults, paletteFeatures, inView, unplaced } from '../lib/map-data';
 import type { PlantData, PlantListItem, ProjectDerived } from '../lib/types';
 import { FIXTURES } from './helpers';
@@ -39,6 +39,15 @@ describe('the compatibility panel’s words', () => {
     expect(describeAxis(axis(c, 'moisture'), nameOf, label)).toEqual(['No plant on the list has moisture data.']);
   });
 
+  it('reads several site sun values as places on the site, one of which a plant needs', () => {
+    const plants = new Map([p('a', { sun: ['full-sun'] }), p('b', { sun: ['shade'] }), p('c', { sun: ['part-shade'] })]);
+    const site = { sun: ['full-sun', 'shade'] };
+    const c = compatibility(refs('a', 'b', 'c'), plants, site);
+    expect(describeAxis(axis(c, 'sun'), nameOf, label, site).at(-1)).toBe("Suits none of the site's full-sun or shade: c.");
+    const ok = compatibility(refs('a', 'b'), plants, site);
+    expect(describeAxis(axis(ok, 'sun'), nameOf, label, site).at(-1)).toBe("Every plant with sun data suits the site's full-sun or shade, in some part of it.");
+  });
+
   it('reads hardiness as zone ranges, and trims its grid to the zones in play', () => {
     const plants = new Map([p('a', { hardiness: { min: '6', max: '9' } }), p('b', { hardiness: { min: '7b', max: '8' } })]);
     const r = axis(compatibility(refs('a', 'b'), plants), 'hardiness');
@@ -67,6 +76,10 @@ describe('palettes in the index and on the map', () => {
     expect(rec('palette/dry-shade-understory').card).toMatchObject({ plantCount: 4, sun: ['shade'], moisture: ['dry'], hardinessZone: '8' });
     expect(rec('palette/dry-shade-understory').card.location).toBeUndefined();
     expect(Object.keys(rec('palette/sunny-street-standard').card).sort()).toEqual(['plantCount', 'quantities']);
+  });
+
+  it('counts an unsourced name once in any spelling validation treats as the same name', () => {
+    expect(paletteCount({ plantList: [{ plant: "Acer rubrum 'Armstrong'", size: '2 in cal' }, { plant: 'acer  rubrum ‘Armstrong’', size: '3 in cal' }] })).toBe(1);
   });
 
   it('offers the site-conditions facet, from the palettes that state them', () => {
