@@ -264,12 +264,12 @@ returns:
   rated `7`–`9` accepts 7a to 9b.
 - A plant has one `waterUse`, so it accepts that level only, and a shared
   value is a single hydrozone (D53).
-- A site passes a plant on zone, moisture, and drainage when the plant
-  accepts every value the site states, since they hold for the whole site;
-  a whole site zone (`8`) needs both halves. On sun it passes when the plant
-  accepts any one of the site's values, since a site has sunny and shady
-  parts and a plant needs only one place to grow (each axis's `siteNeeds`,
-  D69). A plant with no data, or an axis the site doesn't state, is
+- A site passes a plant on sun, moisture, and drainage when the plant
+  accepts any one of the values the site states, since a site has sunny
+  and shady, wetter and drier parts, and a plant needs only one place to
+  grow. On hardiness it passes when the plant accepts every half zone the
+  site states, since the zone holds for the whole site; a whole site zone
+  (`8`) needs both halves (each axis's `siteNeeds`, D69). A plant with no data, or an axis the site doesn't state, is
   `unknown`. A site has no water use, so that axis is always `unknown`.
 
 The site's zone is given, not derived: a site location's zone waits on the

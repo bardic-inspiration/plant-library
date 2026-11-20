@@ -163,13 +163,16 @@ describe('compatibility: site fit', () => {
       .toEqual({ 'plant/a': 'pass', 'plant/b': 'fail', 'plant/c': 'unknown' });
   });
 
-  it('a site with several values needs the plant to accept each, except on sun, where one will do', () => {
+  it('a site with several sun, moisture, or drainage values needs the plant to accept one of them', () => {
     const c = compatibility(items, plants, { sun: ['full-sun', 'part-shade'], soil: { drainage: ['well', 'moderate'] } });
     expect(axis(c, 'sun').siteFit!['plant/a']).toBe('pass');
-    expect(axis(c, 'drainage').siteFit!['plant/a']).toBe('fail');
+    expect(axis(c, 'drainage').siteFit!['plant/a']).toBe('pass');
+    expect(axis(compatibility(items, plants, { soil: { drainage: ['poor', 'moderate'] } }), 'drainage').siteFit!['plant/a']).toBe('fail');
     // Sun differs from place to place on a site: a shade plant has the shady part of a sun-and-shade site.
     expect(axis(compatibility(items, plants, { sun: ['full-sun', 'shade'] }), 'sun').siteFit).toEqual({ 'plant/a': 'pass', 'plant/b': 'pass', 'plant/c': 'unknown' });
     expect(axis(compatibility(items, plants, { sun: ['full-sun'] }), 'sun').siteFit).toEqual({ 'plant/a': 'pass', 'plant/b': 'fail', 'plant/c': 'unknown' });
-    expect(axis(compatibility(items, plants, { moisture: ['dry', 'wet'] }), 'moisture').siteFit!['plant/a']).toBe('fail');
+    // A dry plant has the dry part of a site that is dry in places and wet in others.
+    expect(axis(compatibility(items, plants, { moisture: ['dry', 'wet'] }), 'moisture').siteFit!['plant/a']).toBe('pass');
+    expect(axis(compatibility(items, plants, { moisture: ['moist', 'wet'] }), 'moisture').siteFit!['plant/a']).toBe('fail');
   });
 });

@@ -27,7 +27,7 @@ export const AXIS_VOCAB: Record<CompatAxis, string | undefined> = {
 /** A value's label: `label(list, id)` from the vocabulary, or the id itself. */
 export type ValueLabel = (axis: CompatAxis, value: string) => string;
 
-/** Whether a plant must accept every site value on the axis, or any one (sun). */
+/** Whether a plant must accept every site value on the axis (hardiness), or any one (sun, moisture, drainage). */
 export function siteNeeds(axis: CompatAxis): 'every' | 'any' {
   return COMPAT_AXES.find((a) => a.axis === axis)!.siteNeeds;
 }
@@ -97,7 +97,7 @@ export function describeAxis(r: CompatAxisResult, nameOf: (key: string) => strin
   if (r.siteFit) {
     const want = siteValues(r.axis, site);
     const failing = r.plants.filter((p) => r.siteFit![p.key] === 'fail').map((p) => nameOf(p.key));
-    // On sun a plant needs one of the site's values, a place on the site to grow (D69).
+    // On sun, moisture, and drainage a plant needs one of the site's values, a place on the site to grow (D69).
     const any = siteNeeds(r.axis) === 'any' && want && want.length > 1;
     if (want && failing.length) out.push(any ? `Suits none of the site's ${values(want, 'or')}: ${andList(failing)}.` : `Not suited to the site's ${values(want)}: ${andList(failing)}.`);
     else if (want && known) out.push(any ? `Every plant with ${axis} data suits the site's ${values(want, 'or')}, in some part of it.` : `Every plant with ${axis} data suits the site's ${values(want)}.`);

@@ -324,10 +324,10 @@ plant-by-value grid:
 - **Words:** what every plant with data shares; or, with nothing shared,
   which plants to remove, what each needs, and what the rest would then
   share, with tied alternatives numbered; the plants with no data; and,
-  with a site, the plants not suited to it. A plant suits a site's zone,
-  moisture, and drainage when it accepts every value the site states, and
-  its sun when it accepts any one, since light differs across a site
-  (D69); several sun values read "full sun or shade".
+  with a site, the plants not suited to it. A plant suits a site's sun,
+  moisture, and drainage when it accepts any one value the site states,
+  since they differ across a site, and its zone when it accepts every half
+  zone (D69); several values read "full sun or shade".
 - **Grid:** one row per plant (linked), one column per value, a dot with
   the text "Yes" where the plant accepts it. Shared columns are tagged
   "shared" and shaded, the site's values tagged "site", a plant a conflict
@@ -386,11 +386,11 @@ them as they are.
 - **Plants that fit:** the plants the compatibility panel would pass
   (`fitFilters`): on each axis the site's values where it states it,
   otherwise the values the list's plants share. Shared values and the
-  site's sun values combine as OR, as the Library's filters do, since a
-  plant accepting any one of them keeps a value shared or has a place on
-  the site. Several site values for zone, moisture, or drainage (a whole
-  zone is both its halves) must all be accepted, which the Library can't
-  filter, so the workspace applies those itself (`fitsEvery`, D69). Up to
+  site's sun, moisture, and drainage values combine as OR, as the
+  Library's filters do, since a plant accepting any one of them keeps a
+  value shared or has a place on the site. A whole site zone needs both its
+  halves, which the Library can't filter, so the workspace applies that
+  itself (`fitsEvery`, D69). Up to
   twelve not already on the list are shown, each with an Add button, with
   a link to all of them in the Library; when the workspace applied a
   condition itself, the link opens the Library's filters and says how

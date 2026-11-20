@@ -568,7 +568,7 @@ function BloomCalendar({ list, plants }: { list: WorkspaceList; plants: Readonly
 
 function Fit({ index, byKey, list, fit, onList }: { index: LibraryIndex; byKey: ReadonlyMap<string, IndexRecord>; list: WorkspaceList; fit: FitQuery; onList: (l: WorkspaceList) => void }) {
   const { filters } = fit;
-  // The Library's filters, then the site conditions a plant must meet in full (a whole zone is both halves), which they can't say.
+  // The Library's filters, then the site's whole zone, both of whose halves a plant must accept, which they can't say.
   const library = useMemo(() => applyQuery(index.records, { ...emptyQuery(), filters }, null), [index, filters]);
   const all = useMemo(() => library.filter((r) => fitsEvery(r, fit)), [library, fit]);
   // Companions of the plants already chosen come first (spec: library.md, Suggestions).

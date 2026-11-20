@@ -215,10 +215,11 @@ describe('feedback', () => {
   });
 
   it('suggests only plants the compatibility panel says suit the site', () => {
-    // Sun is per part of the site, so one of its values fits; a whole zone, and the site's moisture and drainage, need every value.
-    const site = { sun: ['full-sun', 'part-shade'], moisture: ['moist', 'wet'], hardinessZone: '8' };
+    // Sun and moisture are per part of the site, so one of their values fits; a whole zone needs both its halves
+    // (in zone 5, a fixture plant hardy only to 5b passes the Library's OR filter but not the panel).
+    const site = { sun: ['full-sun', 'part-shade'], moisture: ['moist', 'wet'], hardinessZone: '5' };
     const fit = fitFilters(listCompatibility(emptyList(), plants), site);
-    expect(fit.every.sort()).toEqual(['plant.hardiness', 'plant.moisture']);
+    expect(fit.every).toEqual(['plant.hardiness']);
     const library = applyQuery(data.index.records, { ...emptyQuery(), filters: fit.filters }, null);
     const suggested = library.filter((r) => fitsEvery(r, fit));
     // The Library's filters alone, OR within a facet, would offer plants the panel fails.

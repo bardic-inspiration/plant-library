@@ -377,9 +377,9 @@ export interface FitQuery {
  * the site, as `compatibility`'s site fit judges them. On each axis the
  * site's values are used where it states them, else the values the list's
  * plants share. A plant accepting any one shared value keeps that value
- * shared, and on sun any one site value fits (D69), so those combine as OR;
- * the site's zone, moisture, and drainage need every value they state (a
- * whole zone is both its halves), so those facets are in `every`. An axis
+ * shared, and on sun, moisture, and drainage any one site value fits (D69),
+ * so those combine as OR; the site's zone needs every half zone it states
+ * (a whole zone is both its halves), so that facet is in `every`. An axis
  * with neither gives no filter. Water use has no facet value to share and no
  * site value, so it isn't used.
  */

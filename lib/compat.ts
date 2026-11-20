@@ -22,9 +22,9 @@ interface AxisDef {
   site: (s: CompatSite) => string[] | undefined;
   /**
    * How a plant fits several site values: `every` for a condition of the
-   * whole site (its zone, its moisture and drainage), so the plant must
-   * accept each; `any` for sun, which differs from place to place on a site,
-   * so a plant fits when it accepts one of them (D69).
+   * whole site (its hardiness zone), so the plant must accept each; `any`
+   * for sun, moisture, and drainage, which differ from place to place on a
+   * site, so a plant fits when it accepts one of them (D69).
    */
   siteNeeds: 'every' | 'any';
 }
@@ -44,8 +44,8 @@ const list = (v: string | string[] | undefined): string[] | undefined =>
 /** The axes, in the order the panel shows them. */
 export const COMPAT_AXES: readonly AxisDef[] = [
   { axis: 'sun', vocab: 'sun', accepts: (d) => d.sun, site: (s) => list(s.sun), siteNeeds: 'any' },
-  { axis: 'moisture', vocab: 'moisture', accepts: (d) => d.moisture, site: (s) => list(s.moisture), siteNeeds: 'every' },
-  { axis: 'drainage', vocab: 'soilDrainage', accepts: (d) => d.soil?.drainage, site: (s) => list(s.soil?.drainage), siteNeeds: 'every' },
+  { axis: 'moisture', vocab: 'moisture', accepts: (d) => d.moisture, site: (s) => list(s.moisture), siteNeeds: 'any' },
+  { axis: 'drainage', vocab: 'soilDrainage', accepts: (d) => d.soil?.drainage, site: (s) => list(s.soil?.drainage), siteNeeds: 'any' },
   {
     axis: 'hardiness',
     accepts: (d) => (d.hardiness ? expandZones(d.hardiness) : undefined),
@@ -84,8 +84,8 @@ export interface CompatAxisResult {
   conflicts: CompatConflict[];
   /**
    * With a site: each plant passes, fails, or is unknown. A plant passes when
-   * it accepts every site value on the axis, or on sun any one of them
-   * (`siteNeeds`). Unknown for every plant when the site doesn't state the axis.
+   * it accepts any one site value on sun, moisture, and drainage, and every
+   * one on hardiness (`siteNeeds`). Unknown for every plant when the site doesn't state the axis.
    */
   siteFit?: Record<string, SiteFit>;
 }
