@@ -1,0 +1,158 @@
+{
+  "type": "project",
+  "id": "astoria-waterfront-walk",
+  "name": "Astoria Waterfront Walk",
+  "summary": "A made-up streetscape in Astoria with a mixed woodland-edge planting.",
+  "data": {
+    "landscapeArchitect": "Northfork Design Collective",
+    "location": {
+      "lat": 46.1879,
+      "lon": -123.8313
+    },
+    "projectType": "streetscape",
+    "sizeAcres": 1.6,
+    "status": "proposed",
+    "completed": "2028",
+    "plantList": [
+      {
+        "plant": {
+          "ref": "plant/thuja-plicata"
+        },
+        "quantity": 10,
+        "size": "2 in cal. B&B"
+      },
+      {
+        "plant": {
+          "ref": "plant/populus-balsamifera"
+        },
+        "quantity": 55,
+        "size": "#5 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/tsuga-heterophylla"
+        },
+        "quantity": 15,
+        "size": "#5 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/taxus-brevifolia"
+        },
+        "quantity": 15,
+        "size": "2 in cal. B&B"
+      },
+      {
+        "plant": {
+          "ref": "plant/rosa-gymnocarpa"
+        },
+        "quantity": 245,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/gaultheria-shallon"
+        },
+        "quantity": 50,
+        "size": "#5 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/salix-exigua-var-columbiana"
+        },
+        "quantity": 140,
+        "size": "#5 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/euonymus-occidentalis"
+        },
+        "quantity": 180,
+        "size": "#2 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/oenothera-biennis"
+        },
+        "quantity": 405,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/ligusticum-apiifolium"
+        },
+        "quantity": 370,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/navarretia-intertexta"
+        },
+        "quantity": 440,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/iris-tenax"
+        },
+        "quantity": 430,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/dodecatheon-pulchellum"
+        },
+        "quantity": 125,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/agrostis-exarata"
+        },
+        "quantity": 205,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/carex-amplifolia"
+        },
+        "quantity": 280,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/alopecurus-geniculatus"
+        },
+        "quantity": 910,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/polystichum-munitum"
+        },
+        "quantity": 65,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/botrychium-multifidum"
+        },
+        "quantity": 140,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/marah-oreganus"
+        },
+        "quantity": 45,
+        "size": "#1 container"
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-22",
+    "revisedAt": "2026-11-22",
+    "method": "manual",
+    "fixture": true
+  }
+}

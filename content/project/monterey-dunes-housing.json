@@ -1,0 +1,128 @@
+{
+  "type": "project",
+  "id": "monterey-dunes-housing",
+  "name": "Monterey Dunes Housing",
+  "summary": "A made-up housing landscape in Marina with a dry, sunny planting.",
+  "data": {
+    "landscapeArchitect": "Sample Grove Studio",
+    "location": {
+      "lat": 36.683,
+      "lon": -121.802
+    },
+    "projectType": "residential",
+    "sizeAcres": 3.3,
+    "status": "constructed",
+    "completed": "2015-06",
+    "plantList": [
+      {
+        "plant": {
+          "ref": "plant/abies-grandis"
+        },
+        "quantity": 20,
+        "size": "2 in cal. B&B"
+      },
+      {
+        "plant": {
+          "ref": "plant/acer-circinatum"
+        },
+        "quantity": 25,
+        "size": "2 in cal. B&B"
+      },
+      {
+        "plant": {
+          "ref": "plant/pinus-contorta-var-contorta"
+        },
+        "quantity": 30,
+        "size": "2 in cal. B&B"
+      },
+      {
+        "plant": {
+          "ref": "plant/lonicera-hispidula"
+        },
+        "quantity": 220,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/mahonia-aquifolium"
+        },
+        "quantity": 230,
+        "size": "#2 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/oemleria-cerasiformis"
+        },
+        "quantity": 80,
+        "size": "#5 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/delphinium-menziesii-var-pyramidale"
+        },
+        "quantity": 310,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/trientalis-latifolia"
+        },
+        "quantity": 245,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/fritillaria-affinis"
+        },
+        "quantity": 260,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/chamerion-angustifolium-var-canescens"
+        },
+        "quantity": 790,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/luzula-campestris"
+        },
+        "quantity": 445,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/elymus-glaucus-subsp-glaucus"
+        },
+        "quantity": 2525,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/pteridium-aquilinum"
+        },
+        "quantity": 35,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/dryopteris-arguta"
+        },
+        "quantity": 205,
+        "size": "#1 container"
+      },
+      {
+        "plant": "Juncus patens 'Elk Blue'",
+        "quantity": 100,
+        "size": "#1 container"
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-22",
+    "revisedAt": "2026-11-22",
+    "method": "manual",
+    "fixture": true
+  }
+}

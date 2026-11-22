@@ -1,0 +1,123 @@
+{
+  "type": "project",
+  "id": "medford-bear-creek-swale",
+  "name": "Bear Creek Swale",
+  "summary": "A made-up stormwater facility in Medford with a wet-meadow and riparian planting.",
+  "data": {
+    "landscapeArchitect": "Example Studio",
+    "location": {
+      "lat": 42.3265,
+      "lon": -122.8756
+    },
+    "projectType": "stormwater",
+    "sizeAcres": 0.7,
+    "status": "constructed",
+    "completed": "2018-04",
+    "plantList": [
+      {
+        "plant": {
+          "ref": "plant/cornus-nuttallii"
+        },
+        "quantity": 45,
+        "size": "#5 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/rosa-nutkana"
+        },
+        "quantity": 125,
+        "size": "#2 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/spiraea-betulifolia-var-lucida"
+        },
+        "quantity": 75,
+        "size": "#5 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/downingia-elegans"
+        },
+        "quantity": 100,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/maianthemum-dilatatum"
+        },
+        "quantity": 180,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/sagittaria-latifolia"
+        },
+        "quantity": 430,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/heracleum-maximum"
+        },
+        "quantity": 75,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/equisetum-arvense"
+        },
+        "quantity": 250,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/carex-canescens"
+        },
+        "quantity": 1170,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/carex-amplifolia"
+        },
+        "quantity": 260,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/carex-vulpinoidea"
+        },
+        "quantity": 235,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/carex-densa"
+        },
+        "quantity": 410,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/juncus-bufonius"
+        },
+        "quantity": 770,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/athyrium-filix-femina"
+        },
+        "quantity": 30,
+        "size": "#1 container"
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-22",
+    "revisedAt": "2026-11-22",
+    "method": "manual",
+    "fixture": true
+  }
+}

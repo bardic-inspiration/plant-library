@@ -1,0 +1,177 @@
+{
+  "type": "project",
+  "id": "beaverton-creek-greenway",
+  "name": "Beaverton Creek Greenway",
+  "summary": "A made-up restoration site in Beaverton with a wet-meadow and riparian planting.",
+  "data": {
+    "landscapeArchitect": "Fern & Field Landscape Architects",
+    "location": {
+      "lat": 45.4925,
+      "lon": -122.8027
+    },
+    "projectType": "restoration",
+    "sizeAcres": 18,
+    "status": "constructed",
+    "completed": "2015-03",
+    "plantList": [
+      {
+        "plant": {
+          "ref": "plant/crataegus-suksdorfii"
+        },
+        "quantity": 105,
+        "size": "#5 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/fraxinus-latifolia"
+        },
+        "quantity": 250,
+        "size": "#5 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/cornus-nuttallii"
+        },
+        "quantity": 85,
+        "size": "#15 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/salix-exigua-var-columbiana"
+        },
+        "quantity": 150,
+        "size": "#5 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/rubus-spectabilis"
+        },
+        "quantity": 480,
+        "size": "#5 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/lonicera-involucrata"
+        },
+        "quantity": 275,
+        "size": "#5 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/saxifraga-oregana"
+        },
+        "quantity": 215,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/scrophularia-californica"
+        },
+        "quantity": 455,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/gentiana-sceptrum"
+        },
+        "quantity": 345,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/mimulus-guttatus"
+        },
+        "quantity": 735,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/veronica-americana"
+        },
+        "quantity": 310,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/mentha-arvensis-var-glabrata"
+        },
+        "quantity": 455,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/agrostis-scabra"
+        },
+        "quantity": 4780,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/carex-cusickii"
+        },
+        "quantity": 1745,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/juncus-patens"
+        },
+        "quantity": 5075,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/scirpus-cyperinus"
+        },
+        "quantity": 4580,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/athyrium-filix-femina"
+        },
+        "quantity": 175,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/dryopteris-expansa"
+        },
+        "quantity": 255,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/blechnum-spicant"
+        },
+        "quantity": 665,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/marah-oreganus"
+        },
+        "quantity": 125,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/rubus-ursinus"
+        },
+        "quantity": 70,
+        "size": "#2 container"
+      },
+      {
+        "plant": "Elymus glaucus",
+        "quantity": 230,
+        "size": "#1 container"
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-22",
+    "revisedAt": "2026-11-22",
+    "method": "manual",
+    "fixture": true
+  }
+}

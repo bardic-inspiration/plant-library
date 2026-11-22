@@ -1,0 +1,184 @@
+{
+  "type": "project",
+  "id": "davis-arboretum-annex",
+  "name": "Davis Arboretum Annex",
+  "summary": "A made-up campus landscape in Davis with a dry, sunny planting.",
+  "data": {
+    "landscapeArchitect": "Sample Grove Studio",
+    "location": {
+      "lat": 38.539,
+      "lon": -121.755
+    },
+    "projectType": "campus",
+    "sizeAcres": 11,
+    "status": "constructed",
+    "completed": "2012-10",
+    "plantList": [
+      {
+        "plant": {
+          "ref": "plant/prunus-emarginata"
+        },
+        "quantity": 185,
+        "size": "#5 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/acer-macrophyllum"
+        },
+        "quantity": 20,
+        "size": "#15 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/alnus-rubra"
+        },
+        "quantity": 45,
+        "size": "#15 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/vaccinium-parvifolium"
+        },
+        "quantity": 80,
+        "size": "#5 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/ribes-viscosissimum"
+        },
+        "quantity": 220,
+        "size": "#2 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/rosa-nutkana"
+        },
+        "quantity": 765,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/viburnum-ellipticum"
+        },
+        "quantity": 210,
+        "size": "#2 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/vaccinium-ovatum"
+        },
+        "quantity": 565,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/prosartes-hookeri"
+        },
+        "quantity": 2700,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/trifolium-microcephalum"
+        },
+        "quantity": 515,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/achillea-millefolium"
+        },
+        "quantity": 2510,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/oxalis-oregana"
+        },
+        "quantity": 435,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/erythronium-oregonum"
+        },
+        "quantity": 1510,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/gilia-capitata"
+        },
+        "quantity": 225,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/luzula-campestris"
+        },
+        "quantity": 2400,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/poa-secunda"
+        },
+        "quantity": 1530,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/bromus-carinatus"
+        },
+        "quantity": 1420,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/dryopteris-arguta"
+        },
+        "quantity": 130,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/pteridium-aquilinum"
+        },
+        "quantity": 60,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/cystopteris-fragilis"
+        },
+        "quantity": 445,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/rubus-ursinus"
+        },
+        "quantity": 35,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/marah-oreganus"
+        },
+        "quantity": 110,
+        "size": "#1 container"
+      },
+      {
+        "plant": "Mixed native seed",
+        "quantity": 170,
+        "size": "#1 container"
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-22",
+    "revisedAt": "2026-11-22",
+    "method": "manual",
+    "fixture": true
+  }
+}

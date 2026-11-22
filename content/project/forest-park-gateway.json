@@ -1,0 +1,151 @@
+{
+  "type": "project",
+  "id": "forest-park-gateway",
+  "name": "Forest Park Gateway",
+  "summary": "A made-up park in Portland with a mixed woodland-edge planting.",
+  "data": {
+    "landscapeArchitect": "Northfork Design Collective",
+    "location": {
+      "lat": 45.5469,
+      "lon": -122.7298
+    },
+    "projectType": "park",
+    "sizeAcres": 12.5,
+    "status": "constructed",
+    "completed": "2012-05",
+    "plantList": [
+      {
+        "plant": {
+          "ref": "plant/fraxinus-latifolia"
+        },
+        "quantity": 55,
+        "size": "2 in cal. B&B"
+      },
+      {
+        "plant": {
+          "ref": "plant/salix-lasiandra"
+        },
+        "quantity": 70,
+        "size": "#15 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/tsuga-heterophylla"
+        },
+        "quantity": 45,
+        "size": "2 in cal. B&B"
+      },
+      {
+        "plant": {
+          "ref": "plant/salix-sitchensis"
+        },
+        "quantity": 30,
+        "size": "#15 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/mahonia-aquifolium"
+        },
+        "quantity": 90,
+        "size": "#5 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/symphoricarpos-albus"
+        },
+        "quantity": 400,
+        "size": "#5 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/amelanchier-alnifolia"
+        },
+        "quantity": 475,
+        "size": "#2 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/asarum-caudatum"
+        },
+        "quantity": 435,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/thalictrum-occidentale"
+        },
+        "quantity": 775,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/claytonia-perfoliata"
+        },
+        "quantity": 590,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/myosotis-laxa"
+        },
+        "quantity": 1080,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/cornus-unalaschkensis"
+        },
+        "quantity": 155,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/carex-amplifolia"
+        },
+        "quantity": 870,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/carex-aperta"
+        },
+        "quantity": 615,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/carex-hendersonii"
+        },
+        "quantity": 3370,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/adiantum-aleuticum"
+        },
+        "quantity": 220,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/polystichum-munitum"
+        },
+        "quantity": 685,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/lonicera-ciliosa"
+        },
+        "quantity": 70,
+        "size": "#1 container"
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-22",
+    "revisedAt": "2026-11-22",
+    "method": "manual",
+    "fixture": true
+  }
+}

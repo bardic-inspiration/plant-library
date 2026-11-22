@@ -1,0 +1,122 @@
+{
+  "type": "project",
+  "id": "ventura-river-floodplain",
+  "name": "Ventura River Floodplain",
+  "summary": "A made-up restoration site in the Ventura River valley with a wet-meadow and riparian planting.",
+  "data": {
+    "landscapeArchitect": "Fern & Field Landscape Architects",
+    "location": {
+      "lat": 34.39,
+      "lon": -119.305
+    },
+    "projectType": "restoration",
+    "sizeAcres": 48,
+    "status": "proposed",
+    "plantList": [
+      {
+        "plant": {
+          "ref": "plant/taxus-brevifolia"
+        },
+        "quantity": 195,
+        "size": "#5 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/cornus-sericea"
+        },
+        "quantity": 1120,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/rosa-nutkana"
+        },
+        "quantity": 940,
+        "size": "#2 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/rumex-salicifolius-var-salicifolius"
+        },
+        "quantity": 2845,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/navarretia-intertexta"
+        },
+        "quantity": 2900,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/collinsia-parviflora"
+        },
+        "quantity": 875,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/oenanthe-sarmentosa"
+        },
+        "quantity": 2220,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/erigeron-philadelphicus"
+        },
+        "quantity": 3930,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/leersia-oryzoides"
+        },
+        "quantity": 1035,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/schoenoplectus-pungens"
+        },
+        "quantity": 1405,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/carex-cusickii"
+        },
+        "quantity": 1730,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/trisetum-canescens"
+        },
+        "quantity": 2100,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/scirpus-microcarpus"
+        },
+        "quantity": 1760,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/polypodium-glycyrrhiza"
+        },
+        "quantity": 200,
+        "size": "#1 container"
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-22",
+    "revisedAt": "2026-11-22",
+    "method": "manual",
+    "fixture": true
+  }
+}

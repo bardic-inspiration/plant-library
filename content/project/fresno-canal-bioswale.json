@@ -1,0 +1,135 @@
+{
+  "type": "project",
+  "id": "fresno-canal-bioswale",
+  "name": "Fresno Canal Bioswale",
+  "summary": "A made-up stormwater facility in Fresno with a mixed woodland-edge planting.",
+  "data": {
+    "landscapeArchitect": "Mock Meadow Design",
+    "location": {
+      "lat": 36.747,
+      "lon": -119.772
+    },
+    "projectType": "stormwater",
+    "sizeAcres": 0.5,
+    "status": "proposed",
+    "completed": "2027-11",
+    "plantList": [
+      {
+        "plant": {
+          "ref": "plant/berberis-nervosa"
+        },
+        "quantity": 215,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/sambucus-racemosa"
+        },
+        "quantity": 160,
+        "size": "#2 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/symphoricarpos-albus"
+        },
+        "quantity": 50,
+        "size": "#5 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/satureja-douglasii"
+        },
+        "quantity": 125,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/grindelia-integrifolia"
+        },
+        "quantity": 50,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/fragaria-vesca-var-bracteata"
+        },
+        "quantity": 335,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/maianthemum-dilatatum"
+        },
+        "quantity": 115,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/nemophila-pedunculata"
+        },
+        "quantity": 475,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/viola-hallii"
+        },
+        "quantity": 310,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/olsynium-douglasii"
+        },
+        "quantity": 105,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/juncus-acuminatus"
+        },
+        "quantity": 530,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/alopecurus-geniculatus"
+        },
+        "quantity": 410,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/scirpus-cyperinus"
+        },
+        "quantity": 65,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/festuca-subuliflora"
+        },
+        "quantity": 135,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/lonicera-ciliosa"
+        },
+        "quantity": 35,
+        "size": "#1 container"
+      },
+      {
+        "plant": "Carex pansa",
+        "quantity": 110,
+        "size": "#1 container"
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-22",
+    "revisedAt": "2026-11-22",
+    "method": "manual",
+    "fixture": true
+  }
+}

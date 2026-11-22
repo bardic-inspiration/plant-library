@@ -1,0 +1,123 @@
+{
+  "type": "project",
+  "id": "redding-river-trail-hub",
+  "name": "Redding River Trail Hub",
+  "summary": "A made-up park in Redding with a dry, sunny planting.",
+  "data": {
+    "landscapeArchitect": "Mock Meadow Design",
+    "location": {
+      "lat": 40.593,
+      "lon": -122.382
+    },
+    "projectType": "park",
+    "sizeAcres": 2.9,
+    "status": "constructed",
+    "completed": "2019-05",
+    "plantList": [
+      {
+        "plant": {
+          "ref": "plant/prunus-emarginata"
+        },
+        "quantity": 45,
+        "size": "#15 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/pseudotsuga-menziesii"
+        },
+        "quantity": 20,
+        "size": "#5 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/lonicera-hispidula"
+        },
+        "quantity": 225,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/ribes-lobbii"
+        },
+        "quantity": 150,
+        "size": "#2 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/symphoricarpos-mollis"
+        },
+        "quantity": 280,
+        "size": "#2 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/vicia-gigantea"
+        },
+        "quantity": 75,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/fragaria-virginiana-var-platypetala"
+        },
+        "quantity": 600,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/prosartes-hookeri"
+        },
+        "quantity": 595,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/dicentra-formosa"
+        },
+        "quantity": 1180,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/luzula-campestris"
+        },
+        "quantity": 790,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/achnatherum-lemmonii"
+        },
+        "quantity": 845,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/festuca-subulata"
+        },
+        "quantity": 790,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/cystopteris-fragilis"
+        },
+        "quantity": 155,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/lonicera-ciliosa"
+        },
+        "quantity": 30,
+        "size": "#2 container"
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-22",
+    "revisedAt": "2026-11-22",
+    "method": "manual",
+    "fixture": true
+  }
+}

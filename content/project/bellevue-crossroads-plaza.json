@@ -1,0 +1,142 @@
+{
+  "type": "project",
+  "id": "bellevue-crossroads-plaza",
+  "name": "Crossroads Plaza",
+  "summary": "A made-up commercial site in Bellevue with a mixed woodland-edge planting.",
+  "data": {
+    "landscapeArchitect": "Placeholder Partners",
+    "location": {
+      "lat": 47.618,
+      "lon": -122.129
+    },
+    "projectType": "commercial",
+    "sizeAcres": 4.4,
+    "status": "constructed",
+    "completed": "2011-09",
+    "plantList": [
+      {
+        "plant": {
+          "ref": "plant/pinus-monticola"
+        },
+        "quantity": 20,
+        "size": "2 in cal. B&B"
+      },
+      {
+        "plant": {
+          "ref": "plant/pseudotsuga-menziesii"
+        },
+        "quantity": 115,
+        "size": "#5 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/pinus-contorta-var-contorta"
+        },
+        "quantity": 65,
+        "size": "#15 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/oemleria-cerasiformis"
+        },
+        "quantity": 165,
+        "size": "#5 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/spiraea-betulifolia-var-lucida"
+        },
+        "quantity": 240,
+        "size": "#5 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/myrica-californica"
+        },
+        "quantity": 65,
+        "size": "#5 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/sambucus-nigra-subsp-caerulea"
+        },
+        "quantity": 235,
+        "size": "#2 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/piperia-elegans"
+        },
+        "quantity": 240,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/fragaria-vesca-var-bracteata"
+        },
+        "quantity": 1760,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/trientalis-latifolia"
+        },
+        "quantity": 775,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/festuca-subulata"
+        },
+        "quantity": 590,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/carex-aperta"
+        },
+        "quantity": 2560,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/juncus-effusus-var-pacificus"
+        },
+        "quantity": 2605,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/polypodium-glycyrrhiza"
+        },
+        "quantity": 160,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/athyrium-filix-femina"
+        },
+        "quantity": 350,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/marah-oreganus"
+        },
+        "quantity": 85,
+        "size": "#1 container"
+      },
+      {
+        "plant": "Muhlenbergia rigens",
+        "quantity": 55,
+        "size": "#1 container"
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-22",
+    "revisedAt": "2026-11-22",
+    "method": "manual",
+    "fixture": true
+  }
+}

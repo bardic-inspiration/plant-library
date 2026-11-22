@@ -1,0 +1,151 @@
+{
+  "type": "project",
+  "id": "ballard-ave-green-street",
+  "name": "Ballard Avenue Green Street",
+  "summary": "A made-up streetscape in Seattle with a mixed woodland-edge planting.",
+  "data": {
+    "landscapeArchitect": "Fern & Field Landscape Architects",
+    "location": {
+      "lat": 47.667,
+      "lon": -122.384
+    },
+    "projectType": "streetscape",
+    "sizeAcres": 1.3,
+    "status": "constructed",
+    "completed": "2024-05",
+    "plantList": [
+      {
+        "plant": {
+          "ref": "plant/pinus-monticola"
+        },
+        "quantity": 35,
+        "size": "#5 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/salix-scouleriana"
+        },
+        "quantity": 10,
+        "size": "2 in cal. B&B"
+      },
+      {
+        "plant": {
+          "ref": "plant/prunus-emarginata"
+        },
+        "quantity": 55,
+        "size": "#5 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/viburnum-ellipticum"
+        },
+        "quantity": 40,
+        "size": "#2 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/rosa-nutkana"
+        },
+        "quantity": 240,
+        "size": "#2 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/spiraea-betulifolia-var-lucida"
+        },
+        "quantity": 165,
+        "size": "#2 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/sisyrinchium-idahoense-var-idahoense"
+        },
+        "quantity": 165,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/poteridium-occidentale"
+        },
+        "quantity": 435,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/montia-parvifolia"
+        },
+        "quantity": 240,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/vicia-americana"
+        },
+        "quantity": 515,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/juncus-tenuis"
+        },
+        "quantity": 125,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/cyperus-strigosus"
+        },
+        "quantity": 1610,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/juncus-articulatus"
+        },
+        "quantity": 475,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/cystopteris-fragilis"
+        },
+        "quantity": 65,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/blechnum-spicant"
+        },
+        "quantity": 315,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/dryopteris-arguta"
+        },
+        "quantity": 180,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/lonicera-ciliosa"
+        },
+        "quantity": 40,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/rubus-ursinus"
+        },
+        "quantity": 45,
+        "size": "#1 container"
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-22",
+    "revisedAt": "2026-11-22",
+    "method": "manual",
+    "fixture": true
+  }
+}

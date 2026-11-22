@@ -1,0 +1,130 @@
+{
+  "type": "project",
+  "id": "pasadena-arroyo-terrace",
+  "name": "Arroyo Terrace",
+  "summary": "A made-up commercial site in Pasadena with a dry, sunny planting.",
+  "data": {
+    "landscapeArchitect": "Example Studio",
+    "location": {
+      "lat": 34.147,
+      "lon": -118.166
+    },
+    "projectType": "commercial",
+    "sizeAcres": 4.1,
+    "status": "proposed",
+    "completed": "2029",
+    "plantList": [
+      {
+        "plant": {
+          "ref": "plant/quercus-garryana"
+        },
+        "quantity": 45,
+        "size": "#15 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/alnus-rubra"
+        },
+        "quantity": 10,
+        "size": "2 in cal. B&B"
+      },
+      {
+        "plant": {
+          "ref": "plant/prunus-virginiana"
+        },
+        "quantity": 160,
+        "size": "#2 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/amelanchier-alnifolia"
+        },
+        "quantity": 305,
+        "size": "#2 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/arctostaphylos-columbiana"
+        },
+        "quantity": 270,
+        "size": "#2 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/sambucus-racemosa"
+        },
+        "quantity": 120,
+        "size": "#2 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/tellima-grandiflora"
+        },
+        "quantity": 130,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/fragaria-virginiana-var-platypetala"
+        },
+        "quantity": 640,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/sanicula-crassicaulis"
+        },
+        "quantity": 445,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/festuca-occidentalis"
+        },
+        "quantity": 1795,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/olsynium-douglasii"
+        },
+        "quantity": 2375,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/danthonia-californica"
+        },
+        "quantity": 1925,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/polystichum-munitum"
+        },
+        "quantity": 275,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/pentagramma-triangularis"
+        },
+        "quantity": 105,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/marah-oreganus"
+        },
+        "quantity": 50,
+        "size": "#2 container"
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-22",
+    "revisedAt": "2026-11-22",
+    "method": "manual",
+    "fixture": true
+  }
+}

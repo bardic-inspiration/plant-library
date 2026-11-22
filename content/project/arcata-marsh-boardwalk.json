@@ -1,0 +1,165 @@
+{
+  "type": "project",
+  "id": "arcata-marsh-boardwalk",
+  "name": "Arcata Marsh Boardwalk",
+  "summary": "A made-up restoration site in Arcata with a wet-meadow and riparian planting.",
+  "data": {
+    "landscapeArchitect": "Northfork Design Collective",
+    "location": {
+      "lat": 40.858,
+      "lon": -124.088
+    },
+    "projectType": "restoration",
+    "sizeAcres": 21.5,
+    "status": "constructed",
+    "completed": "2014-04",
+    "plantList": [
+      {
+        "plant": {
+          "ref": "plant/populus-balsamifera"
+        },
+        "quantity": 75,
+        "size": "2 in cal. B&B"
+      },
+      {
+        "plant": {
+          "ref": "plant/thuja-plicata"
+        },
+        "quantity": 40,
+        "size": "#15 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/salix-lasiandra"
+        },
+        "quantity": 30,
+        "size": "2 in cal. B&B"
+      },
+      {
+        "plant": {
+          "ref": "plant/fraxinus-latifolia"
+        },
+        "quantity": 255,
+        "size": "#5 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/salix-exigua-var-sessilifolia"
+        },
+        "quantity": 520,
+        "size": "#2 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/rosa-pisocarpa"
+        },
+        "quantity": 805,
+        "size": "#2 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/lonicera-involucrata"
+        },
+        "quantity": 465,
+        "size": "#2 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/rosa-nutkana"
+        },
+        "quantity": 865,
+        "size": "#2 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/plectritis-congesta"
+        },
+        "quantity": 145,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/collinsia-parviflora"
+        },
+        "quantity": 430,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/grindelia-integrifolia"
+        },
+        "quantity": 1620,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/nemophila-pedunculata"
+        },
+        "quantity": 745,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/petasites-frigidus-var-palmatus"
+        },
+        "quantity": 3425,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/carex-aquatilis-var-dives"
+        },
+        "quantity": 875,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/carex-retrorsa"
+        },
+        "quantity": 825,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/agrostis-exarata"
+        },
+        "quantity": 725,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/polypodium-glycyrrhiza"
+        },
+        "quantity": 345,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/dryopteris-expansa"
+        },
+        "quantity": 660,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/athyrium-filix-femina"
+        },
+        "quantity": 420,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/rubus-ursinus"
+        },
+        "quantity": 50,
+        "size": "#1 container"
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-22",
+    "revisedAt": "2026-11-22",
+    "method": "manual",
+    "fixture": true
+  }
+}

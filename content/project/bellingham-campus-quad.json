@@ -1,0 +1,172 @@
+{
+  "type": "project",
+  "id": "bellingham-campus-quad",
+  "name": "Bellingham Campus Quad",
+  "summary": "A made-up campus landscape in Bellingham with a mixed woodland-edge planting.",
+  "data": {
+    "landscapeArchitect": "Sample Grove Studio",
+    "location": {
+      "lat": 48.734,
+      "lon": -122.486
+    },
+    "projectType": "campus",
+    "sizeAcres": 3.9,
+    "status": "constructed",
+    "completed": "2025-09",
+    "plantList": [
+      {
+        "plant": {
+          "ref": "plant/tsuga-heterophylla"
+        },
+        "quantity": 40,
+        "size": "#15 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/cornus-nuttallii"
+        },
+        "quantity": 70,
+        "size": "#15 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/salix-lasiandra"
+        },
+        "quantity": 110,
+        "size": "#5 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/populus-balsamifera"
+        },
+        "quantity": 55,
+        "size": "#5 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/ribes-lobbii"
+        },
+        "quantity": 140,
+        "size": "#2 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/salix-exigua-var-columbiana"
+        },
+        "quantity": 115,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/ribes-viscosissimum"
+        },
+        "quantity": 265,
+        "size": "#2 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/ceanothus-velutinus-var-laevigatus"
+        },
+        "quantity": 430,
+        "size": "#2 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/euonymus-occidentalis"
+        },
+        "quantity": 210,
+        "size": "#5 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/urtica-dioica-subsp-gracilis"
+        },
+        "quantity": 335,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/mimulus-moschatus"
+        },
+        "quantity": 265,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/prosartes-smithii"
+        },
+        "quantity": 1680,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/phlox-gracilis"
+        },
+        "quantity": 715,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/actaea-rubra"
+        },
+        "quantity": 1140,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/juncus-laccatus"
+        },
+        "quantity": 125,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/juncus-effusus-var-pacificus"
+        },
+        "quantity": 510,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/danthonia-californica"
+        },
+        "quantity": 380,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/pteridium-aquilinum"
+        },
+        "quantity": 80,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/polypodium-glycyrrhiza"
+        },
+        "quantity": 275,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/lonicera-ciliosa"
+        },
+        "quantity": 15,
+        "size": "#2 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/rubus-ursinus"
+        },
+        "quantity": 55,
+        "size": "#2 container"
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-22",
+    "revisedAt": "2026-11-22",
+    "method": "manual",
+    "fixture": true
+  }
+}

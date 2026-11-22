@@ -1,0 +1,114 @@
+{
+  "type": "project",
+  "id": "san-jose-creekside-offices",
+  "name": "Creekside Offices",
+  "summary": "A made-up commercial site in San Jose with a dry, sunny planting.",
+  "data": {
+    "landscapeArchitect": "Example Studio",
+    "location": {
+      "lat": 37.338,
+      "lon": -121.886
+    },
+    "projectType": "commercial",
+    "sizeAcres": 5.6,
+    "status": "constructed",
+    "completed": "2018-08",
+    "plantList": [
+      {
+        "plant": {
+          "ref": "plant/acer-circinatum"
+        },
+        "quantity": 30,
+        "size": "#15 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/pinus-contorta-var-contorta"
+        },
+        "quantity": 25,
+        "size": "#15 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/lonicera-hispidula"
+        },
+        "quantity": 260,
+        "size": "#5 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/viburnum-ellipticum"
+        },
+        "quantity": 415,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/ceanothus-sanguineus"
+        },
+        "quantity": 540,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/ligusticum-apiifolium"
+        },
+        "quantity": 1155,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/cirsium-hallii"
+        },
+        "quantity": 975,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/lupinus-laxiflorus"
+        },
+        "quantity": 775,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/melica-subulata"
+        },
+        "quantity": 595,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/luzula-campestris"
+        },
+        "quantity": 135,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/dryopteris-arguta"
+        },
+        "quantity": 635,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/cystopteris-fragilis"
+        },
+        "quantity": 105,
+        "size": "4 in pot"
+      },
+      {
+        "plant": "Salvia spathacea",
+        "quantity": 160,
+        "size": "#1 container"
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-22",
+    "revisedAt": "2026-11-22",
+    "method": "manual",
+    "fixture": true
+  }
+}
