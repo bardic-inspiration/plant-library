@@ -82,7 +82,7 @@ from `config/site.json`.
 ## Where the rules live
 
 `lib/` holds every rule; scripts are thin entry points. Client-safe modules
-(`names`, `derive`, `compat`, `compat-text`, `geo`, `zones`, `facets`, `filter`, `format`, `markdown`,
+(`names`, `derive`, `compat`, `compat-text`, `geo`, `zones`, `facets`, `filter`, `filter-tree`, `format`, `markdown`,
 `site`, `registry`, `citation`, `traits`, `map-style`, `map-data`, `glyphs`, `overlays`, `workspace`, `export`, `cutsheet`, `analysis`, `analysis-data`, `compare`, `submission`, `sniff`, `form`, `contribute`, `bundle`) have no Node imports, so the islands use them too.
 
 ## Extending

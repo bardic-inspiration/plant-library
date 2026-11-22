@@ -10,7 +10,7 @@ import { buildSearch } from '../lib/search';
 import { TYPES } from '../../../lib/registry';
 import { applyQuery, clearFilters, facetCounts, mapPosition, parseQuery, pickRegion, regionKeys, serializeQuery, sortOptions, sortRecords, toggleValue, viewUrl, withBbox, withMapPosition, type MapPosition, type Query } from '../../../lib/filter';
 import { inView, mapResults, paletteFeatures, projectFeatures, regionUse, unplaced, type Bounds } from '../../../lib/map-data';
-import type { IndexFacet, IndexRecord, LibraryIndex } from '../../../lib/types';
+import type { IndexRecord, LibraryIndex } from '../../../lib/types';
 import type { OverlayMeta } from '../../../lib/overlays';
 import type { MapViewProps } from './MapView';
 import { webglAvailable } from '../lib/webgl';
@@ -19,6 +19,8 @@ import { url } from '../../../lib/site';
 import { Card } from '../components/ui/PlantCard';
 import { AddToList } from '../components/ui/AddToList';
 import { Icon } from '../components/ui/Icon';
+import { FilterTree } from '../components/ui/FilterTree';
+import { filterTree } from '../../../lib/filter-tree';
 import { printResultsUrl } from '../../../lib/export';
 import './library.css';
 
@@ -169,71 +171,6 @@ function MapResultsView({ index, query, results, onMove, onPick, onBox }: { inde
   );
 }
 
-interface FacetNode {
-  facet?: IndexFacet;
-  group?: { id: string; label: string; facets: IndexFacet[] };
-}
-
-/** Facets of one type in registry order, grouped as the registry groups them. */
-function treeFor(facets: IndexFacet[], type: string): FacetNode[] {
-  const out: FacetNode[] = [];
-  const groups = new Map<string, FacetNode>();
-  for (const f of facets.filter((x) => x.type === type)) {
-    if (f.group) {
-      let g = groups.get(f.group);
-      if (!g) {
-        g = { group: { id: f.group, label: f.groupLabel ?? f.group, facets: [] } };
-        groups.set(f.group, g);
-        out.push(g);
-      }
-      g.group!.facets.push(f);
-    } else out.push({ facet: f });
-  }
-  return out;
-}
-
-function FacetValues({ facet, query, counts, onToggle }: { facet: IndexFacet; query: Query; counts: Record<string, number>; onToggle: (key: string, value: string) => void }) {
-  const selected = query.filters[facet.key] ?? [];
-  const active = selected.length > 0;
-  // Open state is the reader's: seeded once from the query, never re-derived from it.
-  const [initiallyOpen] = useState(active);
-  return (
-    <details class="facet" open={initiallyOpen}>
-      <summary>
-        {facet.label}
-        {active && <span class="facet-active"> ({selected.length} selected)</span>}
-      </summary>
-      <ul role="list" class="facet-values">
-        {facet.values.map((v) => {
-          const checked = selected.includes(v.id);
-          const n = counts[v.id] ?? 0;
-          const id = `f-${facet.key}-${v.id}`.replace(/[^A-Za-z0-9_-]/g, '_');
-          return (
-            <li class={n === 0 && !checked ? 'empty' : undefined}>
-              <input type="checkbox" id={id} checked={checked} onChange={() => onToggle(facet.key, v.id)} />
-              <label for={id}>
-                {v.label} <span class="count">{n}</span>
-              </label>
-            </li>
-          );
-        })}
-      </ul>
-    </details>
-  );
-}
-
-function FacetGroup({ group, query, counts, onToggle }: { group: NonNullable<FacetNode['group']>; query: Query; counts: Record<string, Record<string, number>>; onToggle: (k: string, v: string) => void }) {
-  const [initiallyOpen] = useState(() => group.facets.some((f) => query.filters[f.key]?.length));
-  return (
-    <details class="facet-group" open={initiallyOpen}>
-      <summary>{group.label}</summary>
-      {group.facets.map((f) => (
-        <FacetValues facet={f} query={query} counts={counts[f.key]} onToggle={onToggle} />
-      ))}
-    </details>
-  );
-}
-
 /** The box filter's corners, for reading: "47.1°N 122.5°W to 47.8°N 121.9°W". */
 function boxText([w, s, e, n]: [number, number, number, number]): string {
   const lat = (v: number) => `${Math.abs(v).toFixed(2)}°${v < 0 ? 'S' : 'N'}`;
@@ -245,7 +182,7 @@ function boxText([w, s, e, n]: [number, number, number, number]): string {
 function BoxFilter({ query, onClear }: { query: Query; onClear: () => void }) {
   if (!query.bbox) return null;
   return (
-    <div class="facet box-filter">
+    <div class="box-filter">
       <p class="box-filter-title">Map area</p>
       <p class="box-filter-text">
         Projects inside the box drawn on the map, and plants used on them: {boxText(query.bbox)}.
@@ -253,38 +190,6 @@ function BoxFilter({ query, onClear }: { query: Query; onClear: () => void }) {
       <button type="button" class="link-button" onClick={onClear}>
         Clear the box
       </button>
-    </div>
-  );
-}
-
-function FilterTree({ index, query, counts, onToggle, onClearBox }: { index: LibraryIndex; query: Query; counts: Record<string, Record<string, number>>; onToggle: (k: string, v: string) => void; onClearBox: () => void }) {
-  const typeFacet = index.facets.find((f) => f.key === 'type');
-  const typeIds = typeFacet?.values.map((v) => v.id) ?? [];
-  const tagFacets = index.facets.filter((f) => f.key.startsWith('tag.'));
-  return (
-    <div class="filter-tree">
-      <BoxFilter query={query} onClear={onClearBox} />
-      {typeFacet && typeIds.length > 1 && <FacetValues facet={typeFacet} query={query} counts={counts.type} onToggle={onToggle} />}
-      {typeIds.map((t) => (
-        <details class="facet-type" open>
-          <summary>{types[t]?.plural ?? t}</summary>
-          {treeFor(index.facets, t).map((n) =>
-            n.facet ? (
-              <FacetValues facet={n.facet} query={query} counts={counts[n.facet.key]} onToggle={onToggle} />
-            ) : (
-              <FacetGroup group={n.group!} query={query} counts={counts} onToggle={onToggle} />
-            ),
-          )}
-        </details>
-      ))}
-      {tagFacets.length > 0 && (
-        <details class="facet-type">
-          <summary>Tags</summary>
-          {tagFacets.map((f) => (
-            <FacetValues facet={f} query={query} counts={counts[f.key]} onToggle={onToggle} />
-          ))}
-        </details>
-      )}
     </div>
   );
 }
@@ -364,6 +269,7 @@ export default function Library({ view: page = 'list' }: { view?: View }) {
   }, [index, query.filters, query.bbox, query.sort, hits]);
 
   const counts = useMemo(() => (index ? facetCounts(index.records, index.facets, query, hits) : {}), [index, query.filters, query.bbox, hits]);
+  const tree = useMemo(() => (index ? filterTree(index.facets, query, counts) : []), [index, query.filters, counts]);
 
   const toggle = (key: string, value: string) => {
     pushNext.current = true;
@@ -414,7 +320,9 @@ export default function Library({ view: page = 'list' }: { view?: View }) {
           </button>
           <div id="filter-panel" class="filter-panel">
             <h2 class="label filter-heading">Filters</h2>
-            <FilterTree index={index} query={query} counts={counts} onToggle={toggle} onClearBox={() => setBox(undefined)} />
+            <FilterTree nodes={tree} onToggle={toggle}>
+              <BoxFilter query={query} onClear={() => setBox(undefined)} />
+            </FilterTree>
           </div>
         </aside>
         <section class="library-results" aria-labelledby="results-heading">

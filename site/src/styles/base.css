@@ -63,6 +63,8 @@
     font-size: var(--full);
     line-height: var(--leading-body);
     text-size-adjust: none;
+    /* Keep the scrollbar's room whether or not the page scrolls, so the Library's filter sidebar doesn't shift as filtering changes the page's height. */
+    scrollbar-gutter: stable;
   }
 
   body {
