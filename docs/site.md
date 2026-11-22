@@ -52,8 +52,20 @@ JavaScript it is a full list; the island hides that list once it loads.
   the Mahonias through their synonyms. A project is found by its name,
   landscape architect, client, or place (its place and county names). With
   search text, a Relevance sort is offered.
-- **Filter tree:** type, then each facet (grouped as `config/types.json`
-  groups them), then values with counts. Values in a facet combine as OR,
+- **Filter tree** (`lib/filter-tree.ts`, rendered by
+  `site/src/components/ui/FilterTree.tsx`): the types, each with its
+  facets (grouped as `config/types.json` groups them), then the Tags, then
+  values with counts. With more than one type indexed, a type is a checkbox
+  for the type filter, with its count, beside a disclosure holding its
+  facets. Every node opens and closes from a disclosure button
+  (`aria-expanded`), and a facet's values are a list labelled by it. When
+  the tree first shows, from the page's URL, the nodes holding a selected
+  value start open, down to the facet, and so does a checked type, or the
+  only type when one is indexed (`openAtStart`). From then on, only a
+  node's own disclosure opens or closes it, and only that node: checking or
+  unchecking a type or value, a chip, a pick on the map, and Clear all
+  filters never open or close a node. A node keeps its state while a node
+  around it is closed. Values in a facet combine as OR,
   facets as AND, and an entry missing a value never matches. A value's
   count is the result size with that value checked given the other facets'
   selections. Active filters show as removable chips; with more than one
@@ -101,7 +113,9 @@ JavaScript it is a full list; the island hides that list once it loads.
 - **View switch:** List and Map, beside the count, link the same query
   string to `/` and `/map/` (`viewUrl`).
 - **Layout:** the tree is a sidebar from 64rem; below that it sits closed
-  behind a Filters button.
+  behind a Filters button. Every page keeps the scrollbar's room
+  (`scrollbar-gutter: stable` on `html`), so the sidebar doesn't shift as
+  filtering makes the page shorter or longer than the window.
 - **Cards:** a plant card shows its pinned image (none, and no
   placeholder, when it has none), botanical name, primary common name, form
   badge, a Native badge, height and spread, hardiness, sun and moisture as
@@ -474,7 +488,7 @@ a fixture (`meta.fixture: true`), as every prototype plant is
 ## Where the rules live
 
 `config/types.json` (facets, sorts, search fields), `lib/facets.ts`,
-`lib/filter.ts`, `lib/map-data.ts`, `lib/compat-text.ts`, `lib/workspace.ts`, `lib/export.ts`, `lib/cutsheet.ts`, `lib/build-data.ts`, `site/src/islands/Library.tsx`, `site/src/islands/Workspace.tsx`, `site/src/islands/Print.tsx`, `site/src/islands/Contribute.tsx`, `site/src/islands/Compare.tsx`, `lib/compare.ts`,
+`lib/filter.ts`, `lib/filter-tree.ts`, `lib/map-data.ts`, `lib/compat-text.ts`, `lib/workspace.ts`, `lib/export.ts`, `lib/cutsheet.ts`, `lib/build-data.ts`, `site/src/islands/Library.tsx`, `site/src/islands/Workspace.tsx`, `site/src/islands/Print.tsx`, `site/src/islands/Contribute.tsx`, `site/src/islands/Compare.tsx`, `lib/compare.ts`,
 `site/src/pages/`, and the shared components in
 `site/src/components/ui/`, which both the pages and the island render.
 

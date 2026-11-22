@@ -67,34 +67,87 @@
     margin-block-end: var(--space-xs);
   }
 
-  .filter-tree details {
+  .tree,
+  .tree-children,
+  .tree-values {
+    margin: var(--none);
+    padding: var(--none);
+    list-style: none;
+  }
+
+  .tree-children,
+  .tree-values {
+    padding-inline-start: var(--space-sm);
+  }
+
+  .tree-children[hidden],
+  .tree-values[hidden] {
+    display: none;
+  }
+
+  .tree-node {
     border-block-start: var(--border-faint);
   }
 
-  .filter-tree summary {
+  .tree-row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
     min-block-size: var(--hit-size);
+  }
+
+  .tree-row label {
+    flex: 1;
+    min-inline-size: var(--none);
+  }
+
+  .tree-row input,
+  .tree-value input {
+    inline-size: var(--icon-size);
+    block-size: var(--icon-size);
+    accent-color: var(--text);
+  }
+
+  .tree-toggle {
     display: flex;
     align-items: center;
     gap: var(--space-xxs);
-    cursor: pointer;
+    min-block-size: var(--hit-size);
+    min-inline-size: var(--hit-size);
+    padding: var(--none);
+    border: var(--none);
+    background: transparent;
     font-weight: var(--weight-body);
+    text-align: start;
+    cursor: pointer;
   }
 
-  /* First-order categories are strong; everything nested is body weight. */
-  .filter-tree > details > summary {
-    font-weight: var(--weight-strong);
+  .tree-node > .tree-toggle {
+    inline-size: 100%;
   }
 
-  .facet-type > summary {
-    font-size: var(--size-label);
-    letter-spacing: var(--tracking-label);
-    text-transform: uppercase;
+  .tree-toggle .icon {
+    flex: none;
+    transform: rotate(-0.25turn);
+    transition: transform var(--duration-fast);
+  }
+
+  .tree-toggle[aria-expanded="true"] .icon {
+    transform: none;
+  }
+
+  /* First-order nodes (the types and the Tags) read as labels; everything nested is body weight. */
+  .tree-type {
     border-block-start: var(--border);
   }
 
-  .facet-group,
-  .facet {
-    padding-inline-start: var(--space-sm);
+  .tree-type > .tree-toggle,
+  .tree-type > .tree-row label,
+  .tree-type > .tree-row .tree-toggle {
+    font-size: var(--size-label);
+    font-weight: var(--weight-strong);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
   }
 
   .facet-active {
@@ -102,11 +155,11 @@
     font-size: var(--size-small);
   }
 
-  .facet-values {
+  .tree-values {
     padding-block-end: var(--space-xs);
   }
 
-  .facet-values li {
+  .tree-value {
     display: flex;
     align-items: center;
     gap: var(--space-xs);
@@ -114,13 +167,7 @@
     font-size: var(--size-small);
   }
 
-  .facet-values input {
-    inline-size: var(--icon-size);
-    block-size: var(--icon-size);
-    accent-color: var(--text);
-  }
-
-  .facet-values li.empty {
+  .tree-value.empty {
     color: var(--text-muted);
   }
 
