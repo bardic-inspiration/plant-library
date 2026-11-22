@@ -1,0 +1,122 @@
+{
+  "type": "project",
+  "id": "hood-river-orchard-lofts",
+  "name": "Orchard Lofts",
+  "summary": "A made-up housing landscape in Hood River with a dry, sunny planting.",
+  "data": {
+    "landscapeArchitect": "Mock Meadow Design",
+    "location": {
+      "lat": 45.7054,
+      "lon": -121.5215
+    },
+    "projectType": "residential",
+    "sizeAcres": 1.1,
+    "status": "proposed",
+    "plantList": [
+      {
+        "plant": {
+          "ref": "plant/prunus-emarginata"
+        },
+        "quantity": 30,
+        "size": "#15 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/rhamnus-purshiana"
+        },
+        "quantity": 20,
+        "size": "#15 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/pinus-ponderosa-var-benthamiana"
+        },
+        "quantity": 30,
+        "size": "#5 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/rosa-pisocarpa"
+        },
+        "quantity": 185,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/berberis-nervosa"
+        },
+        "quantity": 30,
+        "size": "#5 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/symphoricarpos-albus"
+        },
+        "quantity": 85,
+        "size": "#5 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/prosartes-hookeri"
+        },
+        "quantity": 45,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/penstemon-richardsonii"
+        },
+        "quantity": 760,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/madia-gracilis"
+        },
+        "quantity": 80,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/sedum-spathulifolium"
+        },
+        "quantity": 385,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/danthonia-californica"
+        },
+        "quantity": 205,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/bromus-carinatus"
+        },
+        "quantity": 90,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/cystopteris-fragilis"
+        },
+        "quantity": 85,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/marah-oreganus"
+        },
+        "quantity": 20,
+        "size": "#2 container"
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-22",
+    "revisedAt": "2026-11-22",
+    "method": "manual",
+    "fixture": true
+  }
+}

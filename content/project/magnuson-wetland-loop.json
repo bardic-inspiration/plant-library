@@ -1,0 +1,158 @@
+{
+  "type": "project",
+  "id": "magnuson-wetland-loop",
+  "name": "Magnuson Wetland Loop",
+  "summary": "A made-up park in Seattle with a wet-meadow and riparian planting.",
+  "data": {
+    "landscapeArchitect": "Example Studio",
+    "location": {
+      "lat": 47.6812,
+      "lon": -122.2563
+    },
+    "projectType": "park",
+    "sizeAcres": 15.2,
+    "status": "constructed",
+    "completed": "2013-06",
+    "plantList": [
+      {
+        "plant": {
+          "ref": "plant/taxus-brevifolia"
+        },
+        "quantity": 100,
+        "size": "#15 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/alnus-rubra"
+        },
+        "quantity": 80,
+        "size": "#15 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/pinus-contorta-var-contorta"
+        },
+        "quantity": 60,
+        "size": "#5 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/physocarpus-capitatus"
+        },
+        "quantity": 445,
+        "size": "#5 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/prunus-virginiana"
+        },
+        "quantity": 545,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/spiraea-douglasii"
+        },
+        "quantity": 810,
+        "size": "#2 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/sambucus-nigra-subsp-caerulea"
+        },
+        "quantity": 960,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/ceratophyllum-demersum"
+        },
+        "quantity": 1390,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/typha-latifolia"
+        },
+        "quantity": 2575,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/lupinus-polyphyllus"
+        },
+        "quantity": 1665,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/veronica-americana"
+        },
+        "quantity": 1305,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/scrophularia-californica"
+        },
+        "quantity": 3200,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/delphinium-menziesii-var-pyramidale"
+        },
+        "quantity": 245,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/glyceria-elata"
+        },
+        "quantity": 740,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/scirpus-tabernaemontani"
+        },
+        "quantity": 1565,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/juncus-tenuis"
+        },
+        "quantity": 1350,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/athyrium-filix-femina"
+        },
+        "quantity": 395,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/blechnum-spicant"
+        },
+        "quantity": 645,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/lonicera-ciliosa"
+        },
+        "quantity": 65,
+        "size": "#1 container"
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-22",
+    "revisedAt": "2026-11-22",
+    "method": "manual",
+    "fixture": true
+  }
+}

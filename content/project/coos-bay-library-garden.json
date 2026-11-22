@@ -1,0 +1,163 @@
+{
+  "type": "project",
+  "id": "coos-bay-library-garden",
+  "name": "Coos Bay Library Garden",
+  "summary": "A made-up civic grounds in Coos Bay with a mixed woodland-edge planting.",
+  "data": {
+    "landscapeArchitect": "Placeholder Partners",
+    "location": {
+      "lat": 43.3665,
+      "lon": -124.2179
+    },
+    "projectType": "civic",
+    "sizeAcres": 0.6,
+    "status": "constructed",
+    "completed": "2016-05",
+    "plantList": [
+      {
+        "plant": {
+          "ref": "plant/salix-scouleriana"
+        },
+        "quantity": 60,
+        "size": "#5 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/salix-sitchensis"
+        },
+        "quantity": 25,
+        "size": "#15 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/cornus-nuttallii"
+        },
+        "quantity": 10,
+        "size": "2 in cal. B&B"
+      },
+      {
+        "plant": {
+          "ref": "plant/euonymus-occidentalis"
+        },
+        "quantity": 180,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/rosa-gymnocarpa"
+        },
+        "quantity": 70,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/lonicera-involucrata"
+        },
+        "quantity": 70,
+        "size": "#5 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/spiraea-douglasii"
+        },
+        "quantity": 40,
+        "size": "#2 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/sidalcea-campestris"
+        },
+        "quantity": 110,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/calochortus-tolmiei"
+        },
+        "quantity": 70,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/potentilla-glandulosa"
+        },
+        "quantity": 120,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/phlox-gracilis"
+        },
+        "quantity": 105,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/clematis-ligusticifolia"
+        },
+        "quantity": 75,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/alopecurus-geniculatus"
+        },
+        "quantity": 530,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/carex-arcta"
+        },
+        "quantity": 150,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/glyceria-occidentalis"
+        },
+        "quantity": 570,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/dryopteris-expansa"
+        },
+        "quantity": 125,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/adiantum-aleuticum"
+        },
+        "quantity": 55,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/polypodium-glycyrrhiza"
+        },
+        "quantity": 105,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/ribes-laxiflorum"
+        },
+        "quantity": 35,
+        "size": "#1 container"
+      },
+      {
+        "plant": "Mixed native seed",
+        "quantity": 130,
+        "size": "#1 container"
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-22",
+    "revisedAt": "2026-11-22",
+    "method": "manual",
+    "fixture": true
+  }
+}

@@ -1,0 +1,158 @@
+{
+  "type": "project",
+  "id": "snoqualmie-valley-farm-edge",
+  "name": "Snoqualmie Valley Farm Edge",
+  "summary": "A made-up restoration site in unincorporated King County with a wet-meadow and riparian planting.",
+  "data": {
+    "landscapeArchitect": "Northfork Design Collective",
+    "location": {
+      "lat": 47.695,
+      "lon": -121.95
+    },
+    "projectType": "restoration",
+    "sizeAcres": 33,
+    "status": "constructed",
+    "completed": "2016-11",
+    "plantList": [
+      {
+        "plant": {
+          "ref": "plant/rhamnus-purshiana"
+        },
+        "quantity": 115,
+        "size": "2 in cal. B&B"
+      },
+      {
+        "plant": {
+          "ref": "plant/malus-fusca"
+        },
+        "quantity": 165,
+        "size": "#15 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/pinus-contorta-var-contorta"
+        },
+        "quantity": 230,
+        "size": "#5 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/thuja-plicata"
+        },
+        "quantity": 45,
+        "size": "#15 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/spiraea-betulifolia-var-lucida"
+        },
+        "quantity": 1020,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/rosa-pisocarpa"
+        },
+        "quantity": 1155,
+        "size": "#2 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/lonicera-involucrata"
+        },
+        "quantity": 845,
+        "size": "#2 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/petasites-frigidus-var-palmatus"
+        },
+        "quantity": 1615,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/asarum-caudatum"
+        },
+        "quantity": 855,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/myosotis-laxa"
+        },
+        "quantity": 410,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/downingia-elegans"
+        },
+        "quantity": 295,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/lupinus-polyphyllus"
+        },
+        "quantity": 350,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/eleocharis-obtusa"
+        },
+        "quantity": 1080,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/carex-unilateralis"
+        },
+        "quantity": 5200,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/juncus-articulatus"
+        },
+        "quantity": 1980,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/blechnum-spicant"
+        },
+        "quantity": 535,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/polypodium-glycyrrhiza"
+        },
+        "quantity": 665,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/marah-oreganus"
+        },
+        "quantity": 130,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/lonicera-ciliosa"
+        },
+        "quantity": 180,
+        "size": "#1 container"
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-22",
+    "revisedAt": "2026-11-22",
+    "method": "manual",
+    "fixture": true
+  }
+}

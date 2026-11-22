@@ -1,0 +1,135 @@
+{
+  "type": "project",
+  "id": "bend-river-terrace",
+  "name": "Bend River Terrace",
+  "summary": "A made-up housing landscape in Bend with a dry, sunny planting.",
+  "data": {
+    "landscapeArchitect": "Mock Meadow Design",
+    "location": {
+      "lat": 44.0582,
+      "lon": -121.3153
+    },
+    "projectType": "residential",
+    "sizeAcres": 2.2,
+    "status": "constructed",
+    "completed": "2023-07",
+    "plantList": [
+      {
+        "plant": {
+          "ref": "plant/pinus-monticola"
+        },
+        "quantity": 55,
+        "size": "#5 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/abies-grandis"
+        },
+        "quantity": 35,
+        "size": "2 in cal. B&B"
+      },
+      {
+        "plant": {
+          "ref": "plant/prunus-emarginata"
+        },
+        "quantity": 45,
+        "size": "#15 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/sambucus-nigra-subsp-caerulea"
+        },
+        "quantity": 105,
+        "size": "#5 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/myrica-californica"
+        },
+        "quantity": 140,
+        "size": "#5 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/corylus-cornuta"
+        },
+        "quantity": 95,
+        "size": "#5 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/symphoricarpos-albus"
+        },
+        "quantity": 240,
+        "size": "#2 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/penstemon-richardsonii"
+        },
+        "quantity": 90,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/solidago-lepida-var-salebrosa"
+        },
+        "quantity": 785,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/sedum-oreganum"
+        },
+        "quantity": 1080,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/collinsia-parviflora"
+        },
+        "quantity": 175,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/luzula-campestris"
+        },
+        "quantity": 295,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/deschampsia-elongata"
+        },
+        "quantity": 290,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/dryopteris-arguta"
+        },
+        "quantity": 325,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/ribes-laxiflorum"
+        },
+        "quantity": 25,
+        "size": "#1 container"
+      },
+      {
+        "plant": "Ceanothus 'Julia Phelps'",
+        "quantity": 240,
+        "size": "#1 container"
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-22",
+    "revisedAt": "2026-11-22",
+    "method": "manual",
+    "fixture": true
+  }
+}

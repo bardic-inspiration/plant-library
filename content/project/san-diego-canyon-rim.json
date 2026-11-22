@@ -1,0 +1,135 @@
+{
+  "type": "project",
+  "id": "san-diego-canyon-rim",
+  "name": "Canyon Rim Commons",
+  "summary": "A made-up housing landscape in San Diego with a dry, sunny planting.",
+  "data": {
+    "landscapeArchitect": "Placeholder Partners",
+    "location": {
+      "lat": 32.765,
+      "lon": -117.15
+    },
+    "projectType": "residential",
+    "sizeAcres": 2.8,
+    "status": "constructed",
+    "completed": "2011-03",
+    "plantList": [
+      {
+        "plant": {
+          "ref": "plant/abies-grandis"
+        },
+        "quantity": 90,
+        "size": "#5 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/quercus-garryana"
+        },
+        "quantity": 30,
+        "size": "#5 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/pinus-monticola"
+        },
+        "quantity": 50,
+        "size": "#15 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/ribes-viscosissimum"
+        },
+        "quantity": 255,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/viburnum-ellipticum"
+        },
+        "quantity": 275,
+        "size": "#2 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/myrica-californica"
+        },
+        "quantity": 60,
+        "size": "#5 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/sambucus-racemosa"
+        },
+        "quantity": 250,
+        "size": "#2 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/eschscholzia-californica"
+        },
+        "quantity": 810,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/viola-praemorsa-var-praemorsa"
+        },
+        "quantity": 1000,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/delphinium-nuttallii"
+        },
+        "quantity": 690,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/bromus-carinatus"
+        },
+        "quantity": 1785,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/festuca-subulata"
+        },
+        "quantity": 600,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/melica-subulata"
+        },
+        "quantity": 650,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/cystopteris-fragilis"
+        },
+        "quantity": 125,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/polystichum-munitum"
+        },
+        "quantity": 175,
+        "size": "4 in pot"
+      },
+      {
+        "plant": "Elymus glaucus",
+        "quantity": 105,
+        "size": "#1 container"
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-22",
+    "revisedAt": "2026-11-22",
+    "method": "manual",
+    "fixture": true
+  }
+}

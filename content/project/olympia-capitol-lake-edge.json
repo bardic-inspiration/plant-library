@@ -1,0 +1,165 @@
+{
+  "type": "project",
+  "id": "olympia-capitol-lake-edge",
+  "name": "Capitol Lake Edge",
+  "summary": "A made-up restoration site in Olympia with a wet-meadow and riparian planting.",
+  "data": {
+    "landscapeArchitect": "Northfork Design Collective",
+    "location": {
+      "lat": 47.039,
+      "lon": -122.907
+    },
+    "projectType": "restoration",
+    "sizeAcres": 26,
+    "status": "proposed",
+    "completed": "2027-04",
+    "plantList": [
+      {
+        "plant": {
+          "ref": "plant/picea-sitchensis"
+        },
+        "quantity": 60,
+        "size": "2 in cal. B&B"
+      },
+      {
+        "plant": {
+          "ref": "plant/salix-prolixa"
+        },
+        "quantity": 50,
+        "size": "#15 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/alnus-rubra"
+        },
+        "quantity": 185,
+        "size": "#5 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/sambucus-nigra-subsp-caerulea"
+        },
+        "quantity": 95,
+        "size": "#5 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/physocarpus-capitatus"
+        },
+        "quantity": 325,
+        "size": "#5 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/rosa-nutkana"
+        },
+        "quantity": 315,
+        "size": "#2 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/cornus-sericea"
+        },
+        "quantity": 140,
+        "size": "#5 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/rosa-pisocarpa"
+        },
+        "quantity": 860,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/ceratophyllum-demersum"
+        },
+        "quantity": 350,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/canadanthus-modestus"
+        },
+        "quantity": 1760,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/oplopanax-horridus"
+        },
+        "quantity": 500,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/sparganium-emersum"
+        },
+        "quantity": 650,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/rumex-salicifolius-var-salicifolius"
+        },
+        "quantity": 1010,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/collinsia-parviflora"
+        },
+        "quantity": 3735,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/scirpus-microcarpus"
+        },
+        "quantity": 2510,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/trisetum-canescens"
+        },
+        "quantity": 2500,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/deschampsia-cespitosa"
+        },
+        "quantity": 2480,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/polypodium-glycyrrhiza"
+        },
+        "quantity": 935,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/dryopteris-expansa"
+        },
+        "quantity": 1135,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/rubus-ursinus"
+        },
+        "quantity": 40,
+        "size": "#1 container"
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-22",
+    "revisedAt": "2026-11-22",
+    "method": "manual",
+    "fixture": true
+  }
+}

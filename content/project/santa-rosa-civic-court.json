@@ -1,0 +1,172 @@
+{
+  "type": "project",
+  "id": "santa-rosa-civic-court",
+  "name": "Santa Rosa Civic Court",
+  "summary": "A made-up civic grounds in Santa Rosa with a dry, sunny planting.",
+  "data": {
+    "landscapeArchitect": "Fern & Field Landscape Architects",
+    "location": {
+      "lat": 38.44,
+      "lon": -122.714
+    },
+    "projectType": "civic",
+    "sizeAcres": 1.5,
+    "status": "constructed",
+    "completed": "2020-01",
+    "plantList": [
+      {
+        "plant": {
+          "ref": "plant/pseudotsuga-menziesii"
+        },
+        "quantity": 45,
+        "size": "#5 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/salix-scouleriana"
+        },
+        "quantity": 25,
+        "size": "#15 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/acer-circinatum"
+        },
+        "quantity": 35,
+        "size": "#15 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/acer-macrophyllum"
+        },
+        "quantity": 15,
+        "size": "#15 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/sambucus-racemosa"
+        },
+        "quantity": 70,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/symphoricarpos-albus"
+        },
+        "quantity": 160,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/rosa-nutkana"
+        },
+        "quantity": 255,
+        "size": "#2 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/corylus-cornuta"
+        },
+        "quantity": 120,
+        "size": "#5 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/viburnum-ellipticum"
+        },
+        "quantity": 340,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/calochortus-tolmiei"
+        },
+        "quantity": 455,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/dodecatheon-hendersonii"
+        },
+        "quantity": 875,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/sanicula-crassicaulis"
+        },
+        "quantity": 110,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/fragaria-virginiana-var-platypetala"
+        },
+        "quantity": 565,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/elymus-trachycaulus"
+        },
+        "quantity": 775,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/festuca-subulata"
+        },
+        "quantity": 1140,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/trisetum-canescens"
+        },
+        "quantity": 590,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/melica-bulbosa"
+        },
+        "quantity": 550,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/pentagramma-triangularis"
+        },
+        "quantity": 315,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/cystopteris-fragilis"
+        },
+        "quantity": 235,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/rubus-ursinus"
+        },
+        "quantity": 50,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/ribes-laxiflorum"
+        },
+        "quantity": 30,
+        "size": "#2 container"
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-22",
+    "revisedAt": "2026-11-22",
+    "method": "manual",
+    "fixture": true
+  }
+}

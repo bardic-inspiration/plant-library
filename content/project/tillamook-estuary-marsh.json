@@ -1,0 +1,130 @@
+{
+  "type": "project",
+  "id": "tillamook-estuary-marsh",
+  "name": "Tillamook Estuary Marsh",
+  "summary": "A made-up restoration site in unincorporated Tillamook County with a wet-meadow and riparian planting.",
+  "data": {
+    "landscapeArchitect": "Fern & Field Landscape Architects",
+    "location": {
+      "lat": 45.479,
+      "lon": -123.892
+    },
+    "projectType": "restoration",
+    "sizeAcres": 64,
+    "status": "constructed",
+    "completed": "2009-08",
+    "plantList": [
+      {
+        "plant": {
+          "ref": "plant/salix-prolixa"
+        },
+        "quantity": 350,
+        "size": "#5 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/prunus-virginiana"
+        },
+        "quantity": 375,
+        "size": "#2 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/cornus-sericea"
+        },
+        "quantity": 1100,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/downingia-elegans"
+        },
+        "quantity": 690,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/mimulus-moschatus"
+        },
+        "quantity": 205,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/persicaria-amphibia"
+        },
+        "quantity": 510,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/equisetum-arvense"
+        },
+        "quantity": 2165,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/sisyrinchium-idahoense-var-idahoense"
+        },
+        "quantity": 1535,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/carex-vulpinoidea"
+        },
+        "quantity": 2105,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/cyperus-squarrosus"
+        },
+        "quantity": 7125,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/juncus-acuminatus"
+        },
+        "quantity": 1120,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/scirpus-microcarpus"
+        },
+        "quantity": 3420,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/carex-hendersonii"
+        },
+        "quantity": 4335,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/polypodium-glycyrrhiza"
+        },
+        "quantity": 335,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/rubus-ursinus"
+        },
+        "quantity": 225,
+        "size": "#1 container"
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-22",
+    "revisedAt": "2026-11-22",
+    "method": "manual",
+    "fixture": true
+  }
+}

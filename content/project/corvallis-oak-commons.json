@@ -1,0 +1,151 @@
+{
+  "type": "project",
+  "id": "corvallis-oak-commons",
+  "name": "Corvallis Oak Commons",
+  "summary": "A made-up campus landscape in Corvallis with a dry, sunny planting.",
+  "data": {
+    "landscapeArchitect": "Sample Grove Studio",
+    "location": {
+      "lat": 44.5646,
+      "lon": -123.262
+    },
+    "projectType": "campus",
+    "sizeAcres": 9.8,
+    "status": "constructed",
+    "completed": "2014-09",
+    "plantList": [
+      {
+        "plant": {
+          "ref": "plant/acer-macrophyllum"
+        },
+        "quantity": 190,
+        "size": "#5 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/alnus-rubra"
+        },
+        "quantity": 35,
+        "size": "2 in cal. B&B"
+      },
+      {
+        "plant": {
+          "ref": "plant/rhamnus-purshiana"
+        },
+        "quantity": 85,
+        "size": "#15 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/spiraea-douglasii"
+        },
+        "quantity": 55,
+        "size": "#5 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/oemleria-cerasiformis"
+        },
+        "quantity": 410,
+        "size": "#2 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/prunus-virginiana"
+        },
+        "quantity": 75,
+        "size": "#5 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/sedum-spathulifolium"
+        },
+        "quantity": 1030,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/oxalis-oregana"
+        },
+        "quantity": 285,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/allium-cernuum"
+        },
+        "quantity": 325,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/cerastium-arvense"
+        },
+        "quantity": 995,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/festuca-subulata"
+        },
+        "quantity": 3670,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/achnatherum-occidentale-subsp-californicum"
+        },
+        "quantity": 535,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/elymus-trachycaulus"
+        },
+        "quantity": 3915,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/bromus-carinatus"
+        },
+        "quantity": 1555,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/polystichum-munitum"
+        },
+        "quantity": 410,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/pentagramma-triangularis"
+        },
+        "quantity": 275,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/lonicera-ciliosa"
+        },
+        "quantity": 100,
+        "size": "#2 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/marah-oreganus"
+        },
+        "quantity": 45,
+        "size": "#2 container"
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-22",
+    "revisedAt": "2026-11-22",
+    "method": "manual",
+    "fixture": true
+  }
+}

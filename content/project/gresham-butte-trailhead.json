@@ -1,0 +1,165 @@
+{
+  "type": "project",
+  "id": "gresham-butte-trailhead",
+  "name": "Gresham Butte Trailhead",
+  "summary": "A made-up park in Gresham with a mixed woodland-edge planting.",
+  "data": {
+    "landscapeArchitect": "Example Studio",
+    "location": {
+      "lat": 45.4818,
+      "lon": -122.4296
+    },
+    "projectType": "park",
+    "sizeAcres": 3.6,
+    "status": "constructed",
+    "completed": "2019-10",
+    "plantList": [
+      {
+        "plant": {
+          "ref": "plant/picea-sitchensis"
+        },
+        "quantity": 15,
+        "size": "2 in cal. B&B"
+      },
+      {
+        "plant": {
+          "ref": "plant/salix-prolixa"
+        },
+        "quantity": 30,
+        "size": "2 in cal. B&B"
+      },
+      {
+        "plant": {
+          "ref": "plant/acer-macrophyllum"
+        },
+        "quantity": 35,
+        "size": "2 in cal. B&B"
+      },
+      {
+        "plant": {
+          "ref": "plant/taxus-brevifolia"
+        },
+        "quantity": 25,
+        "size": "#15 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/physocarpus-capitatus"
+        },
+        "quantity": 45,
+        "size": "#5 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/oemleria-cerasiformis"
+        },
+        "quantity": 65,
+        "size": "#5 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/salix-exigua-var-columbiana"
+        },
+        "quantity": 350,
+        "size": "#2 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/gaultheria-shallon"
+        },
+        "quantity": 545,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/symphoricarpos-albus"
+        },
+        "quantity": 325,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/grindelia-integrifolia"
+        },
+        "quantity": 200,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/calochortus-tolmiei"
+        },
+        "quantity": 770,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/iris-tenax"
+        },
+        "quantity": 435,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/verbena-hastata"
+        },
+        "quantity": 585,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/danthonia-californica"
+        },
+        "quantity": 490,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/beckmannia-syzigachne"
+        },
+        "quantity": 320,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/agrostis-exarata"
+        },
+        "quantity": 980,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/trisetum-canescens"
+        },
+        "quantity": 955,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/polystichum-munitum"
+        },
+        "quantity": 80,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/athyrium-filix-femina"
+        },
+        "quantity": 380,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/lonicera-ciliosa"
+        },
+        "quantity": 75,
+        "size": "#1 container"
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-22",
+    "revisedAt": "2026-11-22",
+    "method": "manual",
+    "fixture": true
+  }
+}

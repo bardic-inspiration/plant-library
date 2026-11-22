@@ -1,0 +1,130 @@
+{
+  "type": "project",
+  "id": "spokane-falls-overlook",
+  "name": "Spokane Falls Overlook",
+  "summary": "A made-up park in Spokane with a dry, sunny planting.",
+  "data": {
+    "landscapeArchitect": "Mock Meadow Design",
+    "location": {
+      "lat": 47.661,
+      "lon": -117.426
+    },
+    "projectType": "park",
+    "sizeAcres": 5.1,
+    "status": "constructed",
+    "completed": "2017-08",
+    "plantList": [
+      {
+        "plant": {
+          "ref": "plant/acer-circinatum"
+        },
+        "quantity": 30,
+        "size": "2 in cal. B&B"
+      },
+      {
+        "plant": {
+          "ref": "plant/rhamnus-purshiana"
+        },
+        "quantity": 15,
+        "size": "2 in cal. B&B"
+      },
+      {
+        "plant": {
+          "ref": "plant/amelanchier-alnifolia"
+        },
+        "quantity": 110,
+        "size": "#2 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/prunus-virginiana"
+        },
+        "quantity": 445,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/ribes-sanguineum"
+        },
+        "quantity": 365,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/viburnum-ellipticum"
+        },
+        "quantity": 580,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/allium-acuminatum"
+        },
+        "quantity": 355,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/coreopsis-tinctoria-var-atkinsoniana"
+        },
+        "quantity": 715,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/collinsia-rattanii"
+        },
+        "quantity": 110,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/festuca-roemeri"
+        },
+        "quantity": 1000,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/melica-bulbosa"
+        },
+        "quantity": 1920,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/festuca-californica"
+        },
+        "quantity": 1695,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/dryopteris-arguta"
+        },
+        "quantity": 100,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/pentagramma-triangularis"
+        },
+        "quantity": 250,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/ribes-laxiflorum"
+        },
+        "quantity": 70,
+        "size": "#2 container"
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-22",
+    "revisedAt": "2026-11-22",
+    "method": "manual",
+    "fixture": true
+  }
+}

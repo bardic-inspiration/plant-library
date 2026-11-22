@@ -1,0 +1,151 @@
+{
+  "type": "project",
+  "id": "truckee-meadow-lodge",
+  "name": "Truckee Meadow Lodge",
+  "summary": "A made-up commercial site in Truckee with a mixed woodland-edge planting.",
+  "data": {
+    "landscapeArchitect": "Northfork Design Collective",
+    "location": {
+      "lat": 39.328,
+      "lon": -120.183
+    },
+    "projectType": "commercial",
+    "sizeAcres": 8.9,
+    "status": "constructed",
+    "completed": "2024-10",
+    "plantList": [
+      {
+        "plant": {
+          "ref": "plant/pinus-contorta-var-contorta"
+        },
+        "quantity": 135,
+        "size": "#5 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/prunus-emarginata"
+        },
+        "quantity": 35,
+        "size": "2 in cal. B&B"
+      },
+      {
+        "plant": {
+          "ref": "plant/salix-sitchensis"
+        },
+        "quantity": 55,
+        "size": "2 in cal. B&B"
+      },
+      {
+        "plant": {
+          "ref": "plant/rhamnus-purshiana"
+        },
+        "quantity": 40,
+        "size": "#15 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/myrica-californica"
+        },
+        "quantity": 280,
+        "size": "#5 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/arctostaphylos-columbiana"
+        },
+        "quantity": 300,
+        "size": "#5 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/salix-exigua-var-columbiana"
+        },
+        "quantity": 530,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/trillium-ovatum"
+        },
+        "quantity": 1540,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/bidens-cernua"
+        },
+        "quantity": 1955,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/urtica-dioica-subsp-gracilis"
+        },
+        "quantity": 105,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/camassia-quamash"
+        },
+        "quantity": 1015,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/viola-adunca"
+        },
+        "quantity": 725,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/cyperus-erythrorhizos"
+        },
+        "quantity": 685,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/hordeum-brachyantherum"
+        },
+        "quantity": 340,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/olsynium-douglasii"
+        },
+        "quantity": 880,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/botrychium-multifidum"
+        },
+        "quantity": 185,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/dryopteris-expansa"
+        },
+        "quantity": 585,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/ribes-laxiflorum"
+        },
+        "quantity": 70,
+        "size": "#2 container"
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-22",
+    "revisedAt": "2026-11-22",
+    "method": "manual",
+    "fixture": true
+  }
+}

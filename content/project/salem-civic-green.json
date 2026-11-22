@@ -1,0 +1,116 @@
+{
+  "type": "project",
+  "id": "salem-civic-green",
+  "name": "Salem Civic Green",
+  "summary": "A made-up civic grounds in Salem with a dry, sunny planting.",
+  "data": {
+    "landscapeArchitect": "Placeholder Partners",
+    "location": {
+      "lat": 44.9429,
+      "lon": -123.0351
+    },
+    "projectType": "civic",
+    "sizeAcres": 2.4,
+    "status": "constructed",
+    "completed": "2010-06",
+    "plantList": [
+      {
+        "plant": {
+          "ref": "plant/acer-macrophyllum"
+        },
+        "quantity": 20,
+        "size": "#15 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/abies-grandis"
+        },
+        "quantity": 30,
+        "size": "#5 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/oemleria-cerasiformis"
+        },
+        "quantity": 95,
+        "size": "#2 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/rubus-parviflorus"
+        },
+        "quantity": 265,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/symphoricarpos-albus"
+        },
+        "quantity": 185,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/viola-adunca"
+        },
+        "quantity": 785,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/silene-antirrhina"
+        },
+        "quantity": 190,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/poteridium-occidentale"
+        },
+        "quantity": 530,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/allium-cernuum"
+        },
+        "quantity": 890,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/poa-secunda"
+        },
+        "quantity": 1575,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/achnatherum-lemmonii"
+        },
+        "quantity": 1895,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/dryopteris-arguta"
+        },
+        "quantity": 225,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/pentagramma-triangularis"
+        },
+        "quantity": 410,
+        "size": "4 in pot"
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-22",
+    "revisedAt": "2026-11-22",
+    "method": "manual",
+    "fixture": true
+  }
+}

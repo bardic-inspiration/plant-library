@@ -1,0 +1,165 @@
+{
+  "type": "project",
+  "id": "everett-riverfront-commons",
+  "name": "Everett Riverfront Commons",
+  "summary": "A made-up housing landscape in Everett with a mixed woodland-edge planting.",
+  "data": {
+    "landscapeArchitect": "Sample Grove Studio",
+    "location": {
+      "lat": 47.991,
+      "lon": -122.183
+    },
+    "projectType": "residential",
+    "sizeAcres": 7.5,
+    "status": "constructed",
+    "completed": "2022-03",
+    "plantList": [
+      {
+        "plant": {
+          "ref": "plant/acer-circinatum"
+        },
+        "quantity": 95,
+        "size": "#15 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/cornus-nuttallii"
+        },
+        "quantity": 60,
+        "size": "#15 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/pinus-monticola"
+        },
+        "quantity": 120,
+        "size": "#5 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/sambucus-racemosa"
+        },
+        "quantity": 435,
+        "size": "#2 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/mahonia-aquifolium"
+        },
+        "quantity": 235,
+        "size": "#5 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/euonymus-occidentalis"
+        },
+        "quantity": 655,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/ribes-sanguineum"
+        },
+        "quantity": 240,
+        "size": "#5 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/ribes-viscosissimum"
+        },
+        "quantity": 145,
+        "size": "#5 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/dicentra-formosa"
+        },
+        "quantity": 2010,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/linnaea-borealis"
+        },
+        "quantity": 810,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/myosotis-laxa"
+        },
+        "quantity": 340,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/satureja-douglasii"
+        },
+        "quantity": 515,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/collinsia-parviflora"
+        },
+        "quantity": 330,
+        "size": "#1 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/juncus-patens"
+        },
+        "quantity": 1155,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/festuca-subulata"
+        },
+        "quantity": 1525,
+        "size": "Plug"
+      },
+      {
+        "plant": {
+          "ref": "plant/danthonia-californica"
+        },
+        "quantity": 1080,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/cystopteris-fragilis"
+        },
+        "quantity": 740,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/polystichum-munitum"
+        },
+        "quantity": 175,
+        "size": "4 in pot"
+      },
+      {
+        "plant": {
+          "ref": "plant/marah-oreganus"
+        },
+        "quantity": 80,
+        "size": "#2 container"
+      },
+      {
+        "plant": {
+          "ref": "plant/lonicera-ciliosa"
+        },
+        "quantity": 110,
+        "size": "#1 container"
+      }
+    ]
+  },
+  "meta": {
+    "createdAt": "2026-11-22",
+    "revisedAt": "2026-11-22",
+    "method": "manual",
+    "fixture": true
+  }
+}
