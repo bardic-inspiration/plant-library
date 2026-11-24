@@ -39,7 +39,7 @@ jobs:
 
       - name: Restore the basemap extract
         id: basemap-cache
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: site/public/basemap
           key: basemap-${{ hashFiles('config/site.json', 'geo/states.topojson', 'scripts/basemap.ts') }}-${{ steps.week.outputs.week }}
@@ -88,7 +88,7 @@ jobs:
 
       - name: Restore the basemap extract
         id: basemap-cache
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: site/public/basemap
           key: basemap-${{ hashFiles('config/site.json', 'geo/states.topojson', 'scripts/basemap.ts') }}-${{ steps.week.outputs.week }}
